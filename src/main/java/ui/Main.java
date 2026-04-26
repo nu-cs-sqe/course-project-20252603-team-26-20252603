@@ -4,7 +4,12 @@ public class Main {
     // testing the GameView UI via main
     public static void main(String[] args){
         GameView view = new GameView();
-        // TC 1 from BVA GameView
+
+        // TC 1 "displayStartScreen_DisplayOnce_ShowsTitle" from BVA GameView
         view.displayStartScreen();
+
+        // TC 2-7 promptPlayerNames
+        var names = view.promptPlayerNames();
+        System.out.println("Names of Players: " + names);
     }
 }
