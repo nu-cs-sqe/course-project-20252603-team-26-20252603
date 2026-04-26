@@ -28,4 +28,8 @@ public class GameView {
         }
         return names;
     }
+
+    public void displayGameReady() {
+        System.out.println("Game is ready! Let's begin!");
+    }
 }

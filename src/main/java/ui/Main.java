@@ -11,5 +11,8 @@ public class Main {
         // TC 2-7 promptPlayerNames
         var names = view.promptPlayerNames();
         System.out.println("Names of Players: " + names);
+
+        // TC 8 "displayGameReady_DisplayOnce_ShowsGameReadyMessage" from BVA GameView
+        view.displayGameReady();
     }
 }
