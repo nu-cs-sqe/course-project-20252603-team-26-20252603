@@ -17,8 +17,13 @@ class CardTest {
 
     @Test
     void constructorRejectsNullType() {
-        NullPointerException exception =
         assertThrows(NullPointerException.class, () -> new Card(null));
+    }
+
+    @Test
+    void constructorRejectsNullTypeWithMessage() {
+        NullPointerException exception =
+                assertThrows(NullPointerException.class, () -> new Card(null));
 
         assertEquals("type must not be null", exception.getMessage());
     }
