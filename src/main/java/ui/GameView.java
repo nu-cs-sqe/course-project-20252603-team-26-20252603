@@ -5,4 +5,7 @@ public class GameView {
 
     }
 
+    public void displayStartScreen() {
+        System.out.println("Start Playing Exploding Kittens!");
+    }
 }
