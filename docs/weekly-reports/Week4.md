@@ -5,4 +5,4 @@
 3. [done] Sophie: Model layer part A2 - Card do BVA, unit test, basic code (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/12)
 2. [done] Sidney: Model layer part B - Feature, Game view do BVA, unit test, basic code (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/11)
 2. [in progress] Alivia: Model layer part C (Links to PR)
-3. [done] Sophie: documentation (Links to PR)
+3. [done] Sophie: documentation (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/16)
