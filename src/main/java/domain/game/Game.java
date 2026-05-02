@@ -3,7 +3,7 @@ package domain.game;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Game {
+public class Game {
     private static final String DRAW_PILE_REQUIRED_MESSAGE = "draw pile must not be null";
     private static final String PLAYER_NAMES_REQUIRED_MESSAGE = "player names must not be null";
     private static final String INVALID_PLAYER_COUNT_MESSAGE =
