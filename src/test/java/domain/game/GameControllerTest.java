@@ -149,6 +149,32 @@ public class GameControllerTest {
             // Assert
             verify(mockView); // verifies displayError was called, and displayGameReady was NOT
         }
+
+    @Test
+    void startGame_WithMaxPLayers_DisplaysStartGame() {
+        // Deck modelDeck = EasyMock.createMock(Deck.class);
+        Game mockModel = EasyMock.createMock(Game.class);
+        GameView mockView = EasyMock.createMock(GameView.class);
+        List<String> threePlayers = List.of("Cat1", "Cat2", "Cat3", "Cat4", "cat5");
+
+
+        mockModel.setupGame(threePlayers);
+        expectLastCall().once();
+        replay(mockModel);
+
+        mockView.displayGameReady();
+        expectLastCall().once();
+        replay(mockView);
+
+        GameController controller = new GameController(mockModel, mockView);
+
+        // Act
+        controller.startGame(threePlayers);
+
+        // Assert
+        verify(mockView); // verifies displayError was called, and displayGameReady was NOT
+        verify(mockModel);
+    }
     }
 
 
