@@ -44,30 +44,36 @@ public class GameControllerTest {
         verify(mockModel);
     }
 
-     /*  @Test
+    @Test
     void startGame_WithOnePlayer_DisplaysError() {
-        // Arrange
-        Deck deck = new Deck(List.of());
-        Game model = new Game(deck);
-        GameView view = EasyMock.createMock(GameView.class);
+        //Deck deck = EasyMock.createMock(Deck.class);
+        Game mockModel = EasyMock.createMock(Game.class);
+        GameView mockView = EasyMock.createMock(GameView.class);
 
         // expect displayError to be called once with any non-null string
-        //I think this line prevents me from having to use package private
-        //but would it be stronger to test verify the message? or is that covered in game test
-        view.displayError(anyString());
-        expectLastCall().once();
-        replay(view);
+        // i would think here is where we set the error we expect to see
+        String expctedError =  "player count must be between 2 and 4";
 
-        GameController controller = new GameController(model, view);
+        //we fake passing in the empty list to the fake model resulting in this error
+        mockModel.setupGame(List.of("cat1"));
+        expectLastCall().andThrow(new IllegalArgumentException("player count must be between 2 and 4"));
+        replay(mockModel);
+        // tell the mock view to expect displayError called once with anyt string
+        mockView.displayError(anyString());
+        expectLastCall().once();
+        replay(mockView);
+
+        GameController controller = new GameController(mockModel, mockView);
 
         // Act
-        controller.startGame(List.of("Cat1"));
+        controller.startGame(List.of("cat1"));
 
         // Assert
-        verify(view); // verifies displayError was called, and displayGameReady was NOT
+        verify(mockView); // verifies displayError was called, and displayGameReady was NOT
+        verify(mockModel);
     }
 
- @Test
+ /*@Test
     void startGame_WithTwoPLayers_DisplaysError() {
         // Arrange
         Deck deck = new Deck(List.of());
