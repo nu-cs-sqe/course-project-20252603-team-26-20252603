@@ -32,4 +32,8 @@ public class GameView {
     public void displayGameReady() {
         System.out.println("Game is ready! Let's begin!");
     }
+
+    public void displayError(String message) {
+        System.out.println("Error: " + message);
+    }
 }
