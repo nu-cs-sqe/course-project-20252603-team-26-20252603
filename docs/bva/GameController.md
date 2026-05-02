@@ -46,7 +46,7 @@ private Game game;
 | ID         | State of the system                                | Expected output                                              | Implemented? |
 |------------|----------------------------------------------------|--------------------------------------------------------------|--------------|
 | `GCEmpty ` | no players                                         | not enough players exception ,   gameStarted = False         | :white_check_mark:   |
-| `TBD `     | one player                                         | not enough players exception , gameStarted = False           | :x_mark:     |
+| `TBD `     | one player                                         | not enough players exception , gameStarted = False           | :white_check_mark:     |
 | `TBD `     | two players (min # valid players)                  | None: gameStarted = True                                     | :x_mark:     |
 | `TBD `     | multiple players, all valid                        | None: Game starts    , gameStarted = True                    | :x_mark:     |
 | `TBD `     | multiple player, at least one invald (empty sting) | invalid player name/type exception ,     gameStarted = False | :x_mark:     |
