@@ -97,10 +97,10 @@ public class GameControllerTest {
         // Deck modelDeck = EasyMock.createMock(Deck.class);
         Game mockModel = EasyMock.createMock(Game.class);
         GameView mockView = EasyMock.createMock(GameView.class);
-        List<String> twoPlayers = List.of("Cat1", "Cat2", "Cat3");
+        List<String> threePlayers = List.of("Cat1", "Cat2", "Cat3");
 
 
-        mockModel.setupGame(twoPlayers);
+        mockModel.setupGame(threePlayers);
         expectLastCall().once();
         replay(mockModel);
 
@@ -111,13 +111,39 @@ public class GameControllerTest {
         GameController controller = new GameController(mockModel, mockView);
 
         // Act
-        controller.startGame(twoPlayers);
+        controller.startGame(threePlayers);
 
         // Assert
         verify(mockView); // verifies displayError was called, and displayGameReady was NOT
         verify(mockModel);
     }
 
+
+    @Test
+    void startGame_WithThreePLayers_OneInvalidPLayer_DisplaysError() {
+        // Deck modelDeck = EasyMock.createMock(Deck.class);
+        Game mockModel = EasyMock.createMock(Game.class);
+        GameView mockView = EasyMock.createMock(GameView.class);
+        List<String> multiPlayer = List.of("Cat1", "Cat2", "");
+
+
+        mockModel.setupGame(multiPlayer);
+        expectLastCall().andThrow(new IllegalArgumentException("player count must be between 2 and 4"));
+        replay(mockModel);
+        // tell the mock view to expect displayError called once with anyt string
+        mockView.displayError(anyString());
+        expectLastCall().once();
+        replay(mockView);
+
+        GameController controller = new GameController(mockModel, mockView);
+
+        // Act
+        controller.startGame(multiPlayer);
+
+        // Assert
+        verify(mockView); // verifies displayError was called, and displayGameReady was NOT
+        verify(mockModel);
+    }
 
 
 }
