@@ -23,6 +23,7 @@ java {
 
 tasks.compileJava {
     options.release = 11
+    options.compilerArgs.add("-Xlint:unchecked")
 }
 
 tasks.test {
