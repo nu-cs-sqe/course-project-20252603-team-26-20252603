@@ -21,10 +21,6 @@ public class GameControllerTest {
         Game mockModel = EasyMock.createMock(Game.class); //Game(deck);
         GameView mockView = EasyMock.createMock(GameView.class);
 
-        // expect displayError to be called once with any non-null string
-        // i would think here is where we set the error we expect to see
-        String expctedError =  "player count must be between 2 and 4";
-
         //we fake passing in the empty list to the fake model resulting in this error
         mockModel.setupGame(List.of());
         expectLastCall().andThrow(new IllegalArgumentException("player count must be between 2 and 4"));
@@ -50,9 +46,6 @@ public class GameControllerTest {
         Game mockModel = EasyMock.createMock(Game.class);
         GameView mockView = EasyMock.createMock(GameView.class);
 
-        // expect displayError to be called once with any non-null string
-        // i would think here is where we set the error we expect to see
-        String expctedError =  "player count must be between 2 and 4";
 
         //we fake passing in the empty list to the fake model resulting in this error
         mockModel.setupGame(List.of("cat1"));
@@ -73,26 +66,31 @@ public class GameControllerTest {
         verify(mockModel);
     }
 
- /*@Test
-    void startGame_WithTwoPLayers_DisplaysError() {
-        // Arrange
-        Deck deck = new Deck(List.of());
-        Game model = new Game(deck);
-        GameView view = EasyMock.createMock(GameView.class);
+ @Test
+    void startGame_WithTwoPLayers_DisplaysStartGame() {
+        // Deck modelDeck = EasyMock.createMock(Deck.class);
+         Game mockModel = EasyMock.createMock(Game.class);
+         GameView mockView = EasyMock.createMock(GameView.class);
+         List<String> twoPlayers = List.of("Cat1", "Cat2");
 
-        // expect displayGameReady to be called once with any non-null string
-        view.displayGameReady();
+
+        mockModel.setupGame(twoPlayers);
         expectLastCall().once();
-        replay(view);
+        replay(mockModel);
 
-        GameController controller = new GameController(model, view);
+        mockView.displayGameReady();
+        expectLastCall().once();
+        replay(mockView);
+
+        GameController controller = new GameController(mockModel, mockView);
 
         // Act
-        controller.startGame(List.of("Cat1", "Cat2"));
+        controller.startGame(twoPlayers);
 
         // Assert
-        verify(view); // verifies displayError was called, and displayGameReady was NOT
-    }*/
+        verify(mockView); // verifies displayError was called, and displayGameReady was NOT
+        verify(mockModel);
+    }
 
 
 }
