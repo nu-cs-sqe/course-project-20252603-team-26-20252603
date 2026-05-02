@@ -43,14 +43,14 @@ private Game game;
     - there are no circumastances where neither is true
 **Step 4:**
 
-| ID               | State of the system                                | Expected output                                              | Implemented? |
-|------------------|----------------------------------------------------|--------------------------------------------------------------|--------------|
-| `GCEmpty `       | no players                                         | not enough players exception ,   gameStarted = False         | :white_check_mark:   |
-| `GC1Player `     | one player                                         | not enough players exception , gameStarted = False           | :white_check_mark:     |
-| `GC2Player `     | two players (min # valid players)                  | None: gameStarted = True                                     | :white_check_mark:      |
-| `GCMultiPlayer ` | multiple players, all valid                        | None: Game starts    , gameStarted = True                    | :white_check_mark:     |
-| `TBD `           | multiple player, at least one invald (empty sting) | invalid player name/type exception ,     gameStarted = False | :x_mark:     |
-| `TBD `           | max number of players                              | None: game starts          , gameStarted = True              | :x_mark:     |
-| `TBD `           | duplicate player  names                            | Confirm and rename players exception , gameStarted = False   | :x_mark:     |
+| ID                      | State of the system                                | Expected output                                              | Implemented? |
+|-------------------------|----------------------------------------------------|--------------------------------------------------------------|--------------|
+| `GCEmpty `              | no players                                         | not enough players exception ,   gameStarted = False         | :white_check_mark:   |
+| `GC1Player `            | one player                                         | not enough players exception , gameStarted = False           | :white_check_mark:     |
+| `GC2Player `            | two players (min # valid players)                  | None: gameStarted = True                                     | :white_check_mark:      |
+| `GCMultiPlayer `        | multiple players, all valid                        | None: Game starts    , gameStarted = True                    | :white_check_mark:     |
+| `GCInvalidMultiPlayer ` | multiple player, at least one invald (empty sting) | invalid player name/type exception ,     gameStarted = False | :white_check_mark:      |
+| `GCMaxPlayer `          | max number of players                              | None: game starts          , gameStarted = True              | :x_mark:     |
+| `GCMultiPlayer `        | duplicate player  names                            | Confirm and rename players exception , gameStarted = False   | :x_mark:     |
 
 
