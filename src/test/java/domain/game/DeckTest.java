@@ -120,7 +120,7 @@ class DeckTest {
 
     @Test
     void removeCardsByTypeReturnsEmptyListWhenTypeIsAbsent() {
-        Card firstCard = createCardWithType(CardType.OTHER);
+        Card firstCard = createCardWithType(CardType.PLACEHOLDER_CARD);
         Card secondCard = createCardWithType(CardType.DEFUSE);
         Deck deck = new Deck(List.of(firstCard, secondCard));
 
@@ -134,7 +134,7 @@ class DeckTest {
     @Test
     void removeCardsByTypeRemovesMatchingCardsOnly() {
         Card firstCard = createCardWithType(CardType.DEFUSE);
-        Card secondCard = createCardWithType(CardType.OTHER);
+        Card secondCard = createCardWithType(CardType.PLACEHOLDER_CARD);
         Card thirdCard = createCardWithType(CardType.DEFUSE);
         Deck deck = new Deck(List.of(firstCard, secondCard, thirdCard));
 
@@ -147,7 +147,7 @@ class DeckTest {
 
     @Test
     void removeCardsByTypeRejectsNullType() {
-        Card card = createCardWithType(CardType.OTHER);
+        Card card = createCardWithType(CardType.PLACEHOLDER_CARD);
         Deck deck = new Deck(List.of(card));
 
         IllegalArgumentException exception =
