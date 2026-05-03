@@ -148,7 +148,7 @@ class GameTest {
             cards.add(createCardWithType(CardType.DEFUSE));
         }
         for (int count = 0; count < others; count++) {
-            cards.add(createCardWithType(CardType.OTHER));
+            cards.add(createCardWithType(CardType.PLACEHOLDER_CARD));
         }
         return new Deck(cards);
     }

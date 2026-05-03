@@ -8,6 +8,13 @@ import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.api.Test;
 
 class CardTest {
+    @Test
+    void constructorStoresPlaceholderCardType() {
+        Card card = new Card(CardType.PLACEHOLDER_CARD);
+
+        assertEquals(CardType.PLACEHOLDER_CARD, card.getType());
+    }
+
     @ParameterizedTest
     @EnumSource(CardType.class)
     void constructorStoresProvidedCardType(CardType type) {
