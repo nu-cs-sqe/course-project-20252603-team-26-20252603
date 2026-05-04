@@ -69,5 +69,12 @@ public class ChooseCardTest {
         );
         assertEquals(1, oneCardHand.getHandSize());
     }
+    @Test
+    void chooseCard_HandEmpty_ThrowsException() {
+        Hand emptyHand = new Hand();
+
+        assertThrows(IllegalArgumentException.class, () -> emptyHand.chooseCard(0));
+        assertEquals(0, emptyHand.getHandSize());
+    }
 
 }
