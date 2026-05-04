@@ -110,4 +110,14 @@ class CatCardTest {
 
         assertEquals("cardIndex is out of bounds", exception.getMessage());
     }
+    @Test
+    void chooseCard_BeardCat_ReturnsCatCardExplanation() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.BEARD_CAT));
+
+        assertEquals(
+                "Cat Card: This card is powerless on its own. Play two matching Cat Cards as a pair to steal a random card from another player.",
+                player.chooseCard(0)
+        );
+    }
 }
