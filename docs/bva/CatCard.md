@@ -46,3 +46,15 @@
     - **State of system**: Player hand = [`DEFUSE`] (`getHandSize = 1`), `cardIndex = 0`
     - **Expected output**: Returns `false`.
 
+- **TC10: canSubmitCard_NegativeIndex_ThrowsException** (:x: or :white_check_mark:)
+    - **State of system**: Player hand = [`BEARD_CAT`, `BEARD_CAT`] (`getHandSize = 2`), `cardIndex = -1`
+    - **Expected output**: `IllegalArgumentException` thrown.
+
+- **TC11: canSubmitCard_IndexEqualsHandSize_ThrowsException** (:x: or :white_check_mark:)
+    - **State of system**: Player hand = [`BEARD_CAT`, `BEARD_CAT`] (`getHandSize = 2`), `cardIndex = 2`
+    - **Expected output**: `IllegalArgumentException` thrown.
+
+- **TC12: canSubmitCard_HandEmpty_ThrowsException** (:x: or :white_check_mark:)
+    - **State of system**: Player hand = [] (`getHandSize = 0`), `cardIndex = 0`
+    - **Expected output**: `IllegalArgumentException` thrown.
+
