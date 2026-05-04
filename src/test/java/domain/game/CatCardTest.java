@@ -65,5 +65,12 @@ class CatCardTest {
 
         assertEquals(true, player.canSubmitCard(0));
     }
+    @Test
+    void canSubmitCard_PlaceholderCard_ReturnsTrue() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.PLACEHOLDER_CARD));
+
+        assertEquals(true, player.canSubmitCard(0));
+    }
 
 }
