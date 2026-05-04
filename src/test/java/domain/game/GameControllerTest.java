@@ -128,7 +128,7 @@ public class GameControllerTest {
         threePlayerDeck.add(new Card(CardType.DEFUSE));
         threePlayerDeck.add(new Card(CardType.DEFUSE));
         for (int i = 0; i < 15; i++) {
-            threePlayerDeck.add(new Card(CardType.OTHER));
+            threePlayerDeck.add(new Card(CardType.PLACEHOLDER_CARD));
             }
             // needs real Game and real Deck to actually validate the player name
             Deck deck = new Deck(threePlayerDeck);
