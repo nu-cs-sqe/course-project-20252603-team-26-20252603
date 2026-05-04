@@ -5,60 +5,60 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 public class ChooseCardTest {
-    private Hand hand;
+    private Player player;
 
     @BeforeEach
     void setUp() {
-        hand = new Hand();
-        hand.addCard(new Card(CardType.EXPLODING_KITTEN));
-        hand.addCard(new Card(CardType.DEFUSE));
-        hand.addCard(new Card(CardType.PLACEHOLDER_CARD));
+        player = new Player("Sophie");
+        player.addCard(new Card(CardType.DEFUSE));
+        player.addCard(new Card(CardType.PLACEHOLDER_CARD));
+        player.addCard(new Card(CardType.PLACEHOLDER_CARD));
     }
 
     @Test
     void chooseCard_FirstIndex_ReturnsDefuseExplanation() {
-        String explanation = hand.chooseCard(0);
+        String explanation = player.chooseCard(0);
 
         assertEquals(
                 "Defuse: Use this card to avoid exploding after drawing an Exploding Kitten.",
                 explanation
         );
-        assertEquals(3, hand.getHandSize());
+        assertEquals(3, player.getHandSize());
     }
 
     @Test
     void chooseCard_LastIndex_ReturnsPlaceholderCardExplanation() {
-        String explanation = hand.chooseCard(2);
+        String explanation = player.chooseCard(2);
 
         assertEquals(
                 "Placeholder Card: This card is choosable, but its effect will be implemented later.",
                 explanation
         );
-        assertEquals(3, hand.getHandSize());
+        assertEquals(3, player.getHandSize());
     }
     @Test
     void chooseCard_MiddleIndex_ReturnsPlaceholderCardExplanation() {
-        String explanation = hand.chooseCard(1);
+        String explanation = player.chooseCard(1);
 
         assertEquals(
                 "Placeholder Card: This card is choosable, but its effect will be implemented later.",
                 explanation
         );
-        assertEquals(3, hand.getHandSize());
+        assertEquals(3, player.getHandSize());
     }
     @Test
     void chooseCard_NegativeIndex_ThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> hand.chooseCard(-1));
-        assertEquals(3, hand.getHandSize());
+        assertThrows(IllegalArgumentException.class, () -> player.chooseCard(-1));
+        assertEquals(3, player.getHandSize());
     }
     @Test
     void chooseCard_IndexEqualsHandSize_ThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> hand.chooseCard(3));
-        assertEquals(3, hand.getHandSize());
+        assertThrows(IllegalArgumentException.class, () -> player.chooseCard(3));
+        assertEquals(3, player.getHandSize());
     }
     @Test
     void chooseCard_HandHasOneCard_ReturnsExplanation() {
-        Hand oneCardHand = new Hand();
+        Player oneCardHand = new Player("Sophie");
         oneCardHand.addCard(new Card(CardType.DEFUSE));
 
         String explanation = oneCardHand.chooseCard(0);
@@ -71,7 +71,7 @@ public class ChooseCardTest {
     }
     @Test
     void chooseCard_HandEmpty_ThrowsException() {
-        Hand emptyHand = new Hand();
+        Player emptyHand = new Player("Sophie");
 
         assertThrows(IllegalArgumentException.class, () -> emptyHand.chooseCard(0));
         assertEquals(0, emptyHand.getHandSize());
