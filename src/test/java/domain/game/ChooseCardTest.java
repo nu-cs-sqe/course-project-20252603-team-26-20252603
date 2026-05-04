@@ -46,5 +46,10 @@ public class ChooseCardTest {
         );
         assertEquals(3, hand.getHandSize());
     }
+    @Test
+    void chooseCard_NegativeIndex_ThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> hand.chooseCard(-1));
+        assertEquals(3, hand.getHandSize());
+    }
 
 }
