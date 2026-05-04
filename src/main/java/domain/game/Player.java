@@ -49,6 +49,7 @@ public final class Player {
             return "Placeholder Card: This card is choosable, but its effect will be implemented later.";
         }
 
+
         throw new IllegalStateException("This card type cannot be chosen from a player's hand");
 
     }
@@ -60,5 +61,11 @@ public final class Player {
     long countCardsOfType(CardType type) {
         Objects.requireNonNull(type, "type must not be null");
         return hand.stream().filter(card -> card.getType() == type).count();
+    }
+    private boolean isCatCard(CardType type) {
+        return type == CardType.BEARD_CAT
+                || type == CardType.HAIRY_POTATO_CAT
+                || type == CardType.TACOCAT
+                || type == CardType.RAINBOW_RALPHING_CAT;
     }
 }
