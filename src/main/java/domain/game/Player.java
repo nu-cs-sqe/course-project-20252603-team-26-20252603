@@ -65,6 +65,25 @@ public final class Player {
         Objects.requireNonNull(type, "type must not be null");
         return hand.stream().filter(card -> card.getType() == type).count();
     }
+
+    public boolean canSubmitCard(int cardIndex) {
+        if (cardIndex < 0 || cardIndex >= hand.size()) {
+            throw new IllegalArgumentException(CARD_INDEX_OUT_OF_BOUNDS_MESSAGE);
+        }
+
+        Card chosenCard = hand.get(cardIndex);
+        CardType chosenType = chosenCard.getType();
+
+        if (isCatCard(chosenType)) {
+            return countCardsOfType(chosenType) >= 2;
+        }
+
+        if (chosenType == CardType.PLACEHOLDER_CARD) {
+            return true;
+        }
+
+        return false;
+    }
     private boolean isCatCard(CardType type) {
         return type == CardType.BEARD_CAT
                 || type == CardType.HAIRY_POTATO_CAT
