@@ -101,5 +101,13 @@ class CatCardTest {
 
         assertEquals("cardIndex is out of bounds", exception.getMessage());
     }
+    @Test
+    void canSubmitCard_HandEmpty_ThrowsException() {
+        Player player = new Player("Sophie");
 
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> player.canSubmitCard(0));
+
+        assertEquals("cardIndex is out of bounds", exception.getMessage());
+    }
 }
