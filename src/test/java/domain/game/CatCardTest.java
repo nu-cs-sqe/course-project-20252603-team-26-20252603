@@ -57,5 +57,13 @@ class CatCardTest {
 
         assertEquals(true, player.canSubmitCard(0));
     }
+    @Test
+    void canSubmitCard_MatchingRainbowRalphingCats_ReturnsTrue() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.RAINBOW_RALPHING_CAT));
+        player.addCard(new Card(CardType.RAINBOW_RALPHING_CAT));
+
+        assertEquals(true, player.canSubmitCard(0));
+    }
 
 }
