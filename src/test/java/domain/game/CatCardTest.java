@@ -72,5 +72,12 @@ class CatCardTest {
 
         assertEquals(true, player.canSubmitCard(0));
     }
+    @Test
+    void canSubmitCard_DefuseCard_ReturnsFalse() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.DEFUSE));
+
+        assertEquals(false, player.canSubmitCard(0));
+    }
 
 }
