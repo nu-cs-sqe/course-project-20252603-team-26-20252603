@@ -18,3 +18,17 @@
 4. [done] Sidney: Model layer part B - Feature, Game view BVA, unit tests, and basic code (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/11).
 5. [in progress] Alivia: Model layer part C (Links to PR).
 6. [done] Sophie: Documentation (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/16).
+
+## Week 5 (04/28/2026-05/04/2026)
+
+**Planning and Progress Tracking**:
+
+1. [done] Ben: Add null cards (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/29).
+2. [done] Ben: Consolodiate previous weekly report format (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/26)
+3. [in progress] Sophie: Add choosing card function (after choosing, get explanation of the card) — BVA, unit tests, and implementation (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/32).
+4. [in progress] Alivia: Set up Exploding Kitten and Defuse card logic — BVA, unit tests, initialization and integration into deck ().
+5. [in progress] Sidney: Add taking card function — BVA, unit tests, and implementation ().
+6. [in progress] Sidney: Add removing card function (playing/submitting cards) — BVA, unit tests, and implementation (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/30).
+7. [in progress] Ben: Add setup for each player’s deck (5 cards + 1 defuse) — BVA, unit tests, and implementation ().
+8. [not started] Sophie: Implement cat cards (playable/submit behavior placeholder logic) ().
+9. [done] Sophie: Complete weekly report 5 (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/33)
