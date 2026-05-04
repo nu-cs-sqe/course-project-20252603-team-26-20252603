@@ -34,6 +34,12 @@ public final class Player {
         return hand.size();
     }
 
+    public String chooseCard(int cardIndex) {
+        if (cardIndex < 0 || cardIndex >= hand.size()) {
+            throw new IllegalArgumentException(CARD_INDEX_OUT_OF_BOUNDS_MESSAGE);
+        }
+    }
+
     List<Card> getHandSnapshot() {
         return List.copyOf(hand);
     }
