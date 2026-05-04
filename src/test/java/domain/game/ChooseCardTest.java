@@ -36,6 +36,15 @@ public class ChooseCardTest {
         );
         assertEquals(3, hand.getHandSize());
     }
+    @Test
+    void chooseCard_MiddleIndex_ReturnsPlaceholderCardExplanation() {
+        String explanation = hand.chooseCard(1);
 
+        assertEquals(
+                "Placeholder Card: This card is choosable, but its effect will be implemented later.",
+                explanation
+        );
+        assertEquals(3, hand.getHandSize());
+    }
 
 }
