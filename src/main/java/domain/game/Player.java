@@ -48,6 +48,9 @@ public final class Player {
         if (chosenCard.getType() == CardType.PLACEHOLDER_CARD) {
             return "Placeholder Card: This card is choosable, but its effect will be implemented later.";
         }
+        if (isCatCard(chosenCard.getType())) {
+            return "Cat Card: This card is powerless on its own. Play two matching Cat Cards as a pair to steal a random card from another player.";
+        }
 
 
         throw new IllegalStateException("This card type cannot be chosen from a player's hand");
