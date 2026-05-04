@@ -31,4 +31,13 @@ class CatCardTest {
         assertEquals(true, player.canSubmitCard(1));
     }
 
+    @Test
+    void canSubmitCard_TwoDifferentCatCards_ReturnsFalse() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.BEARD_CAT));
+        player.addCard(new Card(CardType.TACOCAT));
+
+        assertEquals(false, player.canSubmitCard(0));
+    }
+
 }
