@@ -10,30 +10,30 @@
 
 ## Step 4: Test Cases
 
-- **TC1: chooseCard_FirstIndex_ReturnsDefuseExplanation** (:x: or :white_check_mark:)
+- **TC1: chooseCard_FirstIndex_ReturnsDefuseExplanation** (:white_check_mark:)
   - **State of system**: Player hand = [`DEFUSE`, `PLACEHOLDER_CARD`, `PLACEHOLDER_CARD`] (`getHandSize = 3`), `cardIndex = 0`
   - **Expected output**: Returns explanation for `DEFUSE`; hand remains unchanged; `getHandSize = 3`
 
-- **TC2: chooseCard_LastIndex_ReturnsPlaceholderCardExplanation** (:x: or :white_check_mark:)
+- **TC2: chooseCard_LastIndex_ReturnsPlaceholderCardExplanation** (:white_check_mark:)
   - **State of system**: Player hand = [`DEFUSE`, `PLACEHOLDER_CARD`, `PLACEHOLDER_CARD`] (`getHandSize = 3`), `cardIndex = 2`
   - **Expected output**: Returns explanation for `PLACEHOLDER_CARD`; hand remains unchanged; `getHandSize = 3`
 
-- **TC3: chooseCard_MiddleIndex_ReturnsPlaceholderCardExplanation** (:x: or :white_check_mark:)
+- **TC3: chooseCard_MiddleIndex_ReturnsPlaceholderCardExplanation** (:white_check_mark:)
   - **State of system**: Player hand = [`DEFUSE`, `PLACEHOLDER_CARD`, `PLACEHOLDER_CARD`] (`getHandSize = 3`), `cardIndex = 1`
   - **Expected output**: Returns explanation for `PLACEHOLDER_CARD`; hand remains unchanged; `getHandSize = 3`
 
-- **TC4: chooseCard_NegativeIndex_ThrowsException** (:x: or :white_check_mark:)
+- **TC4: chooseCard_NegativeIndex_ThrowsException** (:white_check_mark:)
   - **State of system**: Player hand = [`DEFUSE`, `PLACEHOLDER_CARD`, `PLACEHOLDER_CARD`] (`getHandSize = 3`), `cardIndex = -1`
   - **Expected output**: `IllegalArgumentException` thrown; hand remains unchanged
 
-- **TC5: chooseCard_IndexEqualsHandSize_ThrowsException** (:x: or :white_check_mark:)
+- **TC5: chooseCard_IndexEqualsHandSize_ThrowsException** (:white_check_mark:)
   - **State of system**: Player hand = [`DEFUSE`, `PLACEHOLDER_CARD`, `PLACEHOLDER_CARD`] (`getHandSize = 3`), `cardIndex = 3`
   - **Expected output**: `IllegalArgumentException` thrown; hand remains unchanged
 
-- **TC6: chooseCard_HandHasOneCard_ReturnsExplanation** (:x: or :white_check_mark:)
+- **TC6: chooseCard_HandHasOneCard_ReturnsExplanation** (:white_check_mark:)
   - **State of system**: Player hand = [`DEFUSE`] (`getHandSize = 1`), `cardIndex = 0`
   - **Expected output**: Returns explanation for `DEFUSE`; hand remains unchanged; `getHandSize = 1`
 
-- **TC7: chooseCard_HandEmpty_ThrowsException** (:x: or :white_check_mark:)
+- **TC7: chooseCard_HandEmpty_ThrowsException** (:white_check_mark:)
   - **State of system**: Player hand = [] (`getHandSize = 0`), `cardIndex = 0`
   - **Expected output**: `IllegalArgumentException` thrown; hand remains unchanged
