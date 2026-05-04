@@ -56,5 +56,18 @@ public class ChooseCardTest {
         assertThrows(IllegalArgumentException.class, () -> hand.chooseCard(3));
         assertEquals(3, hand.getHandSize());
     }
+    @Test
+    void chooseCard_HandHasOneCard_ReturnsExplanation() {
+        Hand oneCardHand = new Hand();
+        oneCardHand.addCard(new Card(CardType.DEFUSE));
+
+        String explanation = oneCardHand.chooseCard(0);
+
+        assertEquals(
+                "Defuse: Use this card to avoid exploding after drawing an Exploding Kitten.",
+                explanation
+        );
+        assertEquals(1, oneCardHand.getHandSize());
+    }
 
 }
