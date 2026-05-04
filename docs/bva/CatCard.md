@@ -10,51 +10,51 @@
 
 ## Step 4: Test Cases
 
-- **TC1: canSubmitCard_OneBeardCat_ReturnsFalse** (:x: or :white_check_mark:)
+- **TC1: canSubmitCard_OneBeardCat_ReturnsFalse** (:x:)
     - **State of system**: Player hand = [`BEARD_CAT`] (`getHandSize = 1`), `cardIndex = 0`
     - **Expected output**: Returns `false` because one Cat Card cannot be submitted alone.
 
-- **TC2: canSubmitCard_TwoMatchingBeardCats_ReturnsTrue** (:x: or :white_check_mark:)
+- **TC2: canSubmitCard_TwoMatchingBeardCats_ReturnsTrue** (:x:)
     - **State of system**: Player hand = [`BEARD_CAT`, `BEARD_CAT`] (`getHandSize = 2`), `cardIndex = 0`
     - **Expected output**: Returns `true` because two matching Cat Cards are playable.
 
-- **TC3: canSubmitCard_ThreeMatchingBeardCats_ReturnsTrue** (:x: or :white_check_mark:)
+- **TC3: canSubmitCard_ThreeMatchingBeardCats_ReturnsTrue** (:x:)
     - **State of system**: Player hand = [`BEARD_CAT`, `BEARD_CAT`, `BEARD_CAT`] (`getHandSize = 3`), `cardIndex = 1`
     - **Expected output**: Returns `true` because player has at least two matching Cat Cards.
 
-- **TC4: canSubmitCard_TwoDifferentCatCards_ReturnsFalse** (:x: or :white_check_mark:)
+- **TC4: canSubmitCard_TwoDifferentCatCards_ReturnsFalse** (:x:)
     - **State of system**: Player hand = [`BEARD_CAT`, `TACOCAT`] (`getHandSize = 2`), `cardIndex = 0`
     - **Expected output**: Returns `false` because Cat Cards must match.
 
-- **TC5: canSubmitCard_MatchingHairyPotatoCats_ReturnsTrue** (:x: or :white_check_mark:)
+- **TC5: canSubmitCard_MatchingHairyPotatoCats_ReturnsTrue** (:x:)
     - **State of system**: Player hand = [`HAIRY_POTATO_CAT`, `HAIRY_POTATO_CAT`] (`getHandSize = 2`), `cardIndex = 1`
     - **Expected output**: Returns `true`.
 
-- **TC6: canSubmitCard_MatchingTacocats_ReturnsTrue** (:x: or :white_check_mark:)
+- **TC6: canSubmitCard_MatchingTacocats_ReturnsTrue** (:x:)
     - **State of system**: Player hand = [`TACOCAT`, `TACOCAT`] (`getHandSize = 2`), `cardIndex = 0`
     - **Expected output**: Returns `true`.
 
-- **TC7: canSubmitCard_MatchingRainbowRalphingCats_ReturnsTrue** (:x: or :white_check_mark:)
+- **TC7: canSubmitCard_MatchingRainbowRalphingCats_ReturnsTrue** (:x:)
     - **State of system**: Player hand = [`RAINBOW_RALPHING_CAT`, `RAINBOW_RALPHING_CAT`] (`getHandSize = 2`), `cardIndex = 0`
     - **Expected output**: Returns `true`.
 
-- **TC8: canSubmitCard_PlaceholderCard_ReturnsTrue** (:x: or :white_check_mark:)
+- **TC8: canSubmitCard_PlaceholderCard_ReturnsTrue** (:x:)
     - **State of system**: Player hand = [`PLACEHOLDER_CARD`] (`getHandSize = 1`), `cardIndex = 0`
     - **Expected output**: Returns `true`.
 
-- **TC9: canSubmitCard_DefuseCard_ReturnsFalse** (:x: or :white_check_mark:)
+- **TC9: canSubmitCard_DefuseCard_ReturnsFalse** (:x:)
     - **State of system**: Player hand = [`DEFUSE`] (`getHandSize = 1`), `cardIndex = 0`
     - **Expected output**: Returns `false`.
 
-- **TC10: canSubmitCard_NegativeIndex_ThrowsException** (:x: or :white_check_mark:)
+- **TC10: canSubmitCard_NegativeIndex_ThrowsException** (:x:)
     - **State of system**: Player hand = [`BEARD_CAT`, `BEARD_CAT`] (`getHandSize = 2`), `cardIndex = -1`
     - **Expected output**: `IllegalArgumentException` thrown.
 
-- **TC11: canSubmitCard_IndexEqualsHandSize_ThrowsException** (:x: or :white_check_mark:)
+- **TC11: canSubmitCard_IndexEqualsHandSize_ThrowsException** (:x:)
     - **State of system**: Player hand = [`BEARD_CAT`, `BEARD_CAT`] (`getHandSize = 2`), `cardIndex = 2`
     - **Expected output**: `IllegalArgumentException` thrown.
 
-- **TC12: canSubmitCard_HandEmpty_ThrowsException** (:x: or :white_check_mark:)
+- **TC12: canSubmitCard_HandEmpty_ThrowsException** (:x:)
     - **State of system**: Player hand = [] (`getHandSize = 0`), `cardIndex = 0`
     - **Expected output**: `IllegalArgumentException` thrown.
 
