@@ -159,7 +159,6 @@ class PlayerTest {
                 assertThrows(IllegalArgumentException.class, () -> player.removeCard(-1));
 
         assertEquals("card index must be between 0 and hand size - 1", exception.getMessage());
-
         assertEquals(3, player.getHandSize());
     }
 
@@ -182,7 +181,21 @@ class PlayerTest {
                 assertThrows(IllegalArgumentException.class, () -> player.removeCard(3));
 
         assertEquals("card index must be between 0 and hand size - 1", exception.getMessage());
-
         assertEquals(3, player.getHandSize());
+    }
+
+    @Test
+    void removeCard_HandHasOneCard_RemovesCard() {
+        Player player = new Player("Avery");
+        Card firstCard = EasyMock.createMock(Card.class);
+        EasyMock.replay(firstCard);
+
+        player.addCard(firstCard);
+
+        assertEquals(1, player.getHandSize());
+
+        player.removeCard(0);
+
+        assertEquals(0, player.getHandSize());
     }
 }
