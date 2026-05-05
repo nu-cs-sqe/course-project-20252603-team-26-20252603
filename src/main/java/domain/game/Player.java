@@ -7,6 +7,7 @@ import java.util.Objects;
 public final class Player {
     private static final String NAME_REQUIRED_MESSAGE = "name must not be blank";
     private static final String CARD_REQUIRED_MESSAGE = "card must not be null";
+    private static final String INVALID_INDEX_MESSAGE = "card index must be between 0 and hand size - 1";
 
     private final String name;
     private final List<Card> hand;
@@ -31,6 +32,9 @@ public final class Player {
     }
 
     public void removeCard(int index) {
+        if (index < 0 || index >= getHandSize()){
+            throw new IllegalArgumentException(INVALID_INDEX_MESSAGE);
+        }
         hand.remove(index);
     }
 

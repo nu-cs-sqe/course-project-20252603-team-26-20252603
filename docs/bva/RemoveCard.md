@@ -18,7 +18,7 @@
         - **State of system**: Player hand = [Card_A, Card_B, Card_C] (getHandSize = 3), cardIndex = 1
         - **Expected output**: Hand becomes [Card_A, Card_C], getHandSize = 2, Card_B added to discard pile
       
-    - **TC4: removeCard_NegativeIndex_ThrowsException** (x: or :white_check_mark:)
+    - **TC4: removeCard_NegativeIndex_ThrowsException** (:white_check_mark:)
         - **State of system**: Player hand = [Card_A, Card_B, Card_C] (getHandSize = 3), cardIndex = -1
         - **Expected output**: IllegalArgumentException thrown, hand & discard pile unchanged
       
