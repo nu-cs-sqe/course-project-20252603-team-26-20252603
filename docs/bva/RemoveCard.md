@@ -6,7 +6,7 @@
 | Output: card removed, player's hand size decreases by 1   | N/A         | Values: N/A                                                                                                                                                                                                    |
 
 - **Step 4:**
-    - **TC1: removeCard_FirstIndex_RemovesCard** (x: or :white_check_mark:)
+    - **TC1: removeCard_FirstIndex_RemovesCard** (:white_check_mark:)
         - **State of system**: Player hand = [Card_A, Card_B, Card_C] (getHandSize = 3), cardIndex = 0
         - **Expected output**: Hand becomes [Card_B, Card_C], getHandSize = 2, Card_A added to discard pile
   

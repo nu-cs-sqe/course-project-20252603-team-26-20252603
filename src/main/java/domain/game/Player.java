@@ -30,6 +30,10 @@ public final class Player {
         hand.add(card);
     }
 
+    public void removeCard(int index) {
+        hand.remove(index);
+    }
+
     public int getHandSize() {
         return hand.size();
     }
