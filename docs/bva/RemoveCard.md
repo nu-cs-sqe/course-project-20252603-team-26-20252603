@@ -22,7 +22,7 @@
         - **State of system**: Player hand = [Card_A, Card_B, Card_C] (getHandSize = 3), cardIndex = -1
         - **Expected output**: IllegalArgumentException thrown, hand & discard pile unchanged
       
-    - **TC5: removeCard_IndexEqualsHandSize_ThrowsException** (x: or :white_check_mark:)
+    - **TC5: removeCard_IndexEqualsHandSize_ThrowsException** (:white_check_mark:)
         - **State of system**: Player hand = [Card_A, Card_B, Card_C] (getHandSize = 3), cardIndex = 3
         - **Expected output**: IllegalArgumentException thrown, hand & discard pile unchanged
       
