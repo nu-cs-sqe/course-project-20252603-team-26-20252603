@@ -118,4 +118,25 @@ class PlayerTest {
         assertEquals(firstCard, player.getHandSnapshot().get(0));
         assertEquals(secondCard, player.getHandSnapshot().get(1));
     }
+
+    @Test
+    void removeCard_MiddleIndex_RemovesCard() {
+        Player player = new Player("Avery");
+        Card firstCard = EasyMock.createMock(Card.class);
+        Card secondCard = EasyMock.createMock(Card.class);
+        Card thirdCard = EasyMock.createMock(Card.class);
+        EasyMock.replay(firstCard, secondCard, thirdCard);
+
+        player.addCard(firstCard);
+        player.addCard(secondCard);
+        player.addCard(thirdCard);
+
+        assertEquals(3, player.getHandSize());
+
+        player.removeCard(1);
+
+        assertEquals(2, player.getHandSize());
+        assertEquals(firstCard, player.getHandSnapshot().get(0));
+        assertEquals(thirdCard, player.getHandSnapshot().get(1));
+    }
 }

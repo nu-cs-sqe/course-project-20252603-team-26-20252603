@@ -14,7 +14,7 @@
         - **State of system**: Player hand = [Card_A, Card_B, Card_C] (getHandSize = 3), cardIndex = 2
         - **Expected output**: Hand becomes [Card_A, Card_B], getHandSize = 2, Card_C added to discard pile
     
-    - **TC3: removeCard_MiddleIndex_RemovesCard** (x: or :white_check_mark:)
+    - **TC3: removeCard_MiddleIndex_RemovesCard** (:white_check_mark:)
         - **State of system**: Player hand = [Card_A, Card_B, Card_C] (getHandSize = 3), cardIndex = 1
         - **Expected output**: Hand becomes [Card_A, Card_C], getHandSize = 2, Card_B added to discard pile
       
