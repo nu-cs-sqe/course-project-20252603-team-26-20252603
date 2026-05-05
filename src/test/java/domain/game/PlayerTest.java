@@ -198,4 +198,17 @@ class PlayerTest {
 
         assertEquals(0, player.getHandSize());
     }
+
+    @Test
+    void removeCard_HandEmpty_ThrowsException() {
+        Player player = new Player("Avery");
+
+        assertEquals(0, player.getHandSize());
+
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> player.removeCard(0));
+
+        assertEquals("card index must be between 0 and hand size - 1", exception.getMessage());
+        assertEquals(0, player.getHandSize());
+    }
 }

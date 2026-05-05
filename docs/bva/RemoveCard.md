@@ -30,6 +30,6 @@
         - **State of system**: Player hand = [Card_A] (getHandSize = 1), cardIndex = 0
         - **Expected output**: Hand becomes [], getHandSize = 0, Card_X added to discard pile
       
-    - **TC7: removeCard_HandEmpty_ThrowsException** (x: or :white_check_mark:)
+    - **TC7: removeCard_HandEmpty_ThrowsException** (:white_check_mark:)
         - **State of system**: Player hand = [] (getHandSize = 0), cardIndex = 0
         - **Expected output**: IllegalArgumentException thrown, hand & discard pile unchanged
