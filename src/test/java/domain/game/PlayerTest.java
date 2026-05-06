@@ -158,7 +158,7 @@ class PlayerTest {
         IllegalArgumentException exception =
                 assertThrows(IllegalArgumentException.class, () -> player.removeCard(-1));
 
-        assertEquals("card index must be between 0 and hand size - 1", exception.getMessage());
+        assertEquals("cardIndex is out of bounds", exception.getMessage());
         assertEquals(3, player.getHandSize());
     }
 
@@ -180,7 +180,7 @@ class PlayerTest {
         IllegalArgumentException exception =
                 assertThrows(IllegalArgumentException.class, () -> player.removeCard(3));
 
-        assertEquals("card index must be between 0 and hand size - 1", exception.getMessage());
+        assertEquals("cardIndex is out of bounds", exception.getMessage());
         assertEquals(3, player.getHandSize());
     }
 
@@ -208,7 +208,7 @@ class PlayerTest {
         IllegalArgumentException exception =
                 assertThrows(IllegalArgumentException.class, () -> player.removeCard(0));
 
-        assertEquals("card index must be between 0 and hand size - 1", exception.getMessage());
+        assertEquals("cardIndex is out of bounds", exception.getMessage());
         assertEquals(0, player.getHandSize());
     }
 }
