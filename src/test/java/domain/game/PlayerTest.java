@@ -76,4 +76,139 @@ class PlayerTest {
 
         assertEquals("card must not be null", exception.getMessage());
     }
+
+    @Test
+    void removeCard_FirstIndex_RemovesCard() {
+        Player player = new Player("Avery");
+        Card firstCard = EasyMock.createMock(Card.class);
+        Card secondCard = EasyMock.createMock(Card.class);
+        Card thirdCard = EasyMock.createMock(Card.class);
+        EasyMock.replay(firstCard, secondCard, thirdCard);
+
+        player.addCard(firstCard);
+        player.addCard(secondCard);
+        player.addCard(thirdCard);
+
+        assertEquals(3, player.getHandSize());
+
+        player.removeCard(0);
+
+        assertEquals(2, player.getHandSize());
+        assertEquals(secondCard, player.getHandSnapshot().get(0));
+        assertEquals(thirdCard, player.getHandSnapshot().get(1));
+    }
+
+    @Test
+    void removeCard_LastIndex_RemovesCard() {
+        Player player = new Player("Avery");
+        Card firstCard = EasyMock.createMock(Card.class);
+        Card secondCard = EasyMock.createMock(Card.class);
+        Card thirdCard = EasyMock.createMock(Card.class);
+        EasyMock.replay(firstCard, secondCard, thirdCard);
+
+        player.addCard(firstCard);
+        player.addCard(secondCard);
+        player.addCard(thirdCard);
+
+        assertEquals(3, player.getHandSize());
+
+        player.removeCard(2);
+
+        assertEquals(2, player.getHandSize());
+        assertEquals(firstCard, player.getHandSnapshot().get(0));
+        assertEquals(secondCard, player.getHandSnapshot().get(1));
+    }
+
+    @Test
+    void removeCard_MiddleIndex_RemovesCard() {
+        Player player = new Player("Avery");
+        Card firstCard = EasyMock.createMock(Card.class);
+        Card secondCard = EasyMock.createMock(Card.class);
+        Card thirdCard = EasyMock.createMock(Card.class);
+        EasyMock.replay(firstCard, secondCard, thirdCard);
+
+        player.addCard(firstCard);
+        player.addCard(secondCard);
+        player.addCard(thirdCard);
+
+        assertEquals(3, player.getHandSize());
+
+        player.removeCard(1);
+
+        assertEquals(2, player.getHandSize());
+        assertEquals(firstCard, player.getHandSnapshot().get(0));
+        assertEquals(thirdCard, player.getHandSnapshot().get(1));
+    }
+
+    @Test
+    void removeCard_NegativeIndex_ThrowsException() {
+        Player player = new Player("Avery");
+
+        Card firstCard = EasyMock.createMock(Card.class);
+        Card secondCard = EasyMock.createMock(Card.class);
+        Card thirdCard = EasyMock.createMock(Card.class);
+        EasyMock.replay(firstCard, secondCard, thirdCard);
+
+        player.addCard(firstCard);
+        player.addCard(secondCard);
+        player.addCard(thirdCard);
+
+        assertEquals(3, player.getHandSize());
+
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> player.removeCard(-1));
+
+        assertEquals("cardIndex is out of bounds", exception.getMessage());
+        assertEquals(3, player.getHandSize());
+    }
+
+    @Test
+    void removeCard_IndexEqualsHandSize_ThrowsException() {
+        Player player = new Player("Avery");
+
+        Card firstCard = EasyMock.createMock(Card.class);
+        Card secondCard = EasyMock.createMock(Card.class);
+        Card thirdCard = EasyMock.createMock(Card.class);
+        EasyMock.replay(firstCard, secondCard, thirdCard);
+
+        player.addCard(firstCard);
+        player.addCard(secondCard);
+        player.addCard(thirdCard);
+
+        assertEquals(3, player.getHandSize());
+
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> player.removeCard(3));
+
+        assertEquals("cardIndex is out of bounds", exception.getMessage());
+        assertEquals(3, player.getHandSize());
+    }
+
+    @Test
+    void removeCard_HandHasOneCard_RemovesCard() {
+        Player player = new Player("Avery");
+        Card firstCard = EasyMock.createMock(Card.class);
+        EasyMock.replay(firstCard);
+
+        player.addCard(firstCard);
+
+        assertEquals(1, player.getHandSize());
+
+        player.removeCard(0);
+
+        assertEquals(0, player.getHandSize());
+    }
+
+    @Test
+    void removeCard_HandEmpty_ThrowsException() {
+        Player player = new Player("Avery");
+
+        assertEquals(0, player.getHandSize());
+
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> player.removeCard(0));
+
+        assertEquals("cardIndex is out of bounds", exception.getMessage());
+        assertEquals(0, player.getHandSize());
+    }
 }
