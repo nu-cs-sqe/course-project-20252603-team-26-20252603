@@ -25,10 +25,9 @@
 
 1. [done] Ben: Add null cards (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/29).
 2. [done] Ben: Consolodiate previous weekly report format (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/26)
-3. [in progress] Sophie: Add choosing card function (after choosing, get explanation of the card) — BVA, unit tests, and implementation (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/32).
+3. [done] Sophie: Add choosing card function (after choosing, get explanation of the card) — BVA, unit tests, and implementation (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/32).
 4. [in progress] Alivia: Set up Exploding Kitten and Defuse card logic — BVA, unit tests, initialization and integration into deck ().
-5. [in progress] Sidney: Add taking card function — BVA, unit tests, and implementation ().
-6. [in progress] Sidney: Add removing card function (playing/submitting cards) — BVA, unit tests, and implementation (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/30).
-7. [in progress] Ben: Add setup for each player’s deck (5 cards + 1 defuse) — BVA, unit tests, and implementation ().
-8. [not started] Sophie: Implement cat cards (playable/submit behavior placeholder logic) ().
+5. [in progress] Sidney: Add taking card function — BVA, unit tests, and implementation (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/37).
+6. [done] Sidney: Add removing card function (playing/submitting cards) — BVA, unit tests, and implementation (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/30).
+8. [done] Sophie: Implement cat cards (playable/submit behavior placeholder logic) (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/35).
 9. [done] Sophie: Complete weekly report 5 (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/33)
