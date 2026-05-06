@@ -1,0 +1,39 @@
+# BVA Analysis for ChooseCard
+
+### Method under test: `public String chooseCard(int cardIndex)`
+
+| Step 1 | Step 2 | Step 3 |
+|---|---|---|
+| Input 1: `cardIndex` | Array Index | Values: <ul><li>Card Index is -1</li><li>Card Index is 0</li><li>Card Index is middle valid value</li><li>Card Index is largest valid value `getHandSize() - 1`</li><li>Card Index is one larger than largest valid value `getHandSize()`</li></ul> |
+| Output: explanation of selected card is returned | N/A | Values: <ul><li>Correct explanation is returned for `DEFUSE`</li><li>Correct explanation is returned for `PLACEHOLDER_CARD`</li><li>Hand size stays the same</li><li>Exception thrown for invalid index</li></ul> |
+
+
+## Step 4: Test Cases
+
+- **TC1: chooseCard_FirstIndex_ReturnsDefuseExplanation** (:white_check_mark:)
+  - **State of system**: Player hand = [`DEFUSE`, `PLACEHOLDER_CARD`, `PLACEHOLDER_CARD`] (`getHandSize = 3`), `cardIndex = 0`
+  - **Expected output**: Returns explanation for `DEFUSE`; hand remains unchanged; `getHandSize = 3`
+
+- **TC2: chooseCard_LastIndex_ReturnsPlaceholderCardExplanation** (:white_check_mark:)
+  - **State of system**: Player hand = [`DEFUSE`, `PLACEHOLDER_CARD`, `PLACEHOLDER_CARD`] (`getHandSize = 3`), `cardIndex = 2`
+  - **Expected output**: Returns explanation for `PLACEHOLDER_CARD`; hand remains unchanged; `getHandSize = 3`
+
+- **TC3: chooseCard_MiddleIndex_ReturnsPlaceholderCardExplanation** (:white_check_mark:)
+  - **State of system**: Player hand = [`DEFUSE`, `PLACEHOLDER_CARD`, `PLACEHOLDER_CARD`] (`getHandSize = 3`), `cardIndex = 1`
+  - **Expected output**: Returns explanation for `PLACEHOLDER_CARD`; hand remains unchanged; `getHandSize = 3`
+
+- **TC4: chooseCard_NegativeIndex_ThrowsException** (:white_check_mark:)
+  - **State of system**: Player hand = [`DEFUSE`, `PLACEHOLDER_CARD`, `PLACEHOLDER_CARD`] (`getHandSize = 3`), `cardIndex = -1`
+  - **Expected output**: `IllegalArgumentException` thrown; hand remains unchanged
+
+- **TC5: chooseCard_IndexEqualsHandSize_ThrowsException** (:white_check_mark:)
+  - **State of system**: Player hand = [`DEFUSE`, `PLACEHOLDER_CARD`, `PLACEHOLDER_CARD`] (`getHandSize = 3`), `cardIndex = 3`
+  - **Expected output**: `IllegalArgumentException` thrown; hand remains unchanged
+
+- **TC6: chooseCard_HandHasOneCard_ReturnsExplanation** (:white_check_mark:)
+  - **State of system**: Player hand = [`DEFUSE`] (`getHandSize = 1`), `cardIndex = 0`
+  - **Expected output**: Returns explanation for `DEFUSE`; hand remains unchanged; `getHandSize = 1`
+
+- **TC7: chooseCard_HandEmpty_ThrowsException** (:white_check_mark:)
+  - **State of system**: Player hand = [] (`getHandSize = 0`), `cardIndex = 0`
+  - **Expected output**: `IllegalArgumentException` thrown; hand remains unchanged
