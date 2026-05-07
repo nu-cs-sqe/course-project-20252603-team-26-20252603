@@ -198,6 +198,42 @@ public class GameControllerTest {
         verify(mockDeck);
     }
 
+    @Test
+    void takeCard_DeckSizeOne_ReturnsCard() {
+        Game mockModel = EasyMock.createMock(Game.class);
+        GameView mockView = EasyMock.createMock(GameView.class);
+        Deck mockDeck = EasyMock.createMock(Deck.class);
+        Player mockPlayer = EasyMock.createMock(Player.class);
+        Card expectedCard = new Card(CardType.DEFUSE);
+
+        expect(mockModel.getCurrentPlayer()).andReturn(mockPlayer);
+        expect(mockModel.getDrawPile()).andReturn(mockDeck);
+        expect(mockDeck.draw()).andReturn(expectedCard);
+
+        mockPlayer.addCard(expectedCard);
+        expectLastCall().once();
+
+        mockView.displayCardDrawn(expectedCard);
+        expectLastCall().once();
+
+        replay(mockModel);
+        replay(mockDeck);
+        replay(mockPlayer);
+        replay(mockView);
+
+        GameController controller = new GameController(mockModel, mockView);
+
+        Card result = controller.takeCard();
+
+
+        assertEquals(expectedCard, result);
+
+        verify(mockModel);
+        verify(mockDeck);
+        verify(mockPlayer);
+        verify(mockView);
+    }
+
     }
 
 
