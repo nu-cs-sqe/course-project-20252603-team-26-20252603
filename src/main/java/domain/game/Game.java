@@ -135,4 +135,12 @@ public class Game {
             drawPile.addCard(cards.get(index));
         }
     }
+    void eliminatePlayer(Player player) {
+        // TODO: implement
+    }
+
+    boolean isWon() {
+        // TODO: implement
+        return false;
+    }
 }

@@ -420,7 +420,37 @@ public class GameControllerTest {
         verify(mockModel);
         verify(mockView);
     }
+
+    //EmptyHandGNO
+    @Test
+    void drawEK_emptyHand_playerEliminated_gameNotWon(){
+        // arrange
+        Player alice = new Player("Alice");
+        // empty hand — no cards added
+
+        Game mockModel = createMock(Game.class);
+        GameView mockView = createMock(GameView.class);
+
+        mockModel.eliminatePlayer(alice);
+        expectLastCall();
+
+        expect(mockModel.isWon()).andReturn(false);
+
+        replay(mockModel, mockView);
+
+        GameController controller = new GameController(mockModel, mockView);
+
+        // act
+        controller.handleExplodingKittenDrawn(alice);
+
+        // assert
+        verify(mockModel, mockView); // confirms eliminatePlayer was called
+
+    }
+
 }
+
+
 
 
 

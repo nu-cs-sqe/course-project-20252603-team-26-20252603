@@ -65,4 +65,8 @@ public class GameView {
             System.out.println((i + 1) + ". " + cards.get(i).getType());
         }
     }
+
+    public void displayGameOver(){
+        //TODO: display game over with the name of the winner
+    }
 }

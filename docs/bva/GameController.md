@@ -119,11 +119,11 @@ true nor false.nal. all defuse cars[DEFUSE, DEFUSE]
 true nor false.
 
 **Step 4**
-
+GNO: Game Not Over 
 
 | ID                      | State of the system                                            | Expected output                                                        | Implemented? |
 |-------------------------|----------------------------------------------------------------|------------------------------------------------------------------------|--------------|
-| `GCEmpty `              | Draw EK with an empty hand, multiple players left              | game does not end,  playerm count decreases, current player eliminated | :white_check_mark:   |
+| `EmptyHandGNO `         | Draw EK with an empty hand, multiple players left              | game does not end,  player count decreases, current player eliminated | :white_check_mark:   |
 | `GC1Player `            | Draw EK with a non empty hand, but no defuse card              | not enough players exception , gameStarted = False                     | :white_check_mark:     |
 | `GC2Player `            | Draw EK with non empty hand and no defuse card                 | current player eliminated, player count decreases, Game over  = T      | :white_check_mark:      |
 | `GCMultiPlayer `        | Draw EK with one defuse card                                   | number of defuse cards in hand decreases, game over = F             | :white_check_mark:     |
