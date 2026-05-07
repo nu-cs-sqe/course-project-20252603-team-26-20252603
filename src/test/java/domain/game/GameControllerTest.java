@@ -526,6 +526,29 @@ public class GameControllerTest {
 
         // assert model and view were never touched
         verify(mockModel, mockView, mockPlayer);
+        }
+
+    //1DiffuseGNO
+    @Test
+    void drawEK_withAllButOneDiffuse_playerSafe_gameNotOver(){
+        Player mockPlayer = createMock(Player.class);
+
+        Game mockModel = createMock(Game.class);
+        GameView mockView = createMock(GameView.class);
+
+        expect(mockPlayer.countCardsOfType(CardType.DEFUSE)).andReturn(4L);
+        expect(mockPlayer.removedCardByType(CardType.DEFUSE)).andReturn(true);
+        expectLastCall();
+
+        replay(mockPlayer, mockModel, mockView);
+        GameController controller = new GameController(mockModel, mockView);
+
+        // act
+        controller.handleExplodingKittenDrawn(mockPlayer);
+
+
+        // assert model and view were never touched
+        verify(mockModel, mockView, mockPlayer);
     }
 
 }
