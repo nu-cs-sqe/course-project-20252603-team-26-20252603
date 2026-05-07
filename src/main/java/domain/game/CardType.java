@@ -1,6 +1,6 @@
 package domain.game;
 
-enum CardType {
+public enum CardType {
     EXPLODING_KITTEN,
     DEFUSE,
     PLACEHOLDER_CARD,
