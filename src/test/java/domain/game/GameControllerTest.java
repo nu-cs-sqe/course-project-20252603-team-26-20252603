@@ -175,6 +175,29 @@ public class GameControllerTest {
         verify(mockView); // verifies displayError was called, and displayGameReady was NOT
         verify(mockModel);
     }
+
+    @Test
+    void takeCard_DeckSizeZero_ThrowsException() {
+        Game mockModel = EasyMock.createMock(Game.class);
+        GameView mockView = EasyMock.createMock(GameView.class);
+        Deck mockDeck = EasyMock.createMock(Deck.class);
+        Player mockPlayer = EasyMock.createMock(Player.class);
+
+        expect(mockModel.getCurrentPlayer()).andReturn(mockPlayer);
+        expect(mockModel.getDrawPile()).andReturn(mockDeck);
+        expect(mockDeck.draw()).andThrow(new IllegalStateException("deck is empty"));
+
+        replay(mockModel);
+        replay(mockDeck);
+
+        GameController controller = new GameController(mockModel, mockView);
+
+        assertThrows(IllegalStateException.class, () -> controller.takeCard());
+
+        verify(mockModel);
+        verify(mockDeck);
+    }
+
     }
 
 
