@@ -251,12 +251,12 @@ public class GameControllerTest {
 
         EasyMock.replay(mockView);
 
-        GameController controller = new GameController(mockModel, mockView);
+        GameController controller = new GameController(exampleGame, mockView);
 
         Card result = controller.takeCard();
 
         assertEquals(CardType.EXPLODING_KITTEN, result.getType());
-        assertEquals(2, realGame.getDrawPile().size());
+        assertEquals(2, exampleGame.getDrawPile().size());
 
         verify(mockView);
     }
