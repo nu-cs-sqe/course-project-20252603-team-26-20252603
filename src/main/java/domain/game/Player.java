@@ -7,6 +7,7 @@ import java.util.Objects;
 public final class Player {
     private static final String NAME_REQUIRED_MESSAGE = "name must not be blank";
     private static final String CARD_REQUIRED_MESSAGE = "card must not be null";
+    private static final String INVALID_INDEX_MESSAGE = "cardIndex is out of bounds";
 
     private final String name;
     private final List<Card> hand;
@@ -30,8 +31,33 @@ public final class Player {
         hand.add(card);
     }
 
+    public void removeCard(int index) {
+        if (index < 0 || index >= getHandSize()){
+            throw new IllegalArgumentException(INVALID_INDEX_MESSAGE);
+        }
+        hand.remove(index);
+    }
+
     public int getHandSize() {
         return hand.size();
+    }
+
+    public String chooseCard(int cardIndex) {
+        if (cardIndex < 0 || cardIndex >= hand.size()) {
+            throw new IllegalArgumentException(INVALID_INDEX_MESSAGE);
+        }
+        Card chosenCard = hand.get(cardIndex);
+
+        if (chosenCard.getType() == CardType.DEFUSE) {
+            return "Defuse: Use this card to avoid exploding after drawing an Exploding Kitten.";
+        }
+
+        if (chosenCard.getType() == CardType.PLACEHOLDER_CARD) {
+            return "Placeholder Card: This card is choosable, but its effect will be implemented later.";
+        }
+
+        throw new IllegalStateException("This card type cannot be chosen from a player's hand");
+
     }
 
     List<Card> getHandSnapshot() {
