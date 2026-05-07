@@ -30,6 +30,13 @@ public class Main {
 
         Card explodingKittenCard = new Card(CardType.EXPLODING_KITTEN);
         view.displayCardDrawn(explodingKittenCard);
-        
+
+        System.out.println("\n testing null card should throw an exception");
+
+        try {
+            view.displayCardDrawn(null);
+        } catch (NullPointerException err) {
+            System.out.println("exception occurred " + err.getMessage());
+        }
     }
 }
