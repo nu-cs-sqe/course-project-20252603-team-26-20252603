@@ -121,12 +121,12 @@ true nor false.
 **Step 4**
 GNO: Game Not Over 
 
-| ID                      | State of the system                                            | Expected output                                                        | Implemented? |
-|-------------------------|----------------------------------------------------------------|------------------------------------------------------------------------|--------------|
-| `EmptyHandGNO `         | Draw EK with an empty hand, multiple players left              | game does not end,  player count decreases, current player eliminated | :white_check_mark:   |
-| `GC1Player `            | Draw EK with a non empty hand, but no defuse card              | not enough players exception , gameStarted = False                     | :white_check_mark:     |
-| `GC2Player `            | Draw EK with non empty hand and no defuse card                 | current player eliminated, player count decreases, Game over  = T      | :white_check_mark:      |
-| `GCMultiPlayer `        | Draw EK with one defuse card                                   | number of defuse cards in hand decreases, game over = F             | :white_check_mark:     |
-| `GCInvalidMultiPlayer ` | Draw EK with all but cards in hand except 1 being defuse cards | number of defuse cards in hand decreases, game over = F                | :white_check_mark:      |
-| `GCMaxPlayer `          | Draw EK with a hand of only defuse cards                       | number of defuse cards in hand decreases, game over = F                           | :x_mark:     |
-| `GCMultiPlayer `        | duplicate player  names                                        | Confirm and rename players exception , gameStarted = False             | :x_mark:     |
+| ID                         | State of the system                                                      | Expected output                                                       | Implemented? |
+|----------------------------|--------------------------------------------------------------------------|-----------------------------------------------------------------------|--------------|
+| `EmptyHandGNO `            | Draw EK with an empty hand, multiple players left                        | game does not end,  player count decreases, current player eliminated | :white_check_mark:   |
+| `nonEmptyHand1DiffuseGNO ` | Draw EK with a non empty hand, but no defuse card, multiple other player | not enough players exception , Game over = False                      | :x_mark:   |
+| `GC2Player `               | Draw EK with non empty hand and no defuse card, one other player         | current player eliminated, player count decreases, Game over  = T     | :x_mark:   |
+| `GCMultiPlayer `           | Draw EK with one defuse card                                             | number of defuse cards in hand decreases, game over = F               | :x_mark:    |
+| `GCInvalidMultiPlayer `    | Draw EK with all but cards in hand except 1 being defuse cards           | number of defuse cards in hand decreases, game over = F               | :x_mark:      |
+| `GCMaxPlayer `             | Draw EK with a hand of only defuse cards                                 | number of defuse cards in hand decreases, game over = F               | :x_mark:     |
+| `GCMultiPlayer `           | duplicate player  names                                                  | Confirm and rename players exception , gameStarted = False            | :x_mark:     |
