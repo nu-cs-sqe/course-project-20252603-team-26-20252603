@@ -246,7 +246,7 @@ public class GameControllerTest {
         Game exampleGame = new Game(exampleDeck);
         GameView mockView = EasyMock.createMock(GameView.class);
 
-        mockView.displayCardDrawn(EasyMock.anyObject(Card.class);
+        mockView.displayCardDrawn(EasyMock.anyObject(Card.class));
         expectLastCall().once();
 
         EasyMock.replay(mockView);
