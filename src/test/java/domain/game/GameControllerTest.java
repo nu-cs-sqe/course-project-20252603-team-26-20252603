@@ -448,6 +448,86 @@ public class GameControllerTest {
 
     }
 
+
+    //nonEmptyHand1DiffuseGNO
+    @Test
+    void drawEK_noDiffuses_playerEliminated_gameNotWon(){
+        // arrange
+        Player alice = new Player("Alice");
+        Player john = new Player("John");
+        // empty hand — no cards added
+
+        Game mockModel = createMock(Game.class);
+        GameView mockView = createMock(GameView.class);
+
+        mockModel.eliminatePlayer(alice);
+        expectLastCall();
+
+        expect(mockModel.isWon()).andReturn(false);
+
+        replay(mockModel, mockView);
+
+        GameController controller = new GameController(mockModel, mockView);
+
+        // act
+        controller.handleExplodingKittenDrawn(alice);
+
+        // assert
+        verify(mockModel, mockView); // confirms eliminatePlayer was called
+    }
+
+    //1DiffuseGO
+    @Test
+    void drawEK_noDiffuse_playerEliminated_gameWon(){
+        // arrange
+        Player alice = new Player("Alice");
+        Player john = new Player("John");
+        // empty hand — no cards added
+
+        Game mockModel = createMock(Game.class);
+        GameView mockView = createMock(GameView.class);
+
+        mockModel.eliminatePlayer(alice);
+        expectLastCall();
+
+        expect(mockModel.isWon()).andReturn(true);
+        mockView.displayGameOver();   // now verify checks this was called too
+        expectLastCall();
+
+        replay(mockModel, mockView);
+
+        GameController controller = new GameController(mockModel, mockView);
+
+        // act
+        controller.handleExplodingKittenDrawn(alice);
+
+        // assert
+        verify(mockModel, mockView); // confirms eliminatePlayer was called
+    }
+
+    //1DiffuseGNO
+    @Test
+    void drawEK_withOneDiffuse_playerSafe_gameNotOver(){
+        Player mockPlayer = createMock(Player.class);
+        Player secondMockPlayer = createMock(Player.class);
+        Game mockModel = createMock(Game.class);
+        GameView mockView = createMock(GameView.class);
+
+        expect(mockPlayer.countCardsOfType(CardType.DEFUSE)).andReturn(1L);
+        expect(mockPlayer.removedCardByType(CardType.DEFUSE)).andReturn(true);
+        expectLastCall();
+
+        replay(mockPlayer, mockModel, mockView);
+        GameController controller = new GameController(mockModel, mockView);
+
+        // act
+        controller.handleExplodingKittenDrawn(mockPlayer);
+
+
+        // assert model and view were never touched
+        verify(mockModel, mockView, mockPlayer);
+    }
+
 }
 
 
