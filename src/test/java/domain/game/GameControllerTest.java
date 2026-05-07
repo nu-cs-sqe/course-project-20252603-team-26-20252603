@@ -217,6 +217,44 @@ public class GameControllerTest {
         List<String> players = List.of("player1", "player2");
         game.setupGame(players);
 
+        while (game.getDrawPile().size() > 1) {
+            game.getDrawPile().draw();
+        }
+
+        assertEquals(1, game.getDrawPile().size());
+
+        // record expected view call
+        mockView.displayCardDrawn(EasyMock.anyObject(Card.class));
+        EasyMock.expectLastCall().once();
+        EasyMock.replay(mockView);
+
+        GameController controller = new GameController(game, mockView);
+        Card result = controller.takeCard();
+
+        assertEquals(CardType.EXPLODING_KITTEN, result.getType());
+        assertEquals(0, game.getDrawPile().size());
+
+        verify(mockView);
+    }
+
+    @Test
+    void takeCard_DeckSizeGreaterThanOne_ReturnsCard() {
+        List<Card> cards = new ArrayList<>();
+        cards.add(new Card(CardType.DEFUSE));
+        cards.add(new Card(CardType.DEFUSE));
+
+        for (int i = 0; i < 10; i++) {
+            cards.add(new Card(CardType.PLACEHOLDER_CARD));
+        }
+        // card that will be drawn
+        cards.add(new Card(CardType.EXPLODING_KITTEN));
+
+        Deck deck = new Deck(cards);
+        Game game = new Game(deck);
+        GameView mockView = EasyMock.createMock(GameView.class);
+        List<String> players = List.of("player1", "player2");
+        game.setupGame(players);
+
         int initialDeckSize = game.getDrawPile().size();
 
         // record expected view call
@@ -234,34 +272,7 @@ public class GameControllerTest {
 
         verify(mockView);
     }
-
-    @Test
-    void takeCard_DeckSizeGreaterThanOne_ReturnsCard() {
-        List<Card> exampleCards = new ArrayList<>();
-        exampleCards.add(new Card(CardType.PLACEHOLDER_CARD));
-        exampleCards.add(new Card(CardType.DEFUSE));
-        exampleCards.add(new Card(CardType.EXPLODING_KITTEN));
-
-        Deck exampleDeck = new Deck(exampleCards);
-        Game exampleGame = new Game(exampleDeck);
-        GameView mockView = EasyMock.createMock(GameView.class);
-
-        mockView.displayCardDrawn(EasyMock.anyObject(Card.class));
-        expectLastCall().once();
-
-        EasyMock.replay(mockView);
-
-        GameController controller = new GameController(exampleGame, mockView);
-
-        Card result = controller.takeCard();
-
-        assertEquals(CardType.EXPLODING_KITTEN, result.getType());
-        assertEquals(2, exampleGame.getDrawPile().size());
-
-        verify(mockView);
-    }
-
-    }
+}
 
 
 
