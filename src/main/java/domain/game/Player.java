@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public final class Player {
+public  class Player {
     private static final String NAME_REQUIRED_MESSAGE = "name must not be blank";
     private static final String CARD_REQUIRED_MESSAGE = "card must not be null";
     private static final String INVALID_INDEX_MESSAGE = "cardIndex is out of bounds";
@@ -44,6 +44,7 @@ public final class Player {
 
     public boolean removedCardByType(CardType type){
         // TODO: implement a function that tests whether the size of card type has changed
+        // could also return a card type or void and actually do the action instead of checking
         return true;
     }
 
