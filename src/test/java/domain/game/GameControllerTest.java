@@ -1,6 +1,7 @@
 package domain.game;
 
 import org.easymock.EasyMock;
+import org.easymock.EasyMockExtension;
 import org.junit.jupiter.api.Test;
 import ui.GameView;
 
@@ -231,6 +232,32 @@ public class GameControllerTest {
         verify(mockModel);
         verify(mockDeck);
         verify(mockPlayer);
+        verify(mockView);
+    }
+
+    @Test
+    void takeCard_DeckSizeGreaterThanOne_ReturnsCard() {
+        List<Card> exampleCards = new ArrayList<>();
+        exampleCards.add(new Card(CardType.PLACEHOLDER_CARD));
+        exampleCards.add(new Card(CardType.DEFUSE));
+        exampleCards.add(new Card(CardType.EXPLODING_KITTEN));
+
+        Deck exampleDeck = new Deck(exampleCards);
+        Game exampleGame = new Game(exampleDeck);
+        GameView mockView = EasyMock.createMock(GameView.class);
+
+        mockView.displayCardDrawn(EasyMock.anyObject(Card.class);
+        expectLastCall().once();
+
+        EasyMock.replay(mockView);
+
+        GameController controller = new GameController(mockModel, mockView);
+
+        Card result = controller.takeCard();
+
+        assertEquals(CardType.EXPLODING_KITTEN, result.getType());
+        assertEquals(2, realGame.getDrawPile().size());
+
         verify(mockView);
     }
 
