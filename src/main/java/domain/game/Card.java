@@ -2,14 +2,14 @@ package domain.game;
 
 import java.util.Objects;
 
-class Card {
+public class Card {
     private final CardType type;
 
-    Card(CardType type) {
+    public Card(CardType type) {
     this.type = Objects.requireNonNull(type, "type must not be null");
 }
 
-    CardType getType() {
+    public CardType getType() {
         return type;
     }
 }
