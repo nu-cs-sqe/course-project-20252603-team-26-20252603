@@ -26,7 +26,7 @@
 | Output: console output | String | Values: <ul><li> "You drew: [Card_Type]"</li><li>NullPointerException for null</li></ul>                                                    |
 
 - **Step 4:**
-    - **TC4: displayCardDrawn_OtherCard_ShowsOther** ( :x: or :white_check_mark: )
+    - **TC4: displayCardDrawn_OtherCard_ShowsOther** (:white_check_mark: )
         - **State of system**: Call `displayCardDrawn(new Card(CardType.OTHER))`
         - **Expected output**: Console shows "You drew: " followed by the card's type
 
