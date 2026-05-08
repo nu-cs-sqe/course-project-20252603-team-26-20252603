@@ -6,7 +6,7 @@
 | Output: drawn card or exception                           | N/A         | Values: N/A                                                                         |
 
 - **Step 4:**
-    - **TC1: takeCard_DeckSizeZero_ThrowsException** (:x or :white_check_mark:)
+    - **TC1: takeCard_DeckSizeZero_ThrowsException** (:white_check_mark:)
         - **State of system**: Deck size = 0 (empty), Player hand = []
         - **Expected output**: IllegalStateException thrown, Deck unchanged (size 0), Player hand unchanged (size 0)
 
