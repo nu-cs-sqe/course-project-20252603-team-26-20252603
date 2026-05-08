@@ -55,6 +55,10 @@ public final class Player {
         if (chosenCard.getType() == CardType.PLACEHOLDER_CARD) {
             return "Placeholder Card: This card is choosable, but its effect will be implemented later.";
         }
+        if (isCatCard(chosenCard.getType())) {
+            return "Cat Card: This card is powerless on its own. Play two matching Cat Cards as a pair to steal a random card from another player.";
+        }
+
 
         throw new IllegalStateException("This card type cannot be chosen from a player's hand");
 
@@ -67,5 +71,30 @@ public final class Player {
     long countCardsOfType(CardType type) {
         Objects.requireNonNull(type, "type must not be null");
         return hand.stream().filter(card -> card.getType() == type).count();
+    }
+
+    public boolean canSubmitCard(int cardIndex) {
+        if (cardIndex < 0 || cardIndex >= hand.size()) {
+            throw new IllegalArgumentException(INVALID_INDEX_MESSAGE);
+        }
+
+        Card chosenCard = hand.get(cardIndex);
+        CardType chosenType = chosenCard.getType();
+
+        if (isCatCard(chosenType)) {
+            return countCardsOfType(chosenType) >= 2;
+        }
+
+        if (chosenType == CardType.PLACEHOLDER_CARD) {
+            return true;
+        }
+
+        return false;
+    }
+    private boolean isCatCard(CardType type) {
+        return type == CardType.BEARD_CAT
+                || type == CardType.HAIRY_POTATO_CAT
+                || type == CardType.TACOCAT
+                || type == CardType.RAINBOW_RALPHING_CAT;
     }
 }
