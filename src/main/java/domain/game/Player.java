@@ -75,7 +75,7 @@ public final class Player {
 
     public boolean canSubmitCard(int cardIndex) {
         if (cardIndex < 0 || cardIndex >= hand.size()) {
-            throw new IllegalArgumentException(CARD_INDEX_OUT_OF_BOUNDS_MESSAGE);
+            throw new IllegalArgumentException(INVALID_INDEX_MESSAGE);
         }
 
         Card chosenCard = hand.get(cardIndex);
