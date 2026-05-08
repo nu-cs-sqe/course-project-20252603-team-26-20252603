@@ -30,6 +30,6 @@
         - **State of system**: Call `displayCardDrawn(new Card(CardType.OTHER))`
         - **Expected output**: Console shows "You drew: " followed by the card's type
 
-    - **TC5: displayCardDrawn_NullCard_ThrowsException** ( :x: or :white_check_mark: )
+    - **TC5: displayCardDrawn_NullCard_ThrowsException** (:white_check_mark: )
         - **State of system**: Call `displayCardDrawn(null)`
         - **Expected output**: NullPointerException thrown
