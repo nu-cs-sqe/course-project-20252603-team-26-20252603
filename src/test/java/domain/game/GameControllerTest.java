@@ -180,24 +180,32 @@ public class GameControllerTest {
 
     @Test
     void takeCard_DeckSizeZero_ThrowsException() {
-        Game mockModel = EasyMock.createMock(Game.class);
+        List<Card> cards = new ArrayList<>();
+        cards.add(new Card(CardType.DEFUSE));
+        cards.add(new Card(CardType.DEFUSE));
+
+        for (int i = 0; i < 10; i++) {
+            cards.add(new Card(CardType.PLACEHOLDER_CARD));
+        }
+        // card that will be drawn
+        cards.add(new Card(CardType.EXPLODING_KITTEN));
+
+        Deck deck = new Deck(cards);
+        Game game = new Game(deck);
         GameView mockView = EasyMock.createMock(GameView.class);
-        Deck mockDeck = EasyMock.createMock(Deck.class);
-        Player mockPlayer = EasyMock.createMock(Player.class);
+        List<String> players = List.of("player1", "player2");
+        game.setupGame(players);
 
-        expect(mockModel.getCurrentPlayer()).andReturn(mockPlayer);
-        expect(mockModel.getDrawPile()).andReturn(mockDeck);
-        expect(mockDeck.draw()).andThrow(new IllegalStateException("deck is empty"));
+        // empty the deck
+        while (game.getDrawPile().size() > 0) {
+            game.getDrawPile().draw();
+        }
 
-        replay(mockModel);
-        replay(mockDeck);
+        EasyMock.replay(mockView);
 
-        GameController controller = new GameController(mockModel, mockView);
+        GameController controller = new GameController(game, mockView);
 
         assertThrows(IllegalStateException.class, () -> controller.takeCard());
-
-        verify(mockModel);
-        verify(mockDeck);
     }
 
     @Test
@@ -244,7 +252,7 @@ public class GameControllerTest {
         cards.add(new Card(CardType.DEFUSE));
         cards.add(new Card(CardType.DEFUSE));
 
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 10; i++) {
             cards.add(new Card(CardType.PLACEHOLDER_CARD));
         }
         // card that will be drawn
