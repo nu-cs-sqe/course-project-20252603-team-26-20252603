@@ -14,7 +14,7 @@
         - **State of system**: Deck size = 1, Deck = [Card_X], Player hand = []
         - **Expected output**: Returns Card_X, Deck becomes [] (size = 0), Player hand = [Card_X] (size = 1)
 
-    - **TC3: takeCard_DeckSizeGreaterThanOne_ReturnsCard** (:x or :white_check_mark:)
+    - **TC3: takeCard_DeckSizeGreaterThanOne_ReturnsCard** (:white_check_mark:)
         - **State of system**: Deck size = 3, Deck = [Card_A, Card_B, Card_C], Player hand = []
         - **Expected output**: Returns Card_C, Deck becomes [Card_A, Card_B] (size = 2), Player hand = [Card_C] (size = 1)
 
