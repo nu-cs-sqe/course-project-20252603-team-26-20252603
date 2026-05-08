@@ -10,7 +10,7 @@
         - **State of system**: Deck size = 0 (empty), Player hand = []
         - **Expected output**: IllegalStateException thrown, Deck unchanged (size 0), Player hand unchanged (size 0)
 
-    - **TC2: takeCard_DeckSizeOne_ReturnsCard** (:x or :white_check_mark:)
+    - **TC2: takeCard_DeckSizeOne_ReturnsCard** (:white_check_mark:)
         - **State of system**: Deck size = 1, Deck = [Card_X], Player hand = []
         - **Expected output**: Returns Card_X, Deck becomes [] (size = 0), Player hand = [Card_X] (size = 1)
 
