@@ -1,6 +1,7 @@
 package domain.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +68,27 @@ class ShuffleCardControllerTest {
         assertEquals(0, currentPlayer.getHandSize());
         assertEquals(List.of(shuffleCard), game.getDiscardPile().snapshot());
         assertEquals(List.of(), game.getDrawPile().snapshot());
+        assertEquals(List.of(), random.getBoundsSinceReset());
+    }
+
+    @Test
+    void play_NonShuffleCard_ThrowsExceptionAndLeavesStateUnchanged() {
+        CountingZeroRandom random = new CountingZeroRandom();
+        Game game = createStartedGame(2, 3, 10, random);
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card placeholderCard = new Card(CardType.PLACEHOLDER_CARD);
+        currentPlayer.addCard(placeholderCard);
+        List<Card> drawPileBeforePlay = game.getDrawPile().snapshot();
+        ShuffleCardController controller = new ShuffleCardController();
+
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> controller.play(game, 0));
+
+        assertEquals("selected card is not a shuffle card", exception.getMessage());
+        assertEquals(List.of(placeholderCard), currentPlayer.getHandSnapshot());
+        assertEquals(List.of(), game.getDiscardPile().snapshot());
+        assertEquals(drawPileBeforePlay, game.getDrawPile().snapshot());
         assertEquals(List.of(), random.getBoundsSinceReset());
     }
 
