@@ -113,6 +113,29 @@ class ShuffleCardControllerTest {
         assertEquals(List.of(), random.getBoundsSinceReset());
     }
 
+    @Test
+    void play_IndexEqualsHandSize_ThrowsExceptionAndLeavesStateUnchanged() {
+        CountingZeroRandom random = new CountingZeroRandom();
+        Game game = createStartedGame(2, 3, 10, random);
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card shuffleCard = new Card(CardType.SHUFFLE);
+        currentPlayer.addCard(shuffleCard);
+        List<Card> drawPileBeforePlay = game.getDrawPile().snapshot();
+        ShuffleCardController controller = new ShuffleCardController();
+
+        IllegalArgumentException exception =
+                assertThrows(
+                        IllegalArgumentException.class,
+                        () -> controller.play(game, currentPlayer.getHandSize()));
+
+        assertEquals("cardIndex is out of bounds", exception.getMessage());
+        assertEquals(List.of(shuffleCard), currentPlayer.getHandSnapshot());
+        assertEquals(List.of(), game.getDiscardPile().snapshot());
+        assertEquals(drawPileBeforePlay, game.getDrawPile().snapshot());
+        assertEquals(List.of(), random.getBoundsSinceReset());
+    }
+
     private Game createStartedGame(
             int explodingKittens, int defuses, int others, CountingZeroRandom random) {
         Game game = new Game(createDeck(explodingKittens, defuses, others, random));
