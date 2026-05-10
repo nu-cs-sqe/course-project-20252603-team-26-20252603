@@ -50,6 +50,26 @@ class ShuffleCardControllerTest {
         assertEquals(List.of(), random.getBoundsSinceReset());
     }
 
+    @Test
+    void play_ShuffleOnlyCardWithEmptyDrawPile_DiscardsShuffleAndLeavesDrawPileEmpty() {
+        CountingZeroRandom random = new CountingZeroRandom();
+        Game game = createStartedGame(1, 2, 10, random);
+        game.getDrawPile().draw();
+        random.resetCalls();
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card shuffleCard = new Card(CardType.SHUFFLE);
+        currentPlayer.addCard(shuffleCard);
+        ShuffleCardController controller = new ShuffleCardController();
+
+        controller.play(game, 0);
+
+        assertEquals(0, currentPlayer.getHandSize());
+        assertEquals(List.of(shuffleCard), game.getDiscardPile().snapshot());
+        assertEquals(List.of(), game.getDrawPile().snapshot());
+        assertEquals(List.of(), random.getBoundsSinceReset());
+    }
+
     private Game createStartedGame(
             int explodingKittens, int defuses, int others, CountingZeroRandom random) {
         Game game = new Game(createDeck(explodingKittens, defuses, others, random));
