@@ -29,6 +29,27 @@ class ShuffleCardControllerTest {
         assertEquals(List.of(2), random.getBoundsSinceReset());
     }
 
+    @Test
+    void play_ShuffleAtLastIndexWithOneCardDrawPile_DiscardsShuffleAndLeavesDrawPile() {
+        CountingZeroRandom random = new CountingZeroRandom();
+        Game game = createStartedGame(1, 2, 10, random);
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card placeholderCard = new Card(CardType.PLACEHOLDER_CARD);
+        Card shuffleCard = new Card(CardType.SHUFFLE);
+        currentPlayer.addCard(placeholderCard);
+        currentPlayer.addCard(shuffleCard);
+        List<Card> drawPileBeforeShuffle = game.getDrawPile().snapshot();
+        ShuffleCardController controller = new ShuffleCardController();
+
+        controller.play(game, 1);
+
+        assertEquals(List.of(placeholderCard), currentPlayer.getHandSnapshot());
+        assertEquals(List.of(shuffleCard), game.getDiscardPile().snapshot());
+        assertEquals(drawPileBeforeShuffle, game.getDrawPile().snapshot());
+        assertEquals(List.of(), random.getBoundsSinceReset());
+    }
+
     private Game createStartedGame(
             int explodingKittens, int defuses, int others, CountingZeroRandom random) {
         Game game = new Game(createDeck(explodingKittens, defuses, others, random));
