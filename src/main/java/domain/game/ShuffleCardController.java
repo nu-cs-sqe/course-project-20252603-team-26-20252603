@@ -16,6 +16,8 @@ public final class ShuffleCardController {
 
         currentPlayer.removeCard(cardIndex);
         game.getDiscardPile().add(shuffleCard);
+        // The physical "tell you to stop" step is modeled as one complete random draw-pile shuffle.
+        // if we wanted it to be exactly like the rules, it would be a way more complicated implementation involving asking the next player to "stop"
         game.getDrawPile().shuffle();
     }
 }
