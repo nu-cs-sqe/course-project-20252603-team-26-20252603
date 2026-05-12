@@ -25,4 +25,12 @@ public class GameController {
            view.displayError(e.getMessage());
        }
     }
+
+    public Card takeCard() {
+        Player currentPlayer = model.getCurrentPlayer();
+        Card drawnCard = model.getDrawPile().draw();
+        currentPlayer.addCard(drawnCard);
+        view.displayCardDrawn(drawnCard);
+        return drawnCard;
+    }
 }
