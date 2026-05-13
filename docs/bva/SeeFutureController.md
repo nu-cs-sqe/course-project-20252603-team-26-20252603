@@ -71,7 +71,7 @@
   - **State of system**: Player hand = [`DEFUSE`], `cardIndex = 0`
   - **Expected output**: `IllegalArgumentException` thrown.
 
-- **TC12: playSeeFuture_NegativeIndex_ThrowsException** (:x:)
+- **TC12: playSeeFuture_NegativeIndex_ThrowsException** (:white_check_mark:)
   - **State of system**: Player hand = [`SEE_THE_FUTURE`], `cardIndex = -1`
   - **Expected output**: Exception thrown.
 

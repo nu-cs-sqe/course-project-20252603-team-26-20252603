@@ -131,4 +131,17 @@ public class SeeFutureControllerTest {
         assertThrows(IllegalArgumentException.class,
                 () -> controller.play(player, 0));
     }
+
+    @Test
+    void playSeeFuture_NegativeIndex_ThrowsException() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.SEE_THE_FUTURE));
+
+        Deck drawPile = new Deck(List.of());
+        DiscardPile discardPile = new DiscardPile();
+        SeeFutureController controller = new SeeFutureController(drawPile, discardPile);
+
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> controller.play(player, -1));
+    }
 }
