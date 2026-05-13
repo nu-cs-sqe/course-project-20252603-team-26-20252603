@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SeeFutureControllerTest {
     @Test
@@ -48,5 +49,12 @@ public class SeeFutureControllerTest {
 
         assertEquals(List.of(firstCard, secondCard), viewedCards);
 
+    }
+
+    @Test
+    void peekTopCards_NegativeCount_ThrowsException() {
+        Deck deck = new Deck(List.of(new Card(CardType.DEFUSE)));
+
+        assertThrows(IllegalArgumentException.class, () -> deck.peekTopCards(-1));
     }
 }

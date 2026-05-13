@@ -27,7 +27,7 @@
     - **State of system**: Deck = [`DEFUSE`, `BEARD_CAT`, `EXPLODING_KITTEN`], `count = 2`
     - **Expected output**: Returns [`EXPLODING_KITTEN`, `BEARD_CAT`].
 
-- **TC5: peekTopCards_NegativeCount_ThrowsException** (:x:)
+- **TC5: peekTopCards_NegativeCount_ThrowsException** (:white_check_mark:)
     - **State of system**: Deck has cards, `count = -1`
     - **Expected output**: `IllegalArgumentException` thrown.
 
