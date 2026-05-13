@@ -34,4 +34,10 @@ class CardTest {
 
         assertEquals("type must not be null", exception.getMessage());
     }
+    @Test
+    void constructorStoresSeeTheFutureCardType() {
+        Card card = new Card(CardType.SEE_THE_FUTURE);
+
+        assertEquals(CardType.SEE_THE_FUTURE, card.getType());
+    }
 }
