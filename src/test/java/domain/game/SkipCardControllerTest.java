@@ -2,8 +2,7 @@ package domain.game;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SkipCardControllerTest {
     @Test
@@ -44,5 +43,17 @@ public class SkipCardControllerTest {
 
         assertEquals(1, discardPile.size());
         assertEquals(CardType.SKIP, discardPile.snapshot().get(0).getType());
+    }
+
+    @Test
+    void playSkip_SelectedCardIsDefuse_ThrowsException() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.DEFUSE));
+
+        DiscardPile discardPile = new DiscardPile();
+        SkipController controller = new SkipController(discardPile);
+
+        assertThrows(IllegalArgumentException.class,
+                () -> controller.play(player, 0));
     }
 }

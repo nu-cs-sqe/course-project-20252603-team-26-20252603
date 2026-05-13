@@ -31,7 +31,7 @@
     - **State of system**: Player hand = [`SKIP`], discard pile is empty
     - **Expected output**: Discard pile size becomes 1 and contains `SKIP`.
 
-- **TC5: playSkip_SelectedCardIsDefuse_ThrowsException** (:x:)
+- **TC5: playSkip_SelectedCardIsDefuse_ThrowsException** (:white_check_mark:)
     - **State of system**: Player hand = [`DEFUSE`], `cardIndex = 0`
     - **Expected output**: `IllegalArgumentException` thrown.
 
