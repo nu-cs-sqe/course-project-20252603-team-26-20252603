@@ -1,6 +1,7 @@
 package domain.game;
 
 import org.junit.jupiter.api.Test;
+import ui.GameView;
 
 import java.util.List;
 
@@ -166,5 +167,12 @@ public class SeeFutureControllerTest {
 
         assertThrows(NullPointerException.class,
                 () -> controller.play(null, 0));
+    }
+
+    @Test
+    void displaySeeTheFutureCards_EmptyList_PrintsNoCardsMessage() {
+        GameView view = new GameView();
+
+        view.displaySeeTheFutureCards(List.of());
     }
 }

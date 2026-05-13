@@ -92,7 +92,7 @@
 
 ### Test Cases
 
-- **TC15: displaySeeTheFutureCards_EmptyList_PrintsNoCardsMessage** (:x:)
+- **TC15: displaySeeTheFutureCards_EmptyList_PrintsNoCardsMessage** (:white_check_mark:)
   - **State of system**: `cards = []`
   - **Expected output**: Prints that there are no cards to view.
 

@@ -6,7 +6,7 @@ public class SeeFutureController {
     private Deck drawPile;
     private DiscardPile discardPile;
     private static final String SEE_FUTURE_REQUIRED_MESSAGE = "card must be See the Future";
-    private static final String PLAYER_NOT_NULL_MESSAGE = "player must not be null)";
+    private static final String PLAYER_NOT_NULL_MESSAGE = "player must not be null";
     public SeeFutureController(Deck drawPile, DiscardPile discardPile) {
         this.drawPile = drawPile;
         this.discardPile = discardPile;
