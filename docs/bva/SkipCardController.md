@@ -4,7 +4,7 @@
 
 ### Test Cases
 
-- **TC1: constructorStoresSkipCardType** (:x:)
+- **TC1: constructorStoresSkipCardType** (:white_check_mark:)
     - **State of system**: Create `new Card(CardType.SKIP)`
     - **Expected output**: `card.getType()` returns `SKIP`.
 
