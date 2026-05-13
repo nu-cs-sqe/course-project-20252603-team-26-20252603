@@ -82,3 +82,28 @@
 - **TC14: playSeeFuture_NullPlayer_ThrowsException** (:x:)
   - **State of system**: `player = null`
   - **Expected output**: Exception thrown.
+
+## Method under test 3: `GameView.displaySeeTheFutureCards(List<Card> cards)`
+
+| Step 1 | Step 2 | Step 3 |
+|---|---|---|
+| Input 1: `cards` | List / Object Reference | Values: <ul><li>`cards` is `null`</li><li>`cards` is empty</li><li>`cards` has 1 card</li><li>`cards` has 2 cards</li></ul> |
+| Output | Terminal Display / Exception | Values: <ul><li>Displays no-card message for empty list</li><li>Displays one numbered card when list has 1 card</li><li>Displays two numbered cards when list has 2 cards</li><li>Throws exception for null list</li></ul> |
+
+### Test Cases
+
+- **TC15: displaySeeTheFutureCards_EmptyList_PrintsNoCardsMessage** (:x:)
+  - **State of system**: `cards = []`
+  - **Expected output**: Prints that there are no cards to view.
+
+- **TC16: displaySeeTheFutureCards_OneCard_PrintsOneCard** (:x:)
+  - **State of system**: `cards = [`EXPLODING_KITTEN`]`
+  - **Expected output**: Prints one numbered card.
+
+- **TC17: displaySeeTheFutureCards_TwoCards_PrintsTwoCards** (:x:)
+  - **State of system**: `cards = [`EXPLODING_KITTEN`, `DEFUSE`]`
+  - **Expected output**: Prints two numbered cards.
+
+- **TC18: displaySeeTheFutureCards_NullList_ThrowsException** (:x:)
+  - **State of system**: `cards = null`
+  - **Expected output**: `NullPointerException` thrown.
