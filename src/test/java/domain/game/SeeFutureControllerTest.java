@@ -175,4 +175,13 @@ public class SeeFutureControllerTest {
 
         view.displaySeeTheFutureCards(List.of());
     }
+
+    @Test
+    void displaySeeTheFutureCards_OneCard_PrintsOneCard() {
+        GameView view = new GameView();
+
+        view.displaySeeTheFutureCards(List.of(
+                new Card(CardType.EXPLODING_KITTEN)
+        ));
+    }
 }

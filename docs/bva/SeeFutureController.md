@@ -96,7 +96,7 @@
   - **State of system**: `cards = []`
   - **Expected output**: Prints that there are no cards to view.
 
-- **TC16: displaySeeTheFutureCards_OneCard_PrintsOneCard** (:x:)
+- **TC16: displaySeeTheFutureCards_OneCard_PrintsOneCard** (:white_check_mark:)
   - **State of system**: `cards = [`EXPLODING_KITTEN`]`
   - **Expected output**: Prints one numbered card.
 
