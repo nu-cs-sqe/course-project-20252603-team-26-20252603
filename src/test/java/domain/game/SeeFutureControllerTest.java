@@ -144,4 +144,17 @@ public class SeeFutureControllerTest {
         assertThrows(IndexOutOfBoundsException.class,
                 () -> controller.play(player, -1));
     }
+
+    @Test
+    void playSeeFuture_IndexEqualsHandSize_ThrowsException() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.SEE_THE_FUTURE));
+
+        Deck drawPile = new Deck(List.of());
+        DiscardPile discardPile = new DiscardPile();
+        SeeFutureController controller = new SeeFutureController(drawPile, discardPile);
+
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> controller.play(player, 1));
+    }
 }

@@ -75,7 +75,7 @@
   - **State of system**: Player hand = [`SEE_THE_FUTURE`], `cardIndex = -1`
   - **Expected output**: Exception thrown.
 
-- **TC13: playSeeFuture_IndexEqualsHandSize_ThrowsException** (:x:)
+- **TC13: playSeeFuture_IndexEqualsHandSize_ThrowsException** (:white_check_mark:)
   - **State of system**: Player hand = [`SEE_THE_FUTURE`], `getHandSize() = 1`, `cardIndex = 1`
   - **Expected output**: Exception thrown.
 
