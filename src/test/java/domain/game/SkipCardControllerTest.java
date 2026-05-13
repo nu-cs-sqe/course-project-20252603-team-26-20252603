@@ -18,4 +18,17 @@ public class SkipCardControllerTest {
 
         assertTrue(skipped);
     }
+
+    @Test
+    void playSkip_RemovesCardFromHand() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.SKIP));
+
+        DiscardPile discardPile = new DiscardPile();
+        SkipController controller = new SkipController(discardPile);
+
+        controller.play(player, 0);
+
+        assertEquals(0, player.getHandSize());
+    }
 }

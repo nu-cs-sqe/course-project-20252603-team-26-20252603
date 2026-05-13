@@ -23,7 +23,7 @@
     - **State of system**: Player hand = [`SKIP`], `cardIndex = 0`
     - **Expected output**: Returns `true`.
 
-- **TC3: playSkip_RemovesCardFromHand** (:x:)
+- **TC3: playSkip_RemovesCardFromHand** (:white_check_mark:)
     - **State of system**: Player hand = [`SKIP`]
     - **Expected output**: Player hand size decreases to 0.
 

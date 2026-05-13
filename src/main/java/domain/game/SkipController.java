@@ -8,6 +8,9 @@ public class SkipController {
     }
 
     public boolean play(Player player, int cardIndex) {
+        Card selectedCard = player.getHandSnapshot().get(cardIndex);
+
+        player.removeCard(cardIndex);
         return true;
     }
 }
