@@ -19,7 +19,7 @@
     - **State of system**: Player hand = [`SEE_THE_FUTURE`], draw pile = [`DEFUSE`]
     - **Expected output**: Returns [`DEFUSE`].
 
-- **TC3: playSeeFuture_TwoCardsInDrawPile_ReturnsTopTwoCards** (:x:)
+- **TC3: playSeeFuture_TwoCardsInDrawPile_ReturnsTopTwoCards** (:white_check_mark:)
     - **State of system**: Player hand = [`SEE_THE_FUTURE`], draw pile has 2 cards
     - **Expected output**: Returns the top 2 cards in draw order.
 

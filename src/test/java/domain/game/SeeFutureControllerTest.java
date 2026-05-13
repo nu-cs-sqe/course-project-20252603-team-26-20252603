@@ -24,4 +24,16 @@ public class SeeFutureControllerTest {
 
         assertEquals(List.of(topCard), viewedCards);
     }
+
+    @Test
+    void peekTopCards_DoesNotRemoveCardsFromDeck() {
+        Card firstCard = new Card(CardType.DEFUSE);
+        Card secondCard = new Card(CardType.EXPLODING_KITTEN);
+        Deck deck = new Deck(List.of(secondCard, firstCard));
+
+        deck.peekTopCards(2);
+
+        assertEquals(2, deck.size());
+        assertEquals(List.of(secondCard, firstCard), deck.snapshot());
+    }
 }
