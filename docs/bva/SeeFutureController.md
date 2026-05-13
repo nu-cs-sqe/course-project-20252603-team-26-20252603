@@ -63,7 +63,7 @@
   - **State of system**: Player hand = [`SEE_THE_FUTURE`], `cardIndex = 0`
   - **Expected output**: Player hand size decreases to 0.
 
-- **TC10: playSeeFuture_AddsCardToDiscardPile** (:x:)
+- **TC10: playSeeFuture_AddsCardToDiscardPile** (:white_check_mark:)
   - **State of system**: Player hand = [`SEE_THE_FUTURE`], discard pile is empty
   - **Expected output**: Discard pile size becomes 1 and contains `SEE_THE_FUTURE`.
 
