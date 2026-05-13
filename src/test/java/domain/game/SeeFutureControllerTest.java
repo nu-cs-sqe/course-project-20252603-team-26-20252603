@@ -89,4 +89,19 @@ public class SeeFutureControllerTest {
 
         assertEquals(List.of(firstCard, secondCard), viewedCards);
     }
+
+    @Test
+    void playSeeFuture_RemovesCardFromHand() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.SEE_THE_FUTURE));
+
+        Deck drawPile = new Deck(List.of());
+        DiscardPile discardPile = new DiscardPile();
+        SeeFutureController controller = new SeeFutureController(drawPile, discardPile);
+
+        controller.play(player, 0);
+
+        assertEquals(0, player.getHandSize());
+
+    }
 }

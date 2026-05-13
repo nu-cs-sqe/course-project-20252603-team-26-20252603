@@ -59,7 +59,7 @@
   - **State of system**: Player hand = [`SEE_THE_FUTURE`], draw pile = [`DEFUSE`, `BEARD_CAT`, `EXPLODING_KITTEN`], `cardIndex = 0`
   - **Expected output**: Returns [`EXPLODING_KITTEN`, `BEARD_CAT`].
 
-- **TC9: playSeeFuture_RemovesCardFromHand** (:x:)
+- **TC9: playSeeFuture_RemovesCardFromHand** (:white_check_mark:)
   - **State of system**: Player hand = [`SEE_THE_FUTURE`], `cardIndex = 0`
   - **Expected output**: Player hand size decreases to 0.
 

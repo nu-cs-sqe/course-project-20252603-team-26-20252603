@@ -12,6 +12,8 @@ public class SeeFutureController {
     }
 
     public List<Card> play(Player player, int cardIndex) {
+        Card selectedCard = player.getHandSnapshot().get(cardIndex);
+        player.removeCard(cardIndex);
         return drawPile.peekTopCards(2);
     }
 
