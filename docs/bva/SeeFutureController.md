@@ -9,4 +9,20 @@
 | Input 4: draw pile size | Deck Size | Values: <ul><li>Draw pile has 0 cards</li><li>Draw pile has 1 card</li><li>Draw pile has exactly 2 cards</li><li>Draw pile has more than 2 cards</li></ul> |
 | Output | List / Exception / State Change | Values: <ul><li>Returns empty list when draw pile is empty</li><li>Returns 1 card when draw pile has 1 card</li><li>Returns top 2 cards when draw pile has 2 or more cards</li><li>Draw pile order and size stay unchanged</li><li>`SEE_THE_FUTURE` card is removed from player hand</li><li>`SEE_THE_FUTURE` card is added to discard pile</li><li>Exception thrown for invalid player, invalid index, or wrong card type</li></ul> |
 
+## Step 4: Test Cases
 
+- **TC1: playSeeFuture_EmptyDrawPile_ReturnsEmptyList** (:white_check_mark:)
+    - **State of system**: Player hand = [`SEE_THE_FUTURE`], draw pile = []
+    - **Expected output**: Returns empty list.
+
+- **TC2: playSeeFuture_OneCardInDrawPile_ReturnsOneCard** (:white_check_mark:)
+    - **State of system**: Player hand = [`SEE_THE_FUTURE`], draw pile = [`DEFUSE`]
+    - **Expected output**: Returns [`DEFUSE`].
+
+- **TC3: playSeeFuture_TwoCardsInDrawPile_ReturnsTopTwoCards** (:white_check_mark:)
+    - **State of system**: Player hand = [`SEE_THE_FUTURE`], draw pile has 2 cards
+    - **Expected output**: Returns the top 2 cards in draw order.
+
+- **TC4: playSeeFuture_ThreeCardsInDrawPile_ReturnsOnlyTopTwoCards** (:white_check_mark:)
+    - **State of system**: Player hand = [`SEE_THE_FUTURE`], draw pile has 3 cards
+    - **Expected output**: Returns only 2 cards.
