@@ -19,7 +19,7 @@
 
 ### Test Cases
 
-- **TC2: playSkip_ReturnsTrue** (:x:)
+- **TC2: playSkip_ReturnsTrue** (:white_check_mark:)
     - **State of system**: Player hand = [`SKIP`], `cardIndex = 0`
     - **Expected output**: Returns `true`.
 

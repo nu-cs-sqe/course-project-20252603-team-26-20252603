@@ -3,12 +3,19 @@ package domain.game;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SkipCardControllerTest {
     @Test
-    void constructorStoresSkipCardType() {
-        Card card = new Card(CardType.SKIP);
+    void playSkip_ReturnsTrue() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.SKIP));
 
-        assertEquals(CardType.SKIP, card.getType());
+        DiscardPile discardPile = new DiscardPile();
+        SkipController controller = new SkipController(discardPile);
+
+        boolean skipped = controller.play(player, 0);
+
+        assertTrue(skipped);
     }
 }
