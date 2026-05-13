@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import domain.game.Card;
+
 public class GameView {
     private Scanner scanner;
     public GameView() {
@@ -35,5 +37,9 @@ public class GameView {
 
     public void displayError(String message) {
         System.out.println("Error: " + message);
+    }
+
+    public void displayCardDrawn (Card card) {
+        System.out.println("You drew: " + card.getType());
     }
 }
