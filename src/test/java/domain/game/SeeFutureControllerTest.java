@@ -16,7 +16,7 @@ public class SeeFutureControllerTest {
     }
 
     @Test
-    void playSeeFuture_OneCardInDrawPile_ReturnsOneCard() {
+    void peekTopCards_OneCardDeck_ReturnsOneCard() {
         Card topCard = new Card(CardType.DEFUSE);
         Deck deck = new Deck(List.of(topCard));
 
