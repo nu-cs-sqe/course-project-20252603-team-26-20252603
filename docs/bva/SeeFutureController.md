@@ -42,3 +42,19 @@
 - **TC8: playSeeFuture_SelectedCardIsDefuse_ThrowsException** (:x:)
     - **State of system**: Player hand = [`DEFUSE`], `cardIndex = 0`
     - **Expected output**: `IllegalArgumentException` thrown.
+
+- **TC9: playSeeFuture_NegativeIndex_ThrowsException** (:x:)
+    - **State of system**: Player hand = [`SEE_THE_FUTURE`], `cardIndex = -1`
+    - **Expected output**: `IllegalArgumentException` thrown.
+
+- **TC10: playSeeFuture_IndexEqualsHandSize_ThrowsException** (:x:)
+    - **State of system**: Player hand = [`SEE_THE_FUTURE`], `getHandSize() = 1`, `cardIndex = 1`
+    - **Expected output**: `IllegalArgumentException` thrown.
+
+- **TC11: playSeeFuture_NullPlayer_ThrowsException** (:x:)
+    - **State of system**: `player = null`
+    - **Expected output**: `NullPointerException` or `IllegalArgumentException` thrown.
+
+- **TC12: playSeeFuture_HandEmpty_ThrowsException** (:x:)
+    - **State of system**: Player hand = [] (`getHandSize() = 0`), `cardIndex = 0`
+    - **Expected output**: `IllegalArgumentException` thrown.
