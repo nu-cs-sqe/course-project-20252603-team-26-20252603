@@ -68,4 +68,16 @@ public class SkipCardControllerTest {
         assertThrows(IndexOutOfBoundsException.class,
                 () -> controller.play(player, -1));
     }
+
+    @Test
+    void playSkip_IndexEqualsHandSize_ThrowsException() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.SKIP));
+
+        DiscardPile discardPile = new DiscardPile();
+        SkipController controller = new SkipController(discardPile);
+
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> controller.play(player, 1));
+    }
 }
