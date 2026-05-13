@@ -35,7 +35,7 @@
     - **State of system**: Player hand = [`DEFUSE`], `cardIndex = 0`
     - **Expected output**: `IllegalArgumentException` thrown.
 
-- **TC6: playSkip_NegativeIndex_ThrowsException** (:x:)
+- **TC6: playSkip_NegativeIndex_ThrowsException** (:white_check_mark:)
     - **State of system**: Player hand = [`SKIP`], `cardIndex = -1`
     - **Expected output**: Exception thrown.
 

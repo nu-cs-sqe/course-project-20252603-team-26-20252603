@@ -56,4 +56,16 @@ public class SkipCardControllerTest {
         assertThrows(IllegalArgumentException.class,
                 () -> controller.play(player, 0));
     }
+
+    @Test
+    void playSkip_NegativeIndex_ThrowsException() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.SKIP));
+
+        DiscardPile discardPile = new DiscardPile();
+        SkipController controller = new SkipController(discardPile);
+
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> controller.play(player, -1));
+    }
 }
