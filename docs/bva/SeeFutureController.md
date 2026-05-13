@@ -67,7 +67,7 @@
   - **State of system**: Player hand = [`SEE_THE_FUTURE`], discard pile is empty
   - **Expected output**: Discard pile size becomes 1 and contains `SEE_THE_FUTURE`.
 
-- **TC11: playSeeFuture_SelectedCardIsDefuse_ThrowsException** (:x:)
+- **TC11: playSeeFuture_SelectedCardIsDefuse_ThrowsException** (:white_check_mark:)
   - **State of system**: Player hand = [`DEFUSE`], `cardIndex = 0`
   - **Expected output**: `IllegalArgumentException` thrown.
 

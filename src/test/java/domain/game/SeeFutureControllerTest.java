@@ -118,4 +118,17 @@ public class SeeFutureControllerTest {
         assertEquals(1, discardPile.size());
         assertEquals(CardType.SEE_THE_FUTURE, discardPile.snapshot().get(0).getType());
     }
+
+    @Test
+    void playSeeFuture_SelectedCardIsDefuse_ThrowsException() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.DEFUSE));
+
+        Deck drawPile = new Deck(List.of());
+        DiscardPile discardPile = new DiscardPile();
+        SeeFutureController controller = new SeeFutureController(drawPile, discardPile);
+
+        assertThrows(IllegalArgumentException.class,
+                () -> controller.play(player, 0));
+    }
 }
