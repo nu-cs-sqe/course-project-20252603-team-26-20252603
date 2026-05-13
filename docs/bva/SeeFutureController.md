@@ -11,11 +11,11 @@
 
 ## Step 4: Test Cases
 
-- **TC1: playSeeFuture_EmptyDrawPile_ReturnsEmptyList** (:x:)
+- **TC1: playSeeFuture_EmptyDrawPile_ReturnsEmptyList** (:white_check_mark:)
     - **State of system**: Player hand = [`SEE_THE_FUTURE`], draw pile = []
     - **Expected output**: Returns empty list.
 
-- **TC2: playSeeFuture_OneCardInDrawPile_ReturnsOneCard** (:x:)
+- **TC2: playSeeFuture_OneCardInDrawPile_ReturnsOneCard** (:white_check_mark:)
     - **State of system**: Player hand = [`SEE_THE_FUTURE`], draw pile = [`DEFUSE`]
     - **Expected output**: Returns [`DEFUSE`].
 

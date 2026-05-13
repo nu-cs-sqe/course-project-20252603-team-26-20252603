@@ -14,4 +14,14 @@ public class SeeFutureControllerTest {
 
         assertEquals(0, viewedCards.size());
     }
+
+    @Test
+    void playSeeFuture_OneCardInDrawPile_ReturnsOneCard() {
+        Card topCard = new Card(CardType.DEFUSE);
+        Deck deck = new Deck(List.of(topCard));
+
+        List<Card> viewedCards = deck.peekTopCards(2);
+
+        assertEquals(List.of(topCard), viewedCards);
+    }
 }
