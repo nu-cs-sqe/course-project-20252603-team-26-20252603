@@ -184,4 +184,14 @@ public class SeeFutureControllerTest {
                 new Card(CardType.EXPLODING_KITTEN)
         ));
     }
+
+    @Test
+    void displaySeeTheFutureCards_TwoCards_PrintsTwoCards() {
+        GameView view = new GameView();
+
+        view.displaySeeTheFutureCards(List.of(
+                new Card(CardType.EXPLODING_KITTEN),
+                new Card(CardType.DEFUSE)
+        ));
+    }
 }

@@ -100,7 +100,7 @@
   - **State of system**: `cards = [`EXPLODING_KITTEN`]`
   - **Expected output**: Prints one numbered card.
 
-- **TC17: displaySeeTheFutureCards_TwoCards_PrintsTwoCards** (:x:)
+- **TC17: displaySeeTheFutureCards_TwoCards_PrintsTwoCards** (:white_check_mark:)
   - **State of system**: `cards = [`EXPLODING_KITTEN`, `DEFUSE`]`
   - **Expected output**: Prints two numbered cards.
 
