@@ -157,4 +157,14 @@ public class SeeFutureControllerTest {
         assertThrows(IndexOutOfBoundsException.class,
                 () -> controller.play(player, 1));
     }
+
+    @Test
+    void playSeeFuture_NullPlayer_ThrowsException() {
+        Deck drawPile = new Deck(List.of());
+        DiscardPile discardPile = new DiscardPile();
+        SeeFutureController controller = new SeeFutureController(drawPile, discardPile);
+
+        assertThrows(NullPointerException.class,
+                () -> controller.play(null, 0));
+    }
 }

@@ -79,7 +79,7 @@
   - **State of system**: Player hand = [`SEE_THE_FUTURE`], `getHandSize() = 1`, `cardIndex = 1`
   - **Expected output**: Exception thrown.
 
-- **TC14: playSeeFuture_NullPlayer_ThrowsException** (:x:)
+- **TC14: playSeeFuture_NullPlayer_ThrowsException** (:white_check_mark:)
   - **State of system**: `player = null`
   - **Expected output**: Exception thrown.
 
