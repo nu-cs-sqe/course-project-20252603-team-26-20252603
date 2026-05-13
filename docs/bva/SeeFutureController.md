@@ -104,6 +104,6 @@
   - **State of system**: `cards = [`EXPLODING_KITTEN`, `DEFUSE`]`
   - **Expected output**: Prints two numbered cards.
 
-- **TC18: displaySeeTheFutureCards_NullList_ThrowsException** (:x:)
+- **TC18: displaySeeTheFutureCards_NullList_ThrowsException** (:white_check_mark:)
   - **State of system**: `cards = null`
   - **Expected output**: `NullPointerException` thrown.

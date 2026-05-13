@@ -194,4 +194,12 @@ public class SeeFutureControllerTest {
                 new Card(CardType.DEFUSE)
         ));
     }
+
+    @Test
+    void displaySeeTheFutureCards_NullList_ThrowsException() {
+        GameView view = new GameView();
+
+        assertThrows(NullPointerException.class,
+                () -> view.displaySeeTheFutureCards(null));
+    }
 }
