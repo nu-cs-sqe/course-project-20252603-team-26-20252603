@@ -55,7 +55,7 @@
 
 ### Test Cases
 
-- **TC8: playSeeFuture_ReturnsTopTwoCards** (:x:)
+- **TC8: playSeeFuture_ReturnsTopTwoCards** (:white_check_mark:)
   - **State of system**: Player hand = [`SEE_THE_FUTURE`], draw pile = [`DEFUSE`, `BEARD_CAT`, `EXPLODING_KITTEN`], `cardIndex = 0`
   - **Expected output**: Returns [`EXPLODING_KITTEN`, `BEARD_CAT`].
 

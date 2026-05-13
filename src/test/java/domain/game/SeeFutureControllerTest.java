@@ -71,4 +71,22 @@ public class SeeFutureControllerTest {
 
         assertEquals(CardType.SEE_THE_FUTURE, card.getType());
     }
+
+    @Test
+    void playSeeFuture_ReturnsTopTwoCards() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.SEE_THE_FUTURE));
+
+        Card thirdCard = new Card(CardType.DEFUSE);
+        Card secondCard = new Card(CardType.BEARD_CAT);
+        Card firstCard = new Card(CardType.EXPLODING_KITTEN);
+
+        Deck drawPile = new Deck(List.of(thirdCard, secondCard, firstCard));
+        DiscardPile discardPile = new DiscardPile();
+        SeeFutureController controller = new SeeFutureController(drawPile, discardPile);
+
+        List<Card> viewedCards = controller.play(player, 0);
+
+        assertEquals(List.of(firstCard, secondCard), viewedCards);
+    }
 }
