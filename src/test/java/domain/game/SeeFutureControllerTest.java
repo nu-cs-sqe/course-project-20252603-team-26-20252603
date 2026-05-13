@@ -36,4 +36,17 @@ public class SeeFutureControllerTest {
         assertEquals(2, deck.size());
         assertEquals(List.of(secondCard, firstCard), deck.snapshot());
     }
+
+    @Test
+    void peekTopCards_ThreeCardDeck_ReturnsOnlyTopTwoCards() {
+        Card thirdCard = new Card(CardType.DEFUSE);
+        Card secondCard = new Card(CardType.BEARD_CAT);
+        Card firstCard = new Card(CardType.EXPLODING_KITTEN);
+
+        Deck deck = new Deck(List.of(thirdCard, secondCard, firstCard));
+        List<Card> viewedCards = deck.peekTopCards(2);
+
+        assertEquals(List.of(firstCard, secondCard), viewedCards);
+
+    }
 }

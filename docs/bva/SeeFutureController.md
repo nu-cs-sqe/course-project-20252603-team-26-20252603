@@ -23,7 +23,7 @@
     - **State of system**: Deck = [`EXPLODING_KITTEN`, `DEFUSE`], `count = 2`
     - **Expected output**: Deck size stays 2 and deck order stays [`EXPLODING_KITTEN`, `DEFUSE`].
 
-- **TC4: peekTopCards_ThreeCardDeck_ReturnsOnlyTopTwoCards** (:x:)
+- **TC4: peekTopCards_ThreeCardDeck_ReturnsOnlyTopTwoCards** (:white_check_mark:)
     - **State of system**: Deck = [`DEFUSE`, `BEARD_CAT`, `EXPLODING_KITTEN`], `count = 2`
     - **Expected output**: Returns [`EXPLODING_KITTEN`, `BEARD_CAT`].
 
