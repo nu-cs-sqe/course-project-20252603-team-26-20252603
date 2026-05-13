@@ -80,4 +80,14 @@ public class SkipCardControllerTest {
         assertThrows(IndexOutOfBoundsException.class,
                 () -> controller.play(player, 1));
     }
+
+    @Test
+    void playSkip_NullPlayer_ThrowsException() {
+        DiscardPile discardPile = new DiscardPile();
+        SkipController controller = new SkipController(discardPile);
+
+        assertThrows(NullPointerException.class,
+                () -> controller.play(null, 0));
+    }
+
 }

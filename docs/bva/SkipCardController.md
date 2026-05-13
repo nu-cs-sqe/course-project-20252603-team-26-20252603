@@ -43,6 +43,6 @@
     - **State of system**: Player hand = [`SKIP`], `getHandSize() = 1`, `cardIndex = 1`
     - **Expected output**: Exception thrown.
 
-- **TC8: playSkip_NullPlayer_ThrowsException** (:x:)
+- **TC8: playSkip_NullPlayer_ThrowsException** (:white_check_mark:)
     - **State of system**: `player = null`
     - **Expected output**: Exception thrown.

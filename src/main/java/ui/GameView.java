@@ -42,4 +42,8 @@ public class GameView {
     public void displayCardDrawn (Card card) {
         System.out.println("You drew: " + card.getType());
     }
+
+    public void displayMessage(String message) {
+        System.out.println(message);
+    }
 }
