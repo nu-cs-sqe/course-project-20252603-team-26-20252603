@@ -31,6 +31,6 @@
     - **State of system**: Deck has cards, `count = -1`
     - **Expected output**: `IllegalArgumentException` thrown.
 
-- **TC6: peekTopCards_CountZero_ReturnsEmptyList** (:x:)
+- **TC6: peekTopCards_CountZero_ReturnsEmptyList** (:white_check_mark:)
     - **State of system**: Deck has cards, `count = 0`
     - **Expected output**: Returns empty list.

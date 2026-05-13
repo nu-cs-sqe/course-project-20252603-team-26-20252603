@@ -57,4 +57,12 @@ public class SeeFutureControllerTest {
 
         assertThrows(IllegalArgumentException.class, () -> deck.peekTopCards(-1));
     }
+    @Test
+    void peekTopCards_CountZero_ReturnsEmptyList() {
+        Deck deck = new Deck(List.of(new Card(CardType.DEFUSE)));
+
+        List<Card> viewedCards = deck.peekTopCards(0);
+
+        assertEquals(0, viewedCards.size());
+    }
 }
