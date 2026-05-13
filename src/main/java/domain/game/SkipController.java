@@ -11,6 +11,7 @@ public class SkipController {
         Card selectedCard = player.getHandSnapshot().get(cardIndex);
 
         player.removeCard(cardIndex);
+        discardPile.add(selectedCard);
         return true;
     }
 }

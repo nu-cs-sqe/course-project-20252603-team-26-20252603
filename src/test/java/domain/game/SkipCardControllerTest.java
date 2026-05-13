@@ -31,4 +31,18 @@ public class SkipCardControllerTest {
 
         assertEquals(0, player.getHandSize());
     }
+
+    @Test
+    void playSkip_AddsCardToDiscardPile() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.SKIP));
+
+        DiscardPile discardPile = new DiscardPile();
+        SkipController controller = new SkipController(discardPile);
+
+        controller.play(player, 0);
+
+        assertEquals(1, discardPile.size());
+        assertEquals(CardType.SKIP, discardPile.snapshot().get(0).getType());
+    }
 }

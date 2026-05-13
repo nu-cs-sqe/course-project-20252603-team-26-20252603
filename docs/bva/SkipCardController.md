@@ -27,7 +27,7 @@
     - **State of system**: Player hand = [`SKIP`]
     - **Expected output**: Player hand size decreases to 0.
 
-- **TC4: playSkip_AddsCardToDiscardPile** (:x:)
+- **TC4: playSkip_AddsCardToDiscardPile** (:white_check_mark:)
     - **State of system**: Player hand = [`SKIP`], discard pile is empty
     - **Expected output**: Discard pile size becomes 1 and contains `SKIP`.
 
