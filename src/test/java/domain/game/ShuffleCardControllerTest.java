@@ -36,16 +36,16 @@ class ShuffleCardControllerTest {
         Game game = createStartedGame(1, 2, 10, random);
         Player currentPlayer = game.getCurrentPlayer();
         clearHand(currentPlayer);
-        Card placeholderCard = new Card(CardType.PLACEHOLDER_CARD);
+        Card catCard = new Card(CardType.BEARD_CAT);
         Card shuffleCard = new Card(CardType.SHUFFLE);
-        currentPlayer.addCard(placeholderCard);
+        currentPlayer.addCard(catCard);
         currentPlayer.addCard(shuffleCard);
         List<Card> drawPileBeforeShuffle = game.getDrawPile().snapshot();
         ShuffleCardController controller = new ShuffleCardController();
 
         controller.play(game, 1);
 
-        assertEquals(List.of(placeholderCard), currentPlayer.getHandSnapshot());
+        assertEquals(List.of(catCard), currentPlayer.getHandSnapshot());
         assertEquals(List.of(shuffleCard), game.getDiscardPile().snapshot());
         assertEquals(drawPileBeforeShuffle, game.getDrawPile().snapshot());
         assertEquals(List.of(), random.getBoundsSinceReset());
@@ -77,8 +77,8 @@ class ShuffleCardControllerTest {
         Game game = createStartedGame(2, 3, 10, random);
         Player currentPlayer = game.getCurrentPlayer();
         clearHand(currentPlayer);
-        Card placeholderCard = new Card(CardType.PLACEHOLDER_CARD);
-        currentPlayer.addCard(placeholderCard);
+        Card catCard = new Card(CardType.BEARD_CAT);
+        currentPlayer.addCard(catCard);
         List<Card> drawPileBeforePlay = game.getDrawPile().snapshot();
         ShuffleCardController controller = new ShuffleCardController();
 
@@ -86,7 +86,7 @@ class ShuffleCardControllerTest {
                 assertThrows(IllegalArgumentException.class, () -> controller.play(game, 0));
 
         assertEquals("selected card is not a shuffle card", exception.getMessage());
-        assertEquals(List.of(placeholderCard), currentPlayer.getHandSnapshot());
+        assertEquals(List.of(catCard), currentPlayer.getHandSnapshot());
         assertEquals(List.of(), game.getDiscardPile().snapshot());
         assertEquals(drawPileBeforePlay, game.getDrawPile().snapshot());
         assertEquals(List.of(), random.getBoundsSinceReset());
@@ -153,7 +153,7 @@ class ShuffleCardControllerTest {
             cards.add(new Card(CardType.DEFUSE));
         }
         for (int count = 0; count < others; count++) {
-            cards.add(new Card(CardType.PLACEHOLDER_CARD));
+            cards.add(new Card(CardType.BEARD_CAT));
         }
         return new Deck(cards, random);
     }
