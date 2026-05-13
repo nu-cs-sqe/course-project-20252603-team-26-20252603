@@ -34,3 +34,12 @@
 - **TC6: peekTopCards_CountZero_ReturnsEmptyList** (:white_check_mark:)
     - **State of system**: Deck has cards, `count = 0`
     - **Expected output**: Returns empty list.
+
+## Supporting Test: `Card(CardType type)`
+
+### Test Cases
+
+- **TC7: constructorStoresSeeTheFutureCardType** (:white_check_mark:)
+  - **State of system**: Create `new Card(CardType.SEE_THE_FUTURE)`
+  - **Expected output**: `card.getType()` returns `SEE_THE_FUTURE`.
+  - **Note**: This supports the See the Future feature, but it is not part of `Deck.peekTopCards`.

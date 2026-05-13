@@ -65,4 +65,10 @@ public class SeeFutureControllerTest {
 
         assertEquals(0, viewedCards.size());
     }
+    @Test
+    void constructorStoresSeeTheFutureCardType() {
+        Card card = new Card(CardType.SEE_THE_FUTURE);
+
+        assertEquals(CardType.SEE_THE_FUTURE, card.getType());
+    }
 }
