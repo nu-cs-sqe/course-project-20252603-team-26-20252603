@@ -11,18 +11,34 @@
 
 ## Step 4: Test Cases
 
-- **TC1: playSeeFuture_EmptyDrawPile_ReturnsEmptyList** (:white_check_mark:)
+- **TC1: playSeeFuture_EmptyDrawPile_ReturnsEmptyList** (:x:)
     - **State of system**: Player hand = [`SEE_THE_FUTURE`], draw pile = []
     - **Expected output**: Returns empty list.
 
-- **TC2: playSeeFuture_OneCardInDrawPile_ReturnsOneCard** (:white_check_mark:)
+- **TC2: playSeeFuture_OneCardInDrawPile_ReturnsOneCard** (:x:)
     - **State of system**: Player hand = [`SEE_THE_FUTURE`], draw pile = [`DEFUSE`]
     - **Expected output**: Returns [`DEFUSE`].
 
-- **TC3: playSeeFuture_TwoCardsInDrawPile_ReturnsTopTwoCards** (:white_check_mark:)
+- **TC3: playSeeFuture_TwoCardsInDrawPile_ReturnsTopTwoCards** (:x:)
     - **State of system**: Player hand = [`SEE_THE_FUTURE`], draw pile has 2 cards
     - **Expected output**: Returns the top 2 cards in draw order.
 
-- **TC4: playSeeFuture_ThreeCardsInDrawPile_ReturnsOnlyTopTwoCards** (:white_check_mark:)
+- **TC4: playSeeFuture_ThreeCardsInDrawPile_ReturnsOnlyTopTwoCards** (:x:)
     - **State of system**: Player hand = [`SEE_THE_FUTURE`], draw pile has 3 cards
     - **Expected output**: Returns only 2 cards.
+
+- **TC5: playSeeFuture_DoesNotChangeDrawPile** (:x:)
+    - **State of system**: Player hand = [`SEE_THE_FUTURE`], draw pile has multiple cards
+    - **Expected output**: Draw pile size and order stay the same.
+
+- **TC6: playSeeFuture_RemovesSeeFutureFromHand** (:x:)
+    - **State of system**: Player hand = [`SEE_THE_FUTURE`]
+    - **Expected output**: Player hand size decreases by 1.
+
+- **TC7: playSeeFuture_AddsSeeFutureToDiscardPile** (:x:)
+    - **State of system**: Discard pile is empty
+    - **Expected output**: Discard pile size becomes 1.
+
+- **TC8: playSeeFuture_SelectedCardIsDefuse_ThrowsException** (:x:)
+    - **State of system**: Player hand = [`DEFUSE`], `cardIndex = 0`
+    - **Expected output**: `IllegalArgumentException` thrown.
