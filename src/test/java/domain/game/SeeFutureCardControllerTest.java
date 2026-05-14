@@ -8,7 +8,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class SeeFutureControllerTest {
+public class SeeFutureCardControllerTest {
     @Test
     void peekTopCards_EmptyDeck_ReturnsEmptyList() {
         Deck deck = new Deck(List.of());
@@ -84,7 +84,7 @@ public class SeeFutureControllerTest {
 
         Deck drawPile = new Deck(List.of(thirdCard, secondCard, firstCard));
         DiscardPile discardPile = new DiscardPile();
-        SeeFutureController controller = new SeeFutureController(drawPile, discardPile);
+        SeeFutureCardController controller = new SeeFutureCardController(drawPile, discardPile);
 
         List<Card> viewedCards = controller.play(player, 0);
 
@@ -98,7 +98,7 @@ public class SeeFutureControllerTest {
 
         Deck drawPile = new Deck(List.of());
         DiscardPile discardPile = new DiscardPile();
-        SeeFutureController controller = new SeeFutureController(drawPile, discardPile);
+        SeeFutureCardController controller = new SeeFutureCardController(drawPile, discardPile);
 
         controller.play(player, 0);
 
@@ -112,7 +112,7 @@ public class SeeFutureControllerTest {
 
         Deck drawPile = new Deck(List.of());
         DiscardPile discardPile = new DiscardPile();
-        SeeFutureController controller = new SeeFutureController(drawPile, discardPile);
+        SeeFutureCardController controller = new SeeFutureCardController(drawPile, discardPile);
 
         controller.play(player, 0);
 
@@ -127,7 +127,7 @@ public class SeeFutureControllerTest {
 
         Deck drawPile = new Deck(List.of());
         DiscardPile discardPile = new DiscardPile();
-        SeeFutureController controller = new SeeFutureController(drawPile, discardPile);
+        SeeFutureCardController controller = new SeeFutureCardController(drawPile, discardPile);
 
         assertThrows(IllegalArgumentException.class,
                 () -> controller.play(player, 0));
@@ -140,7 +140,7 @@ public class SeeFutureControllerTest {
 
         Deck drawPile = new Deck(List.of());
         DiscardPile discardPile = new DiscardPile();
-        SeeFutureController controller = new SeeFutureController(drawPile, discardPile);
+        SeeFutureCardController controller = new SeeFutureCardController(drawPile, discardPile);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> controller.play(player, -1));
@@ -155,7 +155,7 @@ public class SeeFutureControllerTest {
 
         Deck drawPile = new Deck(List.of());
         DiscardPile discardPile = new DiscardPile();
-        SeeFutureController controller = new SeeFutureController(drawPile, discardPile);
+        SeeFutureCardController controller = new SeeFutureCardController(drawPile, discardPile);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> controller.play(player, 1));
@@ -167,7 +167,7 @@ public class SeeFutureControllerTest {
     void playSeeFuture_NullPlayer_ThrowsException() {
         Deck drawPile = new Deck(List.of());
         DiscardPile discardPile = new DiscardPile();
-        SeeFutureController controller = new SeeFutureController(drawPile, discardPile);
+        SeeFutureCardController controller = new SeeFutureCardController(drawPile, discardPile);
 
         assertThrows(NullPointerException.class,
                 () -> controller.play(null, 0));

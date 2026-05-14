@@ -44,7 +44,7 @@
   - **Expected output**: `card.getType()` returns `SEE_THE_FUTURE`.
   - **Note**: This supports the See the Future feature, but it is not part of `Deck.peekTopCards`.
 
-## Method under test 2: `SeeFutureController.play(Player player, int cardIndex)`
+## Method under test 2: `SeeFutureCardController.play(Player player, int cardIndex)`
 
 | Step 1 | Step 2 | Step 3 |
 |---|---|---|
