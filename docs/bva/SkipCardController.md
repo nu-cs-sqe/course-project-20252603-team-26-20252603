@@ -61,7 +61,7 @@
   - **State of system**: Current player has [`SKIP`], `cardIndex = 0`, discard pile is empty
   - **Expected output**: Returns `true`, displays `"Skip played. Your turn ends without drawing a card."`, removes `SKIP` from hand, and adds it to discard pile.
 
-- **TC10: controllerPlaySkip_InvalidCard_ReturnsFalseAndDisplaysError** (:x:)
+- **TC10: playSkip_SelectedCardIsDefuse_ReturnsFalseAndDisplaysError** (:white_check_mark:)
   - **State of system**: Current player has [`DEFUSE`], `cardIndex = 0`, discard pile is empty
   - **Expected output**: Returns `false`, displays an error message, keeps `DEFUSE` in hand, and discard pile stays empty.
 
