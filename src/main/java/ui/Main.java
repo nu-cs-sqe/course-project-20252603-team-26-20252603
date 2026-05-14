@@ -41,7 +41,7 @@ public class Main {
 
         try {
             view.displayCardDrawn(null);
-        } catch (NullPointerException err) {
+        } catch (RuntimeException err) {
             System.out.println("exception occurred " + err.getMessage());
         }
 
