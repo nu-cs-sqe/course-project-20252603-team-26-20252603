@@ -15,3 +15,4 @@
 | ID | State of the system | Expected output | Implemented? |
 | --- | --- | --- | --- |
 | `ATTACK-CONTROLLER-1` | Controller is constructed with the draw pile and discard pile, player's hand contains only `[ATTACK]`, and `cardIndex = 0`. | Return `2`, remove the Attack card from the hand, and add it to the discard pile. | :white_check_mark: |
+| `ATTACK-CONTROLLER-2` | Controller is constructed with the draw pile and discard pile, player's hand contains `[BEARD_CAT, ATTACK]`, and `cardIndex = 1`. | Return `2`, remove only the Attack card from the hand, and add it to the discard pile. | :white_check_mark: |
