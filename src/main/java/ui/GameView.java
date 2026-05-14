@@ -26,7 +26,7 @@ public class GameView {
         scanner.nextLine(); // clears extra \n from buffer
 
         for (int i = 0; i < playerCount; i++) {
-            System.out.print("Enter name of player " + (i+1) + ": ");
+            System.out.print("Enter name of player " + (i + 1) + ": ");
             names.add(scanner.nextLine()); // add player's to name list
         }
         return names;
