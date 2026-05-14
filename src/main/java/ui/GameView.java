@@ -44,6 +44,11 @@ public class GameView {
         System.out.println("You drew: " + card.getType());
     }
 
+    public void displayMessage(String message) {
+        System.out.println(message);
+
+    }
+      
     public void displaySeeTheFutureCards(List<Card> cards) {
         if (cards == null) {
             throw new NullPointerException(PLAYER_NOT_NULL_MESSAGE);

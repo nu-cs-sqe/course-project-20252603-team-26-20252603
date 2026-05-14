@@ -9,5 +9,6 @@ public enum CardType {
     HAIRY_POTATO_CAT,
     TACOCAT,
     RAINBOW_RALPHING_CAT,
+    SKIP,
     SEE_THE_FUTURE
 }
