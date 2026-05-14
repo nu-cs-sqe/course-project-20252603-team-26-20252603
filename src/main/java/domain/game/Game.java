@@ -1,5 +1,6 @@
 package domain.game;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,10 @@ public class Game {
     private static final int MAX_PLAYERS = 4;
     private static final int OPENING_HAND_SIZE = 5;
 
+    // Open to discussion here
+    @SuppressFBWarnings(
+            value = "EI_EXPOSE_REP2",
+            justification = "Game owns and mutates the injected draw pile as its shared deck state.")
     private final Deck drawPile;
     private final List<Player> players;
     private DiscardPile discardPile;
