@@ -5,10 +5,11 @@ import ui.GameView;
 import java.util.List;
 
 public class GameController {
+    private static final String SKIP_PLAYED = "Skip played. Your turn ends without drawing a card.";
+
     private Game model;
 
     private GameView view;
-    private final String SKIP_PLAYED = "Skip played. Your turn ends without drawing a card.";
     public GameController(Game model, GameView view){
         this.model = model;
         this.view = view;
