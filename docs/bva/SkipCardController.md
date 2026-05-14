@@ -57,7 +57,7 @@
 | Output | Boolean / UI Message / State Change | Values: <ul><li>Returns `true` when Skip is successfully played</li><li>Displays success message</li><li>Returns `false` when selected card cannot be played</li><li>Displays error message for invalid input</li></ul> |
 
 ### Test Cases 
-- **TC9: controllerPlaySkip_ValidSkip_ReturnsTrueAndDisplaysMessage** (:x:)
+- **TC9: controllerPlaySkip_ValidSkip_ReturnsTrueAndDisplaysMessage** (:white_check_mark:)
   - **State of system**: Current player has [`SKIP`], `cardIndex = 0`, discard pile is empty
   - **Expected output**: Returns `true`, displays `"Skip played. Your turn ends without drawing a card."`, removes `SKIP` from hand, and adds it to discard pile.
 

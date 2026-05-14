@@ -9,9 +9,7 @@ import java.util.*;
 
 
 import static org.easymock.EasyMock.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GameControllerTest {
     @Test
@@ -277,6 +275,35 @@ public class GameControllerTest {
         assertNotNull(result);
         assertEquals(beforeSize - 1, game.getDrawPile().size());
 
+        verify(mockView);
+    }
+
+    @Test
+    void playSkip_ValidSkip_ReturnsTrueAndDisplaysMessage() {
+        Game mockModel = EasyMock.createMock(Game.class);
+        GameView mockView = EasyMock.createMock(GameView.class);
+
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.SKIP));
+        DiscardPile discardPile = new DiscardPile();
+
+        expect(mockModel.getCurrentPlayer()).andReturn(player).once();
+        expect(mockModel.getDiscardPile()).andReturn(discardPile).once();
+        replay(mockModel);
+
+        mockView.displayMessage("Skip played. Your turn ends without drawing a card.");
+        expectLastCall().once();
+        replay(mockView);
+
+        GameController controller = new GameController(mockModel, mockView);
+
+        boolean result = controller.playSkip(0);
+
+        assertTrue(result);
+        assertEquals(0, player.getHandSize());
+        assertEquals(1, discardPile.size());
+
+        verify(mockModel);
         verify(mockView);
     }
 }
