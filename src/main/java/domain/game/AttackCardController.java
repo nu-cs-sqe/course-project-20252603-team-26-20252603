@@ -14,7 +14,7 @@ public final class AttackCardController {
     }
 
     public int play(Player player, int cardIndex) {
-        if (cardIndex < 0) {
+        if (cardIndex < 0 || cardIndex >= player.getHandSize()) {
             throw new IllegalArgumentException(INVALID_INDEX_MESSAGE);
         }
         Card attackCard = player.getHandSnapshot().get(cardIndex);

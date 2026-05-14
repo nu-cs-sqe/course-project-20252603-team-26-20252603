@@ -74,4 +74,23 @@ class AttackCardControllerTest {
         assertEquals(List.of(attackCard), player.getHandSnapshot());
         assertEquals(List.of(), discardPile.snapshot());
     }
+
+    @Test
+    void play_IndexEqualsHandSize_ThrowsExceptionAndLeavesStateUnchanged() {
+        Player player = new Player("Brosef");
+        Card attackCard = new Card(CardType.ATTACK);
+        player.addCard(attackCard);
+        Deck drawPile = new Deck(List.of(new Card(CardType.BEARD_CAT)));
+        DiscardPile discardPile = new DiscardPile();
+        AttackCardController controller = new AttackCardController(drawPile, discardPile);
+
+        IllegalArgumentException exception =
+                assertThrows(
+                        IllegalArgumentException.class,
+                        () -> controller.play(player, player.getHandSize()));
+
+        assertEquals("cardIndex is out of bounds", exception.getMessage());
+        assertEquals(List.of(attackCard), player.getHandSnapshot());
+        assertEquals(List.of(), discardPile.snapshot());
+    }
 }
