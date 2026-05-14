@@ -57,26 +57,22 @@
 | Output | Boolean / UI Message / State Change | Values: <ul><li>Returns `true` when Skip is successfully played</li><li>Displays success message</li><li>Returns `false` when selected card cannot be played</li><li>Displays error message for invalid input</li></ul> |
 
 ### Test Cases 
-- **TC9: controllerPlaySkip_ValidSkip_ReturnsTrue** (:x:)
-  - **State of system**: Current player has [`SKIP`], `cardIndex = 0`
-  - **Expected output**: Returns `true`.
+- **TC9: controllerPlaySkip_ValidSkip_ReturnsTrueAndDisplaysMessage** (:x:)
+  - **State of system**: Current player has [`SKIP`], `cardIndex = 0`, discard pile is empty
+  - **Expected output**: Returns `true`, displays `"Skip played. Your turn ends without drawing a card."`, removes `SKIP` from hand, and adds it to discard pile.
 
-- **TC10: controllerPlaySkip_ValidSkip_DisplaysMessage** (:white_check_mark:)
-  - **State of system**: Current player has [`SKIP`], `cardIndex = 0`
-  - **Expected output**: View displays `"Skip played. Your turn ends without drawing a card."`
+- **TC10: controllerPlaySkip_InvalidCard_ReturnsFalseAndDisplaysError** (:x:)
+  - **State of system**: Current player has [`DEFUSE`], `cardIndex = 0`, discard pile is empty
+  - **Expected output**: Returns `false`, displays an error message, keeps `DEFUSE` in hand, and discard pile stays empty.
 
-- **TC11: controllerPlaySkip_InvalidCard_ReturnsFalse** (:white_check_mark:)
+- **TC11: controllerPlaySkip_NegativeIndex_ReturnsFalseAndDisplaysError** (:x:)
+  - **State of system**: Current player has [`SKIP`], `cardIndex = -1`, discard pile is empty
+  - **Expected output**: Returns `false`, displays an error message, keeps `SKIP` in hand, and discard pile stays empty.
+
+- **TC12: controllerPlaySkip_IndexEqualsHandSize_ReturnsFalseAndDisplaysError** (:x:)
+  - **State of system**: Current player has [`SKIP`], `getHandSize() = 1`, `cardIndex = 1`, discard pile is empty
+  - **Expected output**: Returns `false`, displays an error message, keeps `SKIP` in hand, and discard pile stays empty.
+
+- **TC13: controllerPlaySkip_InvalidCard_DoesNotDisplaySuccessMessage** (:x:)
   - **State of system**: Current player has [`DEFUSE`], `cardIndex = 0`
-  - **Expected output**: Returns `false`.
-
-- **TC12: controllerPlaySkip_InvalidCard_DisplaysError** (:white_check_mark:)
-  - **State of system**: Current player has [`DEFUSE`], `cardIndex = 0`
-  - **Expected output**: View displays an error message.
-
-- **TC13: controllerPlaySkip_NegativeIndex_ReturnsFalse** (:white_check_mark:)
-  - **State of system**: Current player has [`SKIP`], `cardIndex = -1`
-  - **Expected output**: Returns `false`.
-
-- **TC14: controllerPlaySkip_IndexEqualsHandSize_ReturnsFalse** (:white_check_mark:)
-  - **State of system**: Current player has [`SKIP`], `getHandSize() = 1`, `cardIndex = 1`
-  - **Expected output**: Returns `false`.
+  - **Expected output**: Returns `false`, displays an error message, and does **not** display the success message.
