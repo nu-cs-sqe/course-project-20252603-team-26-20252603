@@ -46,6 +46,8 @@ public class GameView {
 
     public void displayMessage(String message) {
         System.out.println(message);
+
+    }
       
     public void displaySeeTheFutureCards(List<Card> cards) {
         if (cards == null) {

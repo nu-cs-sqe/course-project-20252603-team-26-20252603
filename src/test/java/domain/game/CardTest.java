@@ -40,6 +40,8 @@ class CardTest {
         Card card = new Card(CardType.SKIP);
 
         assertEquals(CardType.SKIP, card.getType());
+
+    }
     
     @Test
     void constructorStoresSeeTheFutureCardType() {
