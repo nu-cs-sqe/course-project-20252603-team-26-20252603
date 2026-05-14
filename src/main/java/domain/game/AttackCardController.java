@@ -2,6 +2,7 @@ package domain.game;
 
 public final class AttackCardController {
     private static final int ATTACK_TURN_COUNT = 2;
+    private static final String INVALID_INDEX_MESSAGE = "cardIndex is out of bounds";
     private static final String NOT_ATTACK_CARD_MESSAGE = "selected card is not an attack card";
 
     private final Deck drawPile;
@@ -13,6 +14,9 @@ public final class AttackCardController {
     }
 
     public int play(Player player, int cardIndex) {
+        if (cardIndex < 0) {
+            throw new IllegalArgumentException(INVALID_INDEX_MESSAGE);
+        }
         Card attackCard = player.getHandSnapshot().get(cardIndex);
         if (attackCard.getType() != CardType.ATTACK) {
             throw new IllegalArgumentException(NOT_ATTACK_CARD_MESSAGE);
