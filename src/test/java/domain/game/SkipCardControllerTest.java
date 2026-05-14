@@ -11,7 +11,7 @@ public class SkipCardControllerTest {
         player.addCard(new Card(CardType.SKIP));
 
         DiscardPile discardPile = new DiscardPile();
-        SkipController controller = new SkipController(discardPile);
+        SkipCardController controller = new SkipCardController(discardPile);
 
         boolean skipped = controller.play(player, 0);
 
@@ -24,7 +24,7 @@ public class SkipCardControllerTest {
         player.addCard(new Card(CardType.SKIP));
 
         DiscardPile discardPile = new DiscardPile();
-        SkipController controller = new SkipController(discardPile);
+        SkipCardController controller = new SkipCardController(discardPile);
 
         controller.play(player, 0);
 
@@ -37,7 +37,7 @@ public class SkipCardControllerTest {
         player.addCard(new Card(CardType.SKIP));
 
         DiscardPile discardPile = new DiscardPile();
-        SkipController controller = new SkipController(discardPile);
+        SkipCardController controller = new SkipCardController(discardPile);
 
         controller.play(player, 0);
 
@@ -51,7 +51,7 @@ public class SkipCardControllerTest {
         player.addCard(new Card(CardType.DEFUSE));
 
         DiscardPile discardPile = new DiscardPile();
-        SkipController controller = new SkipController(discardPile);
+        SkipCardController controller = new SkipCardController(discardPile);
 
         assertThrows(IllegalArgumentException.class,
                 () -> controller.play(player, 0));
@@ -63,7 +63,7 @@ public class SkipCardControllerTest {
         player.addCard(new Card(CardType.SKIP));
 
         DiscardPile discardPile = new DiscardPile();
-        SkipController controller = new SkipController(discardPile);
+        SkipCardController controller = new SkipCardController(discardPile);
 
         assertThrows(IndexOutOfBoundsException.class,
                 () -> controller.play(player, -1));
@@ -75,7 +75,7 @@ public class SkipCardControllerTest {
         player.addCard(new Card(CardType.SKIP));
 
         DiscardPile discardPile = new DiscardPile();
-        SkipController controller = new SkipController(discardPile);
+        SkipCardController controller = new SkipCardController(discardPile);
 
         assertThrows(IndexOutOfBoundsException.class,
                 () -> controller.play(player, 1));
@@ -84,7 +84,7 @@ public class SkipCardControllerTest {
     @Test
     void playSkip_NullPlayer_ThrowsException() {
         DiscardPile discardPile = new DiscardPile();
-        SkipController controller = new SkipController(discardPile);
+        SkipCardController controller = new SkipCardController(discardPile);
 
         assertThrows(NullPointerException.class,
                 () -> controller.play(null, 0));

@@ -1,11 +1,11 @@
 package domain.game;
 
-public class SkipController {
+public class SkipCardController {
     private final DiscardPile discardPile;
     private final String CARD_MUST_BE_SKIP = "card must be Skip";
     private final String CARD_NOT_NULL = "player must not be null";
 
-    public SkipController(DiscardPile discardPile) {
+    public SkipCardController(DiscardPile discardPile) {
         this.discardPile = discardPile;
     }
 

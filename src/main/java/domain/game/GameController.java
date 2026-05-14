@@ -35,9 +35,9 @@ public class GameController {
         try {
             Player currentPlayer = model.getCurrentPlayer();
 
-            SkipController skipController = new SkipController(model.getDiscardPile());
+            SkipCardController skipCardController = new SkipCardController(model.getDiscardPile());
 
-            boolean skipped = skipController.play(currentPlayer, cardIndex);
+            boolean skipped = skipCardController.play(currentPlayer, cardIndex);
             view.displayMessage(SKIP_PLAYED);
             return skipped;
         } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
