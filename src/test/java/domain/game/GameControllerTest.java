@@ -335,6 +335,35 @@ public class GameControllerTest {
         verify(mockView);
     }
 
+    @Test
+    void playSkip_NegativeIndex_ReturnsFalseAndDisplaysError() {
+        Game mockModel = EasyMock.createMock(Game.class);
+        GameView mockView = EasyMock.createMock(GameView.class);
+
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.SKIP));
+        DiscardPile discardPile = new DiscardPile();
+
+        expect(mockModel.getCurrentPlayer()).andReturn(player).once();
+        expect(mockModel.getDiscardPile()).andReturn(discardPile).once();
+        replay(mockModel);
+
+        mockView.displayError(anyString());
+        expectLastCall().once();
+        replay(mockView);
+
+        GameController controller = new GameController(mockModel, mockView);
+
+        boolean result = controller.playSkip(-1);
+
+        assertFalse(result);
+        assertEquals(1, player.getHandSize());
+        assertEquals(0, discardPile.size());
+
+        verify(mockModel);
+        verify(mockView);
+    }
+
 }
 
 
