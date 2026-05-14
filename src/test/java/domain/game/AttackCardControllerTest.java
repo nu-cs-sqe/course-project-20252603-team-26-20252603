@@ -1,6 +1,7 @@
 package domain.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -38,5 +39,22 @@ class AttackCardControllerTest {
         assertEquals(2, forcedTurns);
         assertEquals(List.of(catCard), player.getHandSnapshot());
         assertEquals(List.of(attackCard), discardPile.snapshot());
+    }
+
+    @Test
+    void play_NonAttackCard_ThrowsExceptionAndLeavesStateUnchanged() {
+        Player player = new Player("Brosef");
+        Card catCard = new Card(CardType.BEARD_CAT);
+        player.addCard(catCard);
+        Deck drawPile = new Deck(List.of(new Card(CardType.BEARD_CAT)));
+        DiscardPile discardPile = new DiscardPile();
+        AttackCardController controller = new AttackCardController(drawPile, discardPile);
+
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> controller.play(player, 0));
+
+        assertEquals("selected card is not an attack card", exception.getMessage());
+        assertEquals(List.of(catCard), player.getHandSnapshot());
+        assertEquals(List.of(), discardPile.snapshot());
     }
 }
