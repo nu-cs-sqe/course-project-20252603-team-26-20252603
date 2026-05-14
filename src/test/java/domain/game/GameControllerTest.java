@@ -15,7 +15,6 @@ public class GameControllerTest {
     @Test
     void startGame_EmptyPlayerList_DisplaysError() {
         // Arrange
-        Deck deck = EasyMock.createMock(Deck.class);
         //is it too late to rename Game to GameModel for consistency? There should be an intelij feature
         Game mockModel = EasyMock.createMock(Game.class); //Game(deck);
         GameView mockView = EasyMock.createMock(GameView.class);
