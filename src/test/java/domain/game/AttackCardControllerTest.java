@@ -93,4 +93,17 @@ class AttackCardControllerTest {
         assertEquals(List.of(attackCard), player.getHandSnapshot());
         assertEquals(List.of(), discardPile.snapshot());
     }
+
+    @Test
+    void play_NullPlayer_ThrowsException() {
+        Deck drawPile = new Deck(List.of(new Card(CardType.BEARD_CAT)));
+        DiscardPile discardPile = new DiscardPile();
+        AttackCardController controller = new AttackCardController(drawPile, discardPile);
+
+        NullPointerException exception =
+                assertThrows(NullPointerException.class, () -> controller.play(null, 0));
+
+        assertEquals("player must not be null", exception.getMessage());
+        assertEquals(List.of(), discardPile.snapshot());
+    }
 }
