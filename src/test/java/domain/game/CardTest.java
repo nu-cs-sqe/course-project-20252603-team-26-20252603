@@ -34,10 +34,17 @@ class CardTest {
 
         assertEquals("type must not be null", exception.getMessage());
     }
+  
     @Test
     void constructorStoresSkipCardType() {
         Card card = new Card(CardType.SKIP);
 
         assertEquals(CardType.SKIP, card.getType());
+    
+    @Test
+    void constructorStoresSeeTheFutureCardType() {
+        Card card = new Card(CardType.SEE_THE_FUTURE);
+
+        assertEquals(CardType.SEE_THE_FUTURE, card.getType());
     }
 }
