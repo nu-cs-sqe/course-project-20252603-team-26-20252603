@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    checkstyle
     jacoco
     id("com.github.spotbugs") version "6.5.4"
 }
