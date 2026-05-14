@@ -15,6 +15,13 @@ class CardTest {
         assertEquals(CardType.PLACEHOLDER_CARD, card.getType());
     }
 
+    @Test
+    void constructorStoresAttackCardType() {
+        Card card = new Card(CardType.ATTACK);
+
+        assertEquals(CardType.ATTACK, card.getType());
+    }
+
     @ParameterizedTest
     @EnumSource(CardType.class)
     void constructorStoresProvidedCardType(CardType type) {
