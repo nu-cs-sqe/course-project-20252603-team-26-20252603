@@ -30,4 +30,6 @@ public final class AttackCardController {
         discardPile.add(attackCard);
         return ATTACK_TURN_COUNT;
     }
+
+    // turn advancement, pending forced turns, and 'rest of the' Attack stacking belong in a turn/game controller
 }

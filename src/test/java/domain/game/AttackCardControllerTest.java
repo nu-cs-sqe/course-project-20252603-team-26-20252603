@@ -106,4 +106,21 @@ class AttackCardControllerTest {
         assertEquals("player must not be null", exception.getMessage());
         assertEquals(List.of(), discardPile.snapshot());
     }
+
+    @Test
+    void play_AttackWithMultiCardDrawPile_LeavesDrawPileUnchanged() {
+        Player player = new Player("Brosef");
+        Card attackCard = new Card(CardType.ATTACK);
+        player.addCard(attackCard);
+        Card firstDrawPileCard = new Card(CardType.BEARD_CAT);
+        Card secondDrawPileCard = new Card(CardType.TACOCAT);
+        Deck drawPile = new Deck(List.of(firstDrawPileCard, secondDrawPileCard));
+        DiscardPile discardPile = new DiscardPile();
+        AttackCardController controller = new AttackCardController(drawPile, discardPile);
+
+        int forcedTurns = controller.play(player, 0);
+
+        assertEquals(2, forcedTurns);
+        assertEquals(List.of(firstDrawPileCard, secondDrawPileCard), drawPile.snapshot());
+    }
 }
