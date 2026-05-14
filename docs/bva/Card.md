@@ -12,7 +12,7 @@
 | `CARD-CTOR-6` | Construct a card with `type = HAIRY_POTATO_CAT`. | Card is created successfully and stores `HAIRY_POTATO_CAT`. | :white_check_mark: |
 | `CARD-CTOR-7` | Construct a card with `type = TACOCAT`. | Card is created successfully and stores `TACOCAT`. | :white_check_mark: |
 | `CARD-CTOR-8` | Construct a card with `type = RAINBOW_RALPHING_CAT`. | Card is created successfully and stores `RAINBOW_RALPHING_CAT`. | :white_check_mark: |
-| `CARD-CTOR-9` | Construct a card with `type = null`. | Throw `NullPointerException` with message `type must not be null`. | :white_check_mark: |
+| `CARD-CTOR-9` | Construct a card with `type = ATTACK`. | Card is created successfully and stores `ATTACK`. | :white_check_mark: |
 | `CARD-CTOR-10` | Construct a card with `type = null`. | Throw `NullPointerException` with message `type must not be null`. | :white_check_mark: |
 
 ## Method under test: `CardType getType()`
@@ -23,3 +23,4 @@
 | `CARD-TYPE-2` | Card was constructed with `DEFUSE`. | Return `DEFUSE`. | :white_check_mark: |
 | `CARD-TYPE-3` | Card was constructed with `SHUFFLE`. | Return `SHUFFLE`. | implemented in `CARD-CTOR-3` |
 | `CARD-TYPE-4` | Card was constructed with `PLACEHOLDER_CARD`. | Return `PLACEHOLDER_CARD`. | implemented in `CARD-CTOR-4` |
+| `CARD-TYPE-5` | Card was constructed with `ATTACK`. | Return `ATTACK`. | implemented in `CARD-CTOR-9` |
