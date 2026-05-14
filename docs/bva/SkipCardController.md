@@ -73,6 +73,6 @@
   - **State of system**: Current player has [`SKIP`], `getHandSize() = 1`, `cardIndex = 1`, discard pile is empty
   - **Expected output**: Returns `false`, displays an error message, keeps `SKIP` in hand, and discard pile stays empty.
 
-- **TC13: controllerPlaySkip_InvalidCard_DoesNotDisplaySuccessMessage** (:x:)
+- **TC13: controllerPlaySkip_InvalidCard_DoesNotDisplaySuccessMessage** (:white_check_mark:)
   - **State of system**: Current player has [`DEFUSE`], `cardIndex = 0`
   - **Expected output**: Returns `false`, displays an error message, and does **not** display the success message.
