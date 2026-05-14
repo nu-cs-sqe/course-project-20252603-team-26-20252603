@@ -15,18 +15,19 @@ public class GameController {
     private Game model;
 
     private GameView view;
-    public GameController(Game model, GameView view){
+
+    public GameController(Game model, GameView view) {
         this.model = model;
         this.view = view;
     }
 
-    public void startGame(List<String> playerNames){
-       try{
-          model.setupGame(playerNames);
-          view.displayGameReady();
-       }catch (IllegalArgumentException e){
-           view.displayError(e.getMessage());
-       }
+    public void startGame(List<String> playerNames) {
+        try {
+            model.setupGame(playerNames);
+            view.displayGameReady();
+        } catch (IllegalArgumentException e) {
+            view.displayError(e.getMessage());
+        }
     }
 
     public Card takeCard() {
