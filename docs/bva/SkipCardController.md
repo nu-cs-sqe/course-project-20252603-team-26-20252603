@@ -46,3 +46,37 @@
 - **TC8: playSkip_NullPlayer_ThrowsException** (:white_check_mark:)
     - **State of system**: `player = null`
     - **Expected output**: Exception thrown.
+
+## Method under test 2: `GameController.playSkip(int cardIndex)`
+
+| Step 1 | Step 2 | Step 3 |
+|---|---|---|
+| Input 1: `cardIndex` | Array Index | Values: <ul><li>`-1`</li><li>`0`</li><li>`getHandSize()`</li></ul> |
+| Internal state 1: current player hand | Card Collection | Values: <ul><li>Selected card is `SKIP`</li><li>Selected card is not `SKIP`, such as `DEFUSE`</li></ul> |
+| Internal state 2: model/view/controller dependencies | Object References | Values: <ul><li>Valid `Game` model</li><li>Valid `GameView` view</li></ul> |
+| Output | Boolean / UI Message / State Change | Values: <ul><li>Returns `true` when Skip is successfully played</li><li>Displays success message</li><li>Returns `false` when selected card cannot be played</li><li>Displays error message for invalid input</li></ul> |
+
+### Test Cases 
+- **TC9: controllerPlaySkip_ValidSkip_ReturnsTrue** (:x:)
+  - **State of system**: Current player has [`SKIP`], `cardIndex = 0`
+  - **Expected output**: Returns `true`.
+
+- **TC10: controllerPlaySkip_ValidSkip_DisplaysMessage** (:white_check_mark:)
+  - **State of system**: Current player has [`SKIP`], `cardIndex = 0`
+  - **Expected output**: View displays `"Skip played. Your turn ends without drawing a card."`
+
+- **TC11: controllerPlaySkip_InvalidCard_ReturnsFalse** (:white_check_mark:)
+  - **State of system**: Current player has [`DEFUSE`], `cardIndex = 0`
+  - **Expected output**: Returns `false`.
+
+- **TC12: controllerPlaySkip_InvalidCard_DisplaysError** (:white_check_mark:)
+  - **State of system**: Current player has [`DEFUSE`], `cardIndex = 0`
+  - **Expected output**: View displays an error message.
+
+- **TC13: controllerPlaySkip_NegativeIndex_ReturnsFalse** (:white_check_mark:)
+  - **State of system**: Current player has [`SKIP`], `cardIndex = -1`
+  - **Expected output**: Returns `false`.
+
+- **TC14: controllerPlaySkip_IndexEqualsHandSize_ReturnsFalse** (:white_check_mark:)
+  - **State of system**: Current player has [`SKIP`], `getHandSize() = 1`, `cardIndex = 1`
+  - **Expected output**: Returns `false`.
