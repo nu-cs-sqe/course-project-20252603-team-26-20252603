@@ -69,7 +69,7 @@
   - **State of system**: Current player has [`SKIP`], `cardIndex = -1`, discard pile is empty
   - **Expected output**: Returns `false`, displays an error message, keeps `SKIP` in hand, and discard pile stays empty.
 
-- **TC12: controllerPlaySkip_IndexEqualsHandSize_ReturnsFalseAndDisplaysError** (:x:)
+- **TC12: controllerPlaySkip_IndexEqualsHandSize_ReturnsFalseAndDisplaysError** (:white_check_mark:)
   - **State of system**: Current player has [`SKIP`], `getHandSize() = 1`, `cardIndex = 1`, discard pile is empty
   - **Expected output**: Returns `false`, displays an error message, keeps `SKIP` in hand, and discard pile stays empty.
 
