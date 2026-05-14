@@ -142,8 +142,10 @@ public class SeeFutureControllerTest {
         DiscardPile discardPile = new DiscardPile();
         SeeFutureController controller = new SeeFutureController(drawPile, discardPile);
 
-        assertThrows(IndexOutOfBoundsException.class,
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> controller.play(player, -1));
+
+        assertEquals("cardIndex is out of bounds", exception.getMessage());
     }
 
     @Test
@@ -155,8 +157,10 @@ public class SeeFutureControllerTest {
         DiscardPile discardPile = new DiscardPile();
         SeeFutureController controller = new SeeFutureController(drawPile, discardPile);
 
-        assertThrows(IndexOutOfBoundsException.class,
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> controller.play(player, 1));
+
+        assertEquals("cardIndex is out of bounds", exception.getMessage());
     }
 
     @Test

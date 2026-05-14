@@ -7,6 +7,7 @@ public class SeeFutureController {
     private DiscardPile discardPile;
     private static final String SEE_FUTURE_REQUIRED_MESSAGE = "card must be See the Future";
     private static final String PLAYER_NOT_NULL_MESSAGE = "player must not be null";
+    private static final String INVALID_INDEX_MESSAGE = "cardIndex is out of bounds";
     public SeeFutureController(Deck drawPile, DiscardPile discardPile) {
         this.drawPile = drawPile;
         this.discardPile = discardPile;
@@ -16,6 +17,9 @@ public class SeeFutureController {
 
         if (player == null) {
             throw new NullPointerException(PLAYER_NOT_NULL_MESSAGE);
+        }
+        if (cardIndex < 0 || cardIndex >= player.getHandSnapshot().size()) {
+            throw new IllegalArgumentException(INVALID_INDEX_MESSAGE);
         }
         Card selectedCard = player.getHandSnapshot().get(cardIndex);
         if (selectedCard.getType() != CardType.SEE_THE_FUTURE) {

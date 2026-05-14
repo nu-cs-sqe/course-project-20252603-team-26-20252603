@@ -73,11 +73,11 @@
 
 - **TC12: playSeeFuture_NegativeIndex_ThrowsException** (:white_check_mark:)
   - **State of system**: Player hand = [`SEE_THE_FUTURE`], `cardIndex = -1`
-  - **Expected output**: Exception thrown.
+  - **Expected output**: `IllegalArgumentException` thrown with message "cardIndex is out of bounds"
 
 - **TC13: playSeeFuture_IndexEqualsHandSize_ThrowsException** (:white_check_mark:)
   - **State of system**: Player hand = [`SEE_THE_FUTURE`], `getHandSize() = 1`, `cardIndex = 1`
-  - **Expected output**: Exception thrown.
+  - **Expected output**: `IllegalArgumentException` thrown with message "cardIndex is out of bounds"
 
 - **TC14: playSeeFuture_NullPlayer_ThrowsException** (:white_check_mark:)
   - **State of system**: `player = null`
