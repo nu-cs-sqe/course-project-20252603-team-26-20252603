@@ -29,6 +29,10 @@ public class Game {
     private DiscardPile discardPile;
     private int currentPlayerIndex;
 
+    // Open to discussion: making Game final would avoid this warning, but controller tests currently mock it.
+    @SuppressFBWarnings(
+            value = "CT_CONSTRUCTOR_THROW",
+            justification = "Validation rejects null draw piles before any subclass-visible state is used.")
     public Game(Deck drawPile) {
         if (drawPile == null) {
             throw new IllegalArgumentException(DRAW_PILE_REQUIRED_MESSAGE);
