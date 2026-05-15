@@ -1,6 +1,6 @@
 # Week 6 Project Feedback by PM/TA
 
-**Dedicated PM/TA**: NAME (EMAIL)
+**Dedicated PM/TA**: Utkarsh Narain(<utkarshnarain2026@u.northwestern.edu>)
 
 ## How to Read This Feedback
 > [!NOTE]
