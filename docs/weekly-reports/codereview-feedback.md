@@ -12,9 +12,13 @@ You can find the weekly feedback from your dedicated PM/TA for that.
 ## Week 7 Code Review
 I have read every line of production code currently in the main branch.
 
-It seems like the code review comments I gave for last week are not addressed yet. 
-
-I didn't find additional issues in the rest of the code.
+1. It seems like the code review comment about the `Player` class I gave for last week are not addressed yet. 
+2. In `AttachCardController`, consider adding "TODO" at the beginning of this comment:   // turn advancement, pending forced turns, and 'rest of the' Attack stacking belong in a turn/game controller
+3. I wonder why in Game#validateDeckForSetup, the count is first a long and then cast to int. What's the reason behind this?
+4. In `ShuffleCardController`, there seems to be comments that are meant for communication. Those should be put in the project management board item description, design docuemnt, or PR. 
+5. I also noticed null checks. According to the textbook, we don't want to pollute our codebase with null checks. Instead, we should make sure we don't pass null around.  
+ 
+Otherwise, good work!
 
 Please approve and merge the PR once the team has read the feedback. Thanks!
 
