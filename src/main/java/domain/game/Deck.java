@@ -12,6 +12,7 @@ public class Deck {
     private static final String CARD_REQUIRED_MESSAGE = "card must not be null";
     private static final String CARD_TYPE_REQUIRED_MESSAGE = "card type must not be null";
     private static final String EMPTY_DECK_MESSAGE = "cannot draw from an empty deck";
+    private static final String NEGATIVE_COUNT_MESSAGE = "count must not be negative";
 
     private final List<Card> cards;
     private final Random random;
@@ -79,5 +80,18 @@ public class Deck {
     long countCardsOfType(CardType type) {
         Objects.requireNonNull(type, CARD_TYPE_REQUIRED_MESSAGE);
         return cards.stream().filter(card -> card.getType() == type).count();
+    }
+
+    List<Card> peekTopCards(int count) {
+        if (count < 0) {
+            throw new IllegalArgumentException(NEGATIVE_COUNT_MESSAGE);
+        }
+        List<Card> topCards = new ArrayList<>();
+        int cardsToView = Math.min(count, cards.size());
+
+        for (int i = 0; i < cardsToView; i++) {
+            topCards.add(cards.get(cards.size() - 1 - i));
+        }
+        return List.copyOf(topCards);
     }
 }
