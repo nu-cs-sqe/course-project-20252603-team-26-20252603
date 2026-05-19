@@ -9,6 +9,15 @@ The following chapters of the textbook are considered: Chapter 1, 2, 3, 4, 5, 6,
 Please note that this feedback does not include evaluation of your progress, the proper use of linters, the quality of your test cases, or your compliance of TDD/BDD workflow.  
 You can find the weekly feedback from your dedicated PM/TA for that.
 
+## Week 7 Code Review
+I have read every line of production code currently in the main branch.
+
+It seems like the code review comments I gave for last week are not addressed yet. 
+
+I didn't find additional issues in the rest of the code.
+
+Please approve and merge the PR once the team has read the feedback. Thanks!
+
 ## Week 6 Code Review
 I have read every line of production code currently in the main branch. 
 Overall, good job! Two small things:
