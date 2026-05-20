@@ -3,6 +3,7 @@ package domain.game;
 public enum CardType {
     EXPLODING_KITTEN,
     DEFUSE,
+    ATTACK,
     SHUFFLE,
     PLACEHOLDER_CARD,
     BEARD_CAT,
