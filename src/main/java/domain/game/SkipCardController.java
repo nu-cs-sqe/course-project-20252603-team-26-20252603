@@ -1,9 +1,16 @@
 package domain.game;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class SkipCardController {
+    private static final String CARD_MUST_BE_SKIP = "card must be Skip";
+    private static final String CARD_NOT_NULL = "player must not be null";
+    
+    // Open to discussion here
+    @SuppressFBWarnings(
+            value = "EI_EXPOSE_REP2",
+            justification = "Controller must add the played card to the injected discard pile.")
     private final DiscardPile discardPile;
-    private final String CARD_MUST_BE_SKIP = "card must be Skip";
-    private final String CARD_NOT_NULL = "player must not be null";
 
     public SkipCardController(DiscardPile discardPile) {
         this.discardPile = discardPile;

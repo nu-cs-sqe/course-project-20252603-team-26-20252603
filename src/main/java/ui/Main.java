@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Main {
     // testing the GameView UI via main
-    public static void main(String[] args){
+    public static void main(String[] args) {
         GameView view = new GameView();
 
         // TC 1 "displayStartScreen_DisplayOnce_ShowsTitle" from BVA GameView
@@ -41,7 +41,7 @@ public class Main {
 
         try {
             view.displayCardDrawn(null);
-        } catch (NullPointerException err) {
+        } catch (RuntimeException err) {
             System.out.println("exception occurred " + err.getMessage());
         }
 

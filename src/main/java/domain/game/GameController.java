@@ -1,26 +1,33 @@
 package domain.game;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import ui.GameView;
 
 import java.util.List;
 
 public class GameController {
+    private static final String SKIP_PLAYED = "Skip played. Your turn ends without drawing a card.";
+
+    // Open to discussion here  
+    @SuppressFBWarnings(
+            value = "EI_EXPOSE_REP2",
+            justification = "Controller coordinates the injected game model as shared application state.")
     private Game model;
 
     private GameView view;
-    private final String SKIP_PLAYED = "Skip played. Your turn ends without drawing a card.";
-    public GameController(Game model, GameView view){
+
+    public GameController(Game model, GameView view) {
         this.model = model;
         this.view = view;
     }
 
-    public void startGame(List<String> playerNames){
-       try{
-          model.setupGame(playerNames);
-          view.displayGameReady();
-       }catch (IllegalArgumentException e){
-           view.displayError(e.getMessage());
-       }
+    public void startGame(List<String> playerNames) {
+        try {
+            model.setupGame(playerNames);
+            view.displayGameReady();
+        } catch (IllegalArgumentException e) {
+            view.displayError(e.getMessage());
+        }
     }
 
     public Card takeCard() {
