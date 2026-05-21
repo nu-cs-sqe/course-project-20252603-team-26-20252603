@@ -32,7 +32,7 @@ public  class Player {
     }
 
     public void removeCard(int index) {
-        if (index < 0 || index >= getHandSize()){
+        if (index < 0 || index >= getHandSize()) {
             throw new IllegalArgumentException(INVALID_INDEX_MESSAGE);
         }
         hand.remove(index);

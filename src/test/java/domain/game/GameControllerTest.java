@@ -1,22 +1,25 @@
 package domain.game;
 
+import static org.easymock.EasyMock.anyString;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
 import ui.GameView;
 
-
-import java.util.*;
-
-
-import static org.easymock.EasyMock.*;
-import static org.junit.jupiter.api.Assertions.*;
-
 public class GameControllerTest {
     @Test
     void startGame_EmptyPlayerList_DisplaysError() {
-        // Arrange
-        Deck deck = EasyMock.createMock(Deck.class);
-        //is it too late to rename Game to GameModel for consistency? There should be an intelij feature
         Game mockModel = EasyMock.createMock(Game.class); //Game(deck);
         GameView mockView = EasyMock.createMock(GameView.class);
 

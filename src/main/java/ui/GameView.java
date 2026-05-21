@@ -10,7 +10,7 @@ public class GameView {
     private Scanner scanner;
     private static final String PLAYER_NOT_NULL_MESSAGE = "player must not be null";
     public GameView() {
-        this.scanner = new Scanner(System.in);
+        this.scanner = new Scanner(System.in, java.nio.charset.StandardCharsets.UTF_8.name());
     }
 
     public void displayStartScreen() {
@@ -26,7 +26,7 @@ public class GameView {
         scanner.nextLine(); // clears extra \n from buffer
 
         for (int i = 0; i < playerCount; i++) {
-            System.out.print("Enter name of player " + (i+1) + ": ");
+            System.out.print("Enter name of player " + (i + 1) + ": ");
             names.add(scanner.nextLine()); // add player's to name list
         }
         return names;
