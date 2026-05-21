@@ -427,7 +427,7 @@ public class GameControllerTest {
 
     //EmptyHandGNO
     @Test
-    void drawEK_emptyHand_playerEliminated_gameNotWon(){
+    void drawEK_emptyHand_playerEliminated_gameNotWon() {
         // arrange
         Player alice = new Player("Alice");
         // empty hand — no cards added
@@ -455,10 +455,9 @@ public class GameControllerTest {
 
     //nonEmptyHand1DiffuseGNO
     @Test
-    void drawEK_noDiffuses_playerEliminated_gameNotWon(){
+    void drawEK_noDiffuses_playerEliminated_gameNotWon() {
         // arrange
         Player alice = new Player("Alice");
-        Player john = new Player("John");
         // empty hand — no cards added
 
         Game mockModel = createMock(Game.class);
@@ -482,10 +481,9 @@ public class GameControllerTest {
 
     //1DiffuseGO
     @Test
-    void drawEK_noDiffuse_playerEliminated_gameWon(){
+    void drawEK_noDiffuse_playerEliminated_gameWon() {
         // arrange
         Player alice = new Player("Alice");
-        Player john = new Player("John");
         // empty hand — no cards added
 
         Game mockModel = createMock(Game.class);
@@ -511,9 +509,8 @@ public class GameControllerTest {
 
     //1DiffuseGNO
     @Test
-    void drawEK_withOneDiffuse_playerSafe_gameNotOver(){
+    void drawEK_withOneDiffuse_playerSafe_gameNotOver() {
         Player mockPlayer = createMock(Player.class);
-        Player secondMockPlayer = createMock(Player.class);
         Game mockModel = createMock(Game.class);
         GameView mockView = createMock(GameView.class);
 
@@ -530,11 +527,11 @@ public class GameControllerTest {
 
         // assert model and view were never touched
         verify(mockModel, mockView, mockPlayer);
-        }
+    }
 
     //1DiffuseGNO
     @Test
-    void drawEK_withAllButOneDiffuse_playerSafe_gameNotOver(){
+    void drawEK_withAllButOneDiffuse_playerSafe_gameNotOver() {
         Player mockPlayer = createMock(Player.class);
 
         Game mockModel = createMock(Game.class);
@@ -556,7 +553,6 @@ public class GameControllerTest {
     }
 
 }
-
 
 
 
