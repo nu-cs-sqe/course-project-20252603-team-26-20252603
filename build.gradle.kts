@@ -1,6 +1,6 @@
 plugins {
     id("java")
-
+    id("info.solidsoft.pitest") version "1.19.0"
 }
 
 group = "nu.csse.sqe"
@@ -29,4 +29,13 @@ tasks.compileJava {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+pitest {
+    junit5PluginVersion.set("1.2.1")
+    targetClasses.set(listOf("domain.*", "controller.*", "view.*"))
+    targetTests.set(listOf("*Test"))
+    threads.set(4)
+    outputFormats.set(listOf("HTML", "XML"))
+    timestampedReports.set(false)
 }
