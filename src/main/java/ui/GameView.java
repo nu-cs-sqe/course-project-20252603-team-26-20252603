@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import domain.game.Card;
+
 public class GameView {
     private Scanner scanner;
+    private static final String PLAYER_NOT_NULL_MESSAGE = "player must not be null";
     public GameView() {
-        this.scanner = new Scanner(System.in);
+        this.scanner = new Scanner(System.in, java.nio.charset.StandardCharsets.UTF_8.name());
     }
 
     public void displayStartScreen() {
@@ -23,7 +26,7 @@ public class GameView {
         scanner.nextLine(); // clears extra \n from buffer
 
         for (int i = 0; i < playerCount; i++) {
-            System.out.print("Enter name of player " + (i+1) + ": ");
+            System.out.print("Enter name of player " + (i + 1) + ": ");
             names.add(scanner.nextLine()); // add player's to name list
         }
         return names;
@@ -35,5 +38,31 @@ public class GameView {
 
     public void displayError(String message) {
         System.out.println("Error: " + message);
+    }
+
+    public void displayCardDrawn (Card card) {
+        System.out.println("You drew: " + card.getType());
+    }
+
+    public void displayMessage(String message) {
+        System.out.println(message);
+
+    }
+      
+    public void displaySeeTheFutureCards(List<Card> cards) {
+        if (cards == null) {
+            throw new NullPointerException(PLAYER_NOT_NULL_MESSAGE);
+        }
+
+        System.out.println("See the Future: Top cards in the draw pile:");
+
+        if (cards.isEmpty()) {
+            System.out.println("No cards to view.");
+            return;
+        }
+
+        for (int i = 0; i < cards.size(); i++) {
+            System.out.println((i + 1) + ". " + cards.get(i).getType());
+        }
     }
 }
