@@ -63,7 +63,7 @@ public class GameView {
         }
     }
 
-    public void displayGameOver(){
+    public void displayGameOver() {
         //TODO: display game over with the name of the winner
     }
 }
