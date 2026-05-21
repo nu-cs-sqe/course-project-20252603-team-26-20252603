@@ -1,5 +1,6 @@
 plugins {
     id("java")
+
 }
 
 group = "nu.csse.sqe"
