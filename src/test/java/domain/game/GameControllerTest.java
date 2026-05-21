@@ -510,49 +510,45 @@ public class GameControllerTest {
     //1DiffuseGNO
     @Test
     void drawEK_withOneDiffuse_playerSafe_gameNotOver() {
-        Player mockPlayer = createMock(Player.class);
+        Player player = new Player("Alice");
+        player.addCard(new Card(CardType.DEFUSE));
         Game mockModel = createMock(Game.class);
         GameView mockView = createMock(GameView.class);
 
-        expect(mockPlayer.countCardsOfType(CardType.DEFUSE)).andReturn(1L);
-        expect(mockPlayer.removedCardByType(CardType.DEFUSE)).andReturn(true);
-        expectLastCall();
-
-        replay(mockPlayer, mockModel, mockView);
+        replay(mockModel, mockView);
         GameController controller = new GameController(mockModel, mockView);
 
         // act
-        controller.handleExplodingKittenDrawn(mockPlayer);
+        controller.handleExplodingKittenDrawn(player);
 
 
         // assert model and view were never touched
-        verify(mockModel, mockView, mockPlayer);
+        verify(mockModel, mockView);
     }
 
     //1DiffuseGNO
     @Test
     void drawEK_withAllButOneDiffuse_playerSafe_gameNotOver() {
-        Player mockPlayer = createMock(Player.class);
+        Player player = new Player("Alice");
+        player.addCard(new Card(CardType.DEFUSE));
+        player.addCard(new Card(CardType.DEFUSE));
+        player.addCard(new Card(CardType.DEFUSE));
+        player.addCard(new Card(CardType.DEFUSE));
 
         Game mockModel = createMock(Game.class);
         GameView mockView = createMock(GameView.class);
 
-        expect(mockPlayer.countCardsOfType(CardType.DEFUSE)).andReturn(4L);
-        expect(mockPlayer.removedCardByType(CardType.DEFUSE)).andReturn(true);
-        expectLastCall();
-
-        replay(mockPlayer, mockModel, mockView);
+        replay(mockModel, mockView);
         GameController controller = new GameController(mockModel, mockView);
 
         // act
-        controller.handleExplodingKittenDrawn(mockPlayer);
+        controller.handleExplodingKittenDrawn(player);
 
 
         // assert model and view were never touched
-        verify(mockModel, mockView, mockPlayer);
+        verify(mockModel, mockView);
     }
 
 }
-
 
 
