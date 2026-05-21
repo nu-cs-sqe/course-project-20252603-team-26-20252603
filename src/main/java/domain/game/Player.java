@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public  class Player {
+public final class Player {
     private static final String NAME_REQUIRED_MESSAGE = "name must not be blank";
     private static final String CARD_REQUIRED_MESSAGE = "card must not be null";
     private static final String INVALID_INDEX_MESSAGE = "cardIndex is out of bounds";
