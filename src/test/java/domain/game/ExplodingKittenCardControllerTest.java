@@ -48,4 +48,25 @@ class ExplodingKittenCardControllerTest {
         assertEquals(List.of(drawPileCard), drawPile.snapshot());
         assertEquals(List.of(discardedCard), discardPile.snapshot());
     }
+
+    @Test
+    void play_NoDefuseNonEmptyHand_ReturnsFalseWithoutChangingHandOrPiles() {
+        Player player = new Player("Alice");
+        Card handCard = new Card(CardType.BEARD_CAT);
+        Card drawPileCard = new Card(CardType.TACOCAT);
+        Card discardedCard = new Card(CardType.SKIP);
+        player.addCard(handCard);
+        Deck drawPile = new Deck(List.of(drawPileCard));
+        DiscardPile discardPile = new DiscardPile();
+        discardPile.add(discardedCard);
+        ExplodingKittenCardController controller =
+                new ExplodingKittenCardController(drawPile, discardPile);
+
+        boolean defused = controller.play(player, new Card(CardType.EXPLODING_KITTEN));
+
+        assertFalse(defused);
+        assertEquals(List.of(handCard), player.getHandSnapshot());
+        assertEquals(List.of(drawPileCard), drawPile.snapshot());
+        assertEquals(List.of(discardedCard), discardPile.snapshot());
+    }
 }

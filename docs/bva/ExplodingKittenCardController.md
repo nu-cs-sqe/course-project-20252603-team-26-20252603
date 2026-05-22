@@ -39,7 +39,7 @@ This BVA uses each-choice coverage over the catalog values below. The current do
     - **State of system**: Player hand = []; draw pile and discard pile are not empty; drawn card = `EXPLODING_KITTEN`.
     - **Expected output**: Returns `false`, player hand stays empty, draw pile is unchanged, and discard pile is unchanged.
 
-- **TC4: play_NoDefuseNonEmptyHand_ReturnsFalseWithoutChangingHandOrPiles** (:x:)
+- **TC4: play_NoDefuseNonEmptyHand_ReturnsFalseWithoutChangingHandOrPiles** (:white_check_mark:)
     - **State of system**: Player hand = [`BEARD_CAT`]; drawn card = `EXPLODING_KITTEN`.
     - **Expected output**: Returns `false`, keeps [`BEARD_CAT`] in hand, draw pile is unchanged, and discard pile is unchanged.
 
