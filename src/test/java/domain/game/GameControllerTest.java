@@ -308,6 +308,33 @@ public class GameControllerTest {
     }
 
     @Test
+    void takeCard_ExplodingKittenWithoutDefuse_EliminatesPlayerAndDisplaysGameOver() {
+        Game game = new Game(createDeckForPlayers(2));
+        game.setupGame(List.of("Avery", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        clearDrawPile(game.getDrawPile());
+        Card explodingKitten = new Card(CardType.EXPLODING_KITTEN);
+        game.getDrawPile().addCard(explodingKitten);
+        GameView mockView = EasyMock.createMock(GameView.class);
+        mockView.displayCardDrawn(explodingKitten);
+        expectLastCall().once();
+        mockView.displayGameOver();
+        expectLastCall().once();
+        EasyMock.replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        Card drawnCard = controller.takeCard();
+
+        assertEquals(explodingKitten, drawnCard);
+        assertEquals(0, currentPlayer.getHandSize());
+        assertFalse(game.getPlayers().contains(currentPlayer));
+        assertEquals(1, game.getPlayers().size());
+        assertTrue(game.isWon());
+        verify(mockView);
+    }
+
+    @Test
     void playSkip_ValidSkip_ReturnsTrueAndDisplaysMessage() {
         Game mockModel = EasyMock.createMock(Game.class);
         GameView mockView = EasyMock.createMock(GameView.class);
@@ -601,4 +628,3 @@ public class GameControllerTest {
     }
 
 }
-
