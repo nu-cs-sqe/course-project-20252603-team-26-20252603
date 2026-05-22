@@ -55,7 +55,7 @@ This BVA uses each-choice coverage over the catalog values below. The current do
     - **State of system**: Player hand = [`DEFUSE`, `DEFUSE`]; draw pile has more than 1 card; drawn card = `EXPLODING_KITTEN`.
     - **Expected output**: Returns `true`, exactly 1 `DEFUSE` remains in hand, discard pile size increases by 1, and draw pile size increases by 1.
 
-- **TC8: play_NullPlayer_ThrowsException** (:x:)
+- **TC8: play_NullPlayer_ThrowsException** (:white_check_mark:)
     - **State of system**: `player = null`; drawn card = `EXPLODING_KITTEN`.
     - **Expected output**: Exception thrown.
 
