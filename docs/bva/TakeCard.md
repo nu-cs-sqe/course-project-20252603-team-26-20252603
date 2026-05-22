@@ -22,6 +22,10 @@
         - **State of system**: Current player hand = [], draw pile top card = `EXPLODING_KITTEN`, 3 active players
         - **Expected output**: Returns `EXPLODING_KITTEN`, does not add it to the player's hand, removes the player from the game, leaves 2 active players, and does not display game over
 
+    - **TC7: takeCard_ExplodingKittenWithoutDefuse_EliminatesPlayerAndDisplaysGameOver** (:white_check_mark:)
+        - **State of system**: Current player hand = [], draw pile top card = `EXPLODING_KITTEN`, 2 active players
+        - **Expected output**: Returns `EXPLODING_KITTEN`, does not add it to the player's hand, removes the player from the game, leaves 1 active player, and displays game over
+
 
 ### Method under test: `public void displayCardDrawn(Card card)` view method
 | Step 1                 | Step 2 | Step 3                                                                                                                                      |
