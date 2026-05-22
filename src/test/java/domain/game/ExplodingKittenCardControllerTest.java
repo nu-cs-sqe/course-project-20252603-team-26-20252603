@@ -143,4 +143,24 @@ class ExplodingKittenCardControllerTest {
         assertTrue(drawPile.snapshot().contains(secondDrawPileCard));
         assertTrue(drawPile.snapshot().contains(explodingKitten));
     }
+
+    @Test
+    void play_NullPlayer_ThrowsException() {
+        Card drawPileCard = new Card(CardType.TACOCAT);
+        Card discardedCard = new Card(CardType.SKIP);
+        Deck drawPile = new Deck(List.of(drawPileCard));
+        DiscardPile discardPile = new DiscardPile();
+        discardPile.add(discardedCard);
+        ExplodingKittenCardController controller =
+                new ExplodingKittenCardController(drawPile, discardPile);
+
+        NullPointerException exception =
+                assertThrows(
+                        NullPointerException.class,
+                        () -> controller.play(null, new Card(CardType.EXPLODING_KITTEN)));
+
+        assertEquals("player must not be null", exception.getMessage());
+        assertEquals(List.of(drawPileCard), drawPile.snapshot());
+        assertEquals(List.of(discardedCard), discardPile.snapshot());
+    }
 }
