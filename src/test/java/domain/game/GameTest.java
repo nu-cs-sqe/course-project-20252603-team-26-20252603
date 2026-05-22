@@ -1,6 +1,7 @@
 package domain.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -143,6 +144,21 @@ class GameTest {
 
         assertEquals(1, game.getPlayers().size());
         assertTrue(game.isWon());
+    }
+
+    @Test
+    void eliminatePlayer_WithThreePlayers_RemovesPlayerAndGameContinues() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Avery", "Jordan", "Casey"));
+        Player eliminatedPlayer = game.getPlayers().get(1);
+
+        game.eliminatePlayer(eliminatedPlayer);
+
+        assertFalse(game.getPlayers().contains(eliminatedPlayer));
+        assertEquals(2, game.getPlayers().size());
+        assertEquals("Avery", game.getPlayers().get(0).getName());
+        assertEquals("Casey", game.getPlayers().get(1).getName());
+        assertFalse(game.isWon());
     }
 
     private void assertPlayersHaveOpeningHands(List<Player> players) {
