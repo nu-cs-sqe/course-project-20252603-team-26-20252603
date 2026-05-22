@@ -47,7 +47,7 @@ This BVA uses each-choice coverage over the catalog values below. The current do
     - **State of system**: Player hand = [`DEFUSE`]; draw pile = []; discard pile = []; drawn card = `EXPLODING_KITTEN`.
     - **Expected output**: Returns `true`, player hand size becomes 0, discard pile becomes [`DEFUSE`], and draw pile becomes [`EXPLODING_KITTEN`].
 
-- **TC6: play_AllButOneCardIsDefuse_RemovesOneDefuseAndKeepsOtherCards** (:x:)
+- **TC6: play_AllButOneCardIsDefuse_RemovesOneDefuseAndKeepsOtherCards** (:white_check_mark:)
     - **State of system**: Player hand = [`DEFUSE`, `DEFUSE`, `BEARD_CAT`]; draw pile has exactly 1 card; discard pile is not empty; drawn card = `EXPLODING_KITTEN`.
     - **Expected output**: Returns `true`, removes exactly 1 `DEFUSE`, keeps [`DEFUSE`, `BEARD_CAT`] in the player's hand, discard pile size increases by 1, and draw pile size increases by 1.
 

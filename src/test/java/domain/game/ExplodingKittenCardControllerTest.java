@@ -89,4 +89,32 @@ class ExplodingKittenCardControllerTest {
         assertEquals(List.of(defuse), discardPile.snapshot());
         assertEquals(List.of(explodingKitten), drawPile.snapshot());
     }
+
+    @Test
+    void play_AllButOneCardIsDefuse_RemovesOneDefuseAndKeepsOtherCards() {
+        Player player = new Player("Alice");
+        Card firstDefuse = new Card(CardType.DEFUSE);
+        Card secondDefuse = new Card(CardType.DEFUSE);
+        Card catCard = new Card(CardType.BEARD_CAT);
+        Card drawPileCard = new Card(CardType.TACOCAT);
+        Card discardedCard = new Card(CardType.SKIP);
+        Card explodingKitten = new Card(CardType.EXPLODING_KITTEN);
+        player.addCard(firstDefuse);
+        player.addCard(secondDefuse);
+        player.addCard(catCard);
+        Deck drawPile = new Deck(List.of(drawPileCard));
+        DiscardPile discardPile = new DiscardPile();
+        discardPile.add(discardedCard);
+        ExplodingKittenCardController controller =
+                new ExplodingKittenCardController(drawPile, discardPile);
+
+        boolean defused = controller.play(player, explodingKitten);
+
+        assertTrue(defused);
+        assertEquals(List.of(secondDefuse, catCard), player.getHandSnapshot());
+        assertEquals(List.of(discardedCard, firstDefuse), discardPile.snapshot());
+        assertEquals(2, drawPile.snapshot().size());
+        assertTrue(drawPile.snapshot().contains(drawPileCard));
+        assertTrue(drawPile.snapshot().contains(explodingKitten));
+    }
 }
