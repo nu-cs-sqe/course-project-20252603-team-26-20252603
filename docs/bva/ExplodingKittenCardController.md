@@ -13,7 +13,7 @@ This BVA uses each-choice coverage over the catalog values below. The current do
 
 ### Test Cases
 
-- **TC1: constructor_NullGame_ThrowsException** (:x:)
+- **TC1: constructor_NullGame_ThrowsException** (:white_check_mark:)
     - **State of system**: `game = null`
     - **Expected output**: Exception thrown.
 
