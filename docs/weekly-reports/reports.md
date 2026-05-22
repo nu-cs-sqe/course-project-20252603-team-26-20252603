@@ -58,3 +58,4 @@
 6. [in progress] Sidney: Design plan for I18n report
 7. [in progress] Sidney: work on game view (no longer doing gui)
 8. [in progress] Alivia: Sophie: Complete weekly report 7
+9. [done] Implementing professor's feedback from week 6 Code review
