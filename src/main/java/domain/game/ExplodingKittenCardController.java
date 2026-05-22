@@ -9,6 +9,8 @@ public final class ExplodingKittenCardController {
     private static final String PLAYER_REQUIRED_MESSAGE = "player must not be null";
     private static final String EXPLODING_KITTEN_REQUIRED_MESSAGE =
             "exploding kitten must not be null";
+    private static final String EXPLODING_KITTEN_TYPE_REQUIRED_MESSAGE =
+            "drawn card must be an exploding kitten";
 
     private final Deck drawPile;
 
@@ -22,6 +24,9 @@ public final class ExplodingKittenCardController {
     public boolean play(Player player, Card explodingKitten) {
         Objects.requireNonNull(player, PLAYER_REQUIRED_MESSAGE);
         Objects.requireNonNull(explodingKitten, EXPLODING_KITTEN_REQUIRED_MESSAGE);
+        if (explodingKitten.getType() != CardType.EXPLODING_KITTEN) {
+            throw new IllegalArgumentException(EXPLODING_KITTEN_TYPE_REQUIRED_MESSAGE);
+        }
         int defuseIndex = findDefuseIndex(player);
         if (defuseIndex < 0) {
             return false;
