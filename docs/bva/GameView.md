@@ -58,3 +58,14 @@
     - **TC8: displayGameReady_DisplayOnce_ShowsGameReadyMessage** ( x: or :white_check_mark: )
         - **State of the system**: call function `displayGameReady()`
         - **Expected output**: Console shows "Game is ready! Let's begin!"
+
+### Method under test: `public void displayGameOver()`
+| Step 1                 | Step 2 | Step 3                                  |
+|------------------------|--------|-----------------------------------------|
+| Input 1: None          | N/A    | Values: N/A                             |
+| Output: console output | String | Values: <ul><li> Game over! </li></ul>  |
+
+- **Step 4:**
+    - **TC9: displayGameOver_DisplayOnce_ShowsGameOverMessage** (:white_check_mark:)
+        - **State of the system**: call function `displayGameOver()`
+        - **Expected output**: Console shows "Game over!"

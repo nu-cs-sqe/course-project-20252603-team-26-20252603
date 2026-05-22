@@ -67,6 +67,6 @@ public class GameView {
     }
 
     public void displayGameOver() {
-        //TODO: display game over with the name of the winner
+        System.out.println("Game over!");
     }
 }
