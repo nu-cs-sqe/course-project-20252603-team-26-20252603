@@ -2,6 +2,7 @@ package domain.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,6 +131,18 @@ class GameTest {
         assertEquals(3, game.getDrawPile().countCardsOfType(CardType.EXPLODING_KITTEN));
         assertEquals(1, game.getDrawPile().countCardsOfType(CardType.DEFUSE));
         assertEquals(4, game.getDrawPile().size());
+    }
+
+    @Test
+    void isWon_WhenOnePlayerRemains_ReturnsTrue() {
+        Game game = new Game(createDeck(2, 2, 10));
+        game.setupGame(List.of("Avery", "Jordan"));
+        Player eliminatedPlayer = game.getPlayers().get(0);
+
+        game.eliminatePlayer(eliminatedPlayer);
+
+        assertEquals(1, game.getPlayers().size());
+        assertTrue(game.isWon());
     }
 
     private void assertPlayersHaveOpeningHands(List<Player> players) {
