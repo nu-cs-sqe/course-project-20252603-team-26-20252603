@@ -44,3 +44,17 @@
 6. [done] Sophie: Set up Skip card logic — BVA, unit tests, initialization and integration into deck (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/51).
 7. [done] Sophie: Set up See the Future card logic — BVA, unit tests, initialization and integration into deck (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/52)
 9. [done] Sophie: Complete weekly report 6 ().
+
+## Week 7 (05/05/2026-05/12/2026)
+
+**Planning and Progress Tracking**:
+
+1. [done] Ben:[Set up linters](https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/issues/38).
+2. [done] Ben: [finish attack card](https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/57)
+3. [in progress] Sophie: set up pitest
+4. [done] Alivia: [BVA, unit tests for exploding wild kitten method](https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/39).
+5. [done] Sidney: [Improved TDD for TakeCard method](https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/53)
+5. [in progress] Ben: take over and finish exploding wild kitten and win condition implementation
+6. [in progress] Sidney: Design plan for I18n report
+7. [in progress] Sidney: work on game view (no longer doing gui)
+8. [in progress] Alivia: Sophie: Complete weekly report 7
