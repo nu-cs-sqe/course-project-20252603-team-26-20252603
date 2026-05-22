@@ -283,6 +283,31 @@ public class GameControllerTest {
     }
 
     @Test
+    void takeCard_ExplodingKittenWithoutDefuse_EliminatesPlayerAndGameContinues() {
+        Game game = new Game(createDeckForPlayers(3));
+        game.setupGame(List.of("Avery", "Jordan", "Casey"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        clearDrawPile(game.getDrawPile());
+        Card explodingKitten = new Card(CardType.EXPLODING_KITTEN);
+        game.getDrawPile().addCard(explodingKitten);
+        GameView mockView = EasyMock.createMock(GameView.class);
+        mockView.displayCardDrawn(explodingKitten);
+        expectLastCall().once();
+        EasyMock.replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        Card drawnCard = controller.takeCard();
+
+        assertEquals(explodingKitten, drawnCard);
+        assertEquals(0, currentPlayer.getHandSize());
+        assertFalse(game.getPlayers().contains(currentPlayer));
+        assertEquals(2, game.getPlayers().size());
+        assertFalse(game.isWon());
+        verify(mockView);
+    }
+
+    @Test
     void playSkip_ValidSkip_ReturnsTrueAndDisplaysMessage() {
         Game mockModel = EasyMock.createMock(Game.class);
         GameView mockView = EasyMock.createMock(GameView.class);
@@ -549,6 +574,31 @@ public class GameControllerTest {
         verify(mockModel, mockView);
     }
 
-}
+    private Deck createDeckForPlayers(int playerCount) {
+        List<Card> cards = new ArrayList<>();
+        for (int count = 0; count < playerCount - 1; count++) {
+            cards.add(new Card(CardType.EXPLODING_KITTEN));
+        }
+        for (int count = 0; count < playerCount; count++) {
+            cards.add(new Card(CardType.DEFUSE));
+        }
+        for (int count = 0; count < playerCount * 5; count++) {
+            cards.add(new Card(CardType.PLACEHOLDER_CARD));
+        }
+        return new Deck(cards);
+    }
 
+    private void clearHand(Player player) {
+        while (player.getHandSize() > 0) {
+            player.removeCard(0);
+        }
+    }
+
+    private void clearDrawPile(Deck drawPile) {
+        while (drawPile.size() > 0) {
+            drawPile.draw();
+        }
+    }
+
+}
 
