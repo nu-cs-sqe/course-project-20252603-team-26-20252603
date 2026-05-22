@@ -63,6 +63,6 @@ This BVA uses each-choice coverage over the catalog values below. The current do
     - **State of system**: Current player is valid; `explodingKitten = null`.
     - **Expected output**: Exception thrown.
 
-- **TC10: play_DrawnCardIsNotExplodingKitten_ThrowsException** (:x:)
+- **TC10: play_DrawnCardIsNotExplodingKitten_ThrowsException** (:white_check_mark:)
     - **State of system**: Current player is valid; drawn card = `DEFUSE`.
     - **Expected output**: `IllegalArgumentException` thrown.

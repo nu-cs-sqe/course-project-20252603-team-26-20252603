@@ -185,4 +185,28 @@ class ExplodingKittenCardControllerTest {
         assertEquals(List.of(drawPileCard), drawPile.snapshot());
         assertEquals(List.of(discardedCard), discardPile.snapshot());
     }
+
+    @Test
+    void play_DrawnCardIsNotExplodingKitten_ThrowsException() {
+        Player player = new Player("Alice");
+        Card defuse = new Card(CardType.DEFUSE);
+        Card drawPileCard = new Card(CardType.TACOCAT);
+        Card discardedCard = new Card(CardType.SKIP);
+        player.addCard(defuse);
+        Deck drawPile = new Deck(List.of(drawPileCard));
+        DiscardPile discardPile = new DiscardPile();
+        discardPile.add(discardedCard);
+        ExplodingKittenCardController controller =
+                new ExplodingKittenCardController(drawPile, discardPile);
+
+        IllegalArgumentException exception =
+                assertThrows(
+                        IllegalArgumentException.class,
+                        () -> controller.play(player, new Card(CardType.DEFUSE)));
+
+        assertEquals("drawn card must be an exploding kitten", exception.getMessage());
+        assertEquals(List.of(defuse), player.getHandSnapshot());
+        assertEquals(List.of(drawPileCard), drawPile.snapshot());
+        assertEquals(List.of(discardedCard), discardPile.snapshot());
+    }
 }
