@@ -145,7 +145,7 @@ public class Game {
         }
     }
     void eliminatePlayer(Player player) {
-        // TODO: implement
+        players.remove(player);
     }
 
     boolean isWon() {

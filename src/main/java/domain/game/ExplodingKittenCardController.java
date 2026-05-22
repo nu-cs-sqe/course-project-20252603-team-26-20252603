@@ -10,4 +10,9 @@ public final class ExplodingKittenCardController {
     public ExplodingKittenCardController(Game game) {
         this.game = Objects.requireNonNull(game, GAME_REQUIRED_MESSAGE);
     }
+
+    public boolean play(Player player, Card explodingKitten) {
+        game.eliminatePlayer(player);
+        return false;
+    }
 }
