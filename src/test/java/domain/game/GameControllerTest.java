@@ -1,7 +1,6 @@
 package domain.game;
 
 import static org.easymock.EasyMock.anyString;
-import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
@@ -507,130 +506,6 @@ public class GameControllerTest {
 
         verify(mockModel);
         verify(mockView);
-    }
-
-    //EmptyHandGNO
-    @Test
-    void drawEK_emptyHand_playerEliminated_gameNotWon() {
-        // arrange
-        Player alice = new Player("Alice");
-        // empty hand — no cards added
-
-        Game mockModel = createMock(Game.class);
-        GameView mockView = createMock(GameView.class);
-
-        mockModel.eliminatePlayer(alice);
-        expectLastCall();
-
-        expect(mockModel.isWon()).andReturn(false);
-
-        replay(mockModel, mockView);
-
-        GameController controller = new GameController(mockModel, mockView);
-
-        // act
-        controller.handleExplodingKittenDrawn(alice);
-
-        // assert
-        verify(mockModel, mockView); // confirms eliminatePlayer was called
-
-    }
-
-
-    //nonEmptyHand1DiffuseGNO
-    @Test
-    void drawEK_noDiffuses_playerEliminated_gameNotWon() {
-        // arrange
-        Player alice = new Player("Alice");
-        // empty hand — no cards added
-
-        Game mockModel = createMock(Game.class);
-        GameView mockView = createMock(GameView.class);
-
-        mockModel.eliminatePlayer(alice);
-        expectLastCall();
-
-        expect(mockModel.isWon()).andReturn(false);
-
-        replay(mockModel, mockView);
-
-        GameController controller = new GameController(mockModel, mockView);
-
-        // act
-        controller.handleExplodingKittenDrawn(alice);
-
-        // assert
-        verify(mockModel, mockView); // confirms eliminatePlayer was called
-    }
-
-    //1DiffuseGO
-    @Test
-    void drawEK_noDiffuse_playerEliminated_gameWon() {
-        // arrange
-        Player alice = new Player("Alice");
-        // empty hand — no cards added
-
-        Game mockModel = createMock(Game.class);
-        GameView mockView = createMock(GameView.class);
-
-        mockModel.eliminatePlayer(alice);
-        expectLastCall();
-
-        expect(mockModel.isWon()).andReturn(true);
-        mockView.displayGameOver();   // now verify checks this was called too
-        expectLastCall();
-
-        replay(mockModel, mockView);
-
-        GameController controller = new GameController(mockModel, mockView);
-
-        // act
-        controller.handleExplodingKittenDrawn(alice);
-
-        // assert
-        verify(mockModel, mockView); // confirms eliminatePlayer was called
-    }
-
-    //1DiffuseGNO
-    @Test
-    void drawEK_withOneDiffuse_playerSafe_gameNotOver() {
-        Player player = new Player("Alice");
-        player.addCard(new Card(CardType.DEFUSE));
-        Game mockModel = createMock(Game.class);
-        GameView mockView = createMock(GameView.class);
-
-        replay(mockModel, mockView);
-        GameController controller = new GameController(mockModel, mockView);
-
-        // act
-        controller.handleExplodingKittenDrawn(player);
-
-
-        // assert model and view were never touched
-        verify(mockModel, mockView);
-    }
-
-    //1DiffuseGNO
-    @Test
-    void drawEK_withAllButOneDiffuse_playerSafe_gameNotOver() {
-        Player player = new Player("Alice");
-        player.addCard(new Card(CardType.DEFUSE));
-        player.addCard(new Card(CardType.DEFUSE));
-        player.addCard(new Card(CardType.DEFUSE));
-        player.addCard(new Card(CardType.DEFUSE));
-
-        Game mockModel = createMock(Game.class);
-        GameView mockView = createMock(GameView.class);
-
-        replay(mockModel, mockView);
-        GameController controller = new GameController(mockModel, mockView);
-
-        // act
-        controller.handleExplodingKittenDrawn(player);
-
-
-        // assert model and view were never touched
-        verify(mockModel, mockView);
     }
 
     private Deck createDeckForPlayers(int playerCount) {

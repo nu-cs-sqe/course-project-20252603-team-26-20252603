@@ -65,18 +65,4 @@ public class GameController {
             return false;
         }
     }
-
-    public void handleExplodingKittenDrawn(Player player) {
-        long defusesLeft = player.countCardsOfType(CardType.DEFUSE);
-        if (defusesLeft == 0) {
-            model.eliminatePlayer(player);
-            if (model.isWon()) {
-                view.displayGameOver();
-            }
-        } else {
-            player.removedCardByType(CardType.DEFUSE);
-
-        }
-    }
 }
-

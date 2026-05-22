@@ -38,12 +38,6 @@ public final class Player {
         hand.remove(index);
     }
 
-    public boolean removedCardByType(CardType type) {
-        // TODO: implement a function that tests whether the size of card type has changed
-        // could also return a card type or void and actually do the action instead of checking
-        return true;
-    }
-
     public int getHandSize() {
         return hand.size();
     }
