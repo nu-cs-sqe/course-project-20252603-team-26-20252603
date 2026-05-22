@@ -34,3 +34,9 @@
 | --- | --- | --- | --- |
 | `GAME-CURRENT-1` | Game has not been set up yet. | Throw `IllegalStateException` with message `game has not been set up`. | :white_check_mark: |
 | `GAME-CURRENT-2` | Game was set up successfully. | Return the first player in the established turn order. | implemented in `GAME-SETUP-3` |
+
+## Method under test: `boolean isWon()`
+
+| ID | State of the system | Expected output | Implemented? |
+| --- | --- | --- | --- |
+| `GAME-WON-1` | Game has exactly 1 active player after elimination. | Return `true`. | :white_check_mark: |

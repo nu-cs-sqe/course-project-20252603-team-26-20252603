@@ -149,7 +149,6 @@ public class Game {
     }
 
     boolean isWon() {
-        // TODO: implement
-        return false;
+        return players.size() == 1;
     }
 }
