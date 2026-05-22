@@ -3,6 +3,7 @@ package domain.game;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -68,5 +69,24 @@ class ExplodingKittenCardControllerTest {
         assertEquals(List.of(handCard), player.getHandSnapshot());
         assertEquals(List.of(drawPileCard), drawPile.snapshot());
         assertEquals(List.of(discardedCard), discardPile.snapshot());
+    }
+
+    @Test
+    void play_OneDefuseWithEmptyDrawPileAndEmptyDiscardPile_DefusesKitten() {
+        Player player = new Player("Alice");
+        Card defuse = new Card(CardType.DEFUSE);
+        Card explodingKitten = new Card(CardType.EXPLODING_KITTEN);
+        player.addCard(defuse);
+        Deck drawPile = new Deck(List.of());
+        DiscardPile discardPile = new DiscardPile();
+        ExplodingKittenCardController controller =
+                new ExplodingKittenCardController(drawPile, discardPile);
+
+        boolean defused = controller.play(player, explodingKitten);
+
+        assertTrue(defused);
+        assertEquals(0, player.getHandSize());
+        assertEquals(List.of(defuse), discardPile.snapshot());
+        assertEquals(List.of(explodingKitten), drawPile.snapshot());
     }
 }
