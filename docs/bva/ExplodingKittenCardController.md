@@ -31,7 +31,7 @@ This BVA uses each-choice coverage over the catalog values below. The current do
 
 ### Test Cases
 
-- **TC2: play_NoDefuseEmptyHandWithThreePlayers_EliminatesPlayerAndGameContinues** (:x:)
+- **TC2: play_NoDefuseEmptyHandWithThreePlayers_EliminatesPlayerAndGameContinues** (:white_check_mark:)
     - **State of system**: Three active players; current player hand = []; drawn card = `EXPLODING_KITTEN`.
     - **Expected output**: Returns `false`, removes current player from the game, leaves 2 players active, and `game.isWon()` is `false`.
 
