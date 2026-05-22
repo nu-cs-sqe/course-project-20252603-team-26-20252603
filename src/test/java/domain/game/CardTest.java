@@ -15,6 +15,13 @@ class CardTest {
         assertEquals(CardType.PLACEHOLDER_CARD, card.getType());
     }
 
+    @Test
+    void constructorStoresAttackCardType() {
+        Card card = new Card(CardType.ATTACK);
+
+        assertEquals(CardType.ATTACK, card.getType());
+    }
+
     @ParameterizedTest
     @EnumSource(CardType.class)
     void constructorStoresProvidedCardType(CardType type) {
@@ -33,5 +40,20 @@ class CardTest {
                 assertThrows(NullPointerException.class, () -> new Card(null));
 
         assertEquals("type must not be null", exception.getMessage());
+    }
+  
+    @Test
+    void constructorStoresSkipCardType() {
+        Card card = new Card(CardType.SKIP);
+
+        assertEquals(CardType.SKIP, card.getType());
+
+    }
+    
+    @Test
+    void constructorStoresSeeTheFutureCardType() {
+        Card card = new Card(CardType.SEE_THE_FUTURE);
+
+        assertEquals(CardType.SEE_THE_FUTURE, card.getType());
     }
 }

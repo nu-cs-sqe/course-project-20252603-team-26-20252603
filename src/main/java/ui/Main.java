@@ -3,9 +3,11 @@ package ui;
 import domain.game.Card;
 import domain.game.CardType;
 
+import java.util.List;
+
 public class Main {
     // testing the GameView UI via main
-    public static void main(String[] args){
+    public static void main(String[] args) {
         GameView view = new GameView();
 
         // TC 1 "displayStartScreen_DisplayOnce_ShowsTitle" from BVA GameView
@@ -33,9 +35,13 @@ public class Main {
         // TC5: displayCardDrawn_OtherCard_ShowsOther from TakeCard BVA
         System.out.println("\n testing null card should throw an exception");
 
+        System.out.println("\n testing displaySeeTheFutureCards with empty list");
+
+        view.displaySeeTheFutureCards(List.of());
+
         try {
             view.displayCardDrawn(null);
-        } catch (NullPointerException err) {
+        } catch (RuntimeException err) {
             System.out.println("exception occurred " + err.getMessage());
         }
 
