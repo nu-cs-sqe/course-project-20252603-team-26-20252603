@@ -8,7 +8,6 @@ import domain.game.Card;
 
 public class GameView {
     private Scanner scanner;
-    private static final String PLAYER_NOT_NULL_MESSAGE = "player must not be null";
     public GameView() {
         this.scanner = new Scanner(System.in, java.nio.charset.StandardCharsets.UTF_8.name());
     }
@@ -50,9 +49,7 @@ public class GameView {
     }
       
     public void displaySeeTheFutureCards(List<Card> cards) {
-        if (cards == null) {
-            throw new NullPointerException(PLAYER_NOT_NULL_MESSAGE);
-        }
+
 
         System.out.println("See the Future: Top cards in the draw pile:");
 
