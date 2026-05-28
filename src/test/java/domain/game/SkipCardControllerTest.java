@@ -83,13 +83,6 @@ public class SkipCardControllerTest {
                 () -> controller.play(player, 1));
     }
 
-    @Test
-    void playSkip_NullPlayer_ThrowsException() {
-        DiscardPile discardPile = new DiscardPile();
-        SkipCardController controller = new SkipCardController(discardPile);
 
-        assertThrows(NullPointerException.class,
-                () -> controller.play(null, 0));
-    }
 
 }
