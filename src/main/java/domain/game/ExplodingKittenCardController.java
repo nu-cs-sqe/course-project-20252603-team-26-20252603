@@ -1,10 +1,10 @@
 package domain.game;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import java.util.Objects;
 
 public final class ExplodingKittenCardController {
-    private static final String DRAW_PILE_REQUIRED_MESSAGE = "draw pile must not be null";
     private static final String DISCARD_PILE_REQUIRED_MESSAGE = "discard pile must not be null";
     private static final String PLAYER_REQUIRED_MESSAGE = "player must not be null";
     private static final String EXPLODING_KITTEN_REQUIRED_MESSAGE =
@@ -12,12 +12,15 @@ public final class ExplodingKittenCardController {
     private static final String EXPLODING_KITTEN_TYPE_REQUIRED_MESSAGE =
             "drawn card must be an exploding kitten";
 
+    @SuppressFBWarnings(
+            value = "EI_EXPOSE_REP2",
+            justification = "Controller must return a defused Exploding Kitten to the injected draw pile.")
     private final Deck drawPile;
 
     private final DiscardPile discardPile;
 
     public ExplodingKittenCardController(Deck drawPile, DiscardPile discardPile) {
-        this.drawPile = Objects.requireNonNull(drawPile, DRAW_PILE_REQUIRED_MESSAGE);
+        this.drawPile = drawPile;
         this.discardPile = Objects.requireNonNull(discardPile, DISCARD_PILE_REQUIRED_MESSAGE);
     }
 
