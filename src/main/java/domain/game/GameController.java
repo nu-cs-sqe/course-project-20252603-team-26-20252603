@@ -41,7 +41,7 @@ public class GameController {
             if (!defused) {
                 model.eliminatePlayer(currentPlayer);
                 if (model.isWon()) {
-                    view.displayGameOver();
+                    view.displayGameOver(model.getPlayers().get(0).getName());
                 }
             }
             return drawnCard;

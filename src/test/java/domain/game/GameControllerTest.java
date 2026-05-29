@@ -311,7 +311,7 @@ public class GameControllerTest {
     }
 
     @Test
-    void takeCard_ExplodingKittenWithoutDefuse_EliminatesPlayerAndDisplaysGameOver() {
+    void takeCard_ExplodingKittenWithoutDefuse_EliminatesPlayerAndDisplaysWinner() {
         Game game = new Game(createDeckForPlayers(2));
         game.setupGame(List.of("Avery", "Jordan"));
         Player currentPlayer = game.getCurrentPlayer();
@@ -322,7 +322,7 @@ public class GameControllerTest {
         GameView mockView = EasyMock.createMock(GameView.class);
         mockView.displayCardDrawn(explodingKitten);
         expectLastCall().once();
-        mockView.displayGameOver();
+        mockView.displayGameOver("Jordan");
         expectLastCall().once();
         EasyMock.replay(mockView);
         GameController controller = new GameController(game, mockView);
