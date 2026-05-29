@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("info.solidsoft.pitest") version "1.19.0"
     checkstyle
     jacoco
     id("com.github.spotbugs") version "6.5.4"
@@ -41,4 +42,13 @@ tasks.jacocoTestReport {
         xml.required = true
         html.required = true
     }
+}
+
+pitest {
+    junit5PluginVersion.set("1.2.1")
+    targetClasses.set(listOf("domain.*", "controller.*", "view.*"))
+    targetTests.set(listOf("*Test"))
+    threads.set(4)
+    outputFormats.set(listOf("HTML", "XML"))
+    timestampedReports.set(false)
 }
