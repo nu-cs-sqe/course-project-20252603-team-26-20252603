@@ -77,4 +77,9 @@ public class GameView {
         }
 
     }
+
+    public void displayGameOver(String winnerName) {
+        String message = MessageFormat.format(messages.getString("game.over.winner"), winnerName);
+        System.out.println(message);
+    }
 }

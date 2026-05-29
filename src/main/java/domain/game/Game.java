@@ -108,6 +108,7 @@ public class Game {
             throw new IllegalStateException(NOT_ENOUGH_DEFUSES_MESSAGE);
         }
 
+
         int nonSpecialCardCount =
                 drawPile.size() - (int) explodingKittenCount - (int) defuseCount;
         if (nonSpecialCardCount < playerCount * OPENING_HAND_SIZE) {
@@ -142,5 +143,12 @@ public class Game {
         for (int index = startInclusive; index < endExclusive; index++) {
             drawPile.addCard(cards.get(index));
         }
+    }
+    void eliminatePlayer(Player player) {
+        players.remove(player);
+    }
+
+    boolean isWon() {
+        return players.size() == 1;
     }
 }

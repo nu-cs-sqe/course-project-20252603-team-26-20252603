@@ -33,6 +33,19 @@ public class GameController {
     public Card takeCard() {
         Player currentPlayer = model.getCurrentPlayer();
         Card drawnCard = model.getDrawPile().draw();
+        if (drawnCard.getType() == CardType.EXPLODING_KITTEN) {
+            view.displayCardDrawn(drawnCard);
+            ExplodingKittenCardController explodingKittenController =
+                    new ExplodingKittenCardController(model.getDrawPile(), model.getDiscardPile());
+            boolean defused = explodingKittenController.play(currentPlayer, drawnCard);
+            if (!defused) {
+                model.eliminatePlayer(currentPlayer);
+                if (model.isWon()) {
+                    view.displayGameOver(model.getPlayers().get(0).getName());
+                }
+            }
+            return drawnCard;
+        }
         currentPlayer.addCard(drawnCard);
         view.displayCardDrawn(drawnCard);
         return drawnCard;
