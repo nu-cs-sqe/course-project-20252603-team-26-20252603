@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 public class GameViewTest {
     @Test
-    void displayGameOver_DisplayOnce_ShowsGameOverMessage() {
+    void displayGameOver_WithWinnerName_ShowsGameOverAndWinner() {
         GameView view = new GameView();
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
@@ -18,11 +18,11 @@ public class GameViewTest {
         try {
             System.setOut(new PrintStream(output, true, StandardCharsets.UTF_8));
 
-            view.displayGameOver();
+            view.displayGameOver("Jordan");
         } finally {
             System.setOut(originalOut);
         }
 
-        assertTrue(output.toString(StandardCharsets.UTF_8).contains("Game over!"));
+        assertTrue(output.toString(StandardCharsets.UTF_8).contains("Game over! Jordan wins!"));
     }
 }
