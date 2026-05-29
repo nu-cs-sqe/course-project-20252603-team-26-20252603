@@ -1,9 +1,18 @@
 package domain.game;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 
 public class SeeFutureCardController {
+    // Open to discussion here
+    @SuppressFBWarnings(
+            value = "EI_EXPOSE_REP2",
+            justification = "Controller must read from the injected draw pile.")
     private Deck drawPile;
+
+    @SuppressFBWarnings(
+            value = "EI_EXPOSE_REP2",
+            justification = "Controller must add the played card to the injected discard pile.")
     private DiscardPile discardPile;
     private static final String SEE_FUTURE_REQUIRED_MESSAGE = "card must be See the Future";
     private static final String PLAYER_NOT_NULL_MESSAGE = "player must not be null";

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-public class Deck {
+public final class Deck {
     private static final String CARDS_REQUIRED_MESSAGE = "cards must not be null";
     private static final String RANDOM_REQUIRED_MESSAGE = "random must not be null";
     private static final String CARD_REQUIRED_MESSAGE = "card must not be null";
