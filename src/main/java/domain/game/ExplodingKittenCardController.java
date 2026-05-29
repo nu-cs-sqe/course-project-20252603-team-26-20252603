@@ -2,11 +2,8 @@ package domain.game;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
-import java.util.Objects;
 
 public final class ExplodingKittenCardController {
-    private static final String EXPLODING_KITTEN_REQUIRED_MESSAGE =
-            "exploding kitten must not be null";
     private static final String EXPLODING_KITTEN_TYPE_REQUIRED_MESSAGE =
             "drawn card must be an exploding kitten";
 
@@ -26,7 +23,6 @@ public final class ExplodingKittenCardController {
     }
 
     public boolean play(Player player, Card explodingKitten) {
-        Objects.requireNonNull(explodingKitten, EXPLODING_KITTEN_REQUIRED_MESSAGE);
         if (explodingKitten.getType() != CardType.EXPLODING_KITTEN) {
             throw new IllegalArgumentException(EXPLODING_KITTEN_TYPE_REQUIRED_MESSAGE);
         }

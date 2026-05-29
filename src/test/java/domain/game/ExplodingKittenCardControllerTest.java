@@ -123,28 +123,6 @@ class ExplodingKittenCardControllerTest {
     }
 
     @Test
-    void play_NullDrawnCard_ThrowsException() {
-        Player player = new Player("Alice");
-        Card defuse = new Card(CardType.DEFUSE);
-        Card drawPileCard = new Card(CardType.TACOCAT);
-        Card discardedCard = new Card(CardType.SKIP);
-        player.addCard(defuse);
-        Deck drawPile = new Deck(List.of(drawPileCard));
-        DiscardPile discardPile = new DiscardPile();
-        discardPile.add(discardedCard);
-        ExplodingKittenCardController controller =
-                new ExplodingKittenCardController(drawPile, discardPile);
-
-        NullPointerException exception =
-                assertThrows(NullPointerException.class, () -> controller.play(player, null));
-
-        assertEquals("exploding kitten must not be null", exception.getMessage());
-        assertEquals(List.of(defuse), player.getHandSnapshot());
-        assertEquals(List.of(drawPileCard), drawPile.snapshot());
-        assertEquals(List.of(discardedCard), discardPile.snapshot());
-    }
-
-    @Test
     void play_DrawnCardIsNotExplodingKitten_ThrowsException() {
         Player player = new Player("Alice");
         Card defuse = new Card(CardType.DEFUSE);
