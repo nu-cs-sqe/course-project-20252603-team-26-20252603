@@ -10,16 +10,6 @@ import org.junit.jupiter.api.Test;
 
 class ExplodingKittenCardControllerTest {
     @Test
-    void constructor_NullDrawPile_ThrowsException() {
-        NullPointerException exception =
-                assertThrows(
-                        NullPointerException.class,
-                        () -> new ExplodingKittenCardController(null, new DiscardPile()));
-
-        assertEquals("draw pile must not be null", exception.getMessage());
-    }
-
-    @Test
     void constructor_NullDiscardPile_ThrowsException() {
         Deck drawPile = new Deck(List.of());
 

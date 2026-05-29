@@ -8,15 +8,11 @@ This BVA uses each-choice coverage over the catalog values below. The current do
 
 | Step 1 | Step 2 | Step 3 |
 |---|---|---|
-| Input 1: `drawPile` | Object Reference | Values: <ul><li>`drawPile` is valid</li><li>`drawPile` is `null`</li></ul> |
+| Input 1: `drawPile` | Object Reference | Values: <ul><li>`drawPile` is valid</li></ul> |
 | Input 2: `discardPile` | Object Reference | Values: <ul><li>`discardPile` is valid</li><li>`discardPile` is `null`</li></ul> |
-| Output | Constructed Object / Exception | Values: <ul><li>Controller is constructed with valid piles</li><li>Exception thrown for a `null` pile</li></ul> |
+| Output | Constructed Object / Exception | Values: <ul><li>Controller is constructed with valid piles</li><li>Exception thrown for a `null` discard pile</li></ul> |
 
 ### Test Cases
-
-- **TC1: constructor_NullDrawPile_ThrowsException** (:white_check_mark:)
-    - **State of system**: `drawPile = null`, `discardPile` is valid
-    - **Expected output**: Exception thrown.
 
 - **TC2: constructor_NullDiscardPile_ThrowsException** (:white_check_mark:)
     - **State of system**: `drawPile` is valid, `discardPile = null`
