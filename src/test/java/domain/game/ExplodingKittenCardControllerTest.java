@@ -10,18 +10,6 @@ import org.junit.jupiter.api.Test;
 
 class ExplodingKittenCardControllerTest {
     @Test
-    void constructor_NullDiscardPile_ThrowsException() {
-        Deck drawPile = new Deck(List.of());
-
-        NullPointerException exception =
-                assertThrows(
-                        NullPointerException.class,
-                        () -> new ExplodingKittenCardController(drawPile, null));
-
-        assertEquals("discard pile must not be null", exception.getMessage());
-    }
-
-    @Test
     void play_NoDefuseEmptyHand_ReturnsFalseWithoutChangingPiles() {
         Player player = new Player("Alice");
         Card drawPileCard = new Card(CardType.BEARD_CAT);

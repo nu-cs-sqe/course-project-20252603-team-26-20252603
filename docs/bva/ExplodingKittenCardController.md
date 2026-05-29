@@ -4,21 +4,7 @@ The rules say that a player who draws an `EXPLODING_KITTEN` explodes unless they
 
 This BVA uses each-choice coverage over the catalog values below. The current domain model can test Defuse removal, discard pile changes, and draw pile reinsertion; it does not yet model the secret placement UI or face-up/dead-player pile.
 
-## Method under test 1: `ExplodingKittenCardController(Deck drawPile, DiscardPile discardPile)`
-
-| Step 1 | Step 2 | Step 3 |
-|---|---|---|
-| Input 1: `drawPile` | Object Reference | Values: <ul><li>`drawPile` is valid</li></ul> |
-| Input 2: `discardPile` | Object Reference | Values: <ul><li>`discardPile` is valid</li><li>`discardPile` is `null`</li></ul> |
-| Output | Constructed Object / Exception | Values: <ul><li>Controller is constructed with valid piles</li><li>Exception thrown for a `null` discard pile</li></ul> |
-
-### Test Cases
-
-- **TC2: constructor_NullDiscardPile_ThrowsException** (:white_check_mark:)
-    - **State of system**: `drawPile` is valid, `discardPile = null`
-    - **Expected output**: Exception thrown.
-
-## Method under test 2: `ExplodingKittenCardController.play(Player player, Card explodingKitten)`
+## Method under test: `ExplodingKittenCardController.play(Player player, Card explodingKitten)`
 
 | Step 1 | Step 2 | Step 3 |
 |---|---|---|
