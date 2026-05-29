@@ -8,7 +8,7 @@ This BVA uses each-choice coverage over the catalog values below. The current do
 
 | Step 1 | Step 2 | Step 3 |
 |---|---|---|
-| Input 1: `player` | Object Reference | Values: <ul><li>`player` is valid</li><li>`player` is `null`</li></ul> |
+| Input 1: `player` | Object Reference | Values: <ul><li>`player` is valid</li></ul> |
 | Input 2: `explodingKitten` | Object Reference / Card Type Case | Values: <ul><li>`explodingKitten` is `null`</li><li>Card type is `EXPLODING_KITTEN`</li><li>Card type is not `EXPLODING_KITTEN`, such as `DEFUSE`</li></ul> |
 | Input 3: player's `DEFUSE` subset | Collection Subset | Values: <ul><li>Subset is empty because the hand is empty</li><li>Subset is empty while the hand is not empty</li><li>Subset contains exactly one `DEFUSE`</li><li>Subset contains all but one card in the hand</li><li>Subset is the same as the whole hand</li></ul> |
 | Input 4: draw pile before reinserting the kitten | Collection Size | Values: <ul><li>Draw pile is empty</li><li>Draw pile has exactly 1 card</li><li>Draw pile has more than 1 card</li></ul> |
@@ -36,10 +36,6 @@ This BVA uses each-choice coverage over the catalog values below. The current do
 - **TC7: play_AllCardsAreDefuse_RemovesOnlyOneDefuse** (:white_check_mark:)
     - **State of system**: Player hand = [`DEFUSE`, `DEFUSE`]; draw pile has more than 1 card; drawn card = `EXPLODING_KITTEN`.
     - **Expected output**: Returns `true`, exactly 1 `DEFUSE` remains in hand, discard pile size increases by 1, and draw pile size increases by 1.
-
-- **TC8: play_NullPlayer_ThrowsException** (:white_check_mark:)
-    - **State of system**: `player = null`; drawn card = `EXPLODING_KITTEN`.
-    - **Expected output**: Exception thrown.
 
 - **TC9: play_NullDrawnCard_ThrowsException** (:white_check_mark:)
     - **State of system**: Current player is valid; `explodingKitten = null`.
