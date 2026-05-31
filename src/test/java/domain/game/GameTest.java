@@ -221,6 +221,17 @@ class GameTest {
         assertNotEquals(0, game.getCurrentPlayerIndex());
     }
 
+    @Test
+    void advanceTurn_WrapsAroundToFirstPlayer() {
+        Game game = new Game(createDeck(3, 3, 12));
+        game.setupGame(List.of("Avery", "Jordan"));
+
+        game.advanceTurn(); // index = 1
+        game.advanceTurn(); // index should wrap to 0
+
+        assertEquals("Avery", game.getCurrentPlayer().getName());
+    }
+
 
     private void assertPlayersHaveOpeningHands(List<Player> players) {
         for (Player player : players) {
