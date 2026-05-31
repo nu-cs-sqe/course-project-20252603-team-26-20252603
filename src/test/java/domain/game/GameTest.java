@@ -212,6 +212,15 @@ class GameTest {
 
         assertEquals(0, game.getCurrentPlayerIndex());
     }
+    @Test
+    void getCurrentPlayerIndex_AfterSetupAndOneRound_ReturnsOne() {
+        Game game = new Game(createDeck(3, 3, 12));
+        game.setupGame(List.of("Avery", "Jordan"));
+        game.advanceTurn();
+
+        assertNotEquals(0, game.getCurrentPlayerIndex());
+    }
+
 
     private void assertPlayersHaveOpeningHands(List<Player> players) {
         for (Player player : players) {
