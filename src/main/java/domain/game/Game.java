@@ -148,7 +148,12 @@ public class Game {
         players.remove(player);
     }
 
+    public void advanceTurn() {
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+    }
+
     boolean isWon() {
         return players.size() == 1;
     }
+
 }
