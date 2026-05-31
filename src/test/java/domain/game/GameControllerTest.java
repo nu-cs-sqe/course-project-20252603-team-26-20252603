@@ -231,6 +231,7 @@ public class GameControllerTest {
 
         assertEquals(1, game.getDrawPile().size());
 
+
         // record expected view call
         mockView.displayCardDrawn(EasyMock.anyObject(Card.class));
         EasyMock.expectLastCall().once();
@@ -241,6 +242,7 @@ public class GameControllerTest {
 
         assertEquals(expectedCard, result);
         assertEquals(0, game.getDrawPile().size());
+        assertEquals(7, game.getCurrentPlayer().getHandSize());
 
         verify(mockView);
     }
