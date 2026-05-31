@@ -187,7 +187,19 @@ class GameTest {
         assertEquals(2, game.getPlayers().size());
     }
 
+    @Test
+    void setupGame_CalledTwice_ClearsPlayers() {
+        //initialize deck big enough for back to back game setups
+        Game game = new Game(createDeck(6, 6, 24));
 
+        game.setupGame(List.of("Avery", "Jordan"));
+        List<Player> playerOne = game.getPlayers();
+        game.setupGame(List.of("Morgan", "Kate"));
+        List<Player> playerTwo = game.getPlayers();
+
+        assertEquals(2, game.getPlayers().size());
+        assertNotEquals(playerOne, playerTwo);
+    }
 
 
     private void assertPlayersHaveOpeningHands(List<Player> players) {
