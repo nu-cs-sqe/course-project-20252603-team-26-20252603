@@ -1,14 +1,11 @@
 package domain.game;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.ArrayList;
 import java.util.List;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
     @Test
@@ -160,6 +157,38 @@ class GameTest {
         assertEquals("Casey", game.getPlayers().get(1).getName());
         assertFalse(game.isWon());
     }
+
+    /*@Test
+    void setupGame_ShuffleIsCalledTwice() {
+        Deck mockDeck = EasyMock.createMock(Deck.class);
+        EasyMock.expect(mockDeck.countCardsOfType(CardType.EXPLODING_KITTEN)).andReturn(1L);
+        EasyMock.expect(mockDeck.countCardsOfType(CardType.DEFUSE)).andReturn(2L);
+        EasyMock.expect(mockDeck.size()).andReturn(20);
+        EasyMock.expect(mockDeck.removeCardsByType(CardType.EXPLODING_KITTEN));
+        EasyMock.expect(mockDeck.removeCardsByType(CardType.DEFUSE));
+
+        mockDeck.shuffle();
+        EasyMock.expectLastCall().times(2);
+
+        EasyMock.replay(mockDeck);
+        Game game = new Game(mockDeck);
+        game.setupGame(List.of("Avery", "Jordan"));
+        EasyMock.verify(mockDeck);
+    }*/
+
+    @Test
+    void setupGame_CalledTwice_DoesNotDuplicatePlayers() {
+        //initialize deck big enough for back to back game setups
+        Game game = new Game(createDeck(6, 6, 24));
+
+        game.setupGame(List.of("Avery", "Jordan"));
+        game.setupGame(List.of("Avery", "Jordan"));
+
+        assertEquals(2, game.getPlayers().size());
+    }
+
+
+
 
     private void assertPlayersHaveOpeningHands(List<Player> players) {
         for (Player player : players) {
