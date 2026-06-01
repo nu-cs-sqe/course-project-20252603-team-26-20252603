@@ -45,7 +45,7 @@
 7. [done] Sophie: Set up See the Future card logic — BVA, unit tests, initialization and integration into deck (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/52)
 9. [done] Sophie: Complete weekly report 6 ().
 
-## Week 7 (05/05/2026-05/12/2026)
+## Week 7 (05/05/2026-05/17/2026)
 
 **Planning and Progress Tracking**:
 
@@ -60,20 +60,25 @@
 8. [done] Alivia: Sophie: Complete weekly report 7 (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/77).
 9. [done] Sophie: Implementing professor's feedback from week 6 Code review
 
-## Week 8 (05/13/2026-05/20/2026)
+## Week 8 (05/18/2026-05/25/2026)
 
 1. [done] Everyone: Review exploding WildKitten and merge (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/39).
 2. [done] Sidney: Implement i18n to all files (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/78).
 3. [done] Sophie: Finish integration planning (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/issues/79).
 4. [in progress] Alivia: Connect cards to gameview (). 
 5. [done] Sophie: Add Prof’s feedback from week 7 (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/82).
-6. [done] Alivia: Week 7 report (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/77)
-7. [done] Sophie: Week 8 report
+6. [done] Alivia: Week 7 report (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/77).
+7. [done] Sophie: Week 8 report (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/84).
 
-## Week 9 (05/21/2026-05/12/2026)
-Finish Integration Test Planning, add integration tests
-Grading rubric: Code quality conduct, chapter 17
-Gameview
-Mutation test: code coverage add tests
-Add Prof’s feedback from week 7
-Week 7 and 8 report
+## Week 9 (05/26/2026-06/01)
+1. [in progress] Sophie: Integration testing
+2. [in progress] Everyone: Weekly reports + any doc cleanups across BVA etc
+3. [in progress] Ben: Finish turn order - in Game.java, we don’t actually advance players yet I don’t think
+4. [in progress] Ben: Finish one complete turn: player sees hand, may play zero or more cards, then draws unless a played card ended the turn
+5. [in progress] Ben: Integrate other card controllers into GameController, not just skip and draw
+6. [done] Ben: Clear all null handling stuff from winner PR NOW
+7. [in progress] Sidney: Finish Attack rules - current AttackCardController only discards the card and returns 2, it does not force the next player to take two turns, stack attacks, or interact with Skip.
+8. [in progress] Sidney: Finish Skip rules - current Skip discards , but it needs to actually end a turn and only reduce one pending Attack turn when used defensively
+9. [in progress] Sophie: Finish Cat Cards: currently `Player.canSubmitCard()` only checks playability. We still need “play two matching Cat Cards to steal a random card.”
+10. [in progress] Alivia: Add tests that aren’t covered  (mutation test, pitest)
+
