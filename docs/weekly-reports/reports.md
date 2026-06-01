@@ -50,12 +50,30 @@
 **Planning and Progress Tracking**:
 
 1. [done] Ben:[Set up linters](https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/issues/38).
-2. [done] Ben: [finish attack card](https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/57)
-3. [in progress] Sophie: set up pitest
+2. [done] Ben: [finish attack card](https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/57).
+3. [done] Sophie: set up pitest (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/68).
 4. [done] Alivia: [BVA, unit tests for exploding wild kitten method](https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/39).
-5. [done] Sidney: [Improved TDD for TakeCard method](https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/53)
-5. [in progress] Ben: take over and finish exploding wild kitten and win condition implementation
-6. [in progress] Sidney: Design plan for I18n report
+5. [done] Sidney: [Improved TDD for TakeCard method](https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/53).
+5. [done] Ben: take over and finish exploding wild kitten and win condition implementation (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/39).
+6. [done] Sidney: Design plan for I18n report (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/78).
 7. [in progress] Sidney: work on game view (no longer doing gui)
-8. [in progress] Alivia: Sophie: Complete weekly report 7
-9. [done] Implementing professor's feedback from week 6 Code review
+8. [done] Alivia: Sophie: Complete weekly report 7 (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/77).
+9. [done] Sophie: Implementing professor's feedback from week 6 Code review
+
+## Week 8 (05/13/2026-05/20/2026)
+
+1. [done] Everyone: Review exploding WildKitten and merge (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/39).
+2. [done] Sidney: Implement i18n to all files (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/78).
+3. [done] Sophie: Finish integration planning (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/issues/79).
+4. [in progress] Alivia: Connect cards to gameview (). 
+5. [done] Sophie: Add Prof’s feedback from week 7 (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/82).
+6. [done] Alivia: Week 7 report (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/77)
+7. [done] Sophie: Week 8 report
+
+## Week 9 (05/21/2026-05/12/2026)
+Finish Integration Test Planning, add integration tests
+Grading rubric: Code quality conduct, chapter 17
+Gameview
+Mutation test: code coverage add tests
+Add Prof’s feedback from week 7
+Week 7 and 8 report
