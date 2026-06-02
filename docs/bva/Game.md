@@ -46,3 +46,13 @@
 | ID | State of the system | Expected output | Implemented? |
 | --- | --- | --- | --- |
 | `GAME-WON-1` | Game has exactly 1 active player after elimination. | Return `true`. | :white_check_mark: |
+
+## Method under test: `public void nextTurn()`
+
+| ID            | State of the system               | Expected output               | Implemented? |
+|---------------|-----------------------------------|-------------------------------|--------------|
+| `GAME-NEXT-1` | 2 players, currentPlayerIndex = 0 | Index becomes 1               | :x:          |
+| `GAME-NEXT-2` | 2 players, currentPlayerIndex = 1 | Index becomes 0 (wraps)       | :x:          |
+| `GAME-NEXT-3` | 3 players, currentPlayerIndex = 2 | Index becomes 0 (wraps)       | :x:          |
+| `GAME-NEXT-4` | No players                        | No exception, index unchanged | :x:          |
+
