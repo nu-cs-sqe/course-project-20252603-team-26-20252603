@@ -1,22 +1,24 @@
 package domain.game;
 
+import static org.easymock.EasyMock.anyString;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
 import ui.GameView;
 
-
-import java.util.*;
-
-
-import static org.easymock.EasyMock.*;
-import static org.junit.jupiter.api.Assertions.*;
-
 public class GameControllerTest {
     @Test
     void startGame_EmptyPlayerList_DisplaysError() {
-        // Arrange
-        Deck deck = EasyMock.createMock(Deck.class);
-        //is it too late to rename Game to GameModel for consistency? There should be an intelij feature
         Game mockModel = EasyMock.createMock(Game.class); //Game(deck);
         GameView mockView = EasyMock.createMock(GameView.class);
 
@@ -223,9 +225,9 @@ public class GameControllerTest {
         List<String> players = List.of("player1", "player2");
         game.setupGame(players);
 
-        while (game.getDrawPile().size() > 1) {
-            game.getDrawPile().draw();
-        }
+        clearDrawPile(game.getDrawPile());
+        Card expectedCard = new Card(CardType.PLACEHOLDER_CARD);
+        game.getDrawPile().addCard(expectedCard);
 
         assertEquals(1, game.getDrawPile().size());
 
@@ -237,7 +239,7 @@ public class GameControllerTest {
         GameController controller = new GameController(game, mockView);
         Card result = controller.takeCard();
 
-        assertNotNull(result);
+        assertEquals(expectedCard, result);
         assertEquals(0, game.getDrawPile().size());
 
         verify(mockView);
@@ -260,6 +262,11 @@ public class GameControllerTest {
         GameView mockView = EasyMock.createMock(GameView.class);
         List<String> players = List.of("player1", "player2");
         game.setupGame(players);
+        clearDrawPile(game.getDrawPile());
+        Card firstDrawPileCard = new Card(CardType.PLACEHOLDER_CARD);
+        Card expectedCard = new Card(CardType.BEARD_CAT);
+        game.getDrawPile().addCard(firstDrawPileCard);
+        game.getDrawPile().addCard(expectedCard);
 
         int beforeSize = game.getDrawPile().size();
 
@@ -272,9 +279,89 @@ public class GameControllerTest {
         Card result = controller.takeCard();
 
 
-        assertNotNull(result);
+        assertEquals(expectedCard, result);
         assertEquals(beforeSize - 1, game.getDrawPile().size());
 
+        verify(mockView);
+    }
+
+    @Test
+    void takeCard_ExplodingKittenWithoutDefuse_EliminatesPlayerAndGameContinues() {
+        Game game = new Game(createDeckForPlayers(3));
+        game.setupGame(List.of("Avery", "Jordan", "Casey"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        clearDrawPile(game.getDrawPile());
+        Card explodingKitten = new Card(CardType.EXPLODING_KITTEN);
+        game.getDrawPile().addCard(explodingKitten);
+        GameView mockView = EasyMock.createMock(GameView.class);
+        mockView.displayCardDrawn(explodingKitten);
+        expectLastCall().once();
+        EasyMock.replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        Card drawnCard = controller.takeCard();
+
+        assertEquals(explodingKitten, drawnCard);
+        assertEquals(0, currentPlayer.getHandSize());
+        assertFalse(game.getPlayers().contains(currentPlayer));
+        assertEquals(2, game.getPlayers().size());
+        assertFalse(game.isWon());
+        verify(mockView);
+    }
+
+    @Test
+    void takeCard_ExplodingKittenWithoutDefuse_EliminatesPlayerAndDisplaysWinner() {
+        Game game = new Game(createDeckForPlayers(2));
+        game.setupGame(List.of("Avery", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        clearDrawPile(game.getDrawPile());
+        Card explodingKitten = new Card(CardType.EXPLODING_KITTEN);
+        game.getDrawPile().addCard(explodingKitten);
+        GameView mockView = EasyMock.createMock(GameView.class);
+        mockView.displayCardDrawn(explodingKitten);
+        expectLastCall().once();
+        mockView.displayGameOver("Jordan");
+        expectLastCall().once();
+        EasyMock.replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        Card drawnCard = controller.takeCard();
+
+        assertEquals(explodingKitten, drawnCard);
+        assertEquals(0, currentPlayer.getHandSize());
+        assertFalse(game.getPlayers().contains(currentPlayer));
+        assertEquals(1, game.getPlayers().size());
+        assertTrue(game.isWon());
+        verify(mockView);
+    }
+
+    @Test
+    void takeCard_ExplodingKittenWithDefuse_DefusesAndReinsertsKitten() {
+        Game game = new Game(createDeckForPlayers(2));
+        game.setupGame(List.of("Avery", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card defuse = new Card(CardType.DEFUSE);
+        currentPlayer.addCard(defuse);
+        clearDrawPile(game.getDrawPile());
+        Card explodingKitten = new Card(CardType.EXPLODING_KITTEN);
+        game.getDrawPile().addCard(explodingKitten);
+        GameView mockView = EasyMock.createMock(GameView.class);
+        mockView.displayCardDrawn(explodingKitten);
+        expectLastCall().once();
+        EasyMock.replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        Card drawnCard = controller.takeCard();
+
+        assertEquals(explodingKitten, drawnCard);
+        assertEquals(0, currentPlayer.getHandSize());
+        assertEquals(List.of(defuse), game.getDiscardPile().snapshot());
+        assertEquals(List.of(explodingKitten), game.getDrawPile().snapshot());
+        assertTrue(game.getPlayers().contains(currentPlayer));
+        assertEquals(2, game.getPlayers().size());
         verify(mockView);
     }
 
@@ -420,7 +507,31 @@ public class GameControllerTest {
         verify(mockModel);
         verify(mockView);
     }
+
+    private Deck createDeckForPlayers(int playerCount) {
+        List<Card> cards = new ArrayList<>();
+        for (int count = 0; count < playerCount - 1; count++) {
+            cards.add(new Card(CardType.EXPLODING_KITTEN));
+        }
+        for (int count = 0; count < playerCount; count++) {
+            cards.add(new Card(CardType.DEFUSE));
+        }
+        for (int count = 0; count < playerCount * 5; count++) {
+            cards.add(new Card(CardType.PLACEHOLDER_CARD));
+        }
+        return new Deck(cards);
+    }
+
+    private void clearHand(Player player) {
+        while (player.getHandSize() > 0) {
+            player.removeCard(0);
+        }
+    }
+
+    private void clearDrawPile(Deck drawPile) {
+        while (drawPile.size() > 0) {
+            drawPile.draw();
+        }
+    }
+
 }
-
-
-

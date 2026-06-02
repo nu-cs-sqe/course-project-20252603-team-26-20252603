@@ -18,6 +18,18 @@
         - **State of system**: Deck size = 3, Deck = [Card_A, Card_B, Card_C], Player hand = []
         - **Expected output**: Returns Card_C, Deck becomes [Card_A, Card_B] (size = 2), Player hand = [Card_C] (size = 1)
 
+    - **TC6: takeCard_ExplodingKittenWithoutDefuse_EliminatesPlayerAndGameContinues** (:white_check_mark:)
+        - **State of system**: Current player hand = [], draw pile top card = `EXPLODING_KITTEN`, 3 active players
+        - **Expected output**: Returns `EXPLODING_KITTEN`, does not add it to the player's hand, removes the player from the game, leaves 2 active players, and does not display game over
+
+    - **TC7: takeCard_ExplodingKittenWithoutDefuse_EliminatesPlayerAndDisplaysWinner** (:white_check_mark:)
+        - **State of system**: Current player hand = [], draw pile top card = `EXPLODING_KITTEN`, 2 active players
+        - **Expected output**: Returns `EXPLODING_KITTEN`, does not add it to the player's hand, removes the player from the game, leaves 1 active player, and displays game over with the remaining player's name
+
+    - **TC8: takeCard_ExplodingKittenWithDefuse_DefusesAndReinsertsKitten** (:white_check_mark:)
+        - **State of system**: Current player hand = [`DEFUSE`], draw pile top card = `EXPLODING_KITTEN`
+        - **Expected output**: Returns `EXPLODING_KITTEN`, removes one `DEFUSE` from the hand, adds it to the discard pile, returns the kitten to the draw pile, and keeps the player active
+
 
 ### Method under test: `public void displayCardDrawn(Card card)` view method
 | Step 1                 | Step 2 | Step 3                                                                                                                                      |

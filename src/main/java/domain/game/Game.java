@@ -1,5 +1,6 @@
 package domain.game;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,11 +20,19 @@ public class Game {
     private static final int MAX_PLAYERS = 4;
     private static final int OPENING_HAND_SIZE = 5;
 
+    // Open to discussion here
+    @SuppressFBWarnings(
+            value = "EI_EXPOSE_REP2",
+            justification = "Game owns and mutates the injected draw pile as its shared deck state.")
     private final Deck drawPile;
     private final List<Player> players;
     private DiscardPile discardPile;
     private int currentPlayerIndex;
 
+    // Open to discussion: making Game final would avoid this warning, but controller tests currently mock it.
+    @SuppressFBWarnings(
+            value = "CT_CONSTRUCTOR_THROW",
+            justification = "Validation rejects null draw piles before any subclass-visible state is used.")
     public Game(Deck drawPile) {
         if (drawPile == null) {
             throw new IllegalArgumentException(DRAW_PILE_REQUIRED_MESSAGE);
@@ -99,6 +108,7 @@ public class Game {
             throw new IllegalStateException(NOT_ENOUGH_DEFUSES_MESSAGE);
         }
 
+
         int nonSpecialCardCount =
                 drawPile.size() - (int) explodingKittenCount - (int) defuseCount;
         if (nonSpecialCardCount < playerCount * OPENING_HAND_SIZE) {
@@ -133,5 +143,12 @@ public class Game {
         for (int index = startInclusive; index < endExclusive; index++) {
             drawPile.addCard(cards.get(index));
         }
+    }
+    void eliminatePlayer(Player player) {
+        players.remove(player);
+    }
+
+    boolean isWon() {
+        return players.size() == 1;
     }
 }

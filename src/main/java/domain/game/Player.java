@@ -8,6 +8,10 @@ public final class Player {
     private static final String NAME_REQUIRED_MESSAGE = "name must not be blank";
     private static final String CARD_REQUIRED_MESSAGE = "card must not be null";
     private static final String INVALID_INDEX_MESSAGE = "cardIndex is out of bounds";
+    private static final String DEFUSE_DESCRIPTION = "Defuse: Use this card to avoid exploding after drawing an Exploding Kitten.";
+    private static final String PLACEHOLDER_DESCRIPTION = "Placeholder Card: This card is choosable, but its effect will be implemented later.";
+    private static final String CAT_CARD_DESCRIPTION = "Cat Card: This card is powerless on its own. Play two matching Cat Cards as a pair to steal a random card from another player.";
+    private static final String NOT_CHOOSE_MESSAGE = "This card type cannot be chosen from a player's hand";
 
     private final String name;
     private final List<Card> hand;
@@ -32,7 +36,7 @@ public final class Player {
     }
 
     public void removeCard(int index) {
-        if (index < 0 || index >= getHandSize()){
+        if (index < 0 || index >= getHandSize()) {
             throw new IllegalArgumentException(INVALID_INDEX_MESSAGE);
         }
         hand.remove(index);
@@ -49,18 +53,17 @@ public final class Player {
         Card chosenCard = hand.get(cardIndex);
 
         if (chosenCard.getType() == CardType.DEFUSE) {
-            return "Defuse: Use this card to avoid exploding after drawing an Exploding Kitten.";
+            return DEFUSE_DESCRIPTION;
         }
 
         if (chosenCard.getType() == CardType.PLACEHOLDER_CARD) {
-            return "Placeholder Card: This card is choosable, but its effect will be implemented later.";
+            return PLACEHOLDER_DESCRIPTION;
         }
         if (isCatCard(chosenCard.getType())) {
-            return "Cat Card: This card is powerless on its own. Play two matching Cat Cards as a pair to steal a random card from another player.";
+            return CAT_CARD_DESCRIPTION;
         }
 
-
-        throw new IllegalStateException("This card type cannot be chosen from a player's hand");
+        throw new IllegalStateException(NOT_CHOOSE_MESSAGE);
 
     }
 
