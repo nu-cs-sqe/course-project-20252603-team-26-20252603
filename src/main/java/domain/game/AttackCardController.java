@@ -6,7 +6,6 @@ public final class AttackCardController {
     private static final int ATTACK_TURN_COUNT = 2;
     private static final String INVALID_INDEX_MESSAGE = "cardIndex is out of bounds";
     private static final String NOT_ATTACK_CARD_MESSAGE = "selected card is not an attack card";
-    private static final String PLAYER_NOT_NULL_MESSAGE = "player must not be null";
 
     @SuppressFBWarnings(
             value = "EI_EXPOSE_REP2",
@@ -24,9 +23,7 @@ public final class AttackCardController {
     }
 
     public int play(Player player, int cardIndex) {
-        if (player == null) {
-            throw new NullPointerException(PLAYER_NOT_NULL_MESSAGE);
-        }
+
         if (cardIndex < 0 || cardIndex >= player.getHandSize()) {
             throw new IllegalArgumentException(INVALID_INDEX_MESSAGE);
         }
@@ -40,5 +37,6 @@ public final class AttackCardController {
         return ATTACK_TURN_COUNT;
     }
 
-    // turn advancement, pending forced turns, and 'rest of the' Attack stacking belong in a turn/game controller
+    // TODO: turn advancement, pending forced turns, and 'rest of the' Attack stacking
+    //  into a turn/game controller.
 }
