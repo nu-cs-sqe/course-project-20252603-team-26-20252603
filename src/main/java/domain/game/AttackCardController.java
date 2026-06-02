@@ -24,9 +24,6 @@ public final class AttackCardController {
     }
 
     public int play(Player player, int cardIndex) {
-        if (player == null) {
-            throw new NullPointerException(PLAYER_NOT_NULL_MESSAGE);
-        }
         if (cardIndex < 0 || cardIndex >= player.getHandSize()) {
             throw new IllegalArgumentException(INVALID_INDEX_MESSAGE);
         }
