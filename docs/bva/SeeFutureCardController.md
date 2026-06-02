@@ -48,10 +48,10 @@
 
 | Step 1 | Step 2 | Step 3 |
 |---|---|---|
-| Input 1: `player` | Object Reference | Values: <ul><li>`player` is valid</li><li>`player` is `null`</li></ul> |
+| Input 1: `player` | Object Reference | Values: <ul><li>`player` is valid</li></ul> |
 | Input 2: `cardIndex` | Array Index | Values: <ul><li>Card Index is -1</li><li>Card Index is 0</li><li>Card Index is one larger than largest valid value `getHandSize()`</li></ul> |
 | Input 3: selected card type | Card Type | Values: <ul><li>Selected card is `SEE_THE_FUTURE`</li><li>Selected card is not `SEE_THE_FUTURE`, such as `DEFUSE`</li></ul> |
-| Output | List / Exception / State Change | Values: <ul><li>Returns the top two cards from the draw pile</li><li>Removes `SEE_THE_FUTURE` from player hand</li><li>Adds `SEE_THE_FUTURE` to discard pile</li><li>Throws exception for wrong card type</li><li>Throws exception for invalid index</li><li>Throws exception for null player</li></ul> |
+| Output | List / Exception / State Change | Values: <ul><li>Returns the top two cards from the draw pile</li><li>Removes `SEE_THE_FUTURE` from player hand</li><li>Adds `SEE_THE_FUTURE` to discard pile</li><li>Throws exception for wrong card type</li><li>Throws exception for invalid index</li></ul> |
 
 ### Test Cases
 
@@ -79,31 +79,26 @@
   - **State of system**: Player hand = [`SEE_THE_FUTURE`], `getHandSize() = 1`, `cardIndex = 1`
   - **Expected output**: `IllegalArgumentException` thrown with message "cardIndex is out of bounds"
 
-- **TC14: playSeeFuture_NullPlayer_ThrowsException** (:white_check_mark:)
-  - **State of system**: `player = null`
-  - **Expected output**: Exception thrown.
+
 
 ## Method under test 3: `GameView.displaySeeTheFutureCards(List<Card> cards)`
 
 | Step 1 | Step 2 | Step 3 |
 |---|---|---|
-| Input 1: `cards` | List / Object Reference | Values: <ul><li>`cards` is `null`</li><li>`cards` is empty</li><li>`cards` has 1 card</li><li>`cards` has 2 cards</li></ul> |
-| Output | Terminal Display / Exception | Values: <ul><li>Displays no-card message for empty list</li><li>Displays one numbered card when list has 1 card</li><li>Displays two numbered cards when list has 2 cards</li><li>Throws exception for null list</li></ul> |
+| Input 1: `cards` | List / Object Reference | Values: <ul><li>`cards` is empty</li><li>`cards` has 1 card</li><li>`cards` has 2 cards</li></ul> |
+| Output | Terminal Display / Exception | Values: <ul><li>Displays no-card message for empty list</li><li>Displays one numbered card when list has 1 card</li><li>Displays two numbered cards when list has 2 cards</li><br/></ul> |
 
 ### Test Cases
 
-- **TC15: displaySeeTheFutureCards_EmptyList_PrintsNoCardsMessage** (:white_check_mark:)
+- **TC14: displaySeeTheFutureCards_EmptyList_PrintsNoCardsMessage** (:white_check_mark:)
   - **State of system**: `cards = []`
   - **Expected output**: Prints that there are no cards to view.
 
-- **TC16: displaySeeTheFutureCards_OneCard_PrintsOneCard** (:white_check_mark:)
+- **TC15: displaySeeTheFutureCards_OneCard_PrintsOneCard** (:white_check_mark:)
   - **State of system**: `cards = [`EXPLODING_KITTEN`]`
   - **Expected output**: Prints one numbered card.
 
-- **TC17: displaySeeTheFutureCards_TwoCards_PrintsTwoCards** (:white_check_mark:)
+- **TC16: displaySeeTheFutureCards_TwoCards_PrintsTwoCards** (:white_check_mark:)
   - **State of system**: `cards = [`EXPLODING_KITTEN`, `DEFUSE`]`
   - **Expected output**: Prints two numbered cards.
 
-- **TC18: displaySeeTheFutureCards_NullList_ThrowsException** (:white_check_mark:)
-  - **State of system**: `cards = null`
-  - **Expected output**: `NullPointerException` thrown.

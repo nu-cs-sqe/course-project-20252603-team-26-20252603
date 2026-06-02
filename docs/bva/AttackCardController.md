@@ -8,7 +8,7 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | Step 1 | The draw pile that the attacking player does not draw from. | The discard pile that receives the played card. | The player choosing an Attack card. | Index of the card the current player chooses to play. | The card selected from the player's hand. | Selected Attack card is discarded, removed from hand, and `2` forced turns are returned, or an exception is thrown. |
 | Step 2 | Collection | Collection | Pointer / Object state | Array Index | Cases | Integer / Collection state change / Exception |
-| Step 3 | empty; one card; more than one card | initially empty discard pile | `null`; valid current player | `-1`; `0`; largest valid index `getHandSize() - 1`; one larger than largest valid index `getHandSize()` | `ATTACK`; non-`ATTACK` | return `2`; hand loses selected Attack card; discard pile gains selected Attack card; draw pile stays unchanged; invalid input throws exception and leaves state unchanged |
+| Step 3 | empty; one card; more than one card | initially empty discard pile | `-1`; `0`; largest valid index `getHandSize() - 1`; one larger than largest valid index `getHandSize()` | `ATTACK`; non-`ATTACK` | return `2`; hand loses selected Attack card; discard pile gains selected Attack card; draw pile stays unchanged; invalid input throws exception and leaves state unchanged |
 
 ### Step 4: Each-Choice Test Cases
 
