@@ -108,3 +108,31 @@ private Game game;
 - **`GC-ATTACK-8`: playAttackCard_NegativeIndex_ThrowsException** ( :x: )
     - **State of system**: Current player hand = [`ATTACK`], cardIndex = -1
     - **Expected output**: IllegalArgumentException thrown, pending unchanged, hand unchanged
+
+
+## Method under test: `public void endTurn()`
+
+| Step 1                        | Step 2                 | Step 3                                                                                                                     |
+|-------------------------------|------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| Input 1: pending attack turns | Count                  | Values: <ul><li>0</li><li>1</li><li>2</li><li>3</li></ul>                                                                  |
+| Output                        | State Change / Message | Values: <ul><li>pending > 0: decrement by 1, same player if still > 0</li><li>pending = 0: call model.nextTurn()</li></ul> |
+
+### Step 4: Test Cases
+
+| ID         | State of the system | Expected output                                           | Implemented? |
+|------------|---------------------|-----------------------------------------------------------|--------------|
+| `GC-END-1` | pending = 2         | pending becomes 1, message displayed, nextTurn NOT called | :x:          |
+| `GC-END-2` | pending = 1         | pending becomes 0, nextTurn called                        | :x:          |
+| `GC-END-3` | pending = 0         | pending stays 0, nextTurn called                          | :x:          |
+
+- **`GC-END-1`: endTurn_WithMultiplePendingAttacks_DecrementsAndStays** ( :x: )
+    - **State of system**: `pendingAttackTurns = 2`, `currentTurnNumber = 1`
+    - **Expected output**: `pendingAttackTurns = 1`, `currentTurnNumber = 2`, message displayed, `model.nextTurn()` NOT called same player continues
+
+- **`GC-END-2`: endTurn_WithOnePendingAttack_DecrementsAndMovesToNextPlayer** ( :x: )
+    - **State of system**: `pendingAttackTurns = 1`
+    - **Expected output**: `pendingAttackTurns = 0`, `model.nextTurn()` called once
+
+- **`GC-END-3`: endTurn_WithNoPendingAttacks_MovesToNextPlayer** ( :x: )
+    - **State of system**: `pendingAttackTurns = 0`
+    - **Expected output**: `pendingAttackTurns = 0`, `model.nextTurn()` called once
