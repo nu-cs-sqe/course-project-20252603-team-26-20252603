@@ -41,6 +41,7 @@
 | ID | State of the system | Expected output | Implemented? |
 | --- | --- | --- | --- |
 | `GAME-ELIMINATE-1` | Game has 3 active players; eliminated player is active. | Remove that player, keep the other 2 players active, and `isWon()` returns `false`. | :white_check_mark: |
+| `GAME-ELIMINATE-2` | Game has 3 active players, the current player is the last player in turn order, and that current player is eliminated. | Remove that player and wrap the current player pointer to the first remaining player. | :white_check_mark: |
 
 ## Method under test: `boolean isWon()`
 

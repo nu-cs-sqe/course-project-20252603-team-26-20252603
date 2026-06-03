@@ -164,6 +164,21 @@ class GameTest {
     }
 
     @Test
+    void eliminateCurrentLastPlayer_WrapsCurrentPlayerToFirstRemainingPlayer() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Avery", "Jordan", "Casey"));
+        game.advanceTurn();
+        game.advanceTurn();
+        Player eliminatedPlayer = game.getCurrentPlayer();
+
+        game.eliminatePlayer(eliminatedPlayer);
+
+        assertFalse(game.getPlayers().contains(eliminatedPlayer));
+        assertEquals("Avery", game.getCurrentPlayer().getName());
+        assertEquals(0, game.getCurrentPlayerIndex());
+    }
+
+    @Test
     void setupGame_UsesInjectedRandomForBothSetupShuffles() {
         Random random = EasyMock.createMock(Random.class);
         expectShuffle(random, 10);
