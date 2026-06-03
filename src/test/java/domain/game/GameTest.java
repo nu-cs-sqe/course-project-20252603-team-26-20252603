@@ -2,6 +2,7 @@ package domain.game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
 
@@ -162,23 +163,18 @@ class GameTest {
         assertFalse(game.isWon());
     }
 
-    /*@Test
-    void setupGame_ShuffleIsCalledTwice() {
-        Deck mockDeck = EasyMock.createMock(Deck.class);
-        EasyMock.expect(mockDeck.countCardsOfType(CardType.EXPLODING_KITTEN)).andReturn(1L);
-        EasyMock.expect(mockDeck.countCardsOfType(CardType.DEFUSE)).andReturn(2L);
-        EasyMock.expect(mockDeck.size()).andReturn(20);
-        EasyMock.expect(mockDeck.removeCardsByType(CardType.EXPLODING_KITTEN));
-        EasyMock.expect(mockDeck.removeCardsByType(CardType.DEFUSE));
+    @Test
+    void setupGame_UsesInjectedRandomForBothSetupShuffles() {
+        Random random = EasyMock.createMock(Random.class);
+        expectShuffle(random, 10);
+        expectShuffle(random, 2);
+        EasyMock.replay(random);
+        Game game = new Game(createDeck(3, 3, 10, random));
 
-        mockDeck.shuffle();
-        EasyMock.expectLastCall().times(2);
-
-        EasyMock.replay(mockDeck);
-        Game game = new Game(mockDeck);
         game.setupGame(List.of("Avery", "Jordan"));
-        EasyMock.verify(mockDeck);
-    }*/
+
+        EasyMock.verify(random);
+    }
 
     @Test
     void setupGame_CalledTwice_DoesNotDuplicatePlayers() {
@@ -250,6 +246,14 @@ class GameTest {
     }
 
     private Deck createDeck(int explodingKittens, int defuses, int others) {
+        return new Deck(createCards(explodingKittens, defuses, others));
+    }
+
+    private Deck createDeck(int explodingKittens, int defuses, int others, Random random) {
+        return new Deck(createCards(explodingKittens, defuses, others), random);
+    }
+
+    private List<Card> createCards(int explodingKittens, int defuses, int others) {
         List<Card> cards = new ArrayList<>();
         for (int count = 0; count < explodingKittens; count++) {
             cards.add(createCardWithType(CardType.EXPLODING_KITTEN));
@@ -260,7 +264,13 @@ class GameTest {
         for (int count = 0; count < others; count++) {
             cards.add(createCardWithType(CardType.PLACEHOLDER_CARD));
         }
-        return new Deck(cards);
+        return cards;
+    }
+
+    private void expectShuffle(Random random, int deckSize) {
+        for (int bound = deckSize; bound > 1; bound--) {
+            EasyMock.expect(random.nextInt(bound)).andReturn(0);
+        }
     }
 
     private Card createCardWithType(CardType type) {

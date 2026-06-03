@@ -19,6 +19,7 @@
 | `GAME-SETUP-6` | Valid player count but deck contains fewer defuses than players. | Throw `IllegalStateException` with message `deck must contain at least one defuse per player`. | :white_check_mark: |
 | `GAME-SETUP-7` | Valid player count but deck contains fewer exploding kittens than `playerCount - 1`. | Throw `IllegalStateException` with message `deck must contain enough exploding kittens for setup`. | :white_check_mark: |
 | `GAME-SETUP-8` | Valid player count but deck contains fewer than `5 * playerCount` non-special cards. | Throw `IllegalStateException` with message `deck must contain enough non-special cards to deal opening hands`. | :white_check_mark: |
+| `GAME-SETUP-9` | Valid 2-player game uses a real `Deck` with injected `Random`. | `setupGame` invokes the setup shuffle before dealing and the final shuffle after reinserting Defuses and Exploding Kittens, without assuming either shuffle must change deck order. | :white_check_mark: |
 
 ## Method under test: `public List<Player> getPlayers()`
 
