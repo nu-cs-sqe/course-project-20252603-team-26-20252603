@@ -160,6 +160,18 @@ class GameTest {
         assertEquals("Casey", game.getPlayers().get(1).getName());
         assertFalse(game.isWon());
     }
+    @Test
+    void nextTurn_WithTwoPlayers_FromFirstToSecond() {
+        Game game = new Game(createDeck(2, 2, 10));
+        game.setupGame(List.of("Avery", "Jordan"));
+
+        assertEquals("Avery", game.getCurrentPlayer().getName());
+
+        game.nextTurn();
+
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+    }
+
 
     private void assertPlayersHaveOpeningHands(List<Player> players) {
         for (Player player : players) {
@@ -188,4 +200,6 @@ class GameTest {
         EasyMock.replay(card);
         return card;
     }
+
+
 }
