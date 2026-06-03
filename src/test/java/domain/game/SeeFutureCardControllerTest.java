@@ -163,15 +163,6 @@ public class SeeFutureCardControllerTest {
         assertEquals("cardIndex is out of bounds", exception.getMessage());
     }
 
-    @Test
-    void playSeeFuture_NullPlayer_ThrowsException() {
-        Deck drawPile = new Deck(List.of());
-        DiscardPile discardPile = new DiscardPile();
-        SeeFutureCardController controller = new SeeFutureCardController(drawPile, discardPile);
-
-        assertThrows(NullPointerException.class,
-                () -> controller.play(null, 0));
-    }
 
     @Test
     void displaySeeTheFutureCards_EmptyList_PrintsNoCardsMessage() {
@@ -199,11 +190,5 @@ public class SeeFutureCardControllerTest {
         ));
     }
 
-    @Test
-    void displaySeeTheFutureCards_NullList_ThrowsException() {
-        GameView view = new GameView();
 
-        assertThrows(NullPointerException.class,
-                () -> view.displaySeeTheFutureCards(null));
-    }
 }

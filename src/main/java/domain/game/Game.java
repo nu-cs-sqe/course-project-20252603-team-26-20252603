@@ -98,19 +98,21 @@ public class Game {
     }
 
     private void validateDeckForSetup(int playerCount) {
-        long explodingKittenCount = drawPile.countCardsOfType(CardType.EXPLODING_KITTEN);
+        int explodingKittenCount = Math.toIntExact(
+                drawPile.countCardsOfType(CardType.EXPLODING_KITTEN));
         if (explodingKittenCount < playerCount - 1L) {
             throw new IllegalStateException(NOT_ENOUGH_KITTENS_MESSAGE);
         }
 
-        long defuseCount = drawPile.countCardsOfType(CardType.DEFUSE);
+        int defuseCount = Math.toIntExact(
+                drawPile.countCardsOfType(CardType.DEFUSE));
         if (defuseCount < playerCount) {
             throw new IllegalStateException(NOT_ENOUGH_DEFUSES_MESSAGE);
         }
 
 
         int nonSpecialCardCount =
-                drawPile.size() - (int) explodingKittenCount - (int) defuseCount;
+                drawPile.size() - explodingKittenCount - defuseCount;
         if (nonSpecialCardCount < playerCount * OPENING_HAND_SIZE) {
             throw new IllegalStateException(NOT_ENOUGH_STARTING_CARDS_MESSAGE);
         }

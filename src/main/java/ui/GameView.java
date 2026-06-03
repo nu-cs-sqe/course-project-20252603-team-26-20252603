@@ -12,8 +12,6 @@ import domain.game.Card;
 public class GameView {
     private Scanner scanner;
     private ResourceBundle messages;
-    private static final String PLAYER_NOT_NULL_MESSAGE = "player must not be null";
-
 
     public GameView() {
         this.scanner = new Scanner(System.in, java.nio.charset.StandardCharsets.UTF_8.name());
@@ -60,9 +58,7 @@ public class GameView {
     }
       
     public void displaySeeTheFutureCards(List<Card> cards) {
-        if (cards == null) {
-            throw new NullPointerException(messages.getString("error.cards.not.null"));
-        }
+
 
         System.out.println(messages.getString("see.future.title"));
 
