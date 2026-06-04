@@ -288,6 +288,43 @@ public class GameControllerTest {
     }
 
     @Test
+    void completeTurn_TwoSeeFutureCardsPlayed_DisplaysBothThenDrawsAndAdvances() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card firstSeeFuture = new Card(CardType.SEE_THE_FUTURE);
+        Card secondSeeFuture = new Card(CardType.SEE_THE_FUTURE);
+        currentPlayer.addCard(firstSeeFuture);
+        currentPlayer.addCard(secondSeeFuture);
+        List<Card> startingHand = currentPlayer.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        Card secondFutureCard = new Card(CardType.BEARD_CAT);
+        Card drawnCard = new Card(CardType.PLACEHOLDER_CARD);
+        game.getDrawPile().addCard(secondFutureCard);
+        game.getDrawPile().addCard(drawnCard);
+
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        mockView.displaySeeTheFutureCards(List.of(drawnCard, secondFutureCard));
+        expectLastCall().once();
+        mockView.displaySeeTheFutureCards(List.of(drawnCard, secondFutureCard));
+        expectLastCall().once();
+        mockView.displayCardDrawn(drawnCard);
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of(0, 0));
+
+        assertEquals(1, currentPlayer.getHandSize());
+        assertEquals(List.of(firstSeeFuture, secondSeeFuture), game.getDiscardPile().snapshot());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
     void takeCard_DeckSizeZero_ThrowsException() {
         List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardType.DEFUSE));
