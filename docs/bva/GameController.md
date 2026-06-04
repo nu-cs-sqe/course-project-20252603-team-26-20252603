@@ -110,3 +110,18 @@ private Game game;
 - **TC11: completeTurn_NegativeIndex_DisplaysErrorThenDrawsAndAdvances** (:white_check_mark:)
   - **State of system**: Current player is `Sophie`, next player is `Jordan`, selected card index is `-1`, and the draw pile top card is `PLACEHOLDER_CARD`.
   - **Expected output**: Displays `Sophie`'s hand, displays an out-of-bounds error, keeps the hand's existing card, draws the top card, and advances current player to `Jordan`.
+
+- **TC12: completeTurn_AttackPlayed_DiscardsAttackThenEndsWithoutDrawing** (:white_check_mark:)
+  - **State of system**: Current player is `Sophie`, next player is `Jordan`, selected card indexes are `[0]`, card index `0` is `ATTACK`, and the draw pile has one card.
+  - **Expected output**: Displays `Sophie`'s hand, plays and discards `ATTACK`, leaves the draw pile unchanged (turn ends without drawing), and advances current player to `Jordan`.
+
+- **TC13: completeTurn_AfterAttack_AttackedPlayerMustTakeSecondTurn** (:white_check_mark:)
+  - **State of system**: Two players `Sophie` and `Jordan`; `Sophie` plays `ATTACK`, then `Jordan` completes one normal (drawing) turn.
+  - **Expected output**: After the Attack, `Jordan` is current and owes 2 turns; after `Jordan`'s first turn the current player is still `Jordan` (the forced second turn).
+
+- **TC14: completeTurn_SkipAsAttackDefense_EndsOnlyOneForcedTurnPerSkip** (:white_check_mark:)
+  - **State of system**: `Sophie` attacks `Jordan` (forcing 2 turns); `Jordan` holds two `SKIP` cards and plays one Skip per turn.
+  - **Expected output**: The first Skip ends only one forced turn so `Jordan` stays current with one Skip left; the second Skip ends the last forced turn and passes play to `Sophie`, and no card is drawn for either Skip.
+
+_Attack is now played through `completeTurn` (see TC12–TC14) and the forced-turn
+mechanics live in the `Game` model (`applyAttack` / `advanceTurn`); see `Game.md`._

@@ -28,6 +28,7 @@ public class Game {
     private final List<Player> players;
     private DiscardPile discardPile;
     private int currentPlayerIndex;
+    private int forcedTurns;
 
     // Open to discussion: making Game final would avoid this warning, but controller tests currently mock it.
     @SuppressFBWarnings(
@@ -41,6 +42,7 @@ public class Game {
         this.players = new ArrayList<>();
         this.discardPile = new DiscardPile();
         this.currentPlayerIndex = 0;
+        this.forcedTurns = 0;
     }
 
     public void setupGame(List<String> playerNames) {
@@ -72,6 +74,7 @@ public class Game {
         players.addAll(createdPlayers);
         discardPile = new DiscardPile();
         currentPlayerIndex = 0;
+        forcedTurns = 0;
     }
 
     public List<Player> getPlayers() {
@@ -154,7 +157,21 @@ public class Game {
     }
 
     public void advanceTurn() {
+        if (forcedTurns > 0) {
+            forcedTurns--;
+            if (forcedTurns > 0) {
+                return;
+            }
+        }
         currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+    }
+
+    // Attack ends the attacker's turn and forces the next player to take the
+    // attacker's untaken turns plus two more (so attacks stack).
+    public void applyAttack() {
+        int untakenTurns = forcedTurns;
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        forcedTurns = untakenTurns + 2;
     }
 
     boolean isWon() {

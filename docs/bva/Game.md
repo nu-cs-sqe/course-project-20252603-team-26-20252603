@@ -48,3 +48,18 @@
 | ID | State of the system | Expected output | Implemented? |
 | --- | --- | --- | --- |
 | `GAME-WON-1` | Game has exactly 1 active player after elimination. | Return `true`. | :white_check_mark: |
+
+## Method under test: `public void advanceTurn()`
+
+| ID                | State of the system                                  | Expected output                                                       | Implemented? |
+|-------------------|------------------------------------------------------|----------------------------------------------------------------------|--------------|
+| `GAME-ADVANCE-1`  | Current player has no forced turns (normal play)     | Move to the next player                                               | :white_check_mark: |
+| `GAME-ADVANCE-2`  | Current player still owes forced turns (under Attack) | Decrement forced turns and keep the same current player              | :white_check_mark: |
+
+## Method under test: `public void applyAttack()`
+
+| ID               | State of the system                                       | Expected output                                                              | Implemented? |
+|------------------|----------------------------------------------------------|-----------------------------------------------------------------------------|--------------|
+| `GAME-ATTACK-1`  | Attacker has no forced turns (fresh Attack)              | Move to the next player and force them to take 2 turns                       | :white_check_mark: |
+| `GAME-ATTACK-2`  | Attacker is already under Attack (stacks the Attack)     | Move to the next player and force them to take the untaken turns plus 2      | :white_check_mark: |
+
