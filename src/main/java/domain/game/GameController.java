@@ -62,6 +62,7 @@ public class GameController {
 
             skipCardController.play(currentPlayer, cardIndex);
             view.displayMessage(SKIP_PLAYED);
+            model.advanceTurn();
             return true;
         } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
             view.displayError(e.getMessage());

@@ -458,6 +458,8 @@ public class GameControllerTest {
 
         expect(mockModel.getCurrentPlayer()).andReturn(player).once();
         expect(mockModel.getDiscardPile()).andReturn(discardPile).once();
+        mockModel.advanceTurn();
+        expectLastCall().once();
         replay(mockModel);
 
         mockView.displayMessage("Skip played. Your turn ends without drawing a card.");
@@ -475,6 +477,31 @@ public class GameControllerTest {
         verify(mockModel);
         verify(mockView);
     }
+
+    @Test
+    void playSkip_ValidSkip_AdvancesToNextPlayerWithoutDrawing() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        currentPlayer.addCard(new Card(CardType.SKIP));
+        int drawPileSize = game.getDrawPile().size();
+
+        mockView.displayMessage("Skip played. Your turn ends without drawing a card.");
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        boolean result = controller.playSkip(0);
+
+        assertTrue(result);
+        assertEquals(0, currentPlayer.getHandSize());
+        assertEquals(drawPileSize, game.getDrawPile().size());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
     @Test
     void playSkip_SelectedCardIsDefuse_ReturnsFalseAndDisplaysError() {
         Game mockModel = EasyMock.createMock(Game.class);

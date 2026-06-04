@@ -52,12 +52,16 @@
 | Input 1: `cardIndex` | Array Index | Values: <ul><li>`-1`</li><li>`0`</li><li>`getHandSize()`</li></ul> |
 | Internal state 1: current player hand | Card Collection | Values: <ul><li>Selected card is `SKIP`</li><li>Selected card is not `SKIP`, such as `DEFUSE`</li></ul> |
 | Internal state 2: model/view/controller dependencies | Object References | Values: <ul><li>Valid `Game` model</li><li>Valid `GameView` view</li></ul> |
-| Output | Boolean / UI Message / State Change | Values: <ul><li>Returns `true` when Skip is successfully played</li><li>Displays success message</li><li>Returns `false` when selected card cannot be played</li><li>Displays error message for invalid input</li></ul> |
+| Output | Boolean / UI Message / State Change | Values: <ul><li>Returns `true` when Skip is successfully played</li><li>Displays success message</li><li>Ends the turn without drawing</li><li>Advances to the next player</li><li>Returns `false` when selected card cannot be played</li><li>Displays error message for invalid input</li></ul> |
 
 ### Test Cases 
 - **TC8: controllerPlaySkip_ValidSkip_ReturnsTrueAndDisplaysMessage** (:white_check_mark:)
   - **State of system**: Current player has [`SKIP`], `cardIndex = 0`, discard pile is empty
   - **Expected output**: Returns `true`, displays `"Skip played. Your turn ends without drawing a card."`, removes `SKIP` from hand, and adds it to discard pile.
+
+- **TC13: playSkip_ValidSkip_AdvancesToNextPlayerWithoutDrawing** (:white_check_mark:)
+  - **State of system**: Current player is `Sophie`, next player is `Jordan`, current player has [`SKIP`], and the draw pile has at least one card
+  - **Expected output**: Returns `true`, removes and discards `SKIP`, leaves the draw pile unchanged, and advances the current player to `Jordan`.
 
 - **TC9: playSkip_SelectedCardIsDefuse_ReturnsFalseAndDisplaysError** (:white_check_mark:)
   - **State of system**: Current player has [`DEFUSE`], `cardIndex = 0`, discard pile is empty
