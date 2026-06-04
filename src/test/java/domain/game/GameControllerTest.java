@@ -347,6 +347,29 @@ public class GameControllerTest {
     }
 
     @Test
+    void takeCard_ExplodingKittenWithoutDefuse_CurrentPlayerIsNextRemainingPlayer() {
+        Game game = new Game(createDeckForPlayers(3));
+        game.setupGame(List.of("Avery", "Jordan", "Casey"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        clearDrawPile(game.getDrawPile());
+        Card explodingKitten = new Card(CardType.EXPLODING_KITTEN);
+        game.getDrawPile().addCard(explodingKitten);
+        GameView mockView = EasyMock.createMock(GameView.class);
+        mockView.displayCardDrawn(explodingKitten);
+        expectLastCall().once();
+        EasyMock.replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        Card drawnCard = controller.takeCard();
+
+        assertEquals(explodingKitten, drawnCard);
+        assertFalse(game.getPlayers().contains(currentPlayer));
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
     void takeCard_ExplodingKittenWithoutDefuse_EliminatesPlayerAndDisplaysWinner() {
         Game game = new Game(createDeckForPlayers(2));
         game.setupGame(List.of("Avery", "Jordan"));

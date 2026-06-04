@@ -26,6 +26,10 @@
         - **State of system**: Current player hand = [], draw pile top card = `EXPLODING_KITTEN`, 3 active players
         - **Expected output**: Returns `EXPLODING_KITTEN`, does not add it to the player's hand, removes the player from the game, leaves 2 active players, and does not display game over
 
+    - **TC11: takeCard_ExplodingKittenWithoutDefuse_CurrentPlayerIsNextRemainingPlayer** (:white_check_mark:)
+        - **State of system**: Current player is `Avery`, next player is `Jordan`, current player hand = [], draw pile top card = `EXPLODING_KITTEN`, 3 active players
+        - **Expected output**: Returns `EXPLODING_KITTEN`, removes `Avery` from the game, and leaves `Jordan` as the current player without advancing past them
+
     - **TC7: takeCard_ExplodingKittenWithoutDefuse_EliminatesPlayerAndDisplaysWinner** (:white_check_mark:)
         - **State of system**: Current player hand = [], draw pile top card = `EXPLODING_KITTEN`, 2 active players
         - **Expected output**: Returns `EXPLODING_KITTEN`, does not add it to the player's hand, removes the player from the game, leaves 1 active player, and displays game over with the remaining player's name
