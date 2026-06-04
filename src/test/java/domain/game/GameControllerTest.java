@@ -398,6 +398,39 @@ public class GameControllerTest {
     }
 
     @Test
+    void completeTurn_SkipThenSeeFuturePlayed_IgnoresCardsAfterTurnEnds() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card skip = new Card(CardType.SKIP);
+        Card seeFuture = new Card(CardType.SEE_THE_FUTURE);
+        currentPlayer.addCard(skip);
+        currentPlayer.addCard(seeFuture);
+        List<Card> startingHand = currentPlayer.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        game.getDrawPile().addCard(new Card(CardType.BEARD_CAT));
+        game.getDrawPile().addCard(new Card(CardType.PLACEHOLDER_CARD));
+        int drawPileSize = game.getDrawPile().size();
+
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        mockView.displayMessage("Skip played. Your turn ends without drawing a card.");
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of(0, 0));
+
+        assertEquals(List.of(seeFuture), currentPlayer.getHandSnapshot());
+        assertEquals(List.of(skip), game.getDiscardPile().snapshot());
+        assertEquals(drawPileSize, game.getDrawPile().size());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
     void takeCard_DeckSizeZero_ThrowsException() {
         List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardType.DEFUSE));
