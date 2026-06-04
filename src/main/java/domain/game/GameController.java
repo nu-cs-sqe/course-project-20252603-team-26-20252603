@@ -7,6 +7,8 @@ import java.util.List;
 
 public class GameController {
     private static final String SKIP_PLAYED = "Skip played. Your turn ends without drawing a card.";
+    private static final String UNPLAYABLE_CARD =
+            "Card cannot be played during a normal turn.";
 
     // Open to discussion here  
     @SuppressFBWarnings(
@@ -47,11 +49,14 @@ public class GameController {
                 SeeFutureCardController seeFutureController =
                         new SeeFutureCardController(model.getDrawPile(), model.getDiscardPile());
                 view.displaySeeTheFutureCards(seeFutureController.play(currentPlayer, cardIndex));
+                continue;
             }
             if (selectedCard.getType() == CardType.SHUFFLE) {
                 ShuffleCardController shuffleCardController = new ShuffleCardController();
                 shuffleCardController.play(model, cardIndex);
+                continue;
             }
+            view.displayError(UNPLAYABLE_CARD);
         }
         takeCard();
     }

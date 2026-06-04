@@ -67,9 +67,9 @@ private Game game;
 ## Method under test: `completeTurn(List<Integer> cardIndexes)`
 | Step 1                              | Step 2     | Step 3                                  |
 |-------------------------------------|------------|-----------------------------------------|
-| Input: selected card indexes to play | Collection | Values: <ul><li>Empty list</li><li>One selected Skip card index</li><li>One selected See the Future card index</li><li>More than one selected See the Future card index</li><li>One selected Shuffle card index</li><li>Selected See the Future followed by selected Skip</li><li>Selected Skip followed by another card</li></ul> |
+| Input: selected card indexes to play | Collection | Values: <ul><li>Empty list</li><li>One selected Skip card index</li><li>One selected See the Future card index</li><li>More than one selected See the Future card index</li><li>One selected Shuffle card index</li><li>Selected See the Future followed by selected Skip</li><li>Selected Skip followed by another card</li><li>One selected unplayable card index</li></ul> |
 | Internal state: draw pile           | Collection | Values: <ul><li>One drawable non-Exploding-Kitten card</li><li>Two cards available for See the Future</li><li>Two cards available to shuffle before drawing</li></ul> |
-| Output                              | State / UI | Values: <ul><li>Displays hand</li><li>Draws one card</li><li>Advances to next player</li><li>Ends turn without drawing when Skip is played</li><li>Displays future cards, then draws when See the Future is played</li><li>Shuffles the draw pile, then draws when Shuffle is played</li><li>Ends turn without drawing when Skip is played after a non-ending card</li><li>Ignores later selected cards after Skip ends the turn</li></ul> |
+| Output                              | State / UI | Values: <ul><li>Displays hand</li><li>Draws one card</li><li>Advances to next player</li><li>Ends turn without drawing when Skip is played</li><li>Displays future cards, then draws when See the Future is played</li><li>Shuffles the draw pile, then draws when Shuffle is played</li><li>Ends turn without drawing when Skip is played after a non-ending card</li><li>Ignores later selected cards after Skip ends the turn</li><li>Displays error for an unplayable selected card</li></ul> |
 
 - **TC2: completeTurn_NoCardsPlayed_DisplaysHandThenDrawsAndAdvances** (:white_check_mark:)
   - **State of system**: Current player is `Sophie`, next player is `Jordan`, selected card indexes are `[]`, and the draw pile top card is `PLACEHOLDER_CARD`.
@@ -98,3 +98,7 @@ private Game game;
 - **TC8: completeTurn_SkipThenSeeFuturePlayed_IgnoresCardsAfterTurnEnds** (:white_check_mark:)
   - **State of system**: Current player is `Sophie`, next player is `Jordan`, selected card indexes are `[0, 0]`, the first selected card is `SKIP`, the next selected card would be `SEE_THE_FUTURE`, and the draw pile has two cards.
   - **Expected output**: Displays `Sophie`'s hand, plays and discards `SKIP`, leaves `SEE_THE_FUTURE` in `Sophie`'s hand, does not display future cards, leaves the draw pile unchanged, and advances current player to `Jordan`.
+
+- **TC9: completeTurn_UnplayableCard_DisplaysErrorThenDrawsAndAdvances** (:white_check_mark:)
+  - **State of system**: Current player is `Sophie`, next player is `Jordan`, selected card indexes are `[0]`, card index `0` is `DEFUSE`, and the draw pile top card is `PLACEHOLDER_CARD`.
+  - **Expected output**: Displays `Sophie`'s hand, displays an error because `DEFUSE` cannot be played during a normal turn, keeps `DEFUSE` in `Sophie`'s hand, draws the top card, and advances current player to `Jordan`.
