@@ -172,6 +172,15 @@ class GameTest {
         assertEquals("Jordan", game.getCurrentPlayer().getName());
     }
 
+    @Test
+    void nextTurn_WithNoPlayers_DoesNothing() {
+        Game game = new Game(createDeck(2, 2, 10));
+
+        // checking it doesn't throw an exception
+        game.nextTurn();
+    }
+
+
 
     private void assertPlayersHaveOpeningHands(List<Player> players) {
         for (Player player : players) {
