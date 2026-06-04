@@ -508,6 +508,24 @@ public class GameControllerTest {
         verify(mockView);
     }
 
+    @Test
+    void endTurn_WithMultiplePendingAttacks_DecrementsAndStays() {
+        Game mockModel = EasyMock.createMock(Game.class);
+        GameView mockView = EasyMock.createMock(GameView.class);
+
+        GameController controller = new GameController(mockModel, mockView);
+        controller.setPendingAttackTurns(2);
+
+        mockView.displayMessage("1 attack turn(s) remain.");
+        EasyMock.expectLastCall().once();
+        EasyMock.replay(mockModel, mockView);
+
+        controller.endTurn();
+
+        EasyMock.verify(mockModel, mockView);
+    }
+
+
     private Deck createDeckForPlayers(int playerCount) {
         List<Card> cards = new ArrayList<>();
         for (int count = 0; count < playerCount - 1; count++) {
