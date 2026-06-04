@@ -462,6 +462,37 @@ public class GameControllerTest {
     }
 
     @Test
+    void completeTurn_IndexEqualsHandSize_DisplaysErrorThenDrawsAndAdvances() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card seeFuture = new Card(CardType.SEE_THE_FUTURE);
+        currentPlayer.addCard(seeFuture);
+        List<Card> startingHand = currentPlayer.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        Card drawnCard = new Card(CardType.PLACEHOLDER_CARD);
+        game.getDrawPile().addCard(drawnCard);
+
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        mockView.displayError("cardIndex is out of bounds");
+        expectLastCall().once();
+        mockView.displayCardDrawn(drawnCard);
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of(currentPlayer.getHandSize()));
+
+        assertEquals(List.of(seeFuture, drawnCard), currentPlayer.getHandSnapshot());
+        assertEquals(List.of(), game.getDiscardPile().snapshot());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
     void takeCard_DeckSizeZero_ThrowsException() {
         List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardType.DEFUSE));

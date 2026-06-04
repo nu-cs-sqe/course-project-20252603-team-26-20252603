@@ -9,6 +9,7 @@ public class GameController {
     private static final String SKIP_PLAYED = "Skip played. Your turn ends without drawing a card.";
     private static final String UNPLAYABLE_CARD =
             "Card cannot be played during a normal turn.";
+    private static final String INVALID_CARD_INDEX = "cardIndex is out of bounds";
 
     // Open to discussion here  
     @SuppressFBWarnings(
@@ -41,6 +42,10 @@ public class GameController {
         startTurn();
         for (int cardIndex : cardIndexes) {
             Player currentPlayer = model.getCurrentPlayer();
+            if (cardIndex < 0 || cardIndex >= currentPlayer.getHandSize()) {
+                view.displayError(INVALID_CARD_INDEX);
+                continue;
+            }
             Card selectedCard = currentPlayer.getHandSnapshot().get(cardIndex);
             if (selectedCard.getType() == CardType.SKIP && playSkip(cardIndex)) {
                 return;
