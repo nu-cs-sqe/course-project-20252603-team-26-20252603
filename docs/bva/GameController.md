@@ -119,6 +119,10 @@ private Game game;
   - **State of system**: Two players `Sophie` and `Jordan`; `Sophie` plays `ATTACK`, then `Jordan` completes one normal (drawing) turn.
   - **Expected output**: After the Attack, `Jordan` is current and owes 2 turns; after `Jordan`'s first turn the current player is still `Jordan` (the forced second turn).
 
+- **TC14: completeTurn_SkipAsAttackDefense_EndsOnlyOneForcedTurnPerSkip** (:white_check_mark:)
+  - **State of system**: `Sophie` attacks `Jordan` (forcing 2 turns); `Jordan` holds two `SKIP` cards and plays one Skip per turn.
+  - **Expected output**: The first Skip ends only one forced turn so `Jordan` stays current with one Skip left; the second Skip ends the last forced turn and passes play to `Sophie`, and no card is drawn for either Skip.
+
 ## Method under test: `playAttackCard(int cardIndex)`
 
 | Step 1                          | Step 2                    | Step 3                                                                                                                                 |

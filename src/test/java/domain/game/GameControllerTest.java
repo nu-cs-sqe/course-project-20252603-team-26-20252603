@@ -575,6 +575,38 @@ public class GameControllerTest {
     }
 
     @Test
+    void completeTurn_SkipAsAttackDefense_EndsOnlyOneForcedTurnPerSkip() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createNiceMock(GameView.class);
+        EasyMock.replay(mockView);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getPlayers().get(0);
+        Player jordan = game.getPlayers().get(1);
+        clearHand(sophie);
+        sophie.addCard(new Card(CardType.ATTACK));
+        clearHand(jordan);
+        jordan.addCard(new Card(CardType.SKIP));
+        jordan.addCard(new Card(CardType.SKIP));
+        clearDrawPile(game.getDrawPile());
+        game.getDrawPile().addCard(new Card(CardType.PLACEHOLDER_CARD));
+        int drawPileSize = game.getDrawPile().size();
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of(0));
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+
+        controller.completeTurn(List.of(0));
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        assertEquals(1, jordan.getHandSize());
+
+        controller.completeTurn(List.of(0));
+        assertEquals("Sophie", game.getCurrentPlayer().getName());
+        assertEquals(drawPileSize, game.getDrawPile().size());
+
+        EasyMock.verify(mockView);
+    }
+
+    @Test
     void takeCard_DeckSizeZero_ThrowsException() {
         List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardType.DEFUSE));
