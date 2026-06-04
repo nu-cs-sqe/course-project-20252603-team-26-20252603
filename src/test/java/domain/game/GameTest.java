@@ -163,63 +163,6 @@ class GameTest {
         assertFalse(game.isWon());
     }
     @Test
-    void nextTurn_WithTwoPlayers_FromFirstToSecond() {
-        Game game = new Game(createDeck(2, 2, 10));
-        game.setupGame(List.of("Avery", "Jordan"));
-
-        assertEquals("Avery", game.getCurrentPlayer().getName());
-
-        game.nextTurn();
-
-        assertEquals("Jordan", game.getCurrentPlayer().getName());
-    }
-
-    @Test
-    void nextTurn_WithNoPlayers_DoesNothing() {
-        Game game = new Game(createDeck(2, 2, 10));
-
-        // checking it doesn't throw an exception
-        game.nextTurn();
-    }
-
-    @Test
-    void nextTurn_WithTwoPlayers_WrapsAround() {
-        Game game = new Game(createDeck(2, 2, 10));
-        game.setupGame(List.of("Avery", "Jordan"));
-
-        game.nextTurn();
-        assertEquals("Jordan", game.getCurrentPlayer().getName());
-
-        game.nextTurn();
-        assertEquals("Avery", game.getCurrentPlayer().getName());
-    }
-
-    @Test
-    void nextTurn_WithThreePlayers_WrapsToFirst() {
-        Game game = new Game(createDeck(3, 3, 15));
-        game.setupGame(List.of("Avery", "Jordan", "Casey"));
-
-        game.nextTurn();
-        game.nextTurn();
-        assertEquals("Casey", game.getCurrentPlayer().getName());
-
-        game.nextTurn();
-        assertEquals("Avery", game.getCurrentPlayer().getName());
-    }
-
-    @Test
-    void nextTurn_AfterElimination_SkipsDeadPlayer() {
-        Game game = new Game(createDeck(3, 3, 15));
-        game.setupGame(List.of("Avery", "Jordan", "Casey"));
-
-        game.eliminatePlayer(game.getPlayers().get(1));
-        assertEquals("Avery", game.getCurrentPlayer().getName());
-
-        game.nextTurn();
-        assertEquals("Casey", game.getCurrentPlayer().getName());
-    }
-
-    @Test
     void eliminateCurrentLastPlayer_WrapsCurrentPlayerToFirstRemainingPlayer() {
         Game game = new Game(createDeck(3, 3, 15));
         game.setupGame(List.of("Avery", "Jordan", "Casey"));

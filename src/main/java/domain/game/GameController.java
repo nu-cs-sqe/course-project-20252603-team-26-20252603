@@ -19,15 +19,9 @@ public class GameController {
 
     private GameView view;
 
-    private int pendingAttackTurns;
-
-    private int currentTurnNumber;
-
     public GameController(Game model, GameView view) {
         this.model = model;
         this.view = view;
-        this.pendingAttackTurns = 0;
-        this.currentTurnNumber = 0;
     }
 
     public void startGame(List<String> playerNames) {
@@ -117,51 +111,6 @@ public class GameController {
             view.displayError(e.getMessage());
             return false;
         }
-    }
-
-    public void playAttackCard(int cardIndex) {
-        try {
-            Player currentPlayer = model.getCurrentPlayer();
-            AttackCardController attackController = new AttackCardController(
-                    model.getDrawPile(), model.getDiscardPile());
-
-            attackController.play(currentPlayer, cardIndex);
-
-            int remaining = pendingAttackTurns - currentTurnNumber + 1;
-
-            pendingAttackTurns = remaining + 2;
-            currentTurnNumber = 1;
-
-            view.displayMessage("Attack played! " + pendingAttackTurns + " turn(s) pending.");
-            endTurn();
-        } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
-            view.displayError(e.getMessage());
-        }
-    }
-
-    public void endTurn() {
-        if (pendingAttackTurns > 0) {
-            pendingAttackTurns--;
-            if (pendingAttackTurns > 0) {
-                view.displayMessage(pendingAttackTurns + " attack turn(s) remain.");
-                return;
-            }
-        }
-        currentTurnNumber = 1;
-        model.nextTurn();
-    }
-
-    // for testing attack card functionality
-    void setPendingAttackTurns(int turns) {
-        this.pendingAttackTurns = turns;
-    }
-
-    void setCurrentTurnNumber(int turnNumber) {
-        this.currentTurnNumber = turnNumber;
-    }
-
-    int getPendingAttackTurns() {
-        return pendingAttackTurns;
     }
 
 }

@@ -88,13 +88,6 @@ public class Game {
         return players.get(currentPlayerIndex);
     }
 
-    public void nextTurn() {
-        if (players.isEmpty()) {
-            return;
-        }
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-    }
-
     Deck getDrawPile() {
         return drawPile;
     }
