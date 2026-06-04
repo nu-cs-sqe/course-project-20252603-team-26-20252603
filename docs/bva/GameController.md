@@ -67,7 +67,7 @@ private Game game;
 ## Method under test: `completeTurn(List<Integer> cardIndexes)`
 | Step 1                              | Step 2     | Step 3                                  |
 |-------------------------------------|------------|-----------------------------------------|
-| Input: selected card indexes to play | Collection | Values: <ul><li>Empty list</li><li>One selected Skip card index</li><li>One selected See the Future card index</li><li>More than one selected See the Future card index</li><li>One selected Shuffle card index</li><li>Selected See the Future followed by selected Skip</li><li>Selected Skip followed by another card</li><li>One selected unplayable card index</li><li>One selected index equal to hand size</li></ul> |
+| Input: selected card indexes to play | Collection | Values: <ul><li>Empty list</li><li>One selected Skip card index</li><li>One selected See the Future card index</li><li>More than one selected See the Future card index</li><li>One selected Shuffle card index</li><li>Selected See the Future followed by selected Skip</li><li>Selected Skip followed by another card</li><li>One selected unplayable card index</li><li>One selected index equal to hand size</li><li>One negative selected index</li></ul> |
 | Internal state: draw pile           | Collection | Values: <ul><li>One drawable non-Exploding-Kitten card</li><li>Two cards available for See the Future</li><li>Two cards available to shuffle before drawing</li></ul> |
 | Output                              | State / UI | Values: <ul><li>Displays hand</li><li>Draws one card</li><li>Advances to next player</li><li>Ends turn without drawing when Skip is played</li><li>Displays future cards, then draws when See the Future is played</li><li>Shuffles the draw pile, then draws when Shuffle is played</li><li>Ends turn without drawing when Skip is played after a non-ending card</li><li>Ignores later selected cards after Skip ends the turn</li><li>Displays error for an unplayable selected card</li><li>Displays error for an out-of-bounds selected index</li></ul> |
 
@@ -105,4 +105,8 @@ private Game game;
 
 - **TC10: completeTurn_IndexEqualsHandSize_DisplaysErrorThenDrawsAndAdvances** (:white_check_mark:)
   - **State of system**: Current player is `Sophie`, next player is `Jordan`, selected card index is equal to `Sophie`'s hand size, and the draw pile top card is `PLACEHOLDER_CARD`.
+  - **Expected output**: Displays `Sophie`'s hand, displays an out-of-bounds error, keeps the hand's existing card, draws the top card, and advances current player to `Jordan`.
+
+- **TC11: completeTurn_NegativeIndex_DisplaysErrorThenDrawsAndAdvances** (:white_check_mark:)
+  - **State of system**: Current player is `Sophie`, next player is `Jordan`, selected card index is `-1`, and the draw pile top card is `PLACEHOLDER_CARD`.
   - **Expected output**: Displays `Sophie`'s hand, displays an out-of-bounds error, keeps the hand's existing card, draws the top card, and advances current player to `Jordan`.
