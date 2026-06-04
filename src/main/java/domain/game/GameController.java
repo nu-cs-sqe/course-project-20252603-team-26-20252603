@@ -99,9 +99,11 @@ public class GameController {
                 return;
             }
         }
+        currentTurnNumber = 1;
         model.nextTurn();
     }
 
+    // for testing attack card functionality
     void setPendingAttackTurns(int turns) {
         this.pendingAttackTurns = turns;
     }
@@ -109,5 +111,14 @@ public class GameController {
     void setCurrentTurnNumber(int turnNumber) {
         this.currentTurnNumber = turnNumber;
     }
+
+    int getPendingAttackTurns() {
+        return pendingAttackTurns;
+    }
+
+    int getCurrentTurnNumber() {
+        return currentTurnNumber;
+    }
+
 
 }

@@ -585,6 +585,29 @@ public class GameControllerTest {
         EasyMock.verify(mockView);
     }
 
+    @Test
+    void playAttackCard_OnFirstTurnOfTwo_AddsOneRemainingPlusTwo() {
+        Game realGame = new Game(createDeckForPlayers(2));
+        realGame.setupGame(List.of("Alice", "Bob"));
+        GameView mockView = EasyMock.createNiceMock(GameView.class);
+        EasyMock.replay(mockView);
+
+        Player currentPlayer = realGame.getCurrentPlayer();
+        clearHand(currentPlayer);
+        currentPlayer.addCard(new Card(CardType.ATTACK));
+
+        GameController controller = new GameController(realGame, mockView);
+        controller.setPendingAttackTurns(2);
+        controller.setCurrentTurnNumber(1);
+
+        controller.playAttackCard(0);
+
+        // pending = (2 - 1 + 1) = 2 remaining, then +2 = 4, then endTurn decrements to 3
+        assertEquals(3, controller.getPendingAttackTurns());
+        assertEquals(0, currentPlayer.getHandSize());
+        EasyMock.verify(mockView);
+    }
+
     private Deck createDeckForPlayers(int playerCount) {
         List<Card> cards = new ArrayList<>();
         for (int count = 0; count < playerCount - 1; count++) {
