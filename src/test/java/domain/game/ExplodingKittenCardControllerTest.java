@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -144,5 +145,24 @@ class ExplodingKittenCardControllerTest {
         assertEquals(List.of(defuse), player.getHandSnapshot());
         assertEquals(List.of(drawPileCard), drawPile.snapshot());
         assertEquals(List.of(discardedCard), discardPile.snapshot());
+    }
+
+    @Test
+    void play_DefuseNotAtFirstIndex_DefusesKitten() {
+        Deck drawPile = new Deck(new ArrayList<>());
+        DiscardPile discardPile = new DiscardPile();
+        ExplodingKittenCardController controller =
+                new ExplodingKittenCardController(drawPile, discardPile);
+
+        Player player = new Player("Avery");
+        player.addCard(new Card(CardType.PLACEHOLDER_CARD));
+        player.addCard(new Card(CardType.DEFUSE));           // add defuse at index 1
+
+        Card explodingKitten = new Card(CardType.EXPLODING_KITTEN);
+        boolean result = controller.play(player, explodingKitten);
+
+        assertTrue(result);
+        assertEquals(1, player.getHandSize()); // placeholder remains after defuse is removed
+        assertEquals(CardType.PLACEHOLDER_CARD, player.getHandSnapshot().get(0).getType());
     }
 }
