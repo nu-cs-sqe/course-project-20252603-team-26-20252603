@@ -192,6 +192,18 @@ class GameTest {
         assertEquals("Avery", game.getCurrentPlayer().getName());
     }
 
+    @Test
+    void nextTurn_WithThreePlayers_WrapsToFirst() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Avery", "Jordan", "Casey"));
+
+        game.nextTurn();
+        game.nextTurn();
+        assertEquals("Casey", game.getCurrentPlayer().getName());
+
+        game.nextTurn();
+        assertEquals("Avery", game.getCurrentPlayer().getName());
+    }
 
 
     private void assertPlayersHaveOpeningHands(List<Player> players) {
