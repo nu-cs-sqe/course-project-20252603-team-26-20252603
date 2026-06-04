@@ -48,6 +48,10 @@ public class GameController {
                         new SeeFutureCardController(model.getDrawPile(), model.getDiscardPile());
                 view.displaySeeTheFutureCards(seeFutureController.play(currentPlayer, cardIndex));
             }
+            if (selectedCard.getType() == CardType.SHUFFLE) {
+                ShuffleCardController shuffleCardController = new ShuffleCardController();
+                shuffleCardController.play(model, cardIndex);
+            }
         }
         takeCard();
     }

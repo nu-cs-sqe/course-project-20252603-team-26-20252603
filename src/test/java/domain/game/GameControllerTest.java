@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
 import ui.GameView;
@@ -320,6 +321,41 @@ public class GameControllerTest {
 
         assertEquals(1, currentPlayer.getHandSize());
         assertEquals(List.of(firstSeeFuture, secondSeeFuture), game.getDiscardPile().snapshot());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
+    void completeTurn_ShufflePlayed_ShufflesThenDrawsAndAdvances() {
+        CountingZeroRandom random = new CountingZeroRandom();
+        Game game = new Game(createDeckForPlayers(2, random));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        random.resetCalls();
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card shuffle = new Card(CardType.SHUFFLE);
+        currentPlayer.addCard(shuffle);
+        List<Card> startingHand = currentPlayer.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        Card drawnCardAfterShuffle = new Card(CardType.PLACEHOLDER_CARD);
+        Card remainingCardAfterDraw = new Card(CardType.BEARD_CAT);
+        game.getDrawPile().addCard(drawnCardAfterShuffle);
+        game.getDrawPile().addCard(remainingCardAfterDraw);
+
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        mockView.displayCardDrawn(drawnCardAfterShuffle);
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of(0));
+
+        assertEquals(1, currentPlayer.getHandSize());
+        assertEquals(List.of(shuffle), game.getDiscardPile().snapshot());
+        assertEquals(List.of(remainingCardAfterDraw), game.getDrawPile().snapshot());
+        assertEquals(List.of(2), random.getBoundsSinceReset());
         assertEquals("Jordan", game.getCurrentPlayer().getName());
         verify(mockView);
     }
@@ -787,6 +823,10 @@ public class GameControllerTest {
     }
 
     private Deck createDeckForPlayers(int playerCount) {
+        return createDeckForPlayers(playerCount, new Random());
+    }
+
+    private Deck createDeckForPlayers(int playerCount, Random random) {
         List<Card> cards = new ArrayList<>();
         for (int count = 0; count < playerCount - 1; count++) {
             cards.add(new Card(CardType.EXPLODING_KITTEN));
@@ -797,7 +837,7 @@ public class GameControllerTest {
         for (int count = 0; count < playerCount * 5; count++) {
             cards.add(new Card(CardType.PLACEHOLDER_CARD));
         }
-        return new Deck(cards);
+        return new Deck(cards, random);
     }
 
     private void clearHand(Player player) {
@@ -809,6 +849,24 @@ public class GameControllerTest {
     private void clearDrawPile(Deck drawPile) {
         while (drawPile.size() > 0) {
             drawPile.draw();
+        }
+    }
+
+    private static final class CountingZeroRandom extends Random {
+        private final List<Integer> boundsSinceReset = new ArrayList<>();
+
+        @Override
+        public int nextInt(int bound) {
+            boundsSinceReset.add(bound);
+            return 0;
+        }
+
+        void resetCalls() {
+            boundsSinceReset.clear();
+        }
+
+        List<Integer> getBoundsSinceReset() {
+            return List.copyOf(boundsSinceReset);
         }
     }
 
