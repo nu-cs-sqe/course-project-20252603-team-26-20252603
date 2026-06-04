@@ -217,8 +217,6 @@ class GameTest {
         assertEquals("Casey", game.getCurrentPlayer().getName());
     }
 
-
-
     private void assertPlayersHaveOpeningHands(List<Player> players) {
         for (Player player : players) {
             assertEquals(6, player.getHandSize());
