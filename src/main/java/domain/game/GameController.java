@@ -18,8 +18,6 @@ public class GameController {
 
     private int pendingAttackTurns;
 
-    private boolean attackStacking;
-
     private int currentTurnNumber;
 
     public GameController(Game model, GameView view) {
@@ -118,10 +116,5 @@ public class GameController {
     int getPendingAttackTurns() {
         return pendingAttackTurns;
     }
-
-    int getCurrentTurnNumber() {
-        return currentTurnNumber;
-    }
-
 
 }
