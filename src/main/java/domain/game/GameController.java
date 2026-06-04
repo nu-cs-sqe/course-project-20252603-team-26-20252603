@@ -26,7 +26,6 @@ public class GameController {
         this.model = model;
         this.view = view;
         this.pendingAttackTurns = 0;
-        this.attackStacking = true;
         this.currentTurnNumber = 0;
     }
 
