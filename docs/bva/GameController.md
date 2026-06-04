@@ -63,3 +63,14 @@ private Game game;
 - **TC1: startTurn_DisplaysCurrentPlayerHand** (:white_check_mark:)
   - **State of system**: Current player is `Sophie` with [`SKIP`, `BEARD_CAT`] in hand.
   - **Expected output**: Calls the view to display `Sophie`'s hand with those cards.
+
+## Method under test: `completeTurn(List<Integer> cardIndexes)`
+| Step 1                              | Step 2     | Step 3                                  |
+|-------------------------------------|------------|-----------------------------------------|
+| Input: selected card indexes to play | Collection | Values: <ul><li>Empty list</li></ul>   |
+| Internal state: draw pile           | Collection | Values: <ul><li>One drawable non-Exploding-Kitten card</li></ul> |
+| Output                              | State / UI | Values: <ul><li>Displays hand</li><li>Draws one card</li><li>Advances to next player</li></ul> |
+
+- **TC2: completeTurn_NoCardsPlayed_DisplaysHandThenDrawsAndAdvances** (:white_check_mark:)
+  - **State of system**: Current player is `Sophie`, next player is `Jordan`, selected card indexes are `[]`, and the draw pile top card is `PLACEHOLDER_CARD`.
+  - **Expected output**: Displays `Sophie`'s hand, draws the `PLACEHOLDER_CARD`, adds it to `Sophie`'s hand, and advances current player to `Jordan`.

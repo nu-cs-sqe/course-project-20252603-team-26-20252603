@@ -35,6 +35,11 @@ public class GameController {
         view.displayHand(currentPlayer.getName(), currentPlayer.getHandSnapshot());
     }
 
+    public void completeTurn(List<Integer> cardIndexes) {
+        startTurn();
+        takeCard();
+    }
+
     public Card takeCard() {
         Player currentPlayer = model.getCurrentPlayer();
         Card drawnCard = model.getDrawPile().draw();
