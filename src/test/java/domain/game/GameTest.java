@@ -205,6 +205,19 @@ class GameTest {
         assertEquals("Avery", game.getCurrentPlayer().getName());
     }
 
+    @Test
+    void nextTurn_AfterElimination_SkipsDeadPlayer() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Avery", "Jordan", "Casey"));
+
+        game.eliminatePlayer(game.getPlayers().get(1));
+        assertEquals("Avery", game.getCurrentPlayer().getName());
+
+        game.nextTurn();
+        assertEquals("Casey", game.getCurrentPlayer().getName());
+    }
+
+
 
     private void assertPlayersHaveOpeningHands(List<Player> players) {
         for (Player player : players) {
