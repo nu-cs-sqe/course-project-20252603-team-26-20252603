@@ -682,10 +682,28 @@ public class GameControllerTest {
 
         controller.playAttackCard(0);
 
-        assertEquals(1, currentPlayer.getHandSize()); // Card not removed
+        assertEquals(1, currentPlayer.getHandSize());
         EasyMock.verify(mockView);
     }
 
+    @Test
+    void playAttackCard_NegativeIndex_ThrowsException() {
+        Game realGame = new Game(createDeckForPlayers(2));
+        realGame.setupGame(List.of("Alice", "Bob"));
+        GameView mockView = EasyMock.createNiceMock(GameView.class);
+        EasyMock.replay(mockView);
+
+        Player currentPlayer = realGame.getCurrentPlayer();
+        clearHand(currentPlayer);
+        currentPlayer.addCard(new Card(CardType.ATTACK));
+
+        GameController controller = new GameController(realGame, mockView);
+
+        controller.playAttackCard(-1);
+
+        assertEquals(1, currentPlayer.getHandSize());
+        EasyMock.verify(mockView);
+    }
 
     private Deck createDeckForPlayers(int playerCount) {
         List<Card> cards = new ArrayList<>();
