@@ -148,9 +148,17 @@ public class Game {
     }
     void eliminatePlayer(Player player) {
         players.remove(player);
+        if (currentPlayerIndex >= players.size()) {
+            currentPlayerIndex = 0;
+        }
+    }
+
+    public void advanceTurn() {
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
     }
 
     boolean isWon() {
         return players.size() == 1;
     }
+
 }

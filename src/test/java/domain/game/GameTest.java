@@ -1,14 +1,16 @@
 package domain.game;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class GameTest {
     @Test
@@ -161,6 +163,96 @@ class GameTest {
         assertFalse(game.isWon());
     }
 
+    @Test
+    void eliminateCurrentLastPlayer_WrapsCurrentPlayerToFirstRemainingPlayer() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Avery", "Jordan", "Casey"));
+        game.advanceTurn();
+        game.advanceTurn();
+        Player eliminatedPlayer = game.getCurrentPlayer();
+
+        game.eliminatePlayer(eliminatedPlayer);
+
+        assertFalse(game.getPlayers().contains(eliminatedPlayer));
+        assertEquals("Avery", game.getCurrentPlayer().getName());
+        assertEquals(0, game.getCurrentPlayerIndex());
+    }
+
+    @Test
+    void setupGame_UsesInjectedRandomForBothSetupShuffles() {
+        Random random = EasyMock.createMock(Random.class);
+        expectShuffle(random, 10);
+        expectShuffle(random, 2);
+        EasyMock.replay(random);
+        Game game = new Game(createDeck(3, 3, 10, random));
+
+        game.setupGame(List.of("Avery", "Jordan"));
+
+        EasyMock.verify(random);
+    }
+
+    @Test
+    void setupGame_CalledTwice_DoesNotDuplicatePlayers() {
+        //initialize deck big enough for back to back game setups
+        Game game = new Game(createDeck(6, 6, 24));
+
+        game.setupGame(List.of("Avery", "Jordan"));
+        game.setupGame(List.of("Avery", "Jordan"));
+
+        assertEquals(2, game.getPlayers().size());
+    }
+
+    @Test
+    void setupGame_CalledTwice_ClearsPlayers() {
+        //initialize deck big enough for back to back game setups
+        Game game = new Game(createDeck(6, 6, 24));
+
+        game.setupGame(List.of("Avery", "Jordan"));
+        List<Player> playerOne = game.getPlayers();
+        game.setupGame(List.of("Morgan", "Kate"));
+        List<Player> playerTwo = game.getPlayers();
+
+        assertEquals(2, game.getPlayers().size());
+        assertNotEquals(playerOne, playerTwo);
+    }
+
+    @Test
+    void getCurrentPlayerIndex_AfterSetup_ReturnsZero() {
+        Game game = new Game(createDeck(3, 3, 12));
+        game.setupGame(List.of("Avery", "Jordan"));
+
+        assertEquals(0, game.getCurrentPlayerIndex());
+    }
+    @Test
+    void getCurrentPlayerIndex_AfterSetupAndOneRound_ReturnsOne() {
+        Game game = new Game(createDeck(3, 3, 12));
+        game.setupGame(List.of("Avery", "Jordan"));
+        game.advanceTurn();
+
+        assertNotEquals(0, game.getCurrentPlayerIndex());
+    }
+
+    @Test
+    void advanceTurn_WrapsAroundToFirstPlayer() {
+        Game game = new Game(createDeck(3, 3, 12));
+        game.setupGame(List.of("Avery", "Jordan"));
+
+        game.advanceTurn(); // index = 1
+        game.advanceTurn(); // index should wrap to 0
+
+        assertEquals("Avery", game.getCurrentPlayer().getName());
+    }
+
+    @Test
+    void advanceTurn_ThreePlayers_CurrentPlayerIsSecond() {
+        Game game = new Game(createDeck(4, 4, 20));
+        game.setupGame(List.of("Avery", "Jordan", "Casey"));
+
+        game.advanceTurn();
+
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+    }
+
     private void assertPlayersHaveOpeningHands(List<Player> players) {
         for (Player player : players) {
             assertEquals(6, player.getHandSize());
@@ -169,6 +261,14 @@ class GameTest {
     }
 
     private Deck createDeck(int explodingKittens, int defuses, int others) {
+        return new Deck(createCards(explodingKittens, defuses, others));
+    }
+
+    private Deck createDeck(int explodingKittens, int defuses, int others, Random random) {
+        return new Deck(createCards(explodingKittens, defuses, others), random);
+    }
+
+    private List<Card> createCards(int explodingKittens, int defuses, int others) {
         List<Card> cards = new ArrayList<>();
         for (int count = 0; count < explodingKittens; count++) {
             cards.add(createCardWithType(CardType.EXPLODING_KITTEN));
@@ -179,7 +279,13 @@ class GameTest {
         for (int count = 0; count < others; count++) {
             cards.add(createCardWithType(CardType.PLACEHOLDER_CARD));
         }
-        return new Deck(cards);
+        return cards;
+    }
+
+    private void expectShuffle(Random random, int deckSize) {
+        for (int bound = deckSize; bound > 1; bound--) {
+            EasyMock.expect(random.nextInt(bound)).andReturn(0);
+        }
     }
 
     private Card createCardWithType(CardType type) {
