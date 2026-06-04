@@ -59,6 +59,18 @@
         - **State of the system**: call function `displayGameReady()`
         - **Expected output**: Console shows "Game is ready! Let's begin!"
 
+### Method under test: `public void displayHand(String playerName, List<Card> cards)`
+| Step 1                 | Step 2     | Step 3                                                    |
+|------------------------|------------|-----------------------------------------------------------|
+| Input 1: player name   | String     | Values: <ul><li>Valid player name</li></ul>              |
+| Input 2: cards in hand | Collection | Values: <ul><li>More than one card</li></ul>             |
+| Output: console output | String     | Values: <ul><li>Player name and indexed card list</li></ul> |
+
+- **Step 4:**
+    - **TC10: displayHand_WithCards_ShowsPlayerNameAndIndexedCards** (:white_check_mark:)
+        - **State of the system**: call `displayHand("Sophie", [SKIP, BEARD_CAT])`
+        - **Expected output**: Console shows "Sophie, your hand:", "1. SKIP", and "2. BEARD_CAT"
+
 ### Method under test: `public void displayGameOver(String winnerName)`
 | Step 1                 | Step 2 | Step 3                                                     |
 |------------------------|--------|------------------------------------------------------------|
