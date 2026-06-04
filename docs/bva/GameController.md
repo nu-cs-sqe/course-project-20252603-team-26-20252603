@@ -67,9 +67,9 @@ private Game game;
 ## Method under test: `completeTurn(List<Integer> cardIndexes)`
 | Step 1                              | Step 2     | Step 3                                  |
 |-------------------------------------|------------|-----------------------------------------|
-| Input: selected card indexes to play | Collection | Values: <ul><li>Empty list</li><li>One selected Skip card index</li></ul> |
-| Internal state: draw pile           | Collection | Values: <ul><li>One drawable non-Exploding-Kitten card</li></ul> |
-| Output                              | State / UI | Values: <ul><li>Displays hand</li><li>Draws one card</li><li>Advances to next player</li><li>Ends turn without drawing when Skip is played</li></ul> |
+| Input: selected card indexes to play | Collection | Values: <ul><li>Empty list</li><li>One selected Skip card index</li><li>One selected See the Future card index</li></ul> |
+| Internal state: draw pile           | Collection | Values: <ul><li>One drawable non-Exploding-Kitten card</li><li>Two cards available for See the Future</li></ul> |
+| Output                              | State / UI | Values: <ul><li>Displays hand</li><li>Draws one card</li><li>Advances to next player</li><li>Ends turn without drawing when Skip is played</li><li>Displays future cards, then draws when See the Future is played</li></ul> |
 
 - **TC2: completeTurn_NoCardsPlayed_DisplaysHandThenDrawsAndAdvances** (:white_check_mark:)
   - **State of system**: Current player is `Sophie`, next player is `Jordan`, selected card indexes are `[]`, and the draw pile top card is `PLACEHOLDER_CARD`.
@@ -78,3 +78,7 @@ private Game game;
 - **TC3: completeTurn_SkipPlayed_DisplaysHandThenEndsWithoutDrawing** (:white_check_mark:)
   - **State of system**: Current player is `Sophie`, next player is `Jordan`, selected card indexes are `[0]`, card index `0` is `SKIP`, and the draw pile has one card.
   - **Expected output**: Displays `Sophie`'s hand, plays and discards `SKIP`, leaves the draw pile unchanged, and advances current player to `Jordan`.
+
+- **TC4: completeTurn_SeeFuturePlayed_DisplaysFutureThenDrawsAndAdvances** (:white_check_mark:)
+  - **State of system**: Current player is `Sophie`, next player is `Jordan`, selected card indexes are `[0]`, card index `0` is `SEE_THE_FUTURE`, and the draw pile has two cards.
+  - **Expected output**: Displays `Sophie`'s hand, plays and discards `SEE_THE_FUTURE`, displays the top two draw pile cards, draws the top card, and advances current player to `Jordan`.

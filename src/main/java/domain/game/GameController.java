@@ -43,6 +43,11 @@ public class GameController {
             if (selectedCard.getType() == CardType.SKIP && playSkip(cardIndex)) {
                 return;
             }
+            if (selectedCard.getType() == CardType.SEE_THE_FUTURE) {
+                SeeFutureCardController seeFutureController =
+                        new SeeFutureCardController(model.getDrawPile(), model.getDiscardPile());
+                view.displaySeeTheFutureCards(seeFutureController.play(currentPlayer, cardIndex));
+            }
         }
         takeCard();
     }
