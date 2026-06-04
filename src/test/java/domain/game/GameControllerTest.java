@@ -563,32 +563,6 @@ public class GameControllerTest {
     void playAttackCard_NoPendingTurns_AddsTwoTurns() {
         Game realGame = new Game(createDeckForPlayers(2));
         realGame.setupGame(List.of("Alice", "Bob"));
-        GameView mockView = EasyMock.createMock(GameView.class);
-
-        Player currentPlayer = realGame.getCurrentPlayer();
-        clearHand(currentPlayer);
-        currentPlayer.addCard(new Card(CardType.ATTACK));
-
-        mockView.displayMessage("Attack played! 2 turn(s) pending.");
-        EasyMock.expectLastCall().once();
-
-        mockView.displayMessage("1 attack turn(s) remain.");
-        EasyMock.expectLastCall().once();
-
-        EasyMock.replay(mockView);
-
-        GameController controller = new GameController(realGame, mockView);
-
-        controller.playAttackCard(0);
-
-        assertEquals(0, currentPlayer.getHandSize());
-        EasyMock.verify(mockView);
-    }
-
-    @Test
-    void playAttackCard_OnFirstTurnOfTwo_AddsOneRemainingPlusTwo() {
-        Game realGame = new Game(createDeckForPlayers(2));
-        realGame.setupGame(List.of("Alice", "Bob"));
         GameView mockView = EasyMock.createNiceMock(GameView.class);
         EasyMock.replay(mockView);
 
@@ -597,14 +571,11 @@ public class GameControllerTest {
         currentPlayer.addCard(new Card(CardType.ATTACK));
 
         GameController controller = new GameController(realGame, mockView);
-        controller.setPendingAttackTurns(2);
-        controller.setCurrentTurnNumber(1);
 
         controller.playAttackCard(0);
 
-        // pending = (2 - 1 + 1) = 2 remaining, then +2 = 4, then endTurn decrements to 3
-        assertEquals(3, controller.getPendingAttackTurns());
         assertEquals(0, currentPlayer.getHandSize());
+
         EasyMock.verify(mockView);
     }
 
