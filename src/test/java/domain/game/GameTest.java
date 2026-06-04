@@ -309,6 +309,28 @@ class GameTest {
         assertEquals("Jordan", game.getCurrentPlayer().getName());
     }
 
+    @Test
+    void applyAttack_WhenAttackerIsAlreadyUnderAttack_StacksRemainingPlusTwo() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Avery", "Jordan", "Casey"));
+
+        game.applyAttack();
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+
+        game.applyAttack();
+        assertEquals("Casey", game.getCurrentPlayer().getName());
+
+        game.advanceTurn();
+        assertEquals("Casey", game.getCurrentPlayer().getName());
+        game.advanceTurn();
+        assertEquals("Casey", game.getCurrentPlayer().getName());
+        game.advanceTurn();
+        assertEquals("Casey", game.getCurrentPlayer().getName());
+
+        game.advanceTurn();
+        assertEquals("Avery", game.getCurrentPlayer().getName());
+    }
+
     private void assertPlayersHaveOpeningHands(List<Player> players) {
         for (Player player : players) {
             assertEquals(6, player.getHandSize());
