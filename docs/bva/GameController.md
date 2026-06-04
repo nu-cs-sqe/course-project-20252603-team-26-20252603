@@ -53,4 +53,13 @@ private Game game;
 | `GCMaxPlayer `          | max number of players                              | None: game starts          , gameStarted = True              | :x_mark:     |
 | `GCMultiPlayer `        | duplicate player  names                            | Confirm and rename players exception , gameStarted = False   | :x_mark:     |
 
+## Method under test: `startTurn()`
+| Step 1                       | Step 2     | Step 3                                        |
+|------------------------------|------------|-----------------------------------------------|
+| Internal state: current player | Object     | Values: <ul><li>Player named `Sophie`</li></ul> |
+| Internal state: current hand | Collection | Values: <ul><li>More than one card</li></ul> |
+| Output                       | UI Message | Values: <ul><li>Displays the current player's hand</li></ul> |
 
+- **TC1: startTurn_DisplaysCurrentPlayerHand** (:white_check_mark:)
+  - **State of system**: Current player is `Sophie` with [`SKIP`, `BEARD_CAT`] in hand.
+  - **Expected output**: Calls the view to display `Sophie`'s hand with those cards.

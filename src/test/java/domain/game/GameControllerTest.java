@@ -178,6 +178,29 @@ public class GameControllerTest {
     }
 
     @Test
+    void startTurn_DisplaysCurrentPlayerHand() {
+        Game mockModel = EasyMock.createMock(Game.class);
+        GameView mockView = EasyMock.createMock(GameView.class);
+        Player player = new Player("Sophie");
+        Card skip = new Card(CardType.SKIP);
+        Card beardCat = new Card(CardType.BEARD_CAT);
+        player.addCard(skip);
+        player.addCard(beardCat);
+
+        expect(mockModel.getCurrentPlayer()).andReturn(player).once();
+        replay(mockModel);
+        mockView.displayHand("Sophie", List.of(skip, beardCat));
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(mockModel, mockView);
+
+        controller.startTurn();
+
+        verify(mockModel);
+        verify(mockView);
+    }
+
+    @Test
     void takeCard_DeckSizeZero_ThrowsException() {
         List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardType.DEFUSE));

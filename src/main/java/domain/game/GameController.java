@@ -30,6 +30,11 @@ public class GameController {
         }
     }
 
+    public void startTurn() {
+        Player currentPlayer = model.getCurrentPlayer();
+        view.displayHand(currentPlayer.getName(), currentPlayer.getHandSnapshot());
+    }
+
     public Card takeCard() {
         Player currentPlayer = model.getCurrentPlayer();
         Card drawnCard = model.getDrawPile().draw();
