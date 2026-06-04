@@ -361,6 +361,43 @@ public class GameControllerTest {
     }
 
     @Test
+    void completeTurn_SeeFutureThenSkipPlayed_EndsWithoutDrawing() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card seeFuture = new Card(CardType.SEE_THE_FUTURE);
+        Card skip = new Card(CardType.SKIP);
+        currentPlayer.addCard(seeFuture);
+        currentPlayer.addCard(skip);
+        List<Card> startingHand = currentPlayer.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        Card secondFutureCard = new Card(CardType.BEARD_CAT);
+        Card topCard = new Card(CardType.PLACEHOLDER_CARD);
+        game.getDrawPile().addCard(secondFutureCard);
+        game.getDrawPile().addCard(topCard);
+        int drawPileSize = game.getDrawPile().size();
+
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        mockView.displaySeeTheFutureCards(List.of(topCard, secondFutureCard));
+        expectLastCall().once();
+        mockView.displayMessage("Skip played. Your turn ends without drawing a card.");
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of(0, 0));
+
+        assertEquals(0, currentPlayer.getHandSize());
+        assertEquals(List.of(seeFuture, skip), game.getDiscardPile().snapshot());
+        assertEquals(drawPileSize, game.getDrawPile().size());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
     void takeCard_DeckSizeZero_ThrowsException() {
         List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardType.DEFUSE));
