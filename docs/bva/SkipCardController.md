@@ -67,6 +67,10 @@
   - **State of system**: Current player has [`DEFUSE`], `cardIndex = 0`, discard pile is empty
   - **Expected output**: Returns `false`, displays an error message, keeps `DEFUSE` in hand, and discard pile stays empty.
 
+- **TC14: playSkip_InvalidCard_DoesNotAdvanceTurn** (:white_check_mark:)
+  - **State of system**: Current player is `Sophie`, next player is `Jordan`, current player has [`DEFUSE`], and `cardIndex = 0`
+  - **Expected output**: Returns `false`, displays an error message, keeps `DEFUSE` in hand, and keeps the current player as `Sophie`.
+
 - **TC10: controllerPlaySkip_NegativeIndex_ReturnsFalseAndDisplaysError** (:white_check_mark:)
   - **State of system**: Current player has [`SKIP`], `cardIndex = -1`, discard pile is empty
   - **Expected output**: Returns `false`, displays an error message, keeps `SKIP` in hand, and discard pile stays empty.

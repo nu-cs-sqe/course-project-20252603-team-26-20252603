@@ -532,6 +532,28 @@ public class GameControllerTest {
     }
 
     @Test
+    void playSkip_InvalidCard_DoesNotAdvanceTurn() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        currentPlayer.addCard(new Card(CardType.DEFUSE));
+
+        mockView.displayError(anyString());
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        boolean result = controller.playSkip(0);
+
+        assertFalse(result);
+        assertEquals("Sophie", game.getCurrentPlayer().getName());
+        assertEquals(1, currentPlayer.getHandSize());
+        verify(mockView);
+    }
+
+    @Test
     void playSkip_NegativeIndex_ReturnsFalseAndDisplaysError() {
         Game mockModel = EasyMock.createMock(Game.class);
         GameView mockView = EasyMock.createMock(GameView.class);
