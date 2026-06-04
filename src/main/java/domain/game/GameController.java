@@ -76,19 +76,23 @@ public class GameController {
     }
 
     public void playAttackCard(int cardIndex) {
-        Player currentPlayer = model.getCurrentPlayer();
-        AttackCardController attackController = new AttackCardController(model.getDrawPile(), model.getDiscardPile());
+        try {
+            Player currentPlayer = model.getCurrentPlayer();
+            AttackCardController attackController = new AttackCardController(
+                    model.getDrawPile(), model.getDiscardPile());
 
-        int turns = attackController.play(currentPlayer, cardIndex);
+            attackController.play(currentPlayer, cardIndex);
 
-        if (attackStacking) {
-            pendingAttackTurns += turns;
-        } else {
-            pendingAttackTurns = turns;
+            int remaining = pendingAttackTurns - currentTurnNumber + 1;
+
+            pendingAttackTurns = remaining + 2;
+            currentTurnNumber = 1;
+
+            view.displayMessage("Attack played! " + pendingAttackTurns + " turn(s) pending.");
+            endTurn();
+        } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
+            view.displayError(e.getMessage());
         }
-
-        view.displayMessage("Attack played! " + pendingAttackTurns + " turn(s) pending.");
-        endTurn();
     }
 
     public void endTurn() {
