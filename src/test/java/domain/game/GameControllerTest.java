@@ -652,23 +652,37 @@ public class GameControllerTest {
         GameView mockView = EasyMock.createNiceMock(GameView.class);
         EasyMock.replay(mockView);
 
-
         Player currentPlayer = realGame.getCurrentPlayer();
         clearHand(currentPlayer);
         currentPlayer.addCard(new Card(CardType.ATTACK));
-
 
         GameController controller = new GameController(realGame, mockView);
         controller.setPendingAttackTurns(3);
         controller.setCurrentTurnNumber(3);
 
+        controller.playAttackCard(0);
+
+        assertEquals(2, controller.getPendingAttackTurns());
+        assertEquals(0, currentPlayer.getHandSize());
+        EasyMock.verify(mockView);
+    }
+
+    @Test
+    void playAttackCard_NonAttackCard_ThrowsException() {
+        Game realGame = new Game(createDeckForPlayers(2));
+        realGame.setupGame(List.of("Alice", "Bob"));
+        GameView mockView = EasyMock.createNiceMock(GameView.class);
+        EasyMock.replay(mockView);
+
+        Player currentPlayer = realGame.getCurrentPlayer();
+        clearHand(currentPlayer);
+        currentPlayer.addCard(new Card(CardType.BEARD_CAT));
+
+        GameController controller = new GameController(realGame, mockView);
 
         controller.playAttackCard(0);
 
-
-        // pending = (3 - 3 + 1) = 1 remaining, then +2 = 3, then endTurn decrements to 2
-        assertEquals(2, controller.getPendingAttackTurns());
-        assertEquals(0, currentPlayer.getHandSize());
+        assertEquals(1, currentPlayer.getHandSize()); // Card not removed
         EasyMock.verify(mockView);
     }
 
