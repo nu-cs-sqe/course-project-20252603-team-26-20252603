@@ -37,6 +37,13 @@ public class GameController {
 
     public void completeTurn(List<Integer> cardIndexes) {
         startTurn();
+        for (int cardIndex : cardIndexes) {
+            Player currentPlayer = model.getCurrentPlayer();
+            Card selectedCard = currentPlayer.getHandSnapshot().get(cardIndex);
+            if (selectedCard.getType() == CardType.SKIP && playSkip(cardIndex)) {
+                return;
+            }
+        }
         takeCard();
     }
 

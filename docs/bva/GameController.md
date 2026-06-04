@@ -67,10 +67,14 @@ private Game game;
 ## Method under test: `completeTurn(List<Integer> cardIndexes)`
 | Step 1                              | Step 2     | Step 3                                  |
 |-------------------------------------|------------|-----------------------------------------|
-| Input: selected card indexes to play | Collection | Values: <ul><li>Empty list</li></ul>   |
+| Input: selected card indexes to play | Collection | Values: <ul><li>Empty list</li><li>One selected Skip card index</li></ul> |
 | Internal state: draw pile           | Collection | Values: <ul><li>One drawable non-Exploding-Kitten card</li></ul> |
-| Output                              | State / UI | Values: <ul><li>Displays hand</li><li>Draws one card</li><li>Advances to next player</li></ul> |
+| Output                              | State / UI | Values: <ul><li>Displays hand</li><li>Draws one card</li><li>Advances to next player</li><li>Ends turn without drawing when Skip is played</li></ul> |
 
 - **TC2: completeTurn_NoCardsPlayed_DisplaysHandThenDrawsAndAdvances** (:white_check_mark:)
   - **State of system**: Current player is `Sophie`, next player is `Jordan`, selected card indexes are `[]`, and the draw pile top card is `PLACEHOLDER_CARD`.
   - **Expected output**: Displays `Sophie`'s hand, draws the `PLACEHOLDER_CARD`, adds it to `Sophie`'s hand, and advances current player to `Jordan`.
+
+- **TC3: completeTurn_SkipPlayed_DisplaysHandThenEndsWithoutDrawing** (:white_check_mark:)
+  - **State of system**: Current player is `Sophie`, next player is `Jordan`, selected card indexes are `[0]`, card index `0` is `SKIP`, and the draw pile has one card.
+  - **Expected output**: Displays `Sophie`'s hand, plays and discards `SKIP`, leaves the draw pile unchanged, and advances current player to `Jordan`.
