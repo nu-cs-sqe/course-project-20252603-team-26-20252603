@@ -180,6 +180,18 @@ class GameTest {
         game.nextTurn();
     }
 
+    @Test
+    void nextTurn_WithTwoPlayers_WrapsAround() {
+        Game game = new Game(createDeck(2, 2, 10));
+        game.setupGame(List.of("Avery", "Jordan"));
+
+        game.nextTurn();
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+
+        game.nextTurn();
+        assertEquals("Avery", game.getCurrentPlayer().getName());
+    }
+
 
 
     private void assertPlayersHaveOpeningHands(List<Player> players) {
