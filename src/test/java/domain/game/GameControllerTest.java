@@ -542,6 +542,23 @@ public class GameControllerTest {
         EasyMock.verify(mockModel, mockView);
     }
 
+    @Test
+    void endTurn_WithNoPendingAttacks_MovesToNextPlayer() {
+        Game mockModel = EasyMock.createMock(Game.class);
+        GameView mockView = EasyMock.createMock(GameView.class);
+
+        mockModel.nextTurn();
+        EasyMock.expectLastCall().once();
+        EasyMock.replay(mockModel, mockView);
+
+        GameController controller = new GameController(mockModel, mockView);
+        controller.setPendingAttackTurns(0);
+
+        controller.endTurn();
+
+        EasyMock.verify(mockModel, mockView);
+    }
+
     private Deck createDeckForPlayers(int playerCount) {
         List<Card> cards = new ArrayList<>();
         for (int count = 0; count < playerCount - 1; count++) {
