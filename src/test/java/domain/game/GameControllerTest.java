@@ -559,6 +559,32 @@ public class GameControllerTest {
         EasyMock.verify(mockModel, mockView);
     }
 
+    @Test
+    void playAttackCard_NoPendingTurns_AddsTwoTurns() {
+        Game realGame = new Game(createDeckForPlayers(2));
+        realGame.setupGame(List.of("Alice", "Bob"));
+        GameView mockView = EasyMock.createMock(GameView.class);
+
+        Player currentPlayer = realGame.getCurrentPlayer();
+        clearHand(currentPlayer);
+        currentPlayer.addCard(new Card(CardType.ATTACK));
+
+        mockView.displayMessage("Attack played! 2 turn(s) pending.");
+        EasyMock.expectLastCall().once();
+
+        mockView.displayMessage("1 attack turn(s) remain.");
+        EasyMock.expectLastCall().once();
+
+        EasyMock.replay(mockView);
+
+        GameController controller = new GameController(realGame, mockView);
+
+        controller.playAttackCard(0);
+
+        assertEquals(0, currentPlayer.getHandSize());
+        EasyMock.verify(mockView);
+    }
+
     private Deck createDeckForPlayers(int playerCount) {
         List<Card> cards = new ArrayList<>();
         for (int count = 0; count < playerCount - 1; count++) {

@@ -20,11 +20,14 @@ public class GameController {
 
     private boolean attackStacking;
 
+    private int currentTurnNumber;
+
     public GameController(Game model, GameView view) {
         this.model = model;
         this.view = view;
         this.pendingAttackTurns = 0;
         this.attackStacking = true;
+        this.currentTurnNumber = 0;
     }
 
     public void startGame(List<String> playerNames) {
@@ -72,6 +75,21 @@ public class GameController {
         }
     }
 
+    public void playAttackCard(int cardIndex) {
+        Player currentPlayer = model.getCurrentPlayer();
+        AttackCardController attackController = new AttackCardController(model.getDrawPile(), model.getDiscardPile());
+
+        int turns = attackController.play(currentPlayer, cardIndex);
+
+        if (attackStacking) {
+            pendingAttackTurns += turns;
+        } else {
+            pendingAttackTurns = turns;
+        }
+
+        view.displayMessage("Attack played! " + pendingAttackTurns + " turn(s) pending.");
+        endTurn();
+    }
 
     public void endTurn() {
         if (pendingAttackTurns > 0) {
@@ -86,6 +104,10 @@ public class GameController {
 
     void setPendingAttackTurns(int turns) {
         this.pendingAttackTurns = turns;
+    }
+
+    void setCurrentTurnNumber(int turnNumber) {
+        this.currentTurnNumber = turnNumber;
     }
 
 }
