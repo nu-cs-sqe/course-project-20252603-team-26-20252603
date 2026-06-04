@@ -38,7 +38,9 @@ public class GameController {
             ExplodingKittenCardController explodingKittenController =
                     new ExplodingKittenCardController(model.getDrawPile(), model.getDiscardPile());
             boolean defused = explodingKittenController.play(currentPlayer, drawnCard);
-            if (!defused) {
+            if (defused) {
+                model.advanceTurn();
+            } else {
                 model.eliminatePlayer(currentPlayer);
                 if (model.isWon()) {
                     view.displayGameOver(model.getPlayers().get(0).getName());

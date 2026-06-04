@@ -32,7 +32,11 @@
 
     - **TC8: takeCard_ExplodingKittenWithDefuse_DefusesAndReinsertsKitten** (:white_check_mark:)
         - **State of system**: Current player hand = [`DEFUSE`], draw pile top card = `EXPLODING_KITTEN`
-        - **Expected output**: Returns `EXPLODING_KITTEN`, removes one `DEFUSE` from the hand, adds it to the discard pile, returns the kitten to the draw pile, and keeps the player active
+        - **Expected output**: Returns `EXPLODING_KITTEN`, removes one `DEFUSE` from the hand, adds it to the discard pile, returns the kitten to the draw pile, keeps the player active, and advances to the next player because the turn is over after playing Defuse
+
+    - **TC10: takeCard_ExplodingKittenWithDefuse_AdvancesToNextPlayer** (:white_check_mark:)
+        - **State of system**: Current player is `Avery`, next player is `Jordan`, current player hand = [`DEFUSE`], draw pile top card = `EXPLODING_KITTEN`
+        - **Expected output**: Returns `EXPLODING_KITTEN`, defuses the kitten, and advances the current player to `Jordan`
 
 
 ### Method under test: `public void displayCardDrawn(Card card)` view method

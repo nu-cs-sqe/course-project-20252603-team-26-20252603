@@ -402,6 +402,29 @@ public class GameControllerTest {
     }
 
     @Test
+    void takeCard_ExplodingKittenWithDefuse_AdvancesToNextPlayer() {
+        Game game = new Game(createDeckForPlayers(2));
+        game.setupGame(List.of("Avery", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        currentPlayer.addCard(new Card(CardType.DEFUSE));
+        clearDrawPile(game.getDrawPile());
+        Card explodingKitten = new Card(CardType.EXPLODING_KITTEN);
+        game.getDrawPile().addCard(explodingKitten);
+        GameView mockView = EasyMock.createMock(GameView.class);
+        mockView.displayCardDrawn(explodingKitten);
+        expectLastCall().once();
+        EasyMock.replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        Card drawnCard = controller.takeCard();
+
+        assertEquals(explodingKitten, drawnCard);
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
     void playSkip_ValidSkip_ReturnsTrueAndDisplaysMessage() {
         Game mockModel = EasyMock.createMock(Game.class);
         GameView mockView = EasyMock.createMock(GameView.class);
