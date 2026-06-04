@@ -224,6 +224,7 @@ public class GameControllerTest {
         GameView mockView = EasyMock.createMock(GameView.class);
         List<String> players = List.of("player1", "player2");
         game.setupGame(players);
+        Player drawingPlayer = game.getCurrentPlayer();
 
         clearDrawPile(game.getDrawPile());
         Card expectedCard = new Card(CardType.PLACEHOLDER_CARD);
@@ -242,7 +243,7 @@ public class GameControllerTest {
 
         assertEquals(expectedCard, result);
         assertEquals(0, game.getDrawPile().size());
-        assertEquals(7, game.getCurrentPlayer().getHandSize());
+        assertEquals(7, drawingPlayer.getHandSize());
 
         verify(mockView);
     }
@@ -284,6 +285,39 @@ public class GameControllerTest {
         assertEquals(expectedCard, result);
         assertEquals(beforeSize - 1, game.getDrawPile().size());
 
+        verify(mockView);
+    }
+
+    @Test
+    void takeCard_NonExplodingCard_AdvancesToNextPlayer() {
+        List<Card> cards = new ArrayList<>();
+        cards.add(new Card(CardType.DEFUSE));
+        cards.add(new Card(CardType.DEFUSE));
+
+        for (int i = 0; i < 10; i++) {
+            cards.add(new Card(CardType.PLACEHOLDER_CARD));
+        }
+        cards.add(new Card(CardType.EXPLODING_KITTEN));
+
+        Deck deck = new Deck(cards);
+        Game game = new Game(deck);
+        GameView mockView = EasyMock.createMock(GameView.class);
+        game.setupGame(List.of("player1", "player2"));
+        Player drawingPlayer = game.getCurrentPlayer();
+        clearDrawPile(game.getDrawPile());
+        Card drawnCard = new Card(CardType.PLACEHOLDER_CARD);
+        game.getDrawPile().addCard(drawnCard);
+
+        mockView.displayCardDrawn(drawnCard);
+        expectLastCall().once();
+        EasyMock.replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        Card result = controller.takeCard();
+
+        assertEquals(drawnCard, result);
+        assertEquals(7, drawingPlayer.getHandSize());
+        assertEquals("player2", game.getCurrentPlayer().getName());
         verify(mockView);
     }
 

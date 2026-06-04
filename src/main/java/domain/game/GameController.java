@@ -48,6 +48,7 @@ public class GameController {
         }
         currentPlayer.addCard(drawnCard);
         view.displayCardDrawn(drawnCard);
+        model.advanceTurn();
         return drawnCard;
     }
 
