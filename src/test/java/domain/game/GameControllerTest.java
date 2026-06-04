@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
 import ui.GameView;
@@ -178,6 +179,351 @@ public class GameControllerTest {
     }
 
     @Test
+    void startTurn_DisplaysCurrentPlayerHand() {
+        Game mockModel = EasyMock.createMock(Game.class);
+        GameView mockView = EasyMock.createMock(GameView.class);
+        Player player = new Player("Sophie");
+        Card skip = new Card(CardType.SKIP);
+        Card beardCat = new Card(CardType.BEARD_CAT);
+        player.addCard(skip);
+        player.addCard(beardCat);
+
+        expect(mockModel.getCurrentPlayer()).andReturn(player).once();
+        replay(mockModel);
+        mockView.displayHand("Sophie", List.of(skip, beardCat));
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(mockModel, mockView);
+
+        controller.startTurn();
+
+        verify(mockModel);
+        verify(mockView);
+    }
+
+    @Test
+    void completeTurn_NoCardsPlayed_DisplaysHandThenDrawsAndAdvances() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        List<Card> startingHand = currentPlayer.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        Card drawnCard = new Card(CardType.PLACEHOLDER_CARD);
+        game.getDrawPile().addCard(drawnCard);
+
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        mockView.displayCardDrawn(drawnCard);
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of());
+
+        assertEquals(7, currentPlayer.getHandSize());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
+    void completeTurn_SkipPlayed_DisplaysHandThenEndsWithoutDrawing() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card skip = new Card(CardType.SKIP);
+        currentPlayer.addCard(skip);
+        List<Card> startingHand = currentPlayer.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        game.getDrawPile().addCard(new Card(CardType.PLACEHOLDER_CARD));
+        int drawPileSize = game.getDrawPile().size();
+
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        mockView.displayMessage("Skip played. Your turn ends without drawing a card.");
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of(0));
+
+        assertEquals(0, currentPlayer.getHandSize());
+        assertEquals(drawPileSize, game.getDrawPile().size());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
+    void completeTurn_SeeFuturePlayed_DisplaysFutureThenDrawsAndAdvances() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card seeFuture = new Card(CardType.SEE_THE_FUTURE);
+        currentPlayer.addCard(seeFuture);
+        List<Card> startingHand = currentPlayer.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        Card secondFutureCard = new Card(CardType.BEARD_CAT);
+        Card drawnCard = new Card(CardType.PLACEHOLDER_CARD);
+        game.getDrawPile().addCard(secondFutureCard);
+        game.getDrawPile().addCard(drawnCard);
+
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        mockView.displaySeeTheFutureCards(List.of(drawnCard, secondFutureCard));
+        expectLastCall().once();
+        mockView.displayCardDrawn(drawnCard);
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of(0));
+
+        assertEquals(1, currentPlayer.getHandSize());
+        assertEquals(List.of(seeFuture), game.getDiscardPile().snapshot());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
+    void completeTurn_TwoSeeFutureCardsPlayed_DisplaysBothThenDrawsAndAdvances() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card firstSeeFuture = new Card(CardType.SEE_THE_FUTURE);
+        Card secondSeeFuture = new Card(CardType.SEE_THE_FUTURE);
+        currentPlayer.addCard(firstSeeFuture);
+        currentPlayer.addCard(secondSeeFuture);
+        List<Card> startingHand = currentPlayer.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        Card secondFutureCard = new Card(CardType.BEARD_CAT);
+        Card drawnCard = new Card(CardType.PLACEHOLDER_CARD);
+        game.getDrawPile().addCard(secondFutureCard);
+        game.getDrawPile().addCard(drawnCard);
+
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        mockView.displaySeeTheFutureCards(List.of(drawnCard, secondFutureCard));
+        expectLastCall().once();
+        mockView.displaySeeTheFutureCards(List.of(drawnCard, secondFutureCard));
+        expectLastCall().once();
+        mockView.displayCardDrawn(drawnCard);
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of(0, 0));
+
+        assertEquals(1, currentPlayer.getHandSize());
+        assertEquals(List.of(firstSeeFuture, secondSeeFuture), game.getDiscardPile().snapshot());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
+    void completeTurn_ShufflePlayed_ShufflesThenDrawsAndAdvances() {
+        CountingZeroRandom random = new CountingZeroRandom();
+        Game game = new Game(createDeckForPlayers(2, random));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        random.resetCalls();
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card shuffle = new Card(CardType.SHUFFLE);
+        currentPlayer.addCard(shuffle);
+        List<Card> startingHand = currentPlayer.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        Card drawnCardAfterShuffle = new Card(CardType.PLACEHOLDER_CARD);
+        Card remainingCardAfterDraw = new Card(CardType.BEARD_CAT);
+        game.getDrawPile().addCard(drawnCardAfterShuffle);
+        game.getDrawPile().addCard(remainingCardAfterDraw);
+
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        mockView.displayCardDrawn(drawnCardAfterShuffle);
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of(0));
+
+        assertEquals(1, currentPlayer.getHandSize());
+        assertEquals(List.of(shuffle), game.getDiscardPile().snapshot());
+        assertEquals(List.of(remainingCardAfterDraw), game.getDrawPile().snapshot());
+        assertEquals(List.of(2), random.getBoundsSinceReset());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
+    void completeTurn_SeeFutureThenSkipPlayed_EndsWithoutDrawing() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card seeFuture = new Card(CardType.SEE_THE_FUTURE);
+        Card skip = new Card(CardType.SKIP);
+        currentPlayer.addCard(seeFuture);
+        currentPlayer.addCard(skip);
+        List<Card> startingHand = currentPlayer.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        Card secondFutureCard = new Card(CardType.BEARD_CAT);
+        Card topCard = new Card(CardType.PLACEHOLDER_CARD);
+        game.getDrawPile().addCard(secondFutureCard);
+        game.getDrawPile().addCard(topCard);
+        int drawPileSize = game.getDrawPile().size();
+
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        mockView.displaySeeTheFutureCards(List.of(topCard, secondFutureCard));
+        expectLastCall().once();
+        mockView.displayMessage("Skip played. Your turn ends without drawing a card.");
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of(0, 0));
+
+        assertEquals(0, currentPlayer.getHandSize());
+        assertEquals(List.of(seeFuture, skip), game.getDiscardPile().snapshot());
+        assertEquals(drawPileSize, game.getDrawPile().size());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
+    void completeTurn_SkipThenSeeFuturePlayed_IgnoresCardsAfterTurnEnds() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card skip = new Card(CardType.SKIP);
+        Card seeFuture = new Card(CardType.SEE_THE_FUTURE);
+        currentPlayer.addCard(skip);
+        currentPlayer.addCard(seeFuture);
+        List<Card> startingHand = currentPlayer.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        game.getDrawPile().addCard(new Card(CardType.BEARD_CAT));
+        game.getDrawPile().addCard(new Card(CardType.PLACEHOLDER_CARD));
+        int drawPileSize = game.getDrawPile().size();
+
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        mockView.displayMessage("Skip played. Your turn ends without drawing a card.");
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of(0, 0));
+
+        assertEquals(List.of(seeFuture), currentPlayer.getHandSnapshot());
+        assertEquals(List.of(skip), game.getDiscardPile().snapshot());
+        assertEquals(drawPileSize, game.getDrawPile().size());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
+    void completeTurn_UnplayableCard_DisplaysErrorThenDrawsAndAdvances() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card defuse = new Card(CardType.DEFUSE);
+        currentPlayer.addCard(defuse);
+        List<Card> startingHand = currentPlayer.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        Card drawnCard = new Card(CardType.PLACEHOLDER_CARD);
+        game.getDrawPile().addCard(drawnCard);
+
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        mockView.displayError("Card cannot be played during a normal turn.");
+        expectLastCall().once();
+        mockView.displayCardDrawn(drawnCard);
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of(0));
+
+        assertEquals(List.of(defuse, drawnCard), currentPlayer.getHandSnapshot());
+        assertEquals(List.of(), game.getDiscardPile().snapshot());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
+    void completeTurn_IndexEqualsHandSize_DisplaysErrorThenDrawsAndAdvances() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card seeFuture = new Card(CardType.SEE_THE_FUTURE);
+        currentPlayer.addCard(seeFuture);
+        List<Card> startingHand = currentPlayer.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        Card drawnCard = new Card(CardType.PLACEHOLDER_CARD);
+        game.getDrawPile().addCard(drawnCard);
+
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        mockView.displayError("cardIndex is out of bounds");
+        expectLastCall().once();
+        mockView.displayCardDrawn(drawnCard);
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of(currentPlayer.getHandSize()));
+
+        assertEquals(List.of(seeFuture, drawnCard), currentPlayer.getHandSnapshot());
+        assertEquals(List.of(), game.getDiscardPile().snapshot());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
+    void completeTurn_NegativeIndex_DisplaysErrorThenDrawsAndAdvances() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card seeFuture = new Card(CardType.SEE_THE_FUTURE);
+        currentPlayer.addCard(seeFuture);
+        List<Card> startingHand = currentPlayer.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        Card drawnCard = new Card(CardType.PLACEHOLDER_CARD);
+        game.getDrawPile().addCard(drawnCard);
+
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        mockView.displayError("cardIndex is out of bounds");
+        expectLastCall().once();
+        mockView.displayCardDrawn(drawnCard);
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of(-1));
+
+        assertEquals(List.of(seeFuture, drawnCard), currentPlayer.getHandSnapshot());
+        assertEquals(List.of(), game.getDiscardPile().snapshot());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
     void takeCard_DeckSizeZero_ThrowsException() {
         List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardType.DEFUSE));
@@ -224,6 +570,7 @@ public class GameControllerTest {
         GameView mockView = EasyMock.createMock(GameView.class);
         List<String> players = List.of("player1", "player2");
         game.setupGame(players);
+        Player drawingPlayer = game.getCurrentPlayer();
 
         clearDrawPile(game.getDrawPile());
         Card expectedCard = new Card(CardType.PLACEHOLDER_CARD);
@@ -242,7 +589,7 @@ public class GameControllerTest {
 
         assertEquals(expectedCard, result);
         assertEquals(0, game.getDrawPile().size());
-        assertEquals(7, game.getCurrentPlayer().getHandSize());
+        assertEquals(7, drawingPlayer.getHandSize());
 
         verify(mockView);
     }
@@ -288,6 +635,39 @@ public class GameControllerTest {
     }
 
     @Test
+    void takeCard_NonExplodingCard_AdvancesToNextPlayer() {
+        List<Card> cards = new ArrayList<>();
+        cards.add(new Card(CardType.DEFUSE));
+        cards.add(new Card(CardType.DEFUSE));
+
+        for (int i = 0; i < 10; i++) {
+            cards.add(new Card(CardType.PLACEHOLDER_CARD));
+        }
+        cards.add(new Card(CardType.EXPLODING_KITTEN));
+
+        Deck deck = new Deck(cards);
+        Game game = new Game(deck);
+        GameView mockView = EasyMock.createMock(GameView.class);
+        game.setupGame(List.of("player1", "player2"));
+        Player drawingPlayer = game.getCurrentPlayer();
+        clearDrawPile(game.getDrawPile());
+        Card drawnCard = new Card(CardType.PLACEHOLDER_CARD);
+        game.getDrawPile().addCard(drawnCard);
+
+        mockView.displayCardDrawn(drawnCard);
+        expectLastCall().once();
+        EasyMock.replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        Card result = controller.takeCard();
+
+        assertEquals(drawnCard, result);
+        assertEquals(7, drawingPlayer.getHandSize());
+        assertEquals("player2", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
     void takeCard_ExplodingKittenWithoutDefuse_EliminatesPlayerAndGameContinues() {
         Game game = new Game(createDeckForPlayers(3));
         game.setupGame(List.of("Avery", "Jordan", "Casey"));
@@ -309,6 +689,29 @@ public class GameControllerTest {
         assertFalse(game.getPlayers().contains(currentPlayer));
         assertEquals(2, game.getPlayers().size());
         assertFalse(game.isWon());
+        verify(mockView);
+    }
+
+    @Test
+    void takeCard_ExplodingKittenWithoutDefuse_CurrentPlayerIsNextRemainingPlayer() {
+        Game game = new Game(createDeckForPlayers(3));
+        game.setupGame(List.of("Avery", "Jordan", "Casey"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        clearDrawPile(game.getDrawPile());
+        Card explodingKitten = new Card(CardType.EXPLODING_KITTEN);
+        game.getDrawPile().addCard(explodingKitten);
+        GameView mockView = EasyMock.createMock(GameView.class);
+        mockView.displayCardDrawn(explodingKitten);
+        expectLastCall().once();
+        EasyMock.replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        Card drawnCard = controller.takeCard();
+
+        assertEquals(explodingKitten, drawnCard);
+        assertFalse(game.getPlayers().contains(currentPlayer));
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
         verify(mockView);
     }
 
@@ -368,6 +771,29 @@ public class GameControllerTest {
     }
 
     @Test
+    void takeCard_ExplodingKittenWithDefuse_AdvancesToNextPlayer() {
+        Game game = new Game(createDeckForPlayers(2));
+        game.setupGame(List.of("Avery", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        currentPlayer.addCard(new Card(CardType.DEFUSE));
+        clearDrawPile(game.getDrawPile());
+        Card explodingKitten = new Card(CardType.EXPLODING_KITTEN);
+        game.getDrawPile().addCard(explodingKitten);
+        GameView mockView = EasyMock.createMock(GameView.class);
+        mockView.displayCardDrawn(explodingKitten);
+        expectLastCall().once();
+        EasyMock.replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        Card drawnCard = controller.takeCard();
+
+        assertEquals(explodingKitten, drawnCard);
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
     void playSkip_ValidSkip_ReturnsTrueAndDisplaysMessage() {
         Game mockModel = EasyMock.createMock(Game.class);
         GameView mockView = EasyMock.createMock(GameView.class);
@@ -378,6 +804,8 @@ public class GameControllerTest {
 
         expect(mockModel.getCurrentPlayer()).andReturn(player).once();
         expect(mockModel.getDiscardPile()).andReturn(discardPile).once();
+        mockModel.advanceTurn();
+        expectLastCall().once();
         replay(mockModel);
 
         mockView.displayMessage("Skip played. Your turn ends without drawing a card.");
@@ -395,6 +823,31 @@ public class GameControllerTest {
         verify(mockModel);
         verify(mockView);
     }
+
+    @Test
+    void playSkip_ValidSkip_AdvancesToNextPlayerWithoutDrawing() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        currentPlayer.addCard(new Card(CardType.SKIP));
+        int drawPileSize = game.getDrawPile().size();
+
+        mockView.displayMessage("Skip played. Your turn ends without drawing a card.");
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        boolean result = controller.playSkip(0);
+
+        assertTrue(result);
+        assertEquals(0, currentPlayer.getHandSize());
+        assertEquals(drawPileSize, game.getDrawPile().size());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
     @Test
     void playSkip_SelectedCardIsDefuse_ReturnsFalseAndDisplaysError() {
         Game mockModel = EasyMock.createMock(Game.class);
@@ -421,6 +874,28 @@ public class GameControllerTest {
         assertEquals(0, discardPile.size());
 
         verify(mockModel);
+        verify(mockView);
+    }
+
+    @Test
+    void playSkip_InvalidCard_DoesNotAdvanceTurn() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        currentPlayer.addCard(new Card(CardType.DEFUSE));
+
+        mockView.displayError(anyString());
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        boolean result = controller.playSkip(0);
+
+        assertFalse(result);
+        assertEquals("Sophie", game.getCurrentPlayer().getName());
+        assertEquals(1, currentPlayer.getHandSize());
         verify(mockView);
     }
 
@@ -511,6 +986,10 @@ public class GameControllerTest {
     }
 
     private Deck createDeckForPlayers(int playerCount) {
+        return createDeckForPlayers(playerCount, new Random());
+    }
+
+    private Deck createDeckForPlayers(int playerCount, Random random) {
         List<Card> cards = new ArrayList<>();
         for (int count = 0; count < playerCount - 1; count++) {
             cards.add(new Card(CardType.EXPLODING_KITTEN));
@@ -521,7 +1000,7 @@ public class GameControllerTest {
         for (int count = 0; count < playerCount * 5; count++) {
             cards.add(new Card(CardType.PLACEHOLDER_CARD));
         }
-        return new Deck(cards);
+        return new Deck(cards, random);
     }
 
     private void clearHand(Player player) {
@@ -533,6 +1012,24 @@ public class GameControllerTest {
     private void clearDrawPile(Deck drawPile) {
         while (drawPile.size() > 0) {
             drawPile.draw();
+        }
+    }
+
+    private static final class CountingZeroRandom extends Random {
+        private final List<Integer> boundsSinceReset = new ArrayList<>();
+
+        @Override
+        public int nextInt(int bound) {
+            boundsSinceReset.add(bound);
+            return 0;
+        }
+
+        void resetCalls() {
+            boundsSinceReset.clear();
+        }
+
+        List<Integer> getBoundsSinceReset() {
+            return List.copyOf(boundsSinceReset);
         }
     }
 

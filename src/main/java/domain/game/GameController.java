@@ -7,6 +7,9 @@ import java.util.List;
 
 public class GameController {
     private static final String SKIP_PLAYED = "Skip played. Your turn ends without drawing a card.";
+    private static final String UNPLAYABLE_CARD =
+            "Card cannot be played during a normal turn.";
+    private static final String INVALID_CARD_INDEX = "cardIndex is out of bounds";
 
     // Open to discussion here  
     @SuppressFBWarnings(
@@ -30,6 +33,39 @@ public class GameController {
         }
     }
 
+    public void startTurn() {
+        Player currentPlayer = model.getCurrentPlayer();
+        view.displayHand(currentPlayer.getName(), currentPlayer.getHandSnapshot());
+    }
+
+    public void completeTurn(List<Integer> cardIndexes) {
+        startTurn();
+        for (int cardIndex : cardIndexes) {
+            Player currentPlayer = model.getCurrentPlayer();
+            if (cardIndex < 0 || cardIndex >= currentPlayer.getHandSize()) {
+                view.displayError(INVALID_CARD_INDEX);
+                continue;
+            }
+            Card selectedCard = currentPlayer.getHandSnapshot().get(cardIndex);
+            if (selectedCard.getType() == CardType.SKIP && playSkip(cardIndex)) {
+                return;
+            }
+            if (selectedCard.getType() == CardType.SEE_THE_FUTURE) {
+                SeeFutureCardController seeFutureController =
+                        new SeeFutureCardController(model.getDrawPile(), model.getDiscardPile());
+                view.displaySeeTheFutureCards(seeFutureController.play(currentPlayer, cardIndex));
+                continue;
+            }
+            if (selectedCard.getType() == CardType.SHUFFLE) {
+                ShuffleCardController shuffleCardController = new ShuffleCardController();
+                shuffleCardController.play(model, cardIndex);
+                continue;
+            }
+            view.displayError(UNPLAYABLE_CARD);
+        }
+        takeCard();
+    }
+
     public Card takeCard() {
         Player currentPlayer = model.getCurrentPlayer();
         Card drawnCard = model.getDrawPile().draw();
@@ -38,7 +74,9 @@ public class GameController {
             ExplodingKittenCardController explodingKittenController =
                     new ExplodingKittenCardController(model.getDrawPile(), model.getDiscardPile());
             boolean defused = explodingKittenController.play(currentPlayer, drawnCard);
-            if (!defused) {
+            if (defused) {
+                model.advanceTurn();
+            } else {
                 model.eliminatePlayer(currentPlayer);
                 if (model.isWon()) {
                     view.displayGameOver(model.getPlayers().get(0).getName());
@@ -48,6 +86,7 @@ public class GameController {
         }
         currentPlayer.addCard(drawnCard);
         view.displayCardDrawn(drawnCard);
+        model.advanceTurn();
         return drawnCard;
     }
 
@@ -59,6 +98,7 @@ public class GameController {
 
             skipCardController.play(currentPlayer, cardIndex);
             view.displayMessage(SKIP_PLAYED);
+            model.advanceTurn();
             return true;
         } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
             view.displayError(e.getMessage());

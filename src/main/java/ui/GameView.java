@@ -56,6 +56,17 @@ public class GameView {
         System.out.println(message);
 
     }
+
+    public void displayHand(String playerName, List<Card> cards) {
+        String title = MessageFormat.format(messages.getString("hand.title"), playerName);
+        System.out.println(title);
+
+        for (int i = 0; i < cards.size(); i++) {
+            String cardLine = MessageFormat.format(messages.getString("hand.card.format"),
+                    i + 1, cards.get(i).getType());
+            System.out.println(cardLine);
+        }
+    }
       
     public void displaySeeTheFutureCards(List<Card> cards) {
 
