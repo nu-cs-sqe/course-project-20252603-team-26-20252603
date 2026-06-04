@@ -524,6 +524,34 @@ public class GameControllerTest {
     }
 
     @Test
+    void completeTurn_AttackPlayed_DiscardsAttackThenEndsWithoutDrawing() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card attack = new Card(CardType.ATTACK);
+        currentPlayer.addCard(attack);
+        List<Card> startingHand = currentPlayer.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        game.getDrawPile().addCard(new Card(CardType.PLACEHOLDER_CARD));
+        int drawPileSize = game.getDrawPile().size();
+
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of(0));
+
+        assertEquals(0, currentPlayer.getHandSize());
+        assertEquals(List.of(attack), game.getDiscardPile().snapshot());
+        assertEquals(drawPileSize, game.getDrawPile().size());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
     void takeCard_DeckSizeZero_ThrowsException() {
         List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardType.DEFUSE));

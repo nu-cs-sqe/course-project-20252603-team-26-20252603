@@ -67,6 +67,13 @@ public class GameController {
                 shuffleCardController.play(model, cardIndex);
                 continue;
             }
+            if (selectedCard.getType() == CardType.ATTACK) {
+                AttackCardController attackCardController =
+                        new AttackCardController(model.getDrawPile(), model.getDiscardPile());
+                attackCardController.play(currentPlayer, cardIndex);
+                model.advanceTurn();
+                return;
+            }
             view.displayError(UNPLAYABLE_CARD);
         }
         takeCard();

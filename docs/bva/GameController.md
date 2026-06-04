@@ -111,6 +111,10 @@ private Game game;
   - **State of system**: Current player is `Sophie`, next player is `Jordan`, selected card index is `-1`, and the draw pile top card is `PLACEHOLDER_CARD`.
   - **Expected output**: Displays `Sophie`'s hand, displays an out-of-bounds error, keeps the hand's existing card, draws the top card, and advances current player to `Jordan`.
 
+- **TC12: completeTurn_AttackPlayed_DiscardsAttackThenEndsWithoutDrawing** (:white_check_mark:)
+  - **State of system**: Current player is `Sophie`, next player is `Jordan`, selected card indexes are `[0]`, card index `0` is `ATTACK`, and the draw pile has one card.
+  - **Expected output**: Displays `Sophie`'s hand, plays and discards `ATTACK`, leaves the draw pile unchanged (turn ends without drawing), and advances current player to `Jordan`.
+
 ## Method under test: `playAttackCard(int cardIndex)`
 
 | Step 1                          | Step 2                    | Step 3                                                                                                                                 |
