@@ -552,6 +552,29 @@ public class GameControllerTest {
     }
 
     @Test
+    void completeTurn_AfterAttack_AttackedPlayerMustTakeSecondTurn() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createNiceMock(GameView.class);
+        EasyMock.replay(mockView);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+        clearHand(sophie);
+        sophie.addCard(new Card(CardType.ATTACK));
+        clearDrawPile(game.getDrawPile());
+        game.getDrawPile().addCard(new Card(CardType.PLACEHOLDER_CARD));
+        game.getDrawPile().addCard(new Card(CardType.PLACEHOLDER_CARD));
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of(0));
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+
+        controller.completeTurn(List.of());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+
+        EasyMock.verify(mockView);
+    }
+
+    @Test
     void takeCard_DeckSizeZero_ThrowsException() {
         List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardType.DEFUSE));

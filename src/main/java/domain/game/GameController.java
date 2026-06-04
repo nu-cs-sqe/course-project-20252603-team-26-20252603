@@ -71,7 +71,7 @@ public class GameController {
                 AttackCardController attackCardController =
                         new AttackCardController(model.getDrawPile(), model.getDiscardPile());
                 attackCardController.play(currentPlayer, cardIndex);
-                model.advanceTurn();
+                model.applyAttack();
                 return;
             }
             view.displayError(UNPLAYABLE_CARD);

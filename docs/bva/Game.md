@@ -58,3 +58,16 @@
 | `GAME-NEXT-3` | 3 players, currentPlayerIndex = 2 | Index becomes 0 (wraps)       | :x:          |
 | `GAME-NEXT-4` | No players                        | No exception, index unchanged | :x:          |
 
+## Method under test: `public void advanceTurn()`
+
+| ID                | State of the system                                  | Expected output                                                       | Implemented? |
+|-------------------|------------------------------------------------------|----------------------------------------------------------------------|--------------|
+| `GAME-ADVANCE-1`  | Current player owes 1 turn (normal play)             | Move to the next player and reset remaining turns to 1                | :white_check_mark: |
+| `GAME-ADVANCE-2`  | Current player owes more than 1 turn (under Attack)  | Decrement remaining turns and keep the same current player           | :white_check_mark: |
+
+## Method under test: `public void applyAttack()`
+
+| ID               | State of the system                          | Expected output                                                        | Implemented? |
+|------------------|----------------------------------------------|-----------------------------------------------------------------------|--------------|
+| `GAME-ATTACK-1`  | Attacker ends turn with an Attack card       | Move to the next player and force them to take 2 turns                 | :white_check_mark: |
+
