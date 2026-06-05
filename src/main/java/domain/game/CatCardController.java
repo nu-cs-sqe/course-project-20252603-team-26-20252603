@@ -27,8 +27,7 @@ public final class CatCardController {
         Card firstCard = currentPlayer.getHandSnapshot().get(firstCardIndex);
         Card secondCard = currentPlayer.getHandSnapshot().get(secondCardIndex);
 
-        currentPlayer.removeCard(secondCardIndex);
-        currentPlayer.removeCard(firstCardIndex);
+        removePlayedCards(currentPlayer, firstCardIndex, secondCardIndex);
 
         discardPile.add(firstCard);
         discardPile.add(secondCard);
@@ -38,5 +37,13 @@ public final class CatCardController {
         currentPlayer.addCard(stolenCard);
 
         return stolenCard;
+    }
+
+    private void removePlayedCards(Player player, int firstCardIndex, int secondCardIndex) {
+        int largerIndex = Math.max(firstCardIndex, secondCardIndex);
+        int smallerIndex = Math.min(firstCardIndex, secondCardIndex);
+
+        player.removeCard(largerIndex);
+        player.removeCard(smallerIndex);
     }
 }

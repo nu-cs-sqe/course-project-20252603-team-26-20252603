@@ -46,5 +46,31 @@ public class CatCardControllerTest {
             return value;
         }
     }
+
+    @Test
+    void playCatCards_ReversedIndexes_RemovesBothCatCards() {
+        Player currentPlayer = new Player("Sophie");
+        Card firstCat = new Card(CardType.TACOCAT);
+        Card middleCard = new Card(CardType.DEFUSE);
+        Card secondCat = new Card(CardType.TACOCAT);
+        currentPlayer.addCard(firstCat);
+        currentPlayer.addCard(middleCard);
+        currentPlayer.addCard(secondCat);
+
+        Player targetPlayer = new Player("Target");
+        Card stolenCard = new Card(CardType.SKIP);
+        targetPlayer.addCard(stolenCard);
+
+        DiscardPile discardPile = new DiscardPile();
+        CatCardController controller =
+                new CatCardController(discardPile, new FixedRandom(0));
+
+        controller.play(currentPlayer, targetPlayer, 2, 0);
+
+        assertEquals(List.of(middleCard, stolenCard), currentPlayer.getHandSnapshot());
+        assertEquals(0, targetPlayer.getHandSize());
+        assertEquals(List.of(secondCat, firstCat), discardPile.snapshot());
+    }
+
 }
 
