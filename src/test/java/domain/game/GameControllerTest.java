@@ -1068,6 +1068,28 @@ public class GameControllerTest {
         verify(mockView);
     }
 
+    @Test
+    void playSkip_DuringAttack_ReducesForcedTurnsByOne() {
+        Game game = new Game(createDeckForPlayers(2));
+        game.setupGame(List.of("Alice", "Bob"));
+        GameView mockView = EasyMock.createNiceMock(GameView.class);
+        EasyMock.replay(mockView);
+
+        // Force an attack on Bob
+        game.applyAttack();
+
+        Player bob = game.getCurrentPlayer();
+        bob.addCard(new Card(CardType.SKIP));
+
+        GameController controller = new GameController(game, mockView);
+
+        controller.playSkip(bob.getHandSize() - 1);
+
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+
+        EasyMock.verify(mockView);
+    }
+
     private Deck createDeckForPlayers(int playerCount) {
         return createDeckForPlayers(playerCount, new Random());
     }

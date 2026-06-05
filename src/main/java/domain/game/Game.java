@@ -178,4 +178,6 @@ public class Game {
         return players.size() == 1;
     }
 
+    int getForcedTurns() { return forcedTurns; }
+
 }
