@@ -1090,6 +1090,24 @@ public class GameControllerTest {
         EasyMock.verify(mockView);
     }
 
+    @Test
+    void applyAttack_WhenAlreadyUnderAttack_StacksRemainingTurns() {
+        Game game = new Game(createDeckForPlayers(2));
+        game.setupGame(List.of("Alice", "Bob"));
+
+        game.applyAttack();
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+        assertEquals(2, game.getForcedTurns());
+
+        game.advanceTurn();
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+        assertEquals(1, game.getForcedTurns());
+
+        game.applyAttack();
+        assertEquals("Alice", game.getCurrentPlayer().getName());
+        assertEquals(3, game.getForcedTurns());
+    }
+
     private Deck createDeckForPlayers(int playerCount) {
         return createDeckForPlayers(playerCount, new Random());
     }
