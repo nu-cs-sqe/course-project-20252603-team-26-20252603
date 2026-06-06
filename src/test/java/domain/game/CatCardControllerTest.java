@@ -93,7 +93,7 @@ public class CatCardControllerTest {
                 assertThrows(IllegalArgumentException.class,
                         () -> controller.play(currentPlayer, targetPlayer, 0, 1));
 
-        assertEquals("selected cards must be matching cat cards", exception.getMessage());
+        assertEquals("must select two different matching cards", exception.getMessage());
         assertEquals(List.of(beardCat, tacoCat), currentPlayer.getHandSnapshot());
         assertEquals(List.of(targetCard), targetPlayer.getHandSnapshot());
         assertEquals(List.of(), discardPile.snapshot());
@@ -119,7 +119,7 @@ public class CatCardControllerTest {
                 assertThrows(IllegalArgumentException.class,
                         () -> controller.play(currentPlayer, targetPlayer, 0, 1));
 
-        assertEquals("selected cards must be matching cat cards", exception.getMessage());
+        assertEquals("must select two different matching cards", exception.getMessage());
         assertEquals(List.of(firstDefuse, secondDefuse), currentPlayer.getHandSnapshot());
         assertEquals(List.of(targetCard), targetPlayer.getHandSnapshot());
         assertEquals(List.of(), discardPile.snapshot());
@@ -145,7 +145,7 @@ public class CatCardControllerTest {
                 assertThrows(IllegalArgumentException.class,
                         () -> controller.play(currentPlayer, targetPlayer, 0, 0));
 
-        assertEquals("selected cards must be matching cat cards", exception.getMessage());
+        assertEquals("must select two different matching cards", exception.getMessage());
         assertEquals(List.of(firstCat, secondCat), currentPlayer.getHandSnapshot());
         assertEquals(List.of(targetCard), targetPlayer.getHandSnapshot());
         assertEquals(List.of(), discardPile.snapshot());
