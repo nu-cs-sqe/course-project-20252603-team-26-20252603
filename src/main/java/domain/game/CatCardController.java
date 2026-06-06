@@ -12,6 +12,8 @@ public final class CatCardController {
     private static final String CARD_MUST_BE_MATCHING_CAT_PAIR =
             "selected cards must be matching cat cards";
 
+    private static final String INVALID_INDEX_MESSAGE = "cardIndex is out of bounds";
+
     @SuppressFBWarnings(
             value = "EI_EXPOSE_REP2",
             justification = "Controller uses injected random for deterministic tests.")
@@ -27,6 +29,7 @@ public final class CatCardController {
             Player targetPlayer,
             int firstCardIndex,
             int secondCardIndex) {
+        validateIndex(currentPlayer, firstCardIndex);
         if (firstCardIndex == secondCardIndex) {
             throw new IllegalArgumentException(CARD_MUST_BE_MATCHING_CAT_PAIR);
         }
@@ -67,5 +70,11 @@ public final class CatCardController {
                 || type == CardType.HAIRY_POTATO_CAT
                 || type == CardType.TACOCAT
                 || type == CardType.RAINBOW_RALPHING_CAT;
+    }
+
+    private void validateIndex(Player player, int cardIndex) {
+        if (cardIndex < 0 || cardIndex >= player.getHandSize()) {
+            throw new IllegalArgumentException(INVALID_INDEX_MESSAGE);
+        }
     }
 }
