@@ -231,5 +231,26 @@ public class CatCardControllerTest {
         assertEquals(List.of(), discardPile.snapshot());
     }
 
+    @Test
+    void playCatCards_TargetPlayerIsCurrentPlayer_ThrowsException() {
+        Player currentPlayer = new Player("Sophie");
+        Card firstCat = new Card(CardType.BEARD_CAT);
+        Card secondCat = new Card(CardType.BEARD_CAT);
+        currentPlayer.addCard(firstCat);
+        currentPlayer.addCard(secondCat);
+
+        DiscardPile discardPile = new DiscardPile();
+        CatCardController controller =
+                new CatCardController(discardPile, new FixedRandom(0));
+
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class,
+                        () -> controller.play(currentPlayer, currentPlayer, 0, 1));
+
+        assertEquals("cannot steal from self", exception.getMessage());
+        assertEquals(List.of(firstCat, secondCat), currentPlayer.getHandSnapshot());
+        assertEquals(List.of(), discardPile.snapshot());
+    }
+
 }
 
