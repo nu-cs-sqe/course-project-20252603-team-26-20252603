@@ -26,6 +26,24 @@ public class GameSetupIntegrationTest {
         assertEquals(1, game.getDrawPile().countCardsOfType(CardType.EXPLODING_KITTEN));
     }
 
+    @Test
+    void setupGame_ValidFourPlayers_AddsThreeExplodingKittensBackToDrawPile() {
+        Game game = new Game(createDeck(4, 5, 20));
+
+        game.setupGame(List.of("Alice", "Bob", "Cathy", "David"));
+
+        assertEquals(4, game.getPlayers().size());
+        assertEquals("Alice", game.getCurrentPlayer().getName());
+        assertEquals(0, game.getDiscardPile().size());
+
+        for (Player player : game.getPlayers()) {
+            assertEquals(6, player.getHandSize());
+            assertEquals(1, player.countCardsOfType(CardType.DEFUSE));
+        }
+
+        assertEquals(3, game.getDrawPile().countCardsOfType(CardType.EXPLODING_KITTEN));
+    }
+
     private Deck createDeck(int explodingKittens, int defuses, int normalCards) {
         List<Card> cards = new ArrayList<>();
 
