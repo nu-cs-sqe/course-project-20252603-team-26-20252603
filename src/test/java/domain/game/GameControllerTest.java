@@ -1086,6 +1086,7 @@ public class GameControllerTest {
         controller.playSkip(bob.getHandSize() - 1);
 
         assertEquals("Bob", game.getCurrentPlayer().getName());
+        assertEquals(1, game.getForcedTurns());
 
         EasyMock.verify(mockView);
     }
