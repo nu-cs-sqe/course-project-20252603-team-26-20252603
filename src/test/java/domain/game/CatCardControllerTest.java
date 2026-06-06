@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CatCardControllerTest {
     @Test
@@ -70,6 +71,32 @@ public class CatCardControllerTest {
         assertEquals(List.of(middleCard, stolenCard), currentPlayer.getHandSnapshot());
         assertEquals(0, targetPlayer.getHandSize());
         assertEquals(List.of(secondCat, firstCat), discardPile.snapshot());
+    }
+
+    @Test
+    void playCatCards_DifferentCatCards_ThrowsException() {
+        Player currentPlayer = new Player("Sophie");
+        Card beardCat = new Card(CardType.BEARD_CAT);
+        Card tacoCat = new Card(CardType.TACOCAT);
+        currentPlayer.addCard(beardCat);
+        currentPlayer.addCard(tacoCat);
+
+        Player targetPlayer = new Player("Target");
+        Card targetCard = new Card(CardType.DEFUSE);
+        targetPlayer.addCard(targetCard);
+
+        DiscardPile discardPile = new DiscardPile();
+        CatCardController controller =
+                new CatCardController(discardPile, new FixedRandom(0));
+
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class,
+                        () -> controller.play(currentPlayer, targetPlayer, 0, 1));
+
+        assertEquals("selected cards must be matching cat cards", exception.getMessage());
+        assertEquals(List.of(beardCat, tacoCat), currentPlayer.getHandSnapshot());
+        assertEquals(List.of(targetCard), targetPlayer.getHandSnapshot());
+        assertEquals(List.of(), discardPile.snapshot());
     }
 
 }

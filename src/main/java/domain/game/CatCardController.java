@@ -9,6 +9,9 @@ public final class CatCardController {
             justification = "Controller must add played Cat Cards to the injected discard pile.")
     private final DiscardPile discardPile;
 
+    private static final String CARD_MUST_BE_MATCHING_CAT_PAIR =
+            "selected cards must be matching cat cards";
+
     @SuppressFBWarnings(
             value = "EI_EXPOSE_REP2",
             justification = "Controller uses injected random for deterministic tests.")
@@ -26,6 +29,10 @@ public final class CatCardController {
             int secondCardIndex) {
         Card firstCard = currentPlayer.getHandSnapshot().get(firstCardIndex);
         Card secondCard = currentPlayer.getHandSnapshot().get(secondCardIndex);
+
+        if (firstCard.getType() != secondCard.getType()) {
+            throw new IllegalArgumentException(CARD_MUST_BE_MATCHING_CAT_PAIR);
+        }
 
         removePlayedCards(currentPlayer, firstCardIndex, secondCardIndex);
 
