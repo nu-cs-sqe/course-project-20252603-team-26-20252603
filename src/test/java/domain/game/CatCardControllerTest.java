@@ -276,5 +276,29 @@ public class CatCardControllerTest {
         assertEquals(List.of(firstCat, secondCat), discardPile.snapshot());
     }
 
+    @Test
+    void playCatCards_MatchingRainbowRalphingCats_StealsCard() {
+        Player currentPlayer = new Player("Sophie");
+        Card firstCat = new Card(CardType.RAINBOW_RALPHING_CAT);
+        Card secondCat = new Card(CardType.RAINBOW_RALPHING_CAT);
+        currentPlayer.addCard(firstCat);
+        currentPlayer.addCard(secondCat);
+
+        Player targetPlayer = new Player("Target");
+        Card targetCard = new Card(CardType.SKIP);
+        targetPlayer.addCard(targetCard);
+
+        DiscardPile discardPile = new DiscardPile();
+        CatCardController controller =
+                new CatCardController(discardPile, new FixedRandom(0));
+
+        Card stolenCard = controller.play(currentPlayer, targetPlayer, 0, 1);
+
+        assertEquals(targetCard, stolenCard);
+        assertEquals(List.of(targetCard), currentPlayer.getHandSnapshot());
+        assertEquals(0, targetPlayer.getHandSize());
+        assertEquals(List.of(firstCat, secondCat), discardPile.snapshot());
+    }
+
 }
 
