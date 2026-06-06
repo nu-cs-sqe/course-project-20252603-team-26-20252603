@@ -86,6 +86,28 @@ class CardPlayIntegrationTest {
         assertTrue(drawPileBeforePlay.containsAll(game.getDrawPile().snapshot()));
     }
 
+    @Test
+    void attack_PlayValidCard_RemovesCardDiscardsItAndReturnsTwoTurns() {
+        Player player = new Player("Sophie");
+        Card attack = new Card(CardType.ATTACK);
+        player.addCard(attack);
+
+        Card firstDrawPileCard = new Card(CardType.BEARD_CAT);
+        Card secondDrawPileCard = new Card(CardType.DEFUSE);
+        Deck drawPile = new Deck(List.of(firstDrawPileCard, secondDrawPileCard));
+        List<Card> drawPileBeforePlay = drawPile.snapshot();
+
+        DiscardPile discardPile = new DiscardPile();
+        AttackCardController controller = new AttackCardController(drawPile, discardPile);
+
+        int forcedTurns = controller.play(player, 0);
+
+        assertEquals(2, forcedTurns);
+        assertEquals(0, player.getHandSize());
+        assertEquals(List.of(attack), discardPile.snapshot());
+        assertEquals(drawPileBeforePlay, drawPile.snapshot());
+    }
+
     private Deck createDeckForPlayers(int playerCount, Random random) {
         List<Card> cards = new ArrayList<>();
 

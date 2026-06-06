@@ -35,7 +35,7 @@ This counts as the second main feature for the A-level integration testing requi
 | `CARD-PLAY-INTEGRATION-1` | `seeFuture_PlayValidCard_RemovesCardDiscardsItAndPeeksTopTwoWithoutChangingDeckSize` | Player hand contains `[SEE_THE_FUTURE]`; draw pile has at least two known cards; discard pile is empty. | Returns top two cards; removes See the Future from hand; adds it to discard pile; draw pile size and order stay unchanged. | :white_check_mark: |
 | `CARD-PLAY-INTEGRATION-2` | `skip_PlayValidCard_RemovesCardDiscardsItAndReturnsTrue` | Player hand contains `[SKIP]`; draw pile has cards; discard pile is empty. | Returns `true`; removes Skip from hand; adds it to discard pile; draw pile size stays unchanged. | :white_check_mark: |
 | `CARD-PLAY-INTEGRATION-3` | `shuffle_PlayValidCard_RemovesCardDiscardsItAndPreservesDeckSize` | Game is set up; current player has `[SHUFFLE]`; draw pile has known cards; discard pile is empty. | Removes Shuffle from hand; adds it to discard pile; draw pile size stays the same; draw pile contains the same cards as before. | :white_check_mark:                |
-| `CARD-PLAY-INTEGRATION-4` | `attack_PlayValidCard_RemovesCardDiscardsItAndReturnsTwoTurns` | Player hand contains `[ATTACK]`; draw pile has cards; discard pile is empty. | Returns `2`; removes Attack from hand; adds it to discard pile; draw pile size and order stay unchanged. | :x:                |
+| `CARD-PLAY-INTEGRATION-4` | `attack_PlayValidCard_RemovesCardDiscardsItAndReturnsTwoTurns` | Player hand contains `[ATTACK]`; draw pile has cards; discard pile is empty. | Returns `2`; removes Attack from hand; adds it to discard pile; draw pile size and order stay unchanged. | :white_check_mark:                |
 
 ---
 
