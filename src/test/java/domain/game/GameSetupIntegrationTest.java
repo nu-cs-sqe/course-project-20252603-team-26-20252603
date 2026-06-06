@@ -57,6 +57,18 @@ public class GameSetupIntegrationTest {
                 exception.getMessage());
     }
 
+    @Test
+    void setupGame_TooFewNormalCards_ThrowsException() {
+        Game game = new Game(createDeck(1, 2, 9));
+
+        IllegalStateException exception =
+                assertThrows(IllegalStateException.class,
+                        () -> game.setupGame(List.of("Alice", "Bob")));
+
+        assertEquals("deck must contain enough non-special cards to deal opening hands",
+                exception.getMessage());
+    }
+
     private Deck createDeck(int explodingKittens, int defuses, int normalCards) {
         List<Card> cards = new ArrayList<>();
 
