@@ -27,6 +27,9 @@ public final class CatCardController {
             Player targetPlayer,
             int firstCardIndex,
             int secondCardIndex) {
+        if (firstCardIndex == secondCardIndex) {
+            throw new IllegalArgumentException(CARD_MUST_BE_MATCHING_CAT_PAIR);
+        }
         Card firstCard = currentPlayer.getHandSnapshot().get(firstCardIndex);
         Card secondCard = currentPlayer.getHandSnapshot().get(secondCardIndex);
 

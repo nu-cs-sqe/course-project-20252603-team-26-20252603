@@ -125,5 +125,31 @@ public class CatCardControllerTest {
         assertEquals(List.of(), discardPile.snapshot());
     }
 
+    @Test
+    void playCatCards_SameIndexTwice_ThrowsException() {
+        Player currentPlayer = new Player("Sophie");
+        Card firstCat = new Card(CardType.BEARD_CAT);
+        Card secondCat = new Card(CardType.BEARD_CAT);
+        currentPlayer.addCard(firstCat);
+        currentPlayer.addCard(secondCat);
+
+        Player targetPlayer = new Player("Target");
+        Card targetCard = new Card(CardType.DEFUSE);
+        targetPlayer.addCard(targetCard);
+
+        DiscardPile discardPile = new DiscardPile();
+        CatCardController controller =
+                new CatCardController(discardPile, new FixedRandom(0));
+
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class,
+                        () -> controller.play(currentPlayer, targetPlayer, 0, 0));
+
+        assertEquals("selected cards must be matching cat cards", exception.getMessage());
+        assertEquals(List.of(firstCat, secondCat), currentPlayer.getHandSnapshot());
+        assertEquals(List.of(targetCard), targetPlayer.getHandSnapshot());
+        assertEquals(List.of(), discardPile.snapshot());
+    }
+
 }
 
