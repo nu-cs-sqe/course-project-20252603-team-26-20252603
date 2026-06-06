@@ -1,6 +1,7 @@
 package domain.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,18 @@ public class GameSetupIntegrationTest {
         }
 
         assertEquals(3, game.getDrawPile().countCardsOfType(CardType.EXPLODING_KITTEN));
+    }
+
+    @Test
+    void setupGame_TooFewDefuses_ThrowsException() {
+        Game game = new Game(createDeck(1, 1, 10));
+
+        IllegalStateException exception =
+                assertThrows(IllegalStateException.class,
+                        () -> game.setupGame(List.of("Alice", "Bob")));
+
+        assertEquals("deck must contain at least one defuse per player",
+                exception.getMessage());
     }
 
     private Deck createDeck(int explodingKittens, int defuses, int normalCards) {
