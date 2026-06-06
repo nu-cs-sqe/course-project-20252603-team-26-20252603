@@ -30,7 +30,7 @@ public final class CatCardController {
         Card firstCard = currentPlayer.getHandSnapshot().get(firstCardIndex);
         Card secondCard = currentPlayer.getHandSnapshot().get(secondCardIndex);
 
-        if (firstCard.getType() != secondCard.getType()) {
+        if (!isMatchingCatPair(firstCard, secondCard)) {
             throw new IllegalArgumentException(CARD_MUST_BE_MATCHING_CAT_PAIR);
         }
 
@@ -52,5 +52,17 @@ public final class CatCardController {
 
         player.removeCard(largerIndex);
         player.removeCard(smallerIndex);
+    }
+
+    private boolean isMatchingCatPair(Card firstCard, Card secondCard) {
+        return isCatCard(firstCard.getType())
+                && firstCard.getType() == secondCard.getType();
+    }
+
+    private boolean isCatCard(CardType type) {
+        return type == CardType.BEARD_CAT
+                || type == CardType.HAIRY_POTATO_CAT
+                || type == CardType.TACOCAT
+                || type == CardType.RAINBOW_RALPHING_CAT;
     }
 }

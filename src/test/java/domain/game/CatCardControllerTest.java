@@ -99,5 +99,31 @@ public class CatCardControllerTest {
         assertEquals(List.of(), discardPile.snapshot());
     }
 
+    @Test
+    void playCatCards_MatchingNonCatCards_ThrowsException() {
+        Player currentPlayer = new Player("Sophie");
+        Card firstDefuse = new Card(CardType.DEFUSE);
+        Card secondDefuse = new Card(CardType.DEFUSE);
+        currentPlayer.addCard(firstDefuse);
+        currentPlayer.addCard(secondDefuse);
+
+        Player targetPlayer = new Player("Target");
+        Card targetCard = new Card(CardType.ATTACK);
+        targetPlayer.addCard(targetCard);
+
+        DiscardPile discardPile = new DiscardPile();
+        CatCardController controller =
+                new CatCardController(discardPile, new FixedRandom(0));
+
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class,
+                        () -> controller.play(currentPlayer, targetPlayer, 0, 1));
+
+        assertEquals("selected cards must be matching cat cards", exception.getMessage());
+        assertEquals(List.of(firstDefuse, secondDefuse), currentPlayer.getHandSnapshot());
+        assertEquals(List.of(targetCard), targetPlayer.getHandSnapshot());
+        assertEquals(List.of(), discardPile.snapshot());
+    }
+
 }
 
