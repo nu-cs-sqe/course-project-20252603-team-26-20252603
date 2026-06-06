@@ -56,4 +56,71 @@ class CardPlayIntegrationTest {
         assertEquals(drawPileBeforePlay, drawPile.snapshot());
     }
 
+    @Test
+    void shuffle_PlayValidCard_RemovesCardDiscardsItAndPreservesDeckSize() {
+        Game game = new Game(createDeckForPlayers(2, new CountingZeroRandom()));
+        game.setupGame(List.of("Sophie", "Jordan"));
+
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+
+        Card shuffle = new Card(CardType.SHUFFLE);
+        currentPlayer.addCard(shuffle);
+
+        Card firstDrawPileCard = new Card(CardType.BEARD_CAT);
+        Card secondDrawPileCard = new Card(CardType.DEFUSE);
+        clearDrawPile(game.getDrawPile());
+        game.getDrawPile().addCard(firstDrawPileCard);
+        game.getDrawPile().addCard(secondDrawPileCard);
+
+        List<Card> drawPileBeforePlay = game.getDrawPile().snapshot();
+
+        ShuffleCardController controller = new ShuffleCardController();
+
+        controller.play(game, 0);
+
+        assertEquals(0, currentPlayer.getHandSize());
+        assertEquals(List.of(shuffle), game.getDiscardPile().snapshot());
+        assertEquals(drawPileBeforePlay.size(), game.getDrawPile().size());
+        assertTrue(game.getDrawPile().snapshot().containsAll(drawPileBeforePlay));
+        assertTrue(drawPileBeforePlay.containsAll(game.getDrawPile().snapshot()));
+    }
+
+    private Deck createDeckForPlayers(int playerCount, Random random) {
+        List<Card> cards = new ArrayList<>();
+
+        for (int count = 0; count < playerCount - 1; count++) {
+            cards.add(new Card(CardType.EXPLODING_KITTEN));
+        }
+
+        for (int count = 0; count < playerCount; count++) {
+            cards.add(new Card(CardType.DEFUSE));
+        }
+
+        for (int count = 0; count < playerCount * 5; count++) {
+            cards.add(new Card(CardType.PLACEHOLDER_CARD));
+        }
+
+        return new Deck(cards, random);
+    }
+
+    private void clearHand(Player player) {
+        while (player.getHandSize() > 0) {
+            player.removeCard(0);
+        }
+    }
+
+    private void clearDrawPile(Deck drawPile) {
+        while (drawPile.size() > 0) {
+            drawPile.draw();
+        }
+    }
+
+    private static final class CountingZeroRandom extends Random {
+        @Override
+        public int nextInt(int bound) {
+            return 0;
+        }
+    }
+
 }
