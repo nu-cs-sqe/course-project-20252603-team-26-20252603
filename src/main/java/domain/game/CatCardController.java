@@ -30,6 +30,7 @@ public final class CatCardController {
             int firstCardIndex,
             int secondCardIndex) {
         validateIndex(currentPlayer, firstCardIndex);
+        validateIndex(currentPlayer, secondCardIndex);
         if (firstCardIndex == secondCardIndex) {
             throw new IllegalArgumentException(CARD_MUST_BE_MATCHING_CAT_PAIR);
         }
