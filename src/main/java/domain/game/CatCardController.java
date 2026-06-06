@@ -10,7 +10,7 @@ public final class CatCardController {
     private final DiscardPile discardPile;
 
     private static final String CARD_MUST_BE_MATCHING_CAT_PAIR =
-            "selected cards must be matching cat cards";
+            "must select two different matching cards";
     private static final String INVALID_INDEX_MESSAGE = "cardIndex is out of bounds";
     private static final String TARGET_HAND_EMPTY_MESSAGE = "target player has no cards";
     private static final String CANNOT_STEAL_FROM_SELF_MESSAGE = "cannot steal from self";
