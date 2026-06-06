@@ -14,6 +14,8 @@ public final class CatCardController {
 
     private static final String INVALID_INDEX_MESSAGE = "cardIndex is out of bounds";
 
+    private static final String TARGET_HAND_EMPTY_MESSAGE = "target player has no cards";
+
     @SuppressFBWarnings(
             value = "EI_EXPOSE_REP2",
             justification = "Controller uses injected random for deterministic tests.")
@@ -29,6 +31,9 @@ public final class CatCardController {
             Player targetPlayer,
             int firstCardIndex,
             int secondCardIndex) {
+        if (targetPlayer.getHandSize() == 0) {
+            throw new IllegalArgumentException(TARGET_HAND_EMPTY_MESSAGE);
+        }
         validateIndex(currentPlayer, firstCardIndex);
         validateIndex(currentPlayer, secondCardIndex);
         if (firstCardIndex == secondCardIndex) {

@@ -207,5 +207,29 @@ public class CatCardControllerTest {
         assertEquals(List.of(), discardPile.snapshot());
     }
 
+    @Test
+    void playCatCards_TargetPlayerHasEmptyHand_ThrowsException() {
+        Player currentPlayer = new Player("Sophie");
+        Card firstCat = new Card(CardType.BEARD_CAT);
+        Card secondCat = new Card(CardType.BEARD_CAT);
+        currentPlayer.addCard(firstCat);
+        currentPlayer.addCard(secondCat);
+
+        Player targetPlayer = new Player("Target");
+
+        DiscardPile discardPile = new DiscardPile();
+        CatCardController controller =
+                new CatCardController(discardPile, new FixedRandom(0));
+
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class,
+                        () -> controller.play(currentPlayer, targetPlayer, 0, 1));
+
+        assertEquals("target player has no cards", exception.getMessage());
+        assertEquals(List.of(firstCat, secondCat), currentPlayer.getHandSnapshot());
+        assertEquals(0, targetPlayer.getHandSize());
+        assertEquals(List.of(), discardPile.snapshot());
+    }
+
 }
 
