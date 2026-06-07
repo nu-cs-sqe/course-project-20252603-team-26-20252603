@@ -16,4 +16,16 @@ public class SuperSkipCardControllerTest {
         assertThrows(IllegalArgumentException.class, () -> controller.play(player, 0));
     }
 
+    @Test
+    void playSuperSkip_NegativeIndex_ThrowsException() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.SUPER_SKIP));
+
+        DiscardPile discardPile = new DiscardPile();
+        SuperSkipCardController controller = new SuperSkipCardController(discardPile);
+
+        assertThrows(IllegalArgumentException.class,
+                () -> controller.play(player, -1));
+    }
+
 }

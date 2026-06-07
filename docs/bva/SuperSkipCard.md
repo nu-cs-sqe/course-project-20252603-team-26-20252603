@@ -34,5 +34,5 @@
 | `SUPER-1` | Player has SUPER_SKIP, forcedTurns = 2 | forcedTurns becomes 0, next player, card discarded | yes          |
 | `SUPER-2` | Player has SUPER_SKIP, forcedTurns = 0 | forcedTurns stays 0, next player, card discarded   | yes          |
 | `SUPER-3` | Player has non-SUPER_SKIP card         | Exception thrown                                   | yes          |
-| `SUPER-4` | Invalid card index (-1)                | Exception thrown                                   | :x:          |
+| `SUPER-4` | Invalid card index (-1)                | Exception thrown                                   | yes          |
 | `SUPER-5` | Index equals handSize                  | Exception thrown                                   | :x:          |
