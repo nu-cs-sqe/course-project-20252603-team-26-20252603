@@ -11,11 +11,11 @@
 
 ### Step 4: Test Cases
 
-| ID            | State of system  | Expected output                    | Implemented?  |
-|---------------|------------------|------------------------------------|---------------|
-| `SUPER-END-1` | forcedTurns = 0  | forcedTurns stays 0, next player   | :x:           |
-| `SUPER-END-2` | forcedTurns = 2  | forcedTurns becomes 0, next player | :x:           |
-| `SUPER-END-3` | forcedTurns = 1  | forcedTurns becomes 0, next player | :x:           |
+| ID            | State of system  | Expected output                    | Implemented? |
+|---------------|------------------|------------------------------------|--------------|
+| `SUPER-END-1` | forcedTurns = 0  | forcedTurns stays 0, next player   | yes          |
+| `SUPER-END-2` | forcedTurns = 2  | forcedTurns becomes 0, next player | :x:          |
+| `SUPER-END-3` | forcedTurns = 1  | forcedTurns becomes 0, next player | :x:          |
 
 
 ## Method under test 2: `SuperSkipCardController.play(Player player, int cardIndex)`
