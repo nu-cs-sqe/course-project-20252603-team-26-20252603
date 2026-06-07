@@ -1,8 +1,14 @@
 package domain.game;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public final class SuperSkipCardController {
     private static final String NOT_SUPER_SKIP_MESSAGE = "selected card is not a Super Skip card";
-    private static final String INVALID_INDEX_MESSAGE = "cardIndex is out of bounds";
+    private static final String INVALID_INDEX_MESSAGE = "cardIndex is out of bounds"
+
+    @SuppressFBWarnings(
+            value = "EI_EXPOSE_REP2",
+            justification = "Controller must add the played card to the injected discard pile.")
     private final DiscardPile discardPile;
 
     public SuperSkipCardController(DiscardPile discardPile) {
