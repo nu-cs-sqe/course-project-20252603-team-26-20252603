@@ -24,8 +24,17 @@ public class SuperSkipCardControllerTest {
         DiscardPile discardPile = new DiscardPile();
         SuperSkipCardController controller = new SuperSkipCardController(discardPile);
 
-        assertThrows(IllegalArgumentException.class,
-                () -> controller.play(player, -1));
+        assertThrows(IllegalArgumentException.class, () -> controller.play(player, -1));
     }
 
+    @Test
+    void playSuperSkip_IndexEqualsHandSize_ThrowsException() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.SUPER_SKIP));
+
+        DiscardPile discardPile = new DiscardPile();
+        SuperSkipCardController controller = new SuperSkipCardController(discardPile);
+
+        assertThrows(IllegalArgumentException.class, () -> controller.play(player, 1));
+    }
 }
