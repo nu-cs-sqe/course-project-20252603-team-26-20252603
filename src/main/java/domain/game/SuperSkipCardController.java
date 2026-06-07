@@ -1,7 +1,6 @@
 package domain.game;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.util.List;
 
 public final class SuperSkipCardController {
     private static final String NOT_SUPER_SKIP_MESSAGE = "selected card is not a Super Skip card";
