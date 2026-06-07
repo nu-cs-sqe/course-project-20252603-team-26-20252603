@@ -274,6 +274,46 @@ class GameTest {
         assertEquals("Avery", game.getCurrentPlayer().getName());
     }
 
+    @Test
+    void endTurnClearingForced_WithNoForcedTurns_MovesToNextPlayer() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Alice", "Bob"));
+
+        game.endTurnClearingForced();
+
+        assertEquals(0, game.getForcedTurns());
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+    }
+
+    @Test
+    void endTurnClearingForced_WithTwoForcedTurns_SetsToZeroAndMovesToNextPlayer() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Alice", "Bob"));
+
+        game.applyAttack();
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+
+        game.endTurnClearingForced();
+
+        assertEquals(0, game.getForcedTurns());
+        assertEquals("Alice", game.getCurrentPlayer().getName());
+    }
+
+    @Test
+    void endTurnClearingForced_WithOneForcedTurn_SetsToZeroAndMovesToNextPlayer() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Alice", "Bob"));
+
+        game.applyAttack();
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+        game.advanceTurn();
+
+        game.endTurnClearingForced();
+
+        assertEquals(0, game.getForcedTurns());
+        assertEquals("Alice", game.getCurrentPlayer().getName());
+    }
+
     private void assertPlayersHaveOpeningHands(List<Player> players) {
         for (Player player : players) {
             assertEquals(6, player.getHandSize());
