@@ -314,6 +314,17 @@ class GameTest {
         assertEquals("Alice", game.getCurrentPlayer().getName());
     }
 
+    @Test
+    void reverseDirection_FromForward_BecomesBackward() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+
+        assertEquals(1, game.getDirection());
+        game.reverseDirection();
+        assertEquals(-1, game.getDirection());
+    }
+
+
     private void assertPlayersHaveOpeningHands(List<Player> players) {
         for (Player player : players) {
             assertEquals(6, player.getHandSize());

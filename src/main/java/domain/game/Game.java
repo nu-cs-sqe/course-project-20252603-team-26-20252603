@@ -186,4 +186,14 @@ public class Game {
         forcedTurns = 0;
         currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
     }
+
+    private int direction = 1;
+
+    public void reverseDirection() {
+        direction = direction * -1;
+    }
+
+    int getDirection() {
+        return direction;
+    }
 }
