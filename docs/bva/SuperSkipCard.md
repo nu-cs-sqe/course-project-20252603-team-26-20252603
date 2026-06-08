@@ -29,30 +29,10 @@
 
 ### Step 4: Test Cases
 
-| ID        | State of system                        | Expected output                                    | Implemented?  |
-|-----------|----------------------------------------|----------------------------------------------------|---------------|
-| `SUPER-1` | Player has SUPER_SKIP, forcedTurns = 2 | forcedTurns becomes 0, next player, card discarded | :x:           |
-| `SUPER-2` | Player has SUPER_SKIP, forcedTurns = 0 | forcedTurns stays 0, next player, card discarded   | :x:           |
-| `SUPER-3` | Player has non-SUPER_SKIP card         | Exception thrown                                   | :x:           |
-| `SUPER-4` | Invalid card index (-1)                | Exception thrown                                   | :x:           |
-| `SUPER-5` | Index equals handSize                  | Exception thrown                                   | :x:           |
-
-- **`SUPER-1`: superSkip_WithForcedTurns_EndsAllForcedTurns** ( :x: )
-    - **State of system**: Player hand = [`SUPER_SKIP`], forcedTurns = 2, cardIndex = 0
-    - **Expected output**: forcedTurns becomes 0, card removed from hand, next player's turn
-
-- **`SUPER-2`: superSkip_WithNoForcedTurns_EndsTurnNormally** ( :x: )
-    - **State of system**: Player hand = [`SUPER_SKIP`], forcedTurns = 0, cardIndex = 0
-    - **Expected output**: forcedTurns stays 0, card removed, next player's turn
-
-- **`SUPER-3`: superSkip_NonSuperSkipCard_ThrowsException** ( :x: )
-    - **State of system**: Player hand = [`ATTACK`], cardIndex = 0
-    - **Expected output**: IllegalArgumentException thrown
-
-- **`SUPER-4`: superSkip_NegativeIndex_ThrowsException** ( :x: )
-    - **State of system**: Player hand = [`SUPER_SKIP`], cardIndex = -1
-    - **Expected output**: IllegalArgumentException thrown
-
-- **`SUPER-5`: superSkip_IndexEqualsHandSize_ThrowsException** ( :x: )
-    - **State of system**: Player hand = [`SUPER_SKIP`], handSize = 1, cardIndex = 1
-    - **Expected output**: IllegalArgumentException thrown
+| ID        | State of system                        | Expected output                                    | Implemented? |
+|-----------|----------------------------------------|----------------------------------------------------|--------------|
+| `SUPER-1` | Player has SUPER_SKIP, forcedTurns = 2 | forcedTurns becomes 0, next player, card discarded | yes          |
+| `SUPER-2` | Player has SUPER_SKIP, forcedTurns = 0 | forcedTurns stays 0, next player, card discarded   | yes          |
+| `SUPER-3` | Player has non-SUPER_SKIP card         | Exception thrown                                   | yes          |
+| `SUPER-4` | Invalid card index (-1)                | Exception thrown                                   | yes          |
+| `SUPER-5` | Index equals handSize                  | Exception thrown                                   | yes          |
