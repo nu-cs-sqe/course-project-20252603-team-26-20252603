@@ -11,6 +11,7 @@ public class GameController {
             "Card cannot be played during a normal turn.";
     private static final String INVALID_CARD_INDEX = "cardIndex is out of bounds";
     private static final String SUPER_SKIP_PLAYED = "Super Skip played! All forced turns cleared. Turn ended.";
+    private static final String REVERSE_PLAYED = "Reverse played! Direction changed. Turn ended.";
 
     // Open to discussion here  
     @SuppressFBWarnings(
@@ -123,6 +124,25 @@ public class GameController {
             if (played) {
                 model.endTurnClearingForced();
                 view.displayMessage(SUPER_SKIP_PLAYED);
+                return true;
+            }
+            return false;
+        } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
+            view.displayError(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean playReverse(int cardIndex) {
+        try {
+            Player currentPlayer = model.getCurrentPlayer();
+            ReverseCardController reverseController = new ReverseCardController(model.getDiscardPile());
+
+            boolean played = reverseController.play(currentPlayer, cardIndex);
+            if (played) {
+                model.reverseDirection();
+                model.advanceTurnWithDirection();
+                view.displayMessage(REVERSE_PLAYED);
                 return true;
             }
             return false;

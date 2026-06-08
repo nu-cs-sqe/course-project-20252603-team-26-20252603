@@ -1143,7 +1143,7 @@ public class GameControllerTest {
         EasyMock.replay(mockView);
 
         Player alice = game.getCurrentPlayer();
-        clearHand(alice);  // Clear existing cards
+        clearHand(alice);
         alice.addCard(new Card(CardType.SUPER_SKIP));
 
         GameController controller = new GameController(game, mockView);
@@ -1151,6 +1151,30 @@ public class GameControllerTest {
 
         assertEquals(0, alice.getHandSize());
         assertEquals("Bob", game.getCurrentPlayer().getName());
+
+        EasyMock.verify(mockView);
+    }
+
+    @Test
+    void playReverse_WithForwardDirection_ReversesDirectionAndAdvancesTurn() {
+        Game game = new Game(createDeckForPlayers(3));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+        GameView mockView = EasyMock.createNiceMock(GameView.class);
+        EasyMock.replay(mockView);
+
+        Player alice = game.getCurrentPlayer();
+        clearHand(alice);
+        alice.addCard(new Card(CardType.REVERSE));
+
+        assertEquals(1, game.getDirection());
+        assertEquals("Alice", game.getCurrentPlayer().getName());
+
+        GameController controller = new GameController(game, mockView);
+        controller.playReverse(0);
+
+        assertEquals(-1, game.getDirection());
+        assertEquals(0, alice.getHandSize());
+        assertEquals("Charlie", game.getCurrentPlayer().getName());
 
         EasyMock.verify(mockView);
     }
