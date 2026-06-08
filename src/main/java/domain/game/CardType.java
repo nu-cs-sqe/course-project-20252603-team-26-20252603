@@ -12,5 +12,6 @@ public enum CardType {
     RAINBOW_RALPHING_CAT,
     SKIP,
     SEE_THE_FUTURE,
-    SUPER_SKIP
+    SUPER_SKIP,
+    REVERSE
 }
