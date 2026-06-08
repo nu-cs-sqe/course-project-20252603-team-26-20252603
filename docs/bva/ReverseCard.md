@@ -11,7 +11,7 @@
 
 ## Method under test: `Game.reverseDirection()`
 
-| ID          | State of system  | Expected output  | Implemented?  |
-|-------------|------------------|------------------|---------------|
-| `REV-DIR-1` | direction = 1    | direction = -1   | :x:           |
-| `REV-DIR-2` | direction = -1   | direction = 1    | :x:           |
+| ID          | State of system  | Expected output  | Implemented? |
+|-------------|------------------|------------------|--------------|
+| `REV-DIR-1` | direction = 1    | direction = -1   | yes          |
+| `REV-DIR-2` | direction = -1   | direction = 1    | yes          |
