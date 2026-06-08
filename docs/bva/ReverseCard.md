@@ -22,4 +22,4 @@
 | ID          | State of system                      | Expected output  | Implemented? |
 |-------------|--------------------------------------|------------------|--------------|
 | `REV-ADV-1` | 3 players, direction = 1, index = 2  | index becomes 0  | yes          |
-| `REV-ADV-2` | 3 players, direction = -1, index = 0 | index becomes 2  | no           |
+| `REV-ADV-2` | 3 players, direction = -1, index = 0 | index becomes 2  | yes          |
