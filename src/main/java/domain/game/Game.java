@@ -193,6 +193,16 @@ public class Game {
         direction = direction * -1;
     }
 
+    public void advanceTurnWithDirection() {
+        if (forcedTurns > 0) {
+            forcedTurns--;
+            if (forcedTurns > 0) {
+                return;
+            }
+        }
+        currentPlayerIndex = Math.floorMod(currentPlayerIndex + direction, players.size());
+    }
+
     int getDirection() {
         return direction;
     }

@@ -336,6 +336,23 @@ class GameTest {
         assertEquals(1, game.getDirection());
     }
 
+    @Test
+    void advanceTurnWithDirection_Forward_MovesToNextPlayer() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+
+        assertEquals("Alice", game.getCurrentPlayer().getName());
+
+        game.advanceTurnWithDirection();
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+
+        game.advanceTurnWithDirection();
+        assertEquals("Charlie", game.getCurrentPlayer().getName());
+
+        game.advanceTurnWithDirection();
+        assertEquals("Alice", game.getCurrentPlayer().getName());
+    }
+
 
     private void assertPlayersHaveOpeningHands(List<Player> players) {
         for (Player player : players) {
