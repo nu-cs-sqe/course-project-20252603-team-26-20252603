@@ -29,6 +29,7 @@ public class Game {
     private DiscardPile discardPile;
     private int currentPlayerIndex;
     private int forcedTurns;
+    private int direction = 1;
 
     // Open to discussion: making Game final would avoid this warning, but controller tests currently mock it.
     @SuppressFBWarnings(
@@ -186,8 +187,6 @@ public class Game {
         forcedTurns = 0;
         currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
     }
-
-    private int direction = 1;
 
     public void reverseDirection() {
         direction = direction * -1;
