@@ -31,4 +31,15 @@ public class ReverseCardControllerTest {
 
         assertThrows(IllegalArgumentException.class, () -> controller.play(player, 0));
     }
+
+    @Test
+    void playReverse_NegativeIndex_ThrowsException() {
+        Player player = new Player("Gojo");
+        player.addCard(new Card(CardType.REVERSE));
+
+        DiscardPile discardPile = new DiscardPile();
+        ReverseCardController controller = new ReverseCardController(discardPile);
+
+        assertThrows(IllegalArgumentException.class, () -> controller.play(player, -1));
+    }
 }
