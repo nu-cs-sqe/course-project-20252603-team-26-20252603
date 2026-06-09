@@ -187,6 +187,18 @@ class DeckTest {
         assertEquals(List.of(topCard, bottomCard), deck.snapshot());
     }
 
+    @Test
+    void swapTopAndBottom_ThreeCardDeck_SwapsOnlyTopAndBottom() {
+        Card bottomCard = new Card(CardType.DEFUSE);
+        Card middleCard = new Card(CardType.BEARD_CAT);
+        Card topCard = new Card(CardType.EXPLODING_KITTEN);
+        Deck deck = new Deck(List.of(bottomCard, middleCard, topCard));
+
+        deck.swapTopAndBottom();
+
+        assertEquals(List.of(topCard, middleCard, bottomCard), deck.snapshot());
+    }
+
     private Card createCardWithType(CardType type) {
         Card card = EasyMock.createMock(Card.class);
         EasyMock.expect(card.getType()).andStubReturn(type);
