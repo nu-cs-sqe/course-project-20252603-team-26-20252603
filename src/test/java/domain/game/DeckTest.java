@@ -178,6 +178,20 @@ class DeckTest {
         EasyMock.verify(onlyCard);
     }
 
+    @Test
+    void moveTopToBottomMovesTopCardAndPreservesOtherCardOrder() {
+        Card bottomCard = EasyMock.createMock(Card.class);
+        Card middleCard = EasyMock.createMock(Card.class);
+        Card topCard = EasyMock.createMock(Card.class);
+        EasyMock.replay(bottomCard, middleCard, topCard);
+        Deck deck = new Deck(List.of(bottomCard, middleCard, topCard));
+
+        deck.moveTopToBottom();
+
+        assertEquals(List.of(topCard, bottomCard, middleCard), deck.snapshot());
+        EasyMock.verify(bottomCard, middleCard, topCard);
+    }
+
     private Card createCardWithType(CardType type) {
         Card card = EasyMock.createMock(Card.class);
         EasyMock.expect(card.getType()).andStubReturn(type);
