@@ -91,7 +91,8 @@ public final class Player {
             return countCardsOfType(chosenType) >= 2;
         }
 
-        if (chosenType == CardType.PLACEHOLDER_CARD) {
+        if (chosenType == CardType.PLACEHOLDER_CARD
+                || chosenType == CardType.SWAP_TOP_AND_BOTTOM){
             return true;
         }
 

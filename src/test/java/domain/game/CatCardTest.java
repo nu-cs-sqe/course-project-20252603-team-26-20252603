@@ -1,9 +1,8 @@
 package domain.game;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class CatCardTest {
     @Test
@@ -119,5 +118,13 @@ class CatCardTest {
                 "Cat Card: This card is powerless on its own. Play two matching Cat Cards as a pair to steal a random card from another player.",
                 player.chooseCard(0)
         );
+    }
+
+    @Test
+    void canSubmitCard_SwapTopAndBottom_ReturnsTrue() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.SWAP_TOP_AND_BOTTOM));
+
+        assertTrue(player.canSubmitCard(0));
     }
 }
