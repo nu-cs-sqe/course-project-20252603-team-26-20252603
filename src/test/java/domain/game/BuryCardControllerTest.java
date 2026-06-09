@@ -55,6 +55,24 @@ class BuryCardControllerTest {
         assertEquals(currentPlayer, game.getCurrentPlayer());
     }
 
+    @Test
+    void play_BuryOnlyCardWithEmptyDrawPile_DiscardsBuryAndLeavesDrawPileEmpty() {
+        Game game = createStartedGame();
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card buryCard = new Card(CardType.BURY);
+        currentPlayer.addCard(buryCard);
+        clearDrawPile(game.getDrawPile());
+        BuryCardController controller = new BuryCardController();
+
+        controller.play(game, 0);
+
+        assertEquals(0, currentPlayer.getHandSize());
+        assertEquals(List.of(buryCard), game.getDiscardPile().snapshot());
+        assertEquals(List.of(), game.getDrawPile().snapshot());
+        assertEquals(currentPlayer, game.getCurrentPlayer());
+    }
+
     private Game createStartedGame() {
         List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardType.EXPLODING_KITTEN));
