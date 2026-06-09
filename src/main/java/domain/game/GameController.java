@@ -70,6 +70,11 @@ public class GameController {
                 model.applyAttack();
                 return;
             }
+
+            if (selectedCard.getType() == CardType.SWAP_TOP_AND_BOTTOM) {
+                new SwapTopAndBottomController().play(model, cardIndex);
+                continue;
+            }
             view.displayError(UNPLAYABLE_CARD);
         }
         takeCard();

@@ -84,4 +84,4 @@ The main card behavior is implemented in `SwapTopAndBottomController`.
 - **TC7: completeTurn_SwapTopAndBottomPlayed_SwapsThenDrawsAndAdvances**
     - **State of system**: Current player has [`SWAP_TOP_AND_BOTTOM`], draw pile = [`BOTTOM_CARD`, `MIDDLE_CARD`, `TOP_CARD`].
     - **Expected output**: Swap card is discarded; top and bottom are swapped; current player draws the new top card; turn advances to next player.
-    - **Implemented?** :x:
+    - **Implemented?** :white_check_mark:
