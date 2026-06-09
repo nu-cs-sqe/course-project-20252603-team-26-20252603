@@ -99,5 +99,10 @@ public final class Deck {
         if (cards.size() < 2) {
             return;
         }
+
+        int topIndex = cards.size() - 1;
+        Card bottomCard = cards.get(0);
+        cards.set(0, cards.get(topIndex));
+        cards.set(topIndex, bottomCard);
     }
 }
