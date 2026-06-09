@@ -64,7 +64,7 @@ The main card behavior is implemented in `SwapTopAndBottomController`.
 - **TC6: playSwapTopAndBottom_SelectedCardIsDefuse_ThrowsException**
     - **State of system**: Current player hand = [`DEFUSE`], draw pile has cards, discard pile empty.
     - **Expected output**: `IllegalArgumentException` thrown; player hand, draw pile, and discard pile stay unchanged.
-    - **Implemented?** :x:
+    - **Implemented?** :white_check_mark:
 
 ---
 
