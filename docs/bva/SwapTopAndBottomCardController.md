@@ -6,6 +6,7 @@
 
 When a player plays Swap Top and Bottom, the played card is discarded and the top and bottom cards of the draw pile are swapped. The player's turn continues, so the player still draws a card after the card effect.
 
+The main card behavior is implemented in `SwapTopAndBottomController`.
 ---
 
 ## Method under test 1: `Deck.swapTopAndBottom()`
@@ -15,8 +16,8 @@ When a player plays Swap Top and Bottom, the played card is discarded and the to
 | Step | Input / State | Category | Boundary values / cases |
 |---|---|---|---|
 | Step 1 | draw pile size | Collection size | empty deck; one card; exactly two cards; more than two cards |
-| Step 2 | top card | Card position | last index `size - 1` |
-| Step 3 | bottom card | Card position | first index `0` |
+| Step 2 | bottom card | Card position | index `0` |
+| Step 3 | top card | Card position | index `size - 1` |
 | Step 4 | output/state change | Collection state change | empty and one-card decks stay unchanged; two-or-more-card decks swap first and last cards |
 
 ### Test Cases
@@ -24,7 +25,7 @@ When a player plays Swap Top and Bottom, the played card is discarded and the to
 - **TC1: swapTopAndBottom_EmptyDeck_LeavesDeckEmpty**
     - **State of system**: Draw pile = `[]`
     - **Expected output**: Draw pile remains `[]`.
-    - **Implemented?** :x:
+    - **Implemented?** :white_check_mark:
 
 - **TC2: swapTopAndBottom_OneCardDeck_LeavesDeckUnchanged**
     - **State of system**: Draw pile = [`DEFUSE`]
@@ -43,19 +44,16 @@ When a player plays Swap Top and Bottom, the played card is discarded and the to
 
 ---
 
-## Method under test 2: `SwapTopAndBottomCardController.play(Game game, int cardIndex)`
-
-### Step 1-3 Results
+### Method under test 2: `SwapTopAndBottomController.play(Game game, int cardIndex)`
 
 | Step | Input / State | Category | Boundary values / cases |
 |---|---|---|---|
-| Step 1 | selected `cardIndex` | Array index | `0`; invalid indexes already covered by card controller BVA pattern |
+| Step 1 | selected `cardIndex` | Array index | `0`; invalid indexes already covered by controller pattern |
 | Step 2 | selected card type | Card type case | selected card is `SWAP_TOP_AND_BOTTOM`; selected card is not `SWAP_TOP_AND_BOTTOM` |
 | Step 3 | current player hand | Collection state | hand contains playable Swap Top and Bottom card |
 | Step 4 | discard pile | Collection state change | played card is added to discard pile |
 | Step 5 | draw pile | Collection state change | top and bottom cards are swapped |
-| Step 6 | output | State change / exception | valid card mutates hand, discard pile, and draw pile; wrong card type throws exception and leaves state unchanged |
-
+| Step 6 | output/state change | State change / exception | valid card mutates hand, discard pile, and draw pile; wrong card type throws exception and leaves state unchanged |
 ### Test Cases
 
 - **TC5: playSwapTopAndBottom_ValidCard_DiscardsCardAndSwapsDrawPile**

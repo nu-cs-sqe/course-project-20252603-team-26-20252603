@@ -94,4 +94,10 @@ public final class Deck {
         }
         return List.copyOf(topCards);
     }
+
+    void swapTopAndBottom() {
+        if (cards.size() < 2) {
+            return;
+        }
+    }
 }
