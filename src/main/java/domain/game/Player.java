@@ -92,7 +92,7 @@ public final class Player {
         }
 
         if (chosenType == CardType.PLACEHOLDER_CARD
-                || chosenType == CardType.SWAP_TOP_AND_BOTTOM){
+                || chosenType == CardType.SWAP_TOP_AND_BOTTOM) {
             return true;
         }
 
