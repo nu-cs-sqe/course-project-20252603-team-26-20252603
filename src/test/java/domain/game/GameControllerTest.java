@@ -1109,6 +1109,52 @@ public class GameControllerTest {
         assertEquals(3, game.getForcedTurns());
     }
 
+    @Test
+    void superSkip_ClearsForcedTurnsAndMovesToNextPlayer() {
+        Game game = new Game(createDeckForPlayers(2));
+        game.setupGame(List.of("Alice", "Bob"));
+        GameView mockView = EasyMock.createNiceMock(GameView.class);
+        EasyMock.replay(mockView);
+
+        game.applyAttack();
+
+        Player bob = game.getCurrentPlayer();
+
+        clearHand(bob);
+
+        bob.addCard(new Card(CardType.SUPER_SKIP));
+
+        assertEquals(1, bob.getHandSize());
+
+        GameController controller = new GameController(game, mockView);
+        controller.playSuperSkip(0);
+
+        assertEquals(0, bob.getHandSize());
+        assertEquals("Alice", game.getCurrentPlayer().getName());
+
+        EasyMock.verify(mockView);
+    }
+
+    @Test
+    void playSuperSkip_WithNoForcedTurns_EndsTurnNormally() {
+        Game game = new Game(createDeckForPlayers(2));
+        game.setupGame(List.of("Alice", "Bob"));
+        GameView mockView = EasyMock.createNiceMock(GameView.class);
+        EasyMock.replay(mockView);
+
+        Player alice = game.getCurrentPlayer();
+        clearHand(alice);  // Clear existing cards
+        alice.addCard(new Card(CardType.SUPER_SKIP));
+
+        GameController controller = new GameController(game, mockView);
+        controller.playSuperSkip(0);
+
+        assertEquals(0, alice.getHandSize());
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+
+        EasyMock.verify(mockView);
+    }
+
     private Deck createDeckForPlayers(int playerCount) {
         return createDeckForPlayers(playerCount, new Random());
     }

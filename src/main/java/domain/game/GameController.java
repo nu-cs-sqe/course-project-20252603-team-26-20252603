@@ -10,6 +10,7 @@ public class GameController {
     private static final String UNPLAYABLE_CARD =
             "Card cannot be played during a normal turn.";
     private static final String INVALID_CARD_INDEX = "cardIndex is out of bounds";
+    private static final String SUPER_SKIP_PLAYED = "Super Skip played! All forced turns cleared. Turn ended.";
 
     // Open to discussion here  
     @SuppressFBWarnings(
@@ -107,6 +108,24 @@ public class GameController {
             view.displayMessage(SKIP_PLAYED);
             model.advanceTurn();
             return true;
+        } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
+            view.displayError(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean playSuperSkip(int cardIndex) {
+        try {
+            Player currentPlayer = model.getCurrentPlayer();
+            SuperSkipCardController superSkipController = new SuperSkipCardController(model.getDiscardPile());
+
+            boolean played = superSkipController.play(currentPlayer, cardIndex);
+            if (played) {
+                model.endTurnClearingForced();
+                view.displayMessage(SUPER_SKIP_PLAYED);
+                return true;
+            }
+            return false;
         } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
             view.displayError(e.getMessage());
             return false;

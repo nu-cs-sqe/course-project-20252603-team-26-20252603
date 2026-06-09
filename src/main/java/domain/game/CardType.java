@@ -11,5 +11,6 @@ public enum CardType {
     TACOCAT,
     RAINBOW_RALPHING_CAT,
     SKIP,
-    SEE_THE_FUTURE
+    SEE_THE_FUTURE,
+    SUPER_SKIP
 }

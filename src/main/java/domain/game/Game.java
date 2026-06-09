@@ -181,4 +181,9 @@ public class Game {
     int getForcedTurns() {
         return forcedTurns;
     }
+
+    public void endTurnClearingForced() {
+        forcedTurns = 0;
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+    }
 }
