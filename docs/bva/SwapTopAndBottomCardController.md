@@ -35,12 +35,12 @@ The main card behavior is implemented in `SwapTopAndBottomController`.
 - **TC3: swapTopAndBottom_TwoCardDeck_SwapsCards**
     - **State of system**: Draw pile = [`BOTTOM_CARD`, `TOP_CARD`]
     - **Expected output**: Draw pile becomes [`TOP_CARD`, `BOTTOM_CARD`].
-    - **Implemented?** :x:
+    - **Implemented?** :white_check_mark:
 
 - **TC4: swapTopAndBottom_ThreeCardDeck_SwapsOnlyTopAndBottom**
     - **State of system**: Draw pile = [`BOTTOM_CARD`, `MIDDLE_CARD`, `TOP_CARD`]
     - **Expected output**: Draw pile becomes [`TOP_CARD`, `MIDDLE_CARD`, `BOTTOM_CARD`].
-    - **Implemented?** :x:
+    - **Implemented?** :white_check_mark:
 
 ---
 
@@ -59,7 +59,7 @@ The main card behavior is implemented in `SwapTopAndBottomController`.
 - **TC5: playSwapTopAndBottom_ValidCard_DiscardsCardAndSwapsDrawPile**
     - **State of system**: Current player hand = [`SWAP_TOP_AND_BOTTOM`], draw pile = [`BOTTOM_CARD`, `MIDDLE_CARD`, `TOP_CARD`], discard pile empty.
     - **Expected output**: Player hand becomes empty; discard pile contains `SWAP_TOP_AND_BOTTOM`; draw pile becomes [`TOP_CARD`, `MIDDLE_CARD`, `BOTTOM_CARD`].
-    - **Implemented?** :x:
+    - **Implemented?** :white_check_mark:
 
 - **TC6: playSwapTopAndBottom_SelectedCardIsDefuse_ThrowsException**
     - **State of system**: Current player hand = [`DEFUSE`], draw pile has cards, discard pile empty.
