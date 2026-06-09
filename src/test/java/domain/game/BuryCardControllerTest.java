@@ -94,6 +94,26 @@ class BuryCardControllerTest {
         assertEquals(currentPlayer, game.getCurrentPlayer());
     }
 
+    @Test
+    void play_NegativeCardIndex_ThrowsExceptionAndLeavesStateUnchanged() {
+        Game game = createStartedGame();
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card buryCard = new Card(CardType.BURY);
+        currentPlayer.addCard(buryCard);
+        List<Card> drawPileBeforePlay = game.getDrawPile().snapshot();
+        BuryCardController controller = new BuryCardController();
+
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> controller.play(game, -1));
+
+        assertEquals("cardIndex is out of bounds", exception.getMessage());
+        assertEquals(List.of(buryCard), currentPlayer.getHandSnapshot());
+        assertEquals(List.of(), game.getDiscardPile().snapshot());
+        assertEquals(drawPileBeforePlay, game.getDrawPile().snapshot());
+        assertEquals(currentPlayer, game.getCurrentPlayer());
+    }
+
     private Game createStartedGame() {
         List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardType.EXPLODING_KITTEN));
