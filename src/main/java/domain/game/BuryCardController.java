@@ -6,7 +6,7 @@ public final class BuryCardController {
 
     public void play(Game game, int cardIndex) {
         Player currentPlayer = game.getCurrentPlayer();
-        if (cardIndex < 0) {
+        if (cardIndex < 0 || cardIndex >= currentPlayer.getHandSize()) {
             throw new IllegalArgumentException(INVALID_INDEX_MESSAGE);
         }
         Card buryCard = currentPlayer.getHandSnapshot().get(cardIndex);
