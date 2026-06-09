@@ -361,6 +361,42 @@ public class GameControllerTest {
     }
 
     @Test
+    void completeTurn_BuryPlayed_MovesTopCardThenDrawsAndAdvances() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card bury = new Card(CardType.BURY);
+        currentPlayer.addCard(bury);
+        List<Card> startingHand = currentPlayer.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        Card bottomCard = new Card(CardType.BEARD_CAT);
+        Card drawnCard = new Card(CardType.PLACEHOLDER_CARD);
+        Card buriedTopCard = new Card(CardType.EXPLODING_KITTEN);
+        game.getDrawPile().addCard(bottomCard);
+        game.getDrawPile().addCard(drawnCard);
+        game.getDrawPile().addCard(buriedTopCard);
+
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        mockView.displayCardDrawn(drawnCard);
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of(0));
+
+        assertEquals(List.of(drawnCard), currentPlayer.getHandSnapshot());
+        assertEquals(List.of(bury), game.getDiscardPile().snapshot());
+        assertEquals(
+                List.of(buriedTopCard, bottomCard),
+                game.getDrawPile().snapshot());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
     void completeTurn_SeeFutureThenSkipPlayed_EndsWithoutDrawing() {
         Game game = new Game(createDeckForPlayers(2));
         GameView mockView = EasyMock.createStrictMock(GameView.class);
