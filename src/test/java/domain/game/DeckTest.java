@@ -166,6 +166,18 @@ class DeckTest {
         assertEquals(List.of(), deck.snapshot());
     }
 
+    @Test
+    void moveTopToBottomKeepsSingleCardInPlace() {
+        Card onlyCard = EasyMock.createMock(Card.class);
+        EasyMock.replay(onlyCard);
+        Deck deck = new Deck(List.of(onlyCard));
+
+        deck.moveTopToBottom();
+
+        assertEquals(List.of(onlyCard), deck.snapshot());
+        EasyMock.verify(onlyCard);
+    }
+
     private Card createCardWithType(CardType type) {
         Card card = EasyMock.createMock(Card.class);
         EasyMock.expect(card.getType()).andStubReturn(type);
