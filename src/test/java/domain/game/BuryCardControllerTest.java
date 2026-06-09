@@ -1,6 +1,7 @@
 package domain.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,26 @@ class BuryCardControllerTest {
         assertEquals(0, currentPlayer.getHandSize());
         assertEquals(List.of(buryCard), game.getDiscardPile().snapshot());
         assertEquals(List.of(), game.getDrawPile().snapshot());
+        assertEquals(currentPlayer, game.getCurrentPlayer());
+    }
+
+    @Test
+    void play_NonBuryCard_ThrowsExceptionAndLeavesStateUnchanged() {
+        Game game = createStartedGame();
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card catCard = new Card(CardType.BEARD_CAT);
+        currentPlayer.addCard(catCard);
+        List<Card> drawPileBeforePlay = game.getDrawPile().snapshot();
+        BuryCardController controller = new BuryCardController();
+
+        IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> controller.play(game, 0));
+
+        assertEquals("selected card is not a Bury card", exception.getMessage());
+        assertEquals(List.of(catCard), currentPlayer.getHandSnapshot());
+        assertEquals(List.of(), game.getDiscardPile().snapshot());
+        assertEquals(drawPileBeforePlay, game.getDrawPile().snapshot());
         assertEquals(currentPlayer, game.getCurrentPlayer());
     }
 
