@@ -33,6 +33,28 @@ class BuryCardControllerTest {
         assertEquals(currentPlayer, game.getCurrentPlayer());
     }
 
+    @Test
+    void play_BuryAtLastIndexWithOneCardDrawPile_DiscardsBuryAndLeavesDrawPile() {
+        Game game = createStartedGame();
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card catCard = new Card(CardType.BEARD_CAT);
+        Card buryCard = new Card(CardType.BURY);
+        currentPlayer.addCard(catCard);
+        currentPlayer.addCard(buryCard);
+        Card onlyDrawPileCard = new Card(CardType.DEFUSE);
+        clearDrawPile(game.getDrawPile());
+        game.getDrawPile().addCard(onlyDrawPileCard);
+        BuryCardController controller = new BuryCardController();
+
+        controller.play(game, 1);
+
+        assertEquals(List.of(catCard), currentPlayer.getHandSnapshot());
+        assertEquals(List.of(buryCard), game.getDiscardPile().snapshot());
+        assertEquals(List.of(onlyDrawPileCard), game.getDrawPile().snapshot());
+        assertEquals(currentPlayer, game.getCurrentPlayer());
+    }
+
     private Game createStartedGame() {
         List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardType.EXPLODING_KITTEN));
