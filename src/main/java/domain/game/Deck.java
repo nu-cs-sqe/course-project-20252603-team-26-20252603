@@ -52,6 +52,12 @@ public final class Deck {
         cards.add(card);
     }
 
+    public void moveTopToBottom() {
+        if (cards.isEmpty()) {
+            return;
+        }
+    }
+
     public List<Card> removeCardsByType(CardType type) {
         if (type == null) {
             throw new IllegalArgumentException(CARD_TYPE_REQUIRED_MESSAGE);

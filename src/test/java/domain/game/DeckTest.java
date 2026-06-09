@@ -157,6 +157,15 @@ class DeckTest {
         EasyMock.verify(card);
     }
 
+    @Test
+    void moveTopToBottomDoesNothingForEmptyDeck() {
+        Deck deck = new Deck(List.of());
+
+        deck.moveTopToBottom();
+
+        assertEquals(List.of(), deck.snapshot());
+    }
+
     private Card createCardWithType(CardType type) {
         Card card = EasyMock.createMock(Card.class);
         EasyMock.expect(card.getType()).andStubReturn(type);

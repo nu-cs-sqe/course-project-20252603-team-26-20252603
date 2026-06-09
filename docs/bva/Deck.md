@@ -38,3 +38,11 @@
 | `DECK-REMOVE-1` | Deck contains no cards of the requested type. | Return `[]`; deck contents are unchanged. | :white_check_mark: |
 | `DECK-REMOVE-2` | Deck contains some cards of the requested type. | Return only matching cards; remove only those cards from the deck. | :white_check_mark: |
 | `DECK-REMOVE-3` | Requested `type = null`. | Throw `IllegalArgumentException` with message `card type must not be null`. | :white_check_mark: |
+
+## Method under test: `public void moveTopToBottom()`
+
+| ID | State of the system | Expected output | Implemented? |
+| --- | --- | --- | --- |
+| `DECK-BURY-1` | Move the top card of an empty deck to the bottom. | Deck remains empty. | :white_check_mark: |
+| `DECK-BURY-2` | Move the top card of a one-card deck to the bottom. | Deck still contains the same one card. | :black_square_button: |
+| `DECK-BURY-3` | Move the top card of a multi-card deck to the bottom. | The former top card becomes the bottom card and all other cards retain their relative order. | :black_square_button: |
