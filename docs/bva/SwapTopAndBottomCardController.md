@@ -30,7 +30,7 @@ The main card behavior is implemented in `SwapTopAndBottomController`.
 - **TC2: swapTopAndBottom_OneCardDeck_LeavesDeckUnchanged**
     - **State of system**: Draw pile = [`DEFUSE`]
     - **Expected output**: Draw pile remains [`DEFUSE`].
-    - **Implemented?** :x:
+    - **Implemented?** :white_check_mark:
 
 - **TC3: swapTopAndBottom_TwoCardDeck_SwapsCards**
     - **State of system**: Draw pile = [`BOTTOM_CARD`, `TOP_CARD`]
