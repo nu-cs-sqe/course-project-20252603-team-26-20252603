@@ -11,6 +11,10 @@ application {
     mainClass = "ui.Main"
 }
 
+tasks.named<JavaExec>("run") {
+    standardInput = System.`in`
+}
+
 group = "nu.csse.sqe"
 version = "1.0"
 
