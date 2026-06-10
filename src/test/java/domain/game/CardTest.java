@@ -56,4 +56,11 @@ class CardTest {
 
         assertEquals(CardType.SEE_THE_FUTURE, card.getType());
     }
+
+    @Test
+    void constructorStoresSwapTopAndBottomCardType() {
+        Card card = new Card(CardType.SWAP_TOP_AND_BOTTOM);
+
+        assertEquals(CardType.SWAP_TOP_AND_BOTTOM, card.getType());
+    }
 }
