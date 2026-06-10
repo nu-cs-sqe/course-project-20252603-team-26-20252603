@@ -258,4 +258,13 @@ class DeckTest {
         assertEquals(0, deck.size());
     }
 
+    @Test
+    void drawFromBottom_MultipleCards_ReturnsBottomCard() {
+        Deck deck = new Deck(List.of(new Card(CardType.SKIP), new Card(CardType.ATTACK)));
+
+        Card drawn = deck.drawFromBottom();
+
+        assertEquals(CardType.SKIP, drawn.getType());
+        assertEquals(1, deck.size());
+    }
 }
