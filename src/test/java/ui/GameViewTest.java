@@ -206,6 +206,15 @@ public class GameViewTest {
     }
 
     @Test
+    void promptSecondCardChoice_ValidCardNumber_ReturnsChoice() {
+        GameView view = viewWithInput("3");
+
+        int choice = view.promptSecondCardChoice();
+
+        assertEquals(3, choice);
+    }
+
+    @Test
     void displayError_NullMessage_ThrowsIllegalArgumentException() {
         GameView view = new GameView();
 

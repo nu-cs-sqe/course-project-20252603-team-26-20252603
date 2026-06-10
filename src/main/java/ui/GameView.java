@@ -65,6 +65,13 @@ public class GameView {
         return choice;
     }
 
+    public int promptSecondCardChoice() {
+        System.out.print(messages.getString("turn.second.card.prompt"));
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        return choice;
+    }
+
     public void displayGameReady() {
         System.out.println(messages.getString("game.ready.message"));
     }
