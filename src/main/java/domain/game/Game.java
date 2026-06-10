@@ -179,7 +179,9 @@ public class Game {
         if (target == null) {
             throw new IllegalArgumentException("target must not be null");
         }
-
+        int untakenTurns = forcedTurns;
+        currentPlayerIndex = players.indexOf(target);
+        forcedTurns = untakenTurns + 2;
     }
 
     boolean isWon() {

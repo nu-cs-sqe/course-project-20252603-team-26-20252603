@@ -422,4 +422,16 @@ class GameTest {
         assertThrows(IllegalArgumentException.class, () -> game.applyTargetedAttack(null));
     }
 
+    @Test
+    void applyTargetedAttack_ValidTarget_SetsCurrentPlayerToTargetWithTwoForcedTurns() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player jordan = game.getPlayers().get(1);
+
+        game.applyTargetedAttack(jordan);
+
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        assertEquals(2, game.getForcedTurns());
+    }
+
 }
