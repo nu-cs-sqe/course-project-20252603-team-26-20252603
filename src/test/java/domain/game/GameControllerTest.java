@@ -391,6 +391,34 @@ public class GameControllerTest {
     }
 
     @Test
+    void playInteractiveTurn_DrawChoice_DrawsAndEndsTurn() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+        List<Card> startingHand = sophie.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        Card drawnCard = new Card(CardType.BEARD_CAT);
+        game.getDrawPile().addCard(drawnCard);
+
+        mockView.displayPublicPlayerState(game.getPlayers(), game.getEliminatedPlayers());
+        expectLastCall().once();
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        expect(mockView.promptCardChoice()).andReturn(0);
+        mockView.displayCardDrawn(drawnCard);
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.playInteractiveTurn();
+
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        assertEquals(7, sophie.getHandSize());
+        verify(mockView);
+    }
+
+    @Test
     void completeTurn_TwoSeeFutureCardsPlayed_DisplaysBothThenDrawsAndAdvances() {
         Game game = new Game(createDeckForPlayers(2));
         GameView mockView = EasyMock.createStrictMock(GameView.class);

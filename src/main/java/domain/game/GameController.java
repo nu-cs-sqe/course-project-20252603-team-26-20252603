@@ -54,6 +54,16 @@ public class GameController {
         takeCard();
     }
 
+    void playInteractiveTurn() {
+        startTurn();
+        int cardChoice = view.promptCardChoice();
+        if (cardChoice == 0) {
+            takeCard();
+            return;
+        }
+        playSelectedCard(cardChoice - 1);
+    }
+
     boolean playSelectedCard(int cardIndex) {
         Player currentPlayer = model.getCurrentPlayer();
         if (cardIndex < 0 || cardIndex >= currentPlayer.getHandSize()) {
