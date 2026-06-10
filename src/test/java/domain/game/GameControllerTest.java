@@ -1236,6 +1236,44 @@ public class GameControllerTest {
         verify(mockView);
     }
 
+    @Test
+    void completeTurn_SwapTopAndBottomPlayed_SwapsThenDrawsAndAdvances() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card swapCard = new Card(CardType.SWAP_TOP_AND_BOTTOM);
+        currentPlayer.addCard(swapCard);
+        List<Card> startingHand = currentPlayer.getHandSnapshot();
+
+        clearDrawPile(game.getDrawPile());
+        Card bottomCard = new Card(CardType.BEARD_CAT);
+        Card middleCard = new Card(CardType.BEARD_CAT);
+        Card topCard = new Card(CardType.SKIP);
+        game.getDrawPile().addCard(bottomCard);
+        game.getDrawPile().addCard(middleCard);
+        game.getDrawPile().addCard(topCard);
+
+        mockView.displayHand("Sophie", startingHand);
+        EasyMock.expectLastCall().once();
+        mockView.displayCardDrawn(bottomCard);
+        EasyMock.expectLastCall().once();
+        EasyMock.replay(mockView);
+
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of(0));
+
+        assertEquals(List.of(bottomCard), currentPlayer.getHandSnapshot());
+        assertEquals(List.of(swapCard), game.getDiscardPile().snapshot());
+        assertEquals(List.of(topCard, middleCard), game.getDrawPile().snapshot());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+
+        EasyMock.verify(mockView);
+    }
+
     private Deck createDeckForPlayers(int playerCount) {
         return createDeckForPlayers(playerCount, new Random());
     }
