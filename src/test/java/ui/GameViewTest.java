@@ -221,4 +221,13 @@ public class GameViewTest {
         assertThrows(IllegalArgumentException.class, () -> view.displayCardDrawn(null));
     }
 
+    @Test
+    void displayCardDrawn_ExplodingKitten_ShowsExplodingKitten() {
+        GameView view = new GameView();
+
+        view.displayCardDrawn(new Card(CardType.EXPLODING_KITTEN));
+
+        assertTrue(captured().contains("EXPLODING_KITTEN"));
+    }
+
 }
