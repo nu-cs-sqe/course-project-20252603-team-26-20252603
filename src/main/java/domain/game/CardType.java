@@ -15,7 +15,7 @@ public enum CardType {
     SUPER_SKIP,
     REVERSE,
     DRAW_FROM_BOTTOM,
-    TARGETED_ATTACK
+    TARGETED_ATTACK,
     BURY,
     SWAP_TOP_AND_BOTTOM
 }
