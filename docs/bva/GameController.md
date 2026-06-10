@@ -141,6 +141,9 @@ mechanics live in the `Game` model (`applyAttack` / `advanceTurn`); see `Game.md
 - **TC17: completeTurn_DrawFromBottomDrawsExplodingKittenWithoutDefuse_PlayerEliminated** (:white_check_mark:)
     - **State of the system**: current player is `Sophie`, next player is `Jordan`, selected card index is `[0]`, card at index `0` is `DRAW_FROM_BOTTOM`, `Sophie` has no `DEFUSE`, deck has `[EXPLODING_KITTEN, ATTACK]` where `EXPLODING_KITTEN` is at the bottom
     - **Expected output**: `DRAW_FROM_BOTTOM` discarded, `Sophie` is eliminated, `Jordan` is the only remaining player
+- **TC18: completeTurn_TargetedAttackPlayed_PromptsTargetDiscardsCardAndEndsWithoutDrawing** (:x: or :white_check_mark:)
+  - **State of the system**: current player is `Sophie`, next player is `Jordan`, `Sophie` has one `TARGETED_ATTACK` card, user selects `Jordan` as target, draw pile has one card
+  - **Expected output**: displays `Sophie`'s hand, prompts for target, `TARGETED_ATTACK` discarded, current player is `Jordan`, forced turns is `2`, draw pile unchanged
 
 ### Method under test: `public void playTargetedAttack(int cardIndex)`
 | Step 1                        | Step 2     | Step 3                                                                                                                                    |
@@ -165,3 +168,4 @@ mechanics live in the `Game` model (`applyAttack` / `advanceTurn`); see `Game.md
     - **TC4: playTargetedAttack_ValidCard_PromptsTargetDiscardsCardAndAppliesAttack** (:x: or :white_check_mark:)
         - **State of the system**: current player is `Sophie`, next player is `Jordan`, `Sophie` has one `TARGETED_ATTACK` card, user selects `Jordan` as target
         - **Expected output**: `TARGETED_ATTACK` discarded, current player is `Jordan`, forced turns is `2`
+
