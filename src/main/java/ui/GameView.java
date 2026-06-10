@@ -91,4 +91,30 @@ public class GameView {
         String message = MessageFormat.format(messages.getString("game.over.winner"), winnerName);
         System.out.println(message);
     }
+
+    public void displayPublicPlayerState(
+            List<Player> activePlayers,
+            List<EliminatedPlayer> eliminatedPlayers) {
+        System.out.println("Public player state:");
+
+        for (Player player : activePlayers) {
+            System.out.println(player.getName() + ": "
+                    + player.getHandSize() + " face-down card(s)");
+        }
+
+        for (EliminatedPlayer eliminatedPlayer : eliminatedPlayers) {
+            System.out.println(eliminatedPlayer.getPlayerName()
+                    + ": eliminated by face-up "
+                    + eliminatedPlayer.getKillingKitten().getType());
+
+            if (eliminatedPlayer.getVisibleCards().isEmpty()) {
+                System.out.println("Remaining face-up cards: none");
+            } else {
+                System.out.println("Remaining face-up cards:");
+                for (Card card : eliminatedPlayer.getVisibleCards()) {
+                    System.out.println("- " + card.getType());
+                }
+            }
+        }
+    }
 }

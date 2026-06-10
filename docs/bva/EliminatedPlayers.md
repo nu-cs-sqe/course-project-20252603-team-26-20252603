@@ -61,7 +61,7 @@ The terminal should print public player state every turn:
 - **TC3: displayPublicPlayerState_WithActiveAndEliminatedPlayers_PrintsFaceDownAndFaceUpState**
     - **State of system**: One active player and one eliminated player with a killing kitten and remaining cards.
     - **Expected output**: Terminal prints active player's face-down card count and eliminated player's face-up killing kitten plus remaining face-up card types.
-    - **Implemented?** :x:
+    - **Implemented?** :white_check_mark:
 
 ---
 
@@ -78,4 +78,4 @@ The terminal should print public player state every turn:
 - **TC4: startTurn_DisplaysPublicPlayerStateThenCurrentPlayerHand**
     - **State of system**: Game has active players and may have eliminated player records.
     - **Expected output**: View displays public player state, then displays the current player's hand.
-    - **Implemented?** :x:
+    - **Implemented?** :white_check_mark:

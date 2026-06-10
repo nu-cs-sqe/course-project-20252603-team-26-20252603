@@ -36,6 +36,8 @@ public class GameController {
     }
 
     public void startTurn() {
+        view.displayPublicPlayerState(model.getPlayers(), model.getEliminatedPlayers());
+
         Player currentPlayer = model.getCurrentPlayer();
         view.displayHand(currentPlayer.getName(), currentPlayer.getHandSnapshot());
     }
