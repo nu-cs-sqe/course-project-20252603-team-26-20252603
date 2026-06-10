@@ -1,10 +1,7 @@
 package ui;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.io.InputStream;
+import java.util.*;
 import java.text.MessageFormat;
 
 import domain.game.Card;
@@ -13,10 +10,23 @@ public class GameView {
     private Scanner scanner;
     private ResourceBundle messages;
 
+    /** Production constructor – reads from System.in. */
     public GameView() {
-        this.scanner = new Scanner(System.in, java.nio.charset.StandardCharsets.UTF_8.name());
+        this(System.in);
+    }
+
+    /**
+     * Testable constructor – reads from the supplied stream.
+     * Allows tests to inject simulated keyboard input without touching System.in globally.
+     */
+    public GameView(InputStream inputStream) {
+        this.scanner  = new Scanner(
+                Objects.requireNonNull(inputStream, "inputStream must not be null"),
+                java.nio.charset.StandardCharsets.UTF_8);
         this.messages = ResourceBundle.getBundle("message", Locale.getDefault());
     }
+
+
 
     public void displayStartScreen() {
         System.out.println(messages.getString("start.screen.title"));
