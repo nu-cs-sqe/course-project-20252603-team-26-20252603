@@ -1274,6 +1274,44 @@ public class GameControllerTest {
         EasyMock.verify(mockView);
     }
 
+    @Test
+    void takeCard_ExplodingKittenWithoutDefuse_TracksEliminatedPlayer() {
+        Game game = new Game(createDeckForPlayers(2));
+        game.setupGame(List.of("Avery", "Jordan"));
+
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+
+        Card remainingCard = new Card(CardType.BEARD_CAT);
+        Card secondRemainingCard = new Card(CardType.SKIP);
+        currentPlayer.addCard(remainingCard);
+        currentPlayer.addCard(secondRemainingCard);
+
+        clearDrawPile(game.getDrawPile());
+        Card explodingKitten = new Card(CardType.EXPLODING_KITTEN);
+        game.getDrawPile().addCard(explodingKitten);
+
+        GameView mockView = EasyMock.createMock(GameView.class);
+        mockView.displayCardDrawn(explodingKitten);
+        EasyMock.expectLastCall().once();
+        mockView.displayGameOver("Jordan");
+        EasyMock.expectLastCall().once();
+        EasyMock.replay(mockView);
+
+        GameController controller = new GameController(game, mockView);
+
+        controller.takeCard();
+
+        assertEquals(1, game.getEliminatedPlayers().size());
+
+        EliminatedPlayer record = game.getEliminatedPlayers().get(0);
+        assertEquals("Avery", record.getPlayerName());
+        assertEquals(explodingKitten, record.getKillingKitten());
+        assertEquals(List.of(remainingCard, secondRemainingCard), record.getVisibleCards());
+
+        EasyMock.verify(mockView);
+    }
+
     private Deck createDeckForPlayers(int playerCount) {
         return createDeckForPlayers(playerCount, new Random());
     }

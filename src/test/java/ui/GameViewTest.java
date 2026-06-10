@@ -9,6 +9,8 @@ import java.util.List;
 
 import domain.game.Card;
 import domain.game.CardType;
+import domain.game.EliminatedPlayer;
+import domain.game.Player;
 import org.junit.jupiter.api.Test;
 
 public class GameViewTest {

@@ -8,6 +8,8 @@ import java.util.ResourceBundle;
 import java.text.MessageFormat;
 
 import domain.game.Card;
+import domain.game.EliminatedPlayer;
+import domain.game.Player;
 
 public class GameView {
     private Scanner scanner;

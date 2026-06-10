@@ -43,7 +43,7 @@ The terminal should print public player state every turn:
 - **TC2: takeCard_ExplodingKittenWithoutDefuse_TracksEliminatedPlayer**
     - **State of system**: Current player draws an Exploding Kitten without a Defuse and has remaining cards.
     - **Expected output**: GameController records the eliminated player with the drawn Exploding Kitten face up and the remaining hand cards face up by type.
-    - **Implemented?** :x:
+    - **Implemented?** :white_check_mark:
 
 ---
 

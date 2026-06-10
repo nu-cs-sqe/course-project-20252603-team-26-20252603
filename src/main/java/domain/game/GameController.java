@@ -96,7 +96,7 @@ public class GameController {
             if (defused) {
                 model.advanceTurn();
             } else {
-                model.eliminatePlayer(currentPlayer);
+                model.eliminatePlayer(currentPlayer, drawnCard);
                 if (model.isWon()) {
                     view.displayGameOver(model.getPlayers().get(0).getName());
                 }

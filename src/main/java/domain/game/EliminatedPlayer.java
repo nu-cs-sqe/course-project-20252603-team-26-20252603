@@ -7,7 +7,7 @@ public final class EliminatedPlayer {
     private final Card killingKitten;
     private final List<Card> visibleCards;
 
-    EliminatedPlayer(String playerName, Card killingKitten, List<Card> visibleCards) {
+     public EliminatedPlayer(String playerName, Card killingKitten, List<Card> visibleCards) {
         this.playerName = playerName;
         this.killingKitten = killingKitten;
         this.visibleCards = List.copyOf(visibleCards);
