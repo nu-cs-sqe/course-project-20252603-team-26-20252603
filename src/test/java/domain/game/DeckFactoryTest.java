@@ -39,4 +39,11 @@ class DeckFactoryTest {
 
         assertEquals(3, deck.countCardsOfType(CardType.SKIP));
     }
+
+    @Test
+    void standardDeck_ContainsFourSeeTheFutureCards() {
+        Deck deck = DeckFactory.standardDeck();
+
+        assertEquals(4, deck.countCardsOfType(CardType.SEE_THE_FUTURE));
+    }
 }
