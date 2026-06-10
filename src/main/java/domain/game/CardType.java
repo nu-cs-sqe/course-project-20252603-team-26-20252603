@@ -15,5 +15,6 @@ public enum CardType {
     SUPER_SKIP,
     REVERSE,
     BURY,
-    SWAP_TOP_AND_BOTTOM
+    SWAP_TOP_AND_BOTTOM,
+    DRAW_FROM_BOTTOM
 }
