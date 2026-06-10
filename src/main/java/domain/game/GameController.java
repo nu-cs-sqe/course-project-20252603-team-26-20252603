@@ -69,6 +69,28 @@ public class GameController {
                 attackCardController.play(currentPlayer, cardIndex);
                 model.applyAttack();
                 return;
+            }if (selectedCard.getType() == CardType.DRAW_FROM_BOTTOM) {
+                DrawFromBottomCardController drawFromBottomCardController =
+                        new DrawFromBottomCardController(model.getDrawPile(), model.getDiscardPile());
+                Card drawnCard = drawFromBottomCardController.play(currentPlayer, cardIndex);
+                if (drawnCard.getType() == CardType.EXPLODING_KITTEN) {
+                    view.displayCardDrawn(drawnCard);
+                    ExplodingKittenCardController explodingKittenController =
+                            new ExplodingKittenCardController(model.getDrawPile(), model.getDiscardPile());
+                    boolean defused = explodingKittenController.play(currentPlayer, drawnCard);
+                    if (defused) {
+                        model.advanceTurn();
+                    } else {
+                        model.eliminatePlayer(currentPlayer);
+                        if (model.isWon()) {
+                            view.displayGameOver(model.getPlayers().get(0).getName());
+                        }
+                    }
+                    return;
+                }
+                view.displayCardDrawn(drawnCard);
+                model.advanceTurn();
+                return;
             }
             view.displayError(UNPLAYABLE_CARD);
         }
@@ -151,5 +173,7 @@ public class GameController {
             return false;
         }
     }
+
+
 
 }
