@@ -419,6 +419,45 @@ public class GameControllerTest {
     }
 
     @Test
+    void playInteractiveTurn_ContinuingCard_PromptsAgainBeforeDrawing() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+        clearHand(sophie);
+        Card seeFuture = new Card(CardType.SEE_THE_FUTURE);
+        sophie.addCard(seeFuture);
+        List<Card> startingHand = sophie.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        Card secondCard = new Card(CardType.BEARD_CAT);
+        Card drawnCard = new Card(CardType.SKIP);
+        game.getDrawPile().addCard(secondCard);
+        game.getDrawPile().addCard(drawnCard);
+
+        mockView.displayPublicPlayerState(game.getPlayers(), game.getEliminatedPlayers());
+        expectLastCall().once();
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        expect(mockView.promptCardChoice()).andReturn(1);
+        mockView.displaySeeTheFutureCards(List.of(drawnCard, secondCard));
+        expectLastCall().once();
+        mockView.displayHand("Sophie", List.of());
+        expectLastCall().once();
+        expect(mockView.promptCardChoice()).andReturn(0);
+        mockView.displayCardDrawn(drawnCard);
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.playInteractiveTurn();
+
+        assertEquals(List.of(drawnCard), sophie.getHandSnapshot());
+        assertEquals(List.of(seeFuture), game.getDiscardPile().snapshot());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
     void completeTurn_TwoSeeFutureCardsPlayed_DisplaysBothThenDrawsAndAdvances() {
         Game game = new Game(createDeckForPlayers(2));
         GameView mockView = EasyMock.createStrictMock(GameView.class);

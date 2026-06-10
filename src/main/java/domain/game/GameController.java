@@ -56,12 +56,18 @@ public class GameController {
 
     void playInteractiveTurn() {
         startTurn();
-        int cardChoice = view.promptCardChoice();
-        if (cardChoice == 0) {
-            takeCard();
-            return;
+        while (true) {
+            int cardChoice = view.promptCardChoice();
+            if (cardChoice == 0) {
+                takeCard();
+                return;
+            }
+            if (playSelectedCard(cardChoice - 1)) {
+                return;
+            }
+            Player currentPlayer = model.getCurrentPlayer();
+            view.displayHand(currentPlayer.getName(), currentPlayer.getHandSnapshot());
         }
-        playSelectedCard(cardChoice - 1);
     }
 
     boolean playSelectedCard(int cardIndex) {
