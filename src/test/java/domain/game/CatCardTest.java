@@ -1,9 +1,13 @@
 package domain.game;
 
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.jupiter.api.Test;
+
 
 class CatCardTest {
     @Test
@@ -11,7 +15,7 @@ class CatCardTest {
         Player player = new Player("Sophie");
         player.addCard(new Card(CardType.BEARD_CAT));
 
-        assertEquals(false, player.canSubmitCard(0));
+        assertFalse(player.canSubmitCard(0));
     }
     @Test
     void canSubmitCard_TwoMatchingBeardCats_ReturnsTrue() {
@@ -19,7 +23,7 @@ class CatCardTest {
         player.addCard(new Card(CardType.BEARD_CAT));
         player.addCard(new Card(CardType.BEARD_CAT));
 
-        assertEquals(true, player.canSubmitCard(0));
+        assertTrue(player.canSubmitCard(0));
     }
     @Test
     void canSubmitCard_ThreeMatchingBeardCats_ReturnsTrue() {
@@ -28,7 +32,7 @@ class CatCardTest {
         player.addCard(new Card(CardType.BEARD_CAT));
         player.addCard(new Card(CardType.BEARD_CAT));
 
-        assertEquals(true, player.canSubmitCard(1));
+        assertTrue(player.canSubmitCard(1));
     }
 
     @Test
@@ -37,7 +41,7 @@ class CatCardTest {
         player.addCard(new Card(CardType.BEARD_CAT));
         player.addCard(new Card(CardType.TACOCAT));
 
-        assertEquals(false, player.canSubmitCard(0));
+        assertFalse(player.canSubmitCard(0));
     }
 
     @Test
@@ -46,7 +50,7 @@ class CatCardTest {
         player.addCard(new Card(CardType.HAIRY_POTATO_CAT));
         player.addCard(new Card(CardType.HAIRY_POTATO_CAT));
 
-        assertEquals(true, player.canSubmitCard(1));
+        assertTrue(player.canSubmitCard(1));
     }
 
     @Test
@@ -55,7 +59,7 @@ class CatCardTest {
         player.addCard(new Card(CardType.TACOCAT));
         player.addCard(new Card(CardType.TACOCAT));
 
-        assertEquals(true, player.canSubmitCard(0));
+        assertTrue(player.canSubmitCard(0));
     }
     @Test
     void canSubmitCard_MatchingRainbowRalphingCats_ReturnsTrue() {
@@ -63,21 +67,21 @@ class CatCardTest {
         player.addCard(new Card(CardType.RAINBOW_RALPHING_CAT));
         player.addCard(new Card(CardType.RAINBOW_RALPHING_CAT));
 
-        assertEquals(true, player.canSubmitCard(0));
+        assertTrue(player.canSubmitCard(0));
     }
     @Test
     void canSubmitCard_PlaceholderCard_ReturnsTrue() {
         Player player = new Player("Sophie");
         player.addCard(new Card(CardType.PLACEHOLDER_CARD));
 
-        assertEquals(true, player.canSubmitCard(0));
+        assertTrue(player.canSubmitCard(0));
     }
     @Test
     void canSubmitCard_DefuseCard_ReturnsFalse() {
         Player player = new Player("Sophie");
         player.addCard(new Card(CardType.DEFUSE));
 
-        assertEquals(false, player.canSubmitCard(0));
+        assertFalse(player.canSubmitCard(0));
     }
     @Test
     void canSubmitCard_NegativeIndex_ThrowsException() {
@@ -119,5 +123,13 @@ class CatCardTest {
                 "Cat Card: This card is powerless on its own. Play two matching Cat Cards as a pair to steal a random card from another player.",
                 player.chooseCard(0)
         );
+    }
+
+    @Test
+    void canSubmitCard_SwapTopAndBottom_ReturnsTrue() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.SWAP_TOP_AND_BOTTOM));
+
+        assertTrue(player.canSubmitCard(0));
     }
 }
