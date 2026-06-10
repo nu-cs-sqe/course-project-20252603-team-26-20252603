@@ -46,4 +46,11 @@ class DeckFactoryTest {
 
         assertEquals(4, deck.countCardsOfType(CardType.SEE_THE_FUTURE));
     }
+
+    @Test
+    void standardDeck_ContainsFourShuffles() {
+        Deck deck = DeckFactory.standardDeck();
+
+        assertEquals(4, deck.countCardsOfType(CardType.SHUFFLE));
+    }
 }
