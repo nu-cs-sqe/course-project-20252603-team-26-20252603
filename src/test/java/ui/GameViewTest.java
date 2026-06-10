@@ -234,6 +234,19 @@ public class GameViewTest {
     }
 
     @Test
+    void promptTargetPlayer_OutOfRangeThenValid_ReturnsSelectedPlayer() {
+        GameView view = viewWithInput("0", "2");
+        Player firstPlayer = new Player("Alice");
+        Player secondPlayer = new Player("Bob");
+
+        Player selectedPlayer = view.promptTargetPlayer(
+                List.of(firstPlayer, secondPlayer));
+
+        assertEquals(secondPlayer, selectedPlayer);
+        assertTrue(captured().contains("Choose a number between 1 and 2."));
+    }
+
+    @Test
     void displayError_NullMessage_ThrowsIllegalArgumentException() {
         GameView view = new GameView();
 

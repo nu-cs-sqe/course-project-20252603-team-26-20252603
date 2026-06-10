@@ -131,13 +131,19 @@ public class GameView {
     }
 
     public Player promptTargetPlayer(List<Player> players) {
-        System.out.println(messages.getString("target.player.prompt"));
-        for (int i = 0; i < players.size(); i++) {
-            System.out.println((i + 1) + ". " + players.get(i).getName());
+        while (true) {
+            System.out.println(messages.getString("target.player.prompt"));
+            for (int i = 0; i < players.size(); i++) {
+                System.out.println((i + 1) + ". " + players.get(i).getName());
+            }
+            int choice = readInteger("target.player.choice");
+            if (choice >= 1 && choice <= players.size()) {
+                return players.get(choice - 1);
+            }
+            String message = MessageFormat.format(
+                    messages.getString("target.player.invalid"), players.size());
+            System.out.println(message);
         }
-        int choice = scanner.nextInt();
-        scanner.nextLine();
-        return players.get(choice - 1);
     }
 
     public void displayPublicPlayerState(
