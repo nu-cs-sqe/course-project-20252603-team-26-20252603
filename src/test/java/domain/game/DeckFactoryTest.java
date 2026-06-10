@@ -18,4 +18,11 @@ class DeckFactoryTest {
 
         assertEquals(3, deck.countCardsOfType(CardType.EXPLODING_KITTEN));
     }
+
+    @Test
+    void standardDeck_ContainsFiveDefuses() {
+        Deck deck = DeckFactory.standardDeck();
+
+        assertEquals(5, deck.countCardsOfType(CardType.DEFUSE));
+    }
 }
