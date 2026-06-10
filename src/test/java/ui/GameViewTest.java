@@ -230,4 +230,12 @@ public class GameViewTest {
         assertTrue(captured().contains("EXPLODING_KITTEN"));
     }
 
+    @Test
+    void displayCardDrawn_Defuse_ShowsDefuse() {
+        GameView view = new GameView();
+
+        view.displayCardDrawn(new Card(CardType.DEFUSE));
+
+        assertTrue(captured().contains("DEFUSE"));
+    }
 }
