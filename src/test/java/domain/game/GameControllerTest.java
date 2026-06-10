@@ -1234,6 +1234,36 @@ public class GameControllerTest {
     }
 
 
+    @Test
+    void completeTurn_DrawFromBottomDrawsExplodingKittenWithoutDefuse_PlayerEliminated() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        currentPlayer.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+        List<Card> startingHand = currentPlayer.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        Card explodingKitten = new Card(CardType.EXPLODING_KITTEN);
+        game.getDrawPile().addCard(explodingKitten);
+        game.getDrawPile().addCard(new Card(CardType.ATTACK));
+
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        mockView.displayCardDrawn(explodingKitten);
+        expectLastCall().once();
+        mockView.displayGameOver("Jordan");
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of(0));
+
+        assertFalse(game.getPlayers().contains(currentPlayer));
+        assertEquals(1, game.getPlayers().size());
+        verify(mockView);
+    }
+
 
     private Deck createDeckForPlayers(int playerCount) {
         return createDeckForPlayers(playerCount, new Random());

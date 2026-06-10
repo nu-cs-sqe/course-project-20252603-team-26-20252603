@@ -126,14 +126,14 @@ private Game game;
 _Attack is now played through `completeTurn` (see TC12–TC14) and the forced-turn
 mechanics live in the `Game` model (`applyAttack` / `advanceTurn`); see `Game.md`._
 
-- **TC15: completeTurn_DrawFromBottomPlayed_DrawsBottomCardAndAdvances** (:x:white_check_mark:)
+- **TC15: completeTurn_DrawFromBottomPlayed_DrawsBottomCardAndAdvances** (:white_check_mark:)
   - **State of the system**: current player is `Sophie`, next player is `Jordan`, selected card index is `[0]`, card at index `0` is `DRAW_FROM_BOTTOM`, deck has `[SKIP, ATTACK]` where `SKIP` is at the bottom
   - **Expected output**: `DRAW_FROM_BOTTOM` discarded, `SKIP` added to `Sophie`'s hand, turn advances to `Jordan`
 
-- **TC16: completeTurn_DrawFromBottomDrawsExplodingKittenWithDefuse_DefusesAndAdvances** (:x:white_check_mark:)
+- **TC16: completeTurn_DrawFromBottomDrawsExplodingKittenWithDefuse_DefusesAndAdvances** (:white_check_mark:)
     - **State of the system**: current player is `Sophie`, next player is `Jordan`, selected card index is `[0]`, card at index `0` is `DRAW_FROM_BOTTOM`, `Sophie` has a `DEFUSE`, deck has `[EXPLODING_KITTEN, ATTACK]` where `EXPLODING_KITTEN` is at the bottom
     - **Expected output**: `DRAW_FROM_BOTTOM` discarded, `DEFUSE` discarded, `EXPLODING_KITTEN` returned to deck, turn advances to `Jordan`
 
-- **TC17: completeTurn_DrawFromBottomDrawsExplodingKittenWithoutDefuse_PlayerEliminated** (:x:white_check_mark:)
+- **TC17: completeTurn_DrawFromBottomDrawsExplodingKittenWithoutDefuse_PlayerEliminated** (:white_check_mark:)
     - **State of the system**: current player is `Sophie`, next player is `Jordan`, selected card index is `[0]`, card at index `0` is `DRAW_FROM_BOTTOM`, `Sophie` has no `DEFUSE`, deck has `[EXPLODING_KITTEN, ATTACK]` where `EXPLODING_KITTEN` is at the bottom
     - **Expected output**: `DRAW_FROM_BOTTOM` discarded, `Sophie` is eliminated, `Jordan` is the only remaining player
