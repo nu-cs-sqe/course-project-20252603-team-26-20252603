@@ -265,4 +265,15 @@ public class GameViewTest {
 
         assertTrue(captured().contains("Skip played. Your turn ends without drawing a card."));
     }
+
+    @Test
+    void displaySeeTheFutureCards_EmptyList_ShowsTitleAndNoCardsMessage() {
+        GameView view = new GameView();
+
+        view.displaySeeTheFutureCards(List.of());
+
+        String text = captured();
+        assertTrue(text.contains("See the Future: Top cards in the draw pile:"));
+        assertTrue(text.contains("No cards to view."));
+    }
 }
