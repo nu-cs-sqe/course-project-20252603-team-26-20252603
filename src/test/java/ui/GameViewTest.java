@@ -197,6 +197,15 @@ public class GameViewTest {
     }
 
     @Test
+    void promptCardChoice_DrawChoice_ReturnsZero() {
+        GameView view = viewWithInput("0");
+
+        int choice = view.promptCardChoice();
+
+        assertEquals(0, choice);
+    }
+
+    @Test
     void displayError_NullMessage_ThrowsIllegalArgumentException() {
         GameView view = new GameView();
 

@@ -58,6 +58,13 @@ public class GameView {
         return names;
     }
 
+    public int promptCardChoice() {
+        System.out.print(messages.getString("turn.card.prompt"));
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        return choice;
+    }
+
     public void displayGameReady() {
         System.out.println(messages.getString("game.ready.message"));
     }
