@@ -447,4 +447,54 @@ class GameTest {
     }
 
 
+    @Test
+    void applyTargetedAttack_NullTarget_ThrowsIllegalArgumentException() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Sophie", "Jordan"));
+
+        assertThrows(IllegalArgumentException.class, () -> game.applyTargetedAttack(null));
+    }
+
+    @Test
+    void applyTargetedAttack_ValidTarget_SetsCurrentPlayerToTargetWithTwoForcedTurns() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player jordan = game.getPlayers().get(1);
+
+        game.applyTargetedAttack(jordan);
+
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        assertEquals(2, game.getForcedTurns());
+    }
+
+    @Test
+    void applyTargetedAttack_SelfTarget_ThrowsIllegalArgumentException() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+
+        assertThrows(IllegalArgumentException.class, () -> game.applyTargetedAttack(sophie));
+    }
+
+    @Test
+    void applyTargetedAttack_PlayerOutsideGame_ThrowsIllegalArgumentException() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Sophie", "Jordan"));
+
+        assertThrows(IllegalArgumentException.class,
+                () -> game.applyTargetedAttack(new Player("Casey")));
+    }
+
+    @Test
+    void applyTargetedAttack_WithExistingForcedTurns_StacksForcedTurns() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getPlayers().get(0);
+        game.applyAttack(); // current player is now Jordan
+
+        game.applyTargetedAttack(sophie); // Jordan targets Sophie
+
+        assertEquals("Sophie", game.getCurrentPlayer().getName());
+        assertEquals(4, game.getForcedTurns());
+    }
 }

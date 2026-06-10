@@ -240,4 +240,31 @@ class DeckTest {
         EasyMock.replay(card);
         return card;
     }
+
+    @Test
+    void drawFromBottom_EmptyDeck_ThrowsIllegalStateException() {
+        Deck deck = new Deck(List.of());
+
+        assertThrows(IllegalStateException.class, () -> deck.drawFromBottom());
+    }
+
+    @Test
+    void drawFromBottom_OneCard_ReturnsOnlyCard() {
+        Deck deck = new Deck(List.of(new Card(CardType.SKIP)));
+
+        Card drawn = deck.drawFromBottom();
+
+        assertEquals(CardType.SKIP, drawn.getType());
+        assertEquals(0, deck.size());
+    }
+
+    @Test
+    void drawFromBottom_MultipleCards_ReturnsBottomCard() {
+        Deck deck = new Deck(List.of(new Card(CardType.SKIP), new Card(CardType.ATTACK)));
+
+        Card drawn = deck.drawFromBottom();
+
+        assertEquals(CardType.SKIP, drawn.getType());
+        assertEquals(1, deck.size());
+    }
 }

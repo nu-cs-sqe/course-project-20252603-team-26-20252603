@@ -107,6 +107,15 @@
         - **Expected output**: Console shows `"Error: "`
 
     - **TC: displayError_NormalMessage_ShowsPrefixAndMessage** ( :white_check_mark: )
+    - **TC: displayError_NullMessage_ThrowsException** ( x: or :white_check_mark: )
+        - **State of the system**: call `displayError(null)`
+        - **Expected output**: throws `IllegalArgumentException`
+
+    - **TC: displayError_EmptyMessage_ShowsPrefixOnly** ( x: or :white_check_mark: )
+        - **State of the system**: call `displayError("")`
+        - **Expected output**: Console shows `"Error: "`
+
+    - **TC: displayError_NormalMessage_ShowsPrefixAndMessage** ( x: or :white_check_mark: )
         - **State of the system**: call `displayError("something went wrong")`
         - **Expected output**: Console shows `"Error: something went wrong"`
 
@@ -186,3 +195,14 @@
     - **TC: displaySeeTheFutureCards_TwoCards_ShowsTitleAndBothCardsInOrder** (:white_check_mark:)
         - **State of the system**: call `displaySeeTheFutureCards([ATTACK, SHUFFLE])`
         - **Expected output**: Console shows title, `"1. ATTACK"`, `"2. SHUFFLE"`
+    - **TC1: promptTargetPlayer_OnePlayer_ReturnsOnlyPlayer** ( x: or :white_check_mark: )
+        - **State of the system**: players list has one player `Jordan`, user inputs `1`
+        - **Expected output**: returns `Jordan`
+
+    - **TC2: promptTargetPlayer_MultiplePlayersSelectFirst_ReturnsFirstPlayer** ( x: or :white_check_mark: )
+        - **State of the system**: players list has `Jordan` and `Casey`, user inputs `1`
+        - **Expected output**: returns `Jordan`
+
+    - **TC3: promptTargetPlayer_MultiplePlayersSelectLast_ReturnsLastPlayer** ( x: or :white_check_mark: )
+        - **State of the system**: players list has `Jordan` and `Casey`, user inputs `2`
+        - **Expected output**: returns `Casey`
