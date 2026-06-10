@@ -2,6 +2,8 @@ package domain.game;
 
 public final class TargetedAttackCardController {
     private final DiscardPile discardPile;
+    private static final String NOT_TARGETED_ATTACK_CARD_MESSAGE = "selected card is not a targeted attack card";
+
     private static final String INVALID_INDEX_MESSAGE = "cardIndex is out of bounds";
 
 
@@ -12,6 +14,11 @@ public final class TargetedAttackCardController {
     public void play(Player player, int cardIndex) {
         if (cardIndex < 0 || cardIndex >= player.getHandSize()) {
             throw new IllegalArgumentException(INVALID_INDEX_MESSAGE);
+        }
+        Card selectedCard = player.getHandSnapshot().get(cardIndex);
+
+        if (selectedCard.getType() != CardType.DRAW_FROM_BOTTOM) {
+            throw new IllegalArgumentException(NOT_TARGETED_ATTACK_CARD_MESSAGE);
         }
     }
     }
