@@ -9,6 +9,7 @@ import domain.game.Card;
 public class GameView {
     private Scanner scanner;
     private ResourceBundle messages;
+    private static final String MESSAGE_REQUIRED_MESSAGE = "message must not be null";
 
     /** Production constructor – reads from System.in. */
     public GameView() {
@@ -53,6 +54,10 @@ public class GameView {
     }
 
     public void displayError(String message) {
+        if (message == null) {
+            throw new IllegalArgumentException(MESSAGE_REQUIRED_MESSAGE);
+        }
+
         System.out.println(messages.getString("error.prefix") + message );
     }
 

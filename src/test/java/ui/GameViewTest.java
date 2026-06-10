@@ -1,8 +1,5 @@
 package ui;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -15,6 +12,8 @@ import domain.game.CardType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GameViewTest {
     private ByteArrayOutputStream output;
@@ -191,4 +190,12 @@ public class GameViewTest {
         assertTrue(names.contains("North"));
         assertTrue(names.contains("Ben"));
     }
+
+    @Test
+    void displayError_NullMessage_ThrowsIllegalArgumentException() {
+        GameView view = new GameView();
+
+        assertThrows(IllegalArgumentException.class, () -> view.displayError(null));
+    }
+
 }
