@@ -1,9 +1,14 @@
 plugins {
     id("java")
+    application
     id("info.solidsoft.pitest") version "1.19.0"
     checkstyle
     jacoco
     id("com.github.spotbugs") version "6.5.4"
+}
+
+application {
+    mainClass = "ui.Main"
 }
 
 group = "nu.csse.sqe"
