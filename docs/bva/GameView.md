@@ -81,3 +81,22 @@
     - **TC9: displayGameOver_WithWinnerName_ShowsGameOverAndWinner** (:white_check_mark:)
         - **State of the system**: call function `displayGameOver("Jordan")`
         - **Expected output**: Console shows "Game over! Jordan wins!"
+
+### Method under test: `public void displayError(String message)`
+| Step 1                 | Step 2 | Step 3                                                                                          |
+|------------------------|--------|-------------------------------------------------------------------------------------------------|
+| Input 1: message       | String | Values: <ul><li>null</li><li>empty string</li><li>normal string</li></ul>                       |
+| Output: console output | String | Values: <ul><li>error prefix only</li><li>error prefix and message</li><li>exception</li></ul>  |
+
+- **Step 4:**
+    - **TC: displayError_NullMessage_ThrowsException** ( x: or :white_check_mark: )
+        - **State of the system**: call `displayError(null)`
+        - **Expected output**: throws `IllegalArgumentException`
+
+    - **TC: displayError_EmptyMessage_ShowsPrefixOnly** ( x: or :white_check_mark: )
+        - **State of the system**: call `displayError("")`
+        - **Expected output**: Console shows `"Error: "`
+
+    - **TC: displayError_NormalMessage_ShowsPrefixAndMessage** ( x: or :white_check_mark: )
+        - **State of the system**: call `displayError("something went wrong")`
+        - **Expected output**: Console shows `"Error: something went wrong"`
