@@ -1398,4 +1398,35 @@ public class GameControllerTest {
         verify(mockView);
     }
 
+
+    @Test
+    void completeTurn_TargetedAttackPlayed_PromptsTargetDiscardsCardAndEndsWithoutDrawing() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        Card targetedAttack = new Card(CardType.TARGETED_ATTACK);
+        clearHand(currentPlayer);
+        currentPlayer.addCard(targetedAttack);
+        List<Card> startingHand = currentPlayer.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        game.getDrawPile().addCard(new Card(CardType.PLACEHOLDER_CARD));
+        int drawPileSize = game.getDrawPile().size();
+        Player jordan = game.getPlayers().get(1);
+
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        expect(mockView.promptTargetPlayer(game.getPlayers())).andReturn(jordan).once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of(0));
+
+        assertEquals(0, currentPlayer.getHandSize());
+        assertEquals(List.of(targetedAttack), game.getDiscardPile().snapshot());
+        assertEquals(drawPileSize, game.getDrawPile().size());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        assertEquals(2, game.getForcedTurns());
+        verify(mockView);
+    }
 }

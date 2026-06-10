@@ -69,6 +69,10 @@ public class GameController {
                 attackCardController.play(currentPlayer, cardIndex);
                 model.applyAttack();
                 return;
+
+            }if (selectedCard.getType() == CardType.TARGETED_ATTACK) {
+                playTargetedAttack(cardIndex);
+                return;
             }if (selectedCard.getType() == CardType.DRAW_FROM_BOTTOM) {
                 DrawFromBottomCardController drawFromBottomCardController =
                         new DrawFromBottomCardController(model.getDrawPile(), model.getDiscardPile());
