@@ -71,6 +71,15 @@
         - **State of the system**: call `displayHand("Sophie", [SKIP, BEARD_CAT])`
         - **Expected output**: Console shows "Sophie, your hand:", "1. SKIP", and "2. BEARD_CAT"
 
+  - - **TC: displayHand_EmptyHand_ShowsHeaderOnly** (:white_check_mark:)
+    - **State of the system**: call `displayHand("Sophie", [])`
+    - **Expected output**: Console shows `"Sophie, your hand:"`, no card lines
+
+  - **TC: displayHand_OneCard_ShowsHeaderAndSingleIndexedCard** (:white_check_mark:)
+    - **State of the system**: call `displayHand("Sophie", [SKIP])`
+    - **Expected output**: Console shows `"Sophie, your hand:"` and `"1. SKIP"`, no second card line
+
+
 ### Method under test: `public void displayGameOver(String winnerName)`
 | Step 1                 | Step 2 | Step 3                                                     |
 |------------------------|--------|------------------------------------------------------------|
@@ -89,14 +98,57 @@
 | Output: console output | String | Values: <ul><li>error prefix only</li><li>error prefix and message</li><li>exception</li></ul>  |
 
 - **Step 4:**
-    - **TC: displayError_NullMessage_ThrowsException** ( x: or :white_check_mark: )
+    - **TC: displayError_NullMessage_ThrowsException** ( :white_check_mark: )
         - **State of the system**: call `displayError(null)`
         - **Expected output**: throws `IllegalArgumentException`
 
-    - **TC: displayError_EmptyMessage_ShowsPrefixOnly** ( x: or :white_check_mark: )
+    - **TC: displayError_EmptyMessage_ShowsPrefixOnly** (  :white_check_mark: )
         - **State of the system**: call `displayError("")`
         - **Expected output**: Console shows `"Error: "`
 
-    - **TC: displayError_NormalMessage_ShowsPrefixAndMessage** ( x: or :white_check_mark: )
+    - **TC: displayError_NormalMessage_ShowsPrefixAndMessage** ( :white_check_mark: )
         - **State of the system**: call `displayError("something went wrong")`
         - **Expected output**: Console shows `"Error: something went wrong"`
+
+### Method under test: `public Player promptTargetPlayer(List<Player> players)`
+| Step 1                        | Step 2     | Step 3                                                                                                                                    |
+|-------------------------------|------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| Input 1: players list         | Collection | Values: <ul><li>one player</li><li>more than one player</li></ul>                                                                        |
+| Input 2: user input           | Integer    | Values: <ul><li>1 (min valid index)</li><li>size of list (max valid index)</li></ul>                                                     |
+| Output: selected player       | Object     | Values: <ul><li>returns first player</li><li>returns last player</li></ul>                                                               |
+
+- **Step 4:**
+    - **TC1: promptTargetPlayer_OnePlayer_ReturnsOnlyPlayer** (:white_check_mark: )
+        - **State of the system**: players list has one player `Jordan`, user inputs `1`
+        - **Expected output**: returns `Jordan`
+
+    - **TC2: promptTargetPlayer_MultiplePlayersSelectFirst_ReturnsFirstPlayer** (:white_check_mark: )
+        - **State of the system**: players list has `Jordan` and `Casey`, user inputs `1`
+        - **Expected output**: returns `Jordan`
+
+    - **TC3: promptTargetPlayer_MultiplePlayersSelectLast_ReturnsLastPlayer** ( :white_check_mark: )
+        - **State of the system**: players list has `Jordan` and `Casey`, user inputs `2`
+        - **Expected output**: returns `Casey`
+
+### Method under test: `public void displayCardDrawn(Card card)`
+| Step 1          | Step 2 | Step 3                                                                                                                                          |
+|-----------------|--------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| Input 1: card   | Object | Values: <ul><li>null</li><li>`EXPLODING_KITTEN`</li><li>`DEFUSE`</li><li>non-special card (`PLACEHOLDER_CARD`)</li></ul>                        |
+| Output: console output | String | Values: <ul><li>throws exception</li><li>shows card type in message</li></ul> |
+
+- **Step 4:**
+    - **TC: displayCardDrawn_NullCard_ThrowsException** ( x: or :white_check_mark:)
+        - **State of the system**: call `displayCardDrawn(null)`
+        - **Expected output**: throws `IllegalArgumentException`
+
+    - **TC: displayCardDrawn_ExplodingKitten_ShowsExplodingKitten** ( x: or :white_check_mark:)
+        - **State of the system**: call `displayCardDrawn(new Card(CardType.EXPLODING_KITTEN))`
+        - **Expected output**: Console shows `"EXPLODING_KITTEN"`
+
+    - **TC: displayCardDrawn_Defuse_ShowsDefuse** ( x: or :white_check_mark:)
+        - **State of the system**: call `displayCardDrawn(new Card(CardType.DEFUSE))`
+        - **Expected output**: Console shows `"DEFUSE"`
+
+    - **TC: displayCardDrawn_PlaceholderCard_ShowsPlaceholderCard** ( x: or :white_check_mark:)
+        - **State of the system**: call `displayCardDrawn(new Card(CardType.PLACEHOLDER_CARD))`
+        - **Expected output**: Console shows `"PLACEHOLDER_CARD"`

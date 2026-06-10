@@ -62,7 +62,9 @@ public class GameView {
     }
 
     public void displayCardDrawn (Card card) {
-
+        if (card == null) {
+            throw new IllegalArgumentException("card must not be null");
+        }
         String message = MessageFormat.format(messages.getString("card.drawn.message"), card.getType());
         System.out.println(message);
     }

@@ -213,4 +213,12 @@ public class GameViewTest {
 
         assertTrue(captured().contains("Error: something went wrong"));
     }
+
+    @Test
+    void displayCardDrawn_NullCard_ThrowsIllegalArgumentException() {
+        GameView view = new GameView();
+
+        assertThrows(IllegalArgumentException.class, () -> view.displayCardDrawn(null));
+    }
+
 }
