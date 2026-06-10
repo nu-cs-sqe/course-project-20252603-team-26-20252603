@@ -23,17 +23,17 @@
         - **User input**: 2 players
         - **Expected output**: List<String> with size = 2
 
-    - **TC3: promptPlayerNames_3Players_ListSize3** ( x: or :white_check_mark: )
+    - **TC3: promptPlayerNames_3Players_ListSize3** ( :white_check_mark: )
         - **State of the system**: Fresh GameView
         - **User input**: 3 players
         - **Expected output**: List<String> with size = 3
 
-    - **TC4: promptPlayerNames_4Players_ListSize4** ( x: or :white_check_mark: )
+    - **TC4: promptPlayerNames_4Players_ListSize4** ( :white_check_mark: )
         - **State of the system**: Fresh GameView
         - **User input**: 4 players
         - **Expected output**: List<String> with size = 4
 
-    - **TC5: promptPlayerNames_5Players_ListSize5** ( x: or :white_check_mark: )
+    - **TC5: promptPlayerNames_5Players_ListSize5** ( :white_check_mark: )
         - **State of the system**: Fresh GameView
         - **User input**: 5 players
         - **Expected output**: List<String> with size = 5

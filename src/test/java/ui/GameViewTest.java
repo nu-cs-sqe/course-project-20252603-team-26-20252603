@@ -162,8 +162,23 @@ public class GameViewTest {
         assertTrue(names.contains("Camden"));
 
     }
+
     @Test
-    void promptPlayerNames_SixPlayer_ReturnsSingleName() {
+    void promptPlayerNames_FivePlayer_ReturnsFiveNames() {
+        GameView view = viewWithInput("5", "Alice", "Bob", "Marie", "Camden", "North");
+
+        List<String> names = view.promptPlayerNames();
+
+        assertTrue(names.size() ==5);
+        assertTrue(names.contains("Alice"));
+        assertTrue(names.contains("Bob"));
+        assertTrue(names.contains("Marie"));
+        assertTrue(names.contains("Camden"));
+        assertTrue(names.contains("North"));
+    }
+
+    @Test
+    void promptPlayerNames_SixPlayer_ReturnsSixNames() {
         GameView view = viewWithInput("6", "Alice", "Bob", "Marie", "Camden", "North", "Ben");
 
         List<String> names = view.promptPlayerNames();
