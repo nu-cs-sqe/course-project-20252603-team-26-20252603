@@ -29,6 +29,8 @@ public class Game {
     private DiscardPile discardPile;
     private int currentPlayerIndex;
     private int forcedTurns;
+    private int direction = 1;
+    private final List<EliminatedPlayer> eliminatedPlayers;
 
     // Open to discussion: making Game final would avoid this warning, but controller tests currently mock it.
     @SuppressFBWarnings(
@@ -43,8 +45,9 @@ public class Game {
         this.discardPile = new DiscardPile();
         this.currentPlayerIndex = 0;
         this.forcedTurns = 0;
+        this.direction = 1;
+        this.eliminatedPlayers = new ArrayList<>();
     }
-
     public void setupGame(List<String> playerNames) {
         if (playerNames == null) {
             throw new IllegalArgumentException(PLAYER_NAMES_REQUIRED_MESSAGE);
@@ -75,6 +78,7 @@ public class Game {
         discardPile = new DiscardPile();
         currentPlayerIndex = 0;
         forcedTurns = 0;
+        eliminatedPlayers.clear();
     }
 
     public List<Player> getPlayers() {
@@ -174,8 +178,72 @@ public class Game {
         forcedTurns = untakenTurns + 2;
     }
 
+    public void applyTargetedAttack(Player target) {
+        if (target == null) {
+            throw new IllegalArgumentException("target must not be null");
+        }
+        if (target == getCurrentPlayer()) {
+            throw new IllegalArgumentException("cannot target yourself");
+        }
+        int targetIndex = players.indexOf(target);
+        if (targetIndex < 0) {
+            throw new IllegalArgumentException("target must be an active player");
+        }
+        int untakenTurns = forcedTurns;
+        currentPlayerIndex = targetIndex;
+        forcedTurns = untakenTurns + 2;
+    }
+
     boolean isWon() {
         return players.size() == 1;
     }
 
+    int getForcedTurns() {
+        return forcedTurns;
+    }
+
+    public void endTurnClearingForced() {
+        forcedTurns = 0;
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+    }
+
+    public void reverseDirection() {
+        direction = direction * -1;
+    }
+
+    public void advanceTurnWithDirection() {
+        if (forcedTurns > 0) {
+            forcedTurns--;
+            if (forcedTurns > 0) {
+                return;
+            }
+        }
+        currentPlayerIndex = Math.floorMod(currentPlayerIndex + direction, players.size());
+    }
+
+    int getDirection() {
+        return direction;
+    }
+
+    public void eliminatePlayer(Player player, Card killingKitten) {
+        List<Card> visibleCards = player.getHandSnapshot();
+        eliminatedPlayers.add(new EliminatedPlayer(
+                player.getName(),
+                killingKitten,
+                visibleCards));
+
+        int eliminatedIndex = players.indexOf(player);
+        players.remove(player);
+
+        while (player.getHandSize() > 0) {
+            player.removeCard(0);
+        }
+
+        if (!players.isEmpty() && eliminatedIndex <= currentPlayerIndex) {
+            currentPlayerIndex = currentPlayerIndex % players.size();
+        }
+    }
+    public List<EliminatedPlayer> getEliminatedPlayers() {
+        return List.copyOf(eliminatedPlayers);
+    }
 }

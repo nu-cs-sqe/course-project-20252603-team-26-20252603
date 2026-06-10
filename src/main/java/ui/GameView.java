@@ -1,22 +1,42 @@
 package ui;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.io.InputStream;
+
+
 import java.text.MessageFormat;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.ResourceBundle;
+import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
 
 import domain.game.Card;
+import domain.game.EliminatedPlayer;
+import domain.game.Player;
 
 public class GameView {
     private Scanner scanner;
     private ResourceBundle messages;
+    private static final String MESSAGE_REQUIRED_MESSAGE = "message must not be null";
 
+    /** Production constructor – reads from System.in. */
     public GameView() {
-        this.scanner = new Scanner(System.in, java.nio.charset.StandardCharsets.UTF_8.name());
+        this(System.in);
+    }
+
+    /**
+     * Testable constructor – reads from the supplied stream.
+     * Allows tests to inject simulated keyboard input without touching System.in globally.
+     */
+    public GameView(InputStream inputStream) {
+        this.scanner  = new Scanner(
+                Objects.requireNonNull(inputStream, "inputStream must not be null"),
+                java.nio.charset.StandardCharsets.UTF_8);
         this.messages = ResourceBundle.getBundle("message", Locale.getDefault());
     }
+
+
 
     public void displayStartScreen() {
         System.out.println(messages.getString("start.screen.title"));
@@ -43,11 +63,17 @@ public class GameView {
     }
 
     public void displayError(String message) {
+        if (message == null) {
+            throw new IllegalArgumentException(MESSAGE_REQUIRED_MESSAGE);
+        }
+
         System.out.println(messages.getString("error.prefix") + message );
     }
 
     public void displayCardDrawn (Card card) {
-
+        if (card == null) {
+            throw new IllegalArgumentException("card must not be null");
+        }
         String message = MessageFormat.format(messages.getString("card.drawn.message"), card.getType());
         System.out.println(message);
     }
@@ -88,5 +114,41 @@ public class GameView {
     public void displayGameOver(String winnerName) {
         String message = MessageFormat.format(messages.getString("game.over.winner"), winnerName);
         System.out.println(message);
+    }
+
+    public Player promptTargetPlayer(List<Player> players) {
+        System.out.println(messages.getString("target.player.prompt"));
+        for (int i = 0; i < players.size(); i++) {
+            System.out.println((i + 1) + ". " + players.get(i).getName());
+        }
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        return players.get(choice - 1);
+    }
+
+    public void displayPublicPlayerState(
+            List<Player> activePlayers,
+            List<EliminatedPlayer> eliminatedPlayers) {
+        System.out.println("Public player state:");
+
+        for (Player player : activePlayers) {
+            System.out.println(player.getName() + ": "
+                    + player.getHandSize() + " face-down card(s)");
+        }
+
+        for (EliminatedPlayer eliminatedPlayer : eliminatedPlayers) {
+            System.out.println(eliminatedPlayer.getPlayerName()
+                    + ": eliminated by face-up "
+                    + eliminatedPlayer.getKillingKitten().getType());
+
+            if (eliminatedPlayer.getVisibleCards().isEmpty()) {
+                System.out.println("Remaining face-up cards: none");
+            } else {
+                System.out.println("Remaining face-up cards:");
+                for (Card card : eliminatedPlayer.getVisibleCards()) {
+                    System.out.println("- " + card.getType());
+                }
+            }
+        }
     }
 }

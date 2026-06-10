@@ -36,10 +36,13 @@ public final class Player {
     }
 
     public void removeCard(int index) {
+        removeCardAt(index);
+    }
+    Card removeCardAt(int index) {
         if (index < 0 || index >= getHandSize()) {
             throw new IllegalArgumentException(INVALID_INDEX_MESSAGE);
         }
-        hand.remove(index);
+        return hand.remove(index);
     }
 
     public int getHandSize() {
@@ -88,7 +91,8 @@ public final class Player {
             return countCardsOfType(chosenType) >= 2;
         }
 
-        if (chosenType == CardType.PLACEHOLDER_CARD) {
+        if (chosenType == CardType.PLACEHOLDER_CARD
+                || chosenType == CardType.SWAP_TOP_AND_BOTTOM) {
             return true;
         }
 

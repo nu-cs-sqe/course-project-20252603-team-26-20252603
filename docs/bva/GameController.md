@@ -67,9 +67,9 @@ private Game game;
 ## Method under test: `completeTurn(List<Integer> cardIndexes)`
 | Step 1                              | Step 2     | Step 3                                  |
 |-------------------------------------|------------|-----------------------------------------|
-| Input: selected card indexes to play | Collection | Values: <ul><li>Empty list</li><li>One selected Skip card index</li><li>One selected See the Future card index</li><li>More than one selected See the Future card index</li><li>One selected Shuffle card index</li><li>Selected See the Future followed by selected Skip</li><li>Selected Skip followed by another card</li><li>One selected unplayable card index</li><li>One selected index equal to hand size</li><li>One negative selected index</li></ul> |
-| Internal state: draw pile           | Collection | Values: <ul><li>One drawable non-Exploding-Kitten card</li><li>Two cards available for See the Future</li><li>Two cards available to shuffle before drawing</li></ul> |
-| Output                              | State / UI | Values: <ul><li>Displays hand</li><li>Draws one card</li><li>Advances to next player</li><li>Ends turn without drawing when Skip is played</li><li>Displays future cards, then draws when See the Future is played</li><li>Shuffles the draw pile, then draws when Shuffle is played</li><li>Ends turn without drawing when Skip is played after a non-ending card</li><li>Ignores later selected cards after Skip ends the turn</li><li>Displays error for an unplayable selected card</li><li>Displays error for an out-of-bounds selected index</li></ul> |
+| Input: selected card indexes to play | Collection | Values: <ul><li>Empty list</li><li>One selected Skip card index</li><li>One selected See the Future card index</li><li>More than one selected See the Future card index</li><li>One selected Shuffle card index</li><li>One selected Bury card index</li><li>Selected See the Future followed by selected Skip</li><li>Selected Skip followed by another card</li><li>One selected unplayable card index</li><li>One selected index equal to hand size</li><li>One negative selected index</li></ul> |
+| Internal state: draw pile           | Collection | Values: <ul><li>One drawable non-Exploding-Kitten card</li><li>Two cards available for See the Future</li><li>Two cards available to shuffle before drawing</li><li>Three cards available to bury the top card and draw the newly exposed card</li></ul> |
+| Output                              | State / UI | Values: <ul><li>Displays hand</li><li>Draws one card</li><li>Advances to next player</li><li>Ends turn without drawing when Skip is played</li><li>Displays future cards, then draws when See the Future is played</li><li>Shuffles the draw pile, then draws when Shuffle is played</li><li>Moves the top card to the bottom, then draws when Bury is played</li><li>Ends turn without drawing when Skip is played after a non-ending card</li><li>Ignores later selected cards after Skip ends the turn</li><li>Displays error for an unplayable selected card</li><li>Displays error for an out-of-bounds selected index</li></ul> |
 
 - **TC2: completeTurn_NoCardsPlayed_DisplaysHandThenDrawsAndAdvances** (:white_check_mark:)
   - **State of system**: Current player is `Sophie`, next player is `Jordan`, selected card indexes are `[]`, and the draw pile top card is `PLACEHOLDER_CARD`.
@@ -123,5 +123,60 @@ private Game game;
   - **State of system**: `Sophie` attacks `Jordan` (forcing 2 turns); `Jordan` holds two `SKIP` cards and plays one Skip per turn.
   - **Expected output**: The first Skip ends only one forced turn so `Jordan` stays current with one Skip left; the second Skip ends the last forced turn and passes play to `Sophie`, and no card is drawn for either Skip.
 
+- **TC15: completeTurn_BuryPlayed_MovesTopCardThenDrawsAndAdvances** (:white_check_mark:)
+  - **State of system**: Current player is `Sophie`, next player is `Jordan`, selected card indexes are `[0]`, card index `0` is `BURY`, and the draw pile contains three known cards.
+  - **Expected output**: Displays `Sophie`'s hand, plays and discards `BURY`, moves the former top card to the bottom, draws the newly exposed top card, adds it to `Sophie`'s hand, and advances current player to `Jordan`.
+
 _Attack is now played through `completeTurn` (see TC12–TC14) and the forced-turn
 mechanics live in the `Game` model (`applyAttack` / `advanceTurn`); see `Game.md`._
+
+- **TC15: completeTurn_DrawFromBottomPlayed_DrawsBottomCardAndAdvances** (:white_check_mark:)
+  - **State of the system**: current player is `Sophie`, next player is `Jordan`, selected card index is `[0]`, card at index `0` is `DRAW_FROM_BOTTOM`, deck has `[SKIP, ATTACK]` where `SKIP` is at the bottom
+  - **Expected output**: `DRAW_FROM_BOTTOM` discarded, `SKIP` added to `Sophie`'s hand, turn advances to `Jordan`
+
+- **TC16: completeTurn_DrawFromBottomDrawsExplodingKittenWithDefuse_DefusesAndAdvances** (:white_check_mark:)
+    - **State of the system**: current player is `Sophie`, next player is `Jordan`, selected card index is `[0]`, card at index `0` is `DRAW_FROM_BOTTOM`, `Sophie` has a `DEFUSE`, deck has `[EXPLODING_KITTEN, ATTACK]` where `EXPLODING_KITTEN` is at the bottom
+    - **Expected output**: `DRAW_FROM_BOTTOM` discarded, `DEFUSE` discarded, `EXPLODING_KITTEN` returned to deck, turn advances to `Jordan`
+
+- **TC17: completeTurn_DrawFromBottomDrawsExplodingKittenWithoutDefuse_PlayerEliminated** (:white_check_mark:)
+    - **State of the system**: current player is `Sophie`, next player is `Jordan`, selected card index is `[0]`, card at index `0` is `DRAW_FROM_BOTTOM`, `Sophie` has no `DEFUSE`, deck has `[EXPLODING_KITTEN, ATTACK]` where `EXPLODING_KITTEN` is at the bottom
+    - **Expected output**: `DRAW_FROM_BOTTOM` discarded, `Sophie` is eliminated, `Jordan` is the only remaining player
+- **TC18: completeTurn_TargetedAttackPlayed_PromptsTargetDiscardsCardAndEndsWithoutDrawing** (:x: or :white_check_mark:)
+  - **State of the system**: current player is `Sophie`, next player is `Jordan`, `Sophie` has one `TARGETED_ATTACK` card, user selects `Jordan` as target, draw pile has one card
+  - **Expected output**: displays `Sophie`'s hand, prompts for target, `TARGETED_ATTACK` discarded, current player is `Jordan`, forced turns is `2`, draw pile unchanged
+
+### Method under test: `public void playTargetedAttack(int cardIndex)`
+| Step 1                        | Step 2     | Step 3                                                                                                                                    |
+|-------------------------------|------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| Input 1: card index           | Integer    | Values: <ul><li>negative index</li><li>index equal to hand size</li><li>valid index pointing to `TARGETED_ATTACK`</li><li>valid index pointing to a non-`TARGETED_ATTACK` card</li></ul> |
+| Internal state: players       | Collection | Values: <ul><li>two players</li></ul>                                                                                                    |
+| Output: side effects          | State / UI | Values: <ul><li>throws or displays error</li><li>prompts for target, discards card, sets target as current player with two forced turns</li></ul> |
+
+- **Step 4:**
+    - **TC1: playTargetedAttack_NegativeIndex_DisplaysError** (:x: or :white_check_mark:)
+        - **State of the system**: current player is `Sophie`, card index is `-1`
+        - **Expected output**: displays error, turn does not advance
+
+    - **TC2: playTargetedAttack_IndexEqualsHandSize_DisplaysError** (:x: or :white_check_mark:)
+        - **State of the system**: current player is `Sophie` with one `TARGETED_ATTACK` card, card index equals hand size
+        - **Expected output**: displays error, turn does not advance
+
+    - **TC3: playTargetedAttack_NotTargetedAttackCard_DisplaysError** (:x: or :white_check_mark:)
+        - **State of the system**: current player is `Sophie` with one `SKIP` card, card index is `0`
+        - **Expected output**: displays error, turn does not advance
+
+    - **TC4: playTargetedAttack_ValidCard_PromptsTargetDiscardsCardAndAppliesAttack** (:x: or :white_check_mark:)
+        - **State of the system**: current player is `Sophie`, next player is `Jordan`, `Sophie` has one `TARGETED_ATTACK` card, user selects `Jordan` as target
+        - **Expected output**: `TARGETED_ATTACK` discarded, current player is `Jordan`, forced turns is `2`
+
+- **TC15: completeTurn_DrawFromBottomPlayed_DrawsBottomCardAndAdvances** (:x:white_check_mark:)
+  - **State of the system**: current player is `Sophie`, next player is `Jordan`, selected card index is `[0]`, card at index `0` is `DRAW_FROM_BOTTOM`, deck has `[SKIP, ATTACK]` where `SKIP` is at the bottom
+  - **Expected output**: `DRAW_FROM_BOTTOM` discarded, `SKIP` added to `Sophie`'s hand, turn advances to `Jordan`
+
+- **TC16: completeTurn_DrawFromBottomDrawsExplodingKittenWithDefuse_DefusesAndAdvances** (:x:white_check_mark:)
+    - **State of the system**: current player is `Sophie`, next player is `Jordan`, selected card index is `[0]`, card at index `0` is `DRAW_FROM_BOTTOM`, `Sophie` has a `DEFUSE`, deck has `[EXPLODING_KITTEN, ATTACK]` where `EXPLODING_KITTEN` is at the bottom
+    - **Expected output**: `DRAW_FROM_BOTTOM` discarded, `DEFUSE` discarded, `EXPLODING_KITTEN` returned to deck, turn advances to `Jordan`
+
+- **TC17: completeTurn_DrawFromBottomDrawsExplodingKittenWithoutDefuse_PlayerEliminated** (:x:white_check_mark:)
+    - **State of the system**: current player is `Sophie`, next player is `Jordan`, selected card index is `[0]`, card at index `0` is `DRAW_FROM_BOTTOM`, `Sophie` has no `DEFUSE`, deck has `[EXPLODING_KITTEN, ATTACK]` where `EXPLODING_KITTEN` is at the bottom
+    - **Expected output**: `DRAW_FROM_BOTTOM` discarded, `Sophie` is eliminated, `Jordan` is the only remaining player

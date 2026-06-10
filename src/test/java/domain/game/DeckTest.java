@@ -157,10 +157,114 @@ class DeckTest {
         EasyMock.verify(card);
     }
 
+    @Test
+    void moveTopToBottomDoesNothingForEmptyDeck() {
+        Deck deck = new Deck(List.of());
+
+        deck.moveTopToBottom();
+
+        assertEquals(List.of(), deck.snapshot());
+    }
+
+    @Test
+    void moveTopToBottomKeepsSingleCardInPlace() {
+        Card onlyCard = EasyMock.createMock(Card.class);
+        EasyMock.replay(onlyCard);
+        Deck deck = new Deck(List.of(onlyCard));
+
+        deck.moveTopToBottom();
+
+        assertEquals(List.of(onlyCard), deck.snapshot());
+        EasyMock.verify(onlyCard);
+    }
+
+    @Test
+    void moveTopToBottomMovesTopCardAndPreservesOtherCardOrder() {
+        Card bottomCard = EasyMock.createMock(Card.class);
+        Card middleCard = EasyMock.createMock(Card.class);
+        Card topCard = EasyMock.createMock(Card.class);
+        EasyMock.replay(bottomCard, middleCard, topCard);
+        Deck deck = new Deck(List.of(bottomCard, middleCard, topCard));
+
+        deck.moveTopToBottom();
+
+        assertEquals(List.of(topCard, bottomCard, middleCard), deck.snapshot());
+        EasyMock.verify(bottomCard, middleCard, topCard);
+    }
+
+    @Test
+    void swapTopAndBottom_EmptyDeck_LeavesDeckEmpty() {
+        Deck deck = new Deck(List.of());
+
+        deck.swapTopAndBottom();
+
+        assertEquals(List.of(), deck.snapshot());
+    }
+
+    @Test
+    void swapTopAndBottom_OneCardDeck_LeavesDeckUnchanged() {
+        Card onlyCard = new Card(CardType.DEFUSE);
+        Deck deck = new Deck(List.of(onlyCard));
+
+        deck.swapTopAndBottom();
+
+        assertEquals(List.of(onlyCard), deck.snapshot());
+    }
+
+    @Test
+    void swapTopAndBottom_TwoCardDeck_SwapsCards() {
+        Card bottomCard = new Card(CardType.DEFUSE);
+        Card topCard = new Card(CardType.EXPLODING_KITTEN);
+        Deck deck = new Deck(List.of(bottomCard, topCard));
+
+        deck.swapTopAndBottom();
+
+        assertEquals(List.of(topCard, bottomCard), deck.snapshot());
+    }
+
+    @Test
+    void swapTopAndBottom_ThreeCardDeck_SwapsOnlyTopAndBottom() {
+        Card bottomCard = new Card(CardType.DEFUSE);
+        Card middleCard = new Card(CardType.BEARD_CAT);
+        Card topCard = new Card(CardType.EXPLODING_KITTEN);
+        Deck deck = new Deck(List.of(bottomCard, middleCard, topCard));
+
+        deck.swapTopAndBottom();
+
+        assertEquals(List.of(topCard, middleCard, bottomCard), deck.snapshot());
+    }
+
     private Card createCardWithType(CardType type) {
         Card card = EasyMock.createMock(Card.class);
         EasyMock.expect(card.getType()).andStubReturn(type);
         EasyMock.replay(card);
         return card;
+    }
+
+    @Test
+    void drawFromBottom_EmptyDeck_ThrowsIllegalStateException() {
+        Deck deck = new Deck(List.of());
+
+        assertThrows(IllegalStateException.class, () -> deck.drawFromBottom());
+    }
+
+    @Test
+    void drawFromBottom_OneCard_ReturnsOnlyCard() {
+        Deck deck = new Deck(List.of(new Card(CardType.SKIP)));
+
+        Card drawn = deck.drawFromBottom();
+
+        assertEquals(CardType.SKIP, drawn.getType());
+        assertEquals(0, deck.size());
+    }
+
+    @Test
+    void drawFromBottom_MultipleCards_ReturnsBottomCard() {
+        Deck deck = new Deck(List.of(new Card(CardType.SKIP), new Card(CardType.ATTACK)));
+
+        Card drawn = deck.drawFromBottom();
+
+        assertEquals(CardType.SKIP, drawn.getType());
+        assertEquals(1, deck.size());
     }
 }

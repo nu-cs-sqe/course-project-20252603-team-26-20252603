@@ -274,6 +274,136 @@ class GameTest {
         assertEquals("Avery", game.getCurrentPlayer().getName());
     }
 
+    @Test
+    void endTurnClearingForced_WithNoForcedTurns_MovesToNextPlayer() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Alice", "Bob"));
+
+        game.endTurnClearingForced();
+
+        assertEquals(0, game.getForcedTurns());
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+    }
+
+    @Test
+    void endTurnClearingForced_WithTwoForcedTurns_SetsToZeroAndMovesToNextPlayer() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Alice", "Bob"));
+
+        game.applyAttack();
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+
+        game.endTurnClearingForced();
+
+        assertEquals(0, game.getForcedTurns());
+        assertEquals("Alice", game.getCurrentPlayer().getName());
+    }
+
+    @Test
+    void endTurnClearingForced_WithOneForcedTurn_SetsToZeroAndMovesToNextPlayer() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Alice", "Bob"));
+
+        game.applyAttack();
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+        game.advanceTurn();
+
+        game.endTurnClearingForced();
+
+        assertEquals(0, game.getForcedTurns());
+        assertEquals("Alice", game.getCurrentPlayer().getName());
+    }
+
+    @Test
+    void reverseDirection_FromForward_BecomesBackward() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+
+        assertEquals(1, game.getDirection());
+        game.reverseDirection();
+        assertEquals(-1, game.getDirection());
+    }
+
+    @Test
+    void reverseDirection_FromBackward_BecomesForward() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+
+        game.reverseDirection();
+        assertEquals(-1, game.getDirection());
+
+        game.reverseDirection();
+        assertEquals(1, game.getDirection());
+    }
+
+    @Test
+    void advanceTurnWithDirection_Forward_MovesToNextPlayer() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+
+        assertEquals("Alice", game.getCurrentPlayer().getName());
+
+        game.advanceTurnWithDirection();
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+
+        game.advanceTurnWithDirection();
+        assertEquals("Charlie", game.getCurrentPlayer().getName());
+
+        game.advanceTurnWithDirection();
+        assertEquals("Alice", game.getCurrentPlayer().getName());
+    }
+
+    @Test
+    void advanceTurnWithDirection_Reverse_MovesToPreviousPlayer() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+
+        game.reverseDirection();
+        assertEquals(-1, game.getDirection());
+
+        game.advanceTurnWithDirection();
+        assertEquals("Charlie", game.getCurrentPlayer().getName());
+
+        game.advanceTurnWithDirection();
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+
+        game.advanceTurnWithDirection();
+        assertEquals("Alice", game.getCurrentPlayer().getName());
+    }
+
+    @Test
+    void eliminatePlayer_WithExplodingKitten_TracksFaceUpKittenAndRemainingCards() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Avery", "Jordan"));
+
+        Player eliminatedPlayer = game.getCurrentPlayer();
+        clearHand(eliminatedPlayer);
+
+        Card remainingCard = new Card(CardType.BEARD_CAT);
+        Card secondRemainingCard = new Card(CardType.SKIP);
+        eliminatedPlayer.addCard(remainingCard);
+        eliminatedPlayer.addCard(secondRemainingCard);
+
+        Card killingKitten = new Card(CardType.EXPLODING_KITTEN);
+
+        game.eliminatePlayer(eliminatedPlayer, killingKitten);
+
+        assertFalse(game.getPlayers().contains(eliminatedPlayer));
+        assertEquals(1, game.getEliminatedPlayers().size());
+
+        EliminatedPlayer record = game.getEliminatedPlayers().get(0);
+        assertEquals("Avery", record.getPlayerName());
+        assertEquals(killingKitten, record.getKillingKitten());
+        assertEquals(List.of(remainingCard, secondRemainingCard), record.getVisibleCards());
+        assertEquals(2, record.getVisibleCardCount());
+    }
+
+    private void clearHand(Player player) {
+        while (player.getHandSize() > 0) {
+            player.removeCard(0);
+        }
+    }
+
     private void assertPlayersHaveOpeningHands(List<Player> players) {
         for (Player player : players) {
             assertEquals(6, player.getHandSize());
@@ -317,4 +447,54 @@ class GameTest {
     }
 
 
+    @Test
+    void applyTargetedAttack_NullTarget_ThrowsIllegalArgumentException() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Sophie", "Jordan"));
+
+        assertThrows(IllegalArgumentException.class, () -> game.applyTargetedAttack(null));
+    }
+
+    @Test
+    void applyTargetedAttack_ValidTarget_SetsCurrentPlayerToTargetWithTwoForcedTurns() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player jordan = game.getPlayers().get(1);
+
+        game.applyTargetedAttack(jordan);
+
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        assertEquals(2, game.getForcedTurns());
+    }
+
+    @Test
+    void applyTargetedAttack_SelfTarget_ThrowsIllegalArgumentException() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+
+        assertThrows(IllegalArgumentException.class, () -> game.applyTargetedAttack(sophie));
+    }
+
+    @Test
+    void applyTargetedAttack_PlayerOutsideGame_ThrowsIllegalArgumentException() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Sophie", "Jordan"));
+
+        assertThrows(IllegalArgumentException.class,
+                () -> game.applyTargetedAttack(new Player("Casey")));
+    }
+
+    @Test
+    void applyTargetedAttack_WithExistingForcedTurns_StacksForcedTurns() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getPlayers().get(0);
+        game.applyAttack(); // current player is now Jordan
+
+        game.applyTargetedAttack(sophie); // Jordan targets Sophie
+
+        assertEquals("Sophie", game.getCurrentPlayer().getName());
+        assertEquals(4, game.getForcedTurns());
+    }
 }
