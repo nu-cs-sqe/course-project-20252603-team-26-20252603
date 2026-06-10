@@ -138,6 +138,16 @@ public class GameViewTest {
         assertEquals("Bob", names.get(1));
     }
 
+    @Test
+    void promptPlayerNames_NonNumericThenTwoPlayers_ReturnsBothNames() {
+        GameView view = viewWithInput("many", "2", "Alice", "Bob");
+
+        List<String> names = view.promptPlayerNames();
+
+        assertEquals(List.of("Alice", "Bob"), names);
+        assertTrue(captured().contains("Please enter a number."));
+    }
+
 
     @Test
     void promptPlayerNames_OnePlayer_ReturnsSingleName() {

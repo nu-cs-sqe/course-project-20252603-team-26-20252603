@@ -46,9 +46,7 @@ public class GameView {
         List<String> names = new ArrayList<>();
 
         // we don't validate size of players since that is handled by controller class
-        System.out.print(messages.getString("player.prompt.count"));
-        final int playerCount = scanner.nextInt();
-        scanner.nextLine(); // clears extra \n from buffer
+        final int playerCount = readInteger("player.prompt.count");
 
         for (int i = 0; i < playerCount; i++) {
             String prompt = MessageFormat.format(messages.getString("player.prompt.name"), i + 1);
