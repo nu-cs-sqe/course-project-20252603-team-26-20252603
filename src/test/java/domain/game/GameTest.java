@@ -372,6 +372,17 @@ class GameTest {
     }
 
     @Test
+    void advanceTurn_AfterReverse_MovesToPreviousPlayer() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+        game.reverseDirection();
+
+        game.advanceTurn();
+
+        assertEquals("Charlie", game.getCurrentPlayer().getName());
+    }
+
+    @Test
     void eliminatePlayer_WithExplodingKitten_TracksFaceUpKittenAndRemainingCards() {
         Game game = new Game(createDeck(1, 2, 10));
         game.setupGame(List.of("Avery", "Jordan"));

@@ -167,7 +167,7 @@ public class Game {
                 return;
             }
         }
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        currentPlayerIndex = Math.floorMod(currentPlayerIndex + direction, players.size());
     }
 
     // Attack ends the attacker's turn and forces the next player to take the
