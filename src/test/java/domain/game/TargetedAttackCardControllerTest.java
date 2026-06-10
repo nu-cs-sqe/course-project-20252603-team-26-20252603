@@ -16,6 +16,15 @@ public class TargetedAttackCardControllerTest {
         assertThrows(IllegalArgumentException.class, () -> controller.play(player, -1));
     }
 
+    @Test
+    void play_IndexEqualsHandSize_ThrowsIllegalArgumentException() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.TARGETED_ATTACK));
+        DiscardPile discardPile = new DiscardPile();
+        TargetedAttackCardController controller = new TargetedAttackCardController(discardPile);
+
+        assertThrows(IllegalArgumentException.class, () -> controller.play(player, player.getHandSize()));
+    }
 
 }
 
