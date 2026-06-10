@@ -179,6 +179,9 @@ public class Game {
         if (target == null) {
             throw new IllegalArgumentException("target must not be null");
         }
+        if (target == getCurrentPlayer()) {
+            throw new IllegalArgumentException("cannot target yourself");
+        }
         int untakenTurns = forcedTurns;
         currentPlayerIndex = players.indexOf(target);
         forcedTurns = untakenTurns + 2;

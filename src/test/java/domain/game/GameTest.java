@@ -434,4 +434,14 @@ class GameTest {
         assertEquals(2, game.getForcedTurns());
     }
 
+    @Test
+    void applyTargetedAttack_SelfTarget_ThrowsIllegalArgumentException() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+
+        assertThrows(IllegalArgumentException.class, () -> game.applyTargetedAttack(sophie));
+    }
+
+
 }
