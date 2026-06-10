@@ -15,7 +15,7 @@ public class DrawFromBottomCardController {
         this.deck = deck;
     }
 
-    public Card play(Player player, int cardIndex){
+    public Card play(Player player, int cardIndex) {
         if (cardIndex < 0 || cardIndex >= player.getHandSize()) {
             throw new IllegalArgumentException(INVALID_INDEX_MESSAGE);
         }
