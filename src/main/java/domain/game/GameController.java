@@ -63,6 +63,11 @@ public class GameController {
                 shuffleCardController.play(model, cardIndex);
                 continue;
             }
+            if (selectedCard.getType() == CardType.BURY) {
+                BuryCardController buryCardController = new BuryCardController();
+                buryCardController.play(model, cardIndex);
+                continue;
+            }
             if (selectedCard.getType() == CardType.ATTACK) {
                 AttackCardController attackCardController =
                         new AttackCardController(model.getDrawPile(), model.getDiscardPile());

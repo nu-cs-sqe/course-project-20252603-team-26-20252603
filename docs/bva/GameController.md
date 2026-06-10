@@ -67,9 +67,9 @@ private Game game;
 ## Method under test: `completeTurn(List<Integer> cardIndexes)`
 | Step 1                              | Step 2     | Step 3                                  |
 |-------------------------------------|------------|-----------------------------------------|
-| Input: selected card indexes to play | Collection | Values: <ul><li>Empty list</li><li>One selected Skip card index</li><li>One selected See the Future card index</li><li>More than one selected See the Future card index</li><li>One selected Shuffle card index</li><li>Selected See the Future followed by selected Skip</li><li>Selected Skip followed by another card</li><li>One selected unplayable card index</li><li>One selected index equal to hand size</li><li>One negative selected index</li></ul> |
-| Internal state: draw pile           | Collection | Values: <ul><li>One drawable non-Exploding-Kitten card</li><li>Two cards available for See the Future</li><li>Two cards available to shuffle before drawing</li></ul> |
-| Output                              | State / UI | Values: <ul><li>Displays hand</li><li>Draws one card</li><li>Advances to next player</li><li>Ends turn without drawing when Skip is played</li><li>Displays future cards, then draws when See the Future is played</li><li>Shuffles the draw pile, then draws when Shuffle is played</li><li>Ends turn without drawing when Skip is played after a non-ending card</li><li>Ignores later selected cards after Skip ends the turn</li><li>Displays error for an unplayable selected card</li><li>Displays error for an out-of-bounds selected index</li></ul> |
+| Input: selected card indexes to play | Collection | Values: <ul><li>Empty list</li><li>One selected Skip card index</li><li>One selected See the Future card index</li><li>More than one selected See the Future card index</li><li>One selected Shuffle card index</li><li>One selected Bury card index</li><li>Selected See the Future followed by selected Skip</li><li>Selected Skip followed by another card</li><li>One selected unplayable card index</li><li>One selected index equal to hand size</li><li>One negative selected index</li></ul> |
+| Internal state: draw pile           | Collection | Values: <ul><li>One drawable non-Exploding-Kitten card</li><li>Two cards available for See the Future</li><li>Two cards available to shuffle before drawing</li><li>Three cards available to bury the top card and draw the newly exposed card</li></ul> |
+| Output                              | State / UI | Values: <ul><li>Displays hand</li><li>Draws one card</li><li>Advances to next player</li><li>Ends turn without drawing when Skip is played</li><li>Displays future cards, then draws when See the Future is played</li><li>Shuffles the draw pile, then draws when Shuffle is played</li><li>Moves the top card to the bottom, then draws when Bury is played</li><li>Ends turn without drawing when Skip is played after a non-ending card</li><li>Ignores later selected cards after Skip ends the turn</li><li>Displays error for an unplayable selected card</li><li>Displays error for an out-of-bounds selected index</li></ul> |
 
 - **TC2: completeTurn_NoCardsPlayed_DisplaysHandThenDrawsAndAdvances** (:white_check_mark:)
   - **State of system**: Current player is `Sophie`, next player is `Jordan`, selected card indexes are `[]`, and the draw pile top card is `PLACEHOLDER_CARD`.
@@ -122,6 +122,10 @@ private Game game;
 - **TC14: completeTurn_SkipAsAttackDefense_EndsOnlyOneForcedTurnPerSkip** (:white_check_mark:)
   - **State of system**: `Sophie` attacks `Jordan` (forcing 2 turns); `Jordan` holds two `SKIP` cards and plays one Skip per turn.
   - **Expected output**: The first Skip ends only one forced turn so `Jordan` stays current with one Skip left; the second Skip ends the last forced turn and passes play to `Sophie`, and no card is drawn for either Skip.
+
+- **TC15: completeTurn_BuryPlayed_MovesTopCardThenDrawsAndAdvances** (:white_check_mark:)
+  - **State of system**: Current player is `Sophie`, next player is `Jordan`, selected card indexes are `[0]`, card index `0` is `BURY`, and the draw pile contains three known cards.
+  - **Expected output**: Displays `Sophie`'s hand, plays and discards `BURY`, moves the former top card to the bottom, draws the newly exposed top card, adds it to `Sophie`'s hand, and advances current player to `Jordan`.
 
 _Attack is now played through `completeTurn` (see TC12–TC14) and the forced-turn
 mechanics live in the `Game` model (`applyAttack` / `advanceTurn`); see `Game.md`._
