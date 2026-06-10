@@ -443,5 +443,15 @@ class GameTest {
         assertThrows(IllegalArgumentException.class, () -> game.applyTargetedAttack(sophie));
     }
 
+    void applyTargetedAttack_WithExistingForcedTurns_StacksForcedTurns() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getPlayers().get(0);
+        game.applyAttack(); // current player is now Jordan
 
+        game.applyTargetedAttack(sophie); // Jordan targets Sophie
+
+        assertEquals("Sophie", game.getCurrentPlayer().getName());
+        assertEquals(4, game.getForcedTurns());
+    }
 }
