@@ -1354,4 +1354,24 @@ public class GameControllerTest {
         verify(mockView);
     }
 
+    @Test
+    void playTargetedAttack_NotTargetedAttackCard_DisplaysError() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        currentPlayer.addCard(new Card(CardType.SKIP));
+
+        mockView.displayError(anyString());
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.playTargetedAttack(0);
+
+        assertEquals("Sophie", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
 }
