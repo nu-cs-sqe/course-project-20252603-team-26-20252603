@@ -279,6 +279,35 @@ public class GameControllerTest {
     }
 
     @Test
+    void playSelectedCard_SeeFuture_ReturnsContinueWithoutDrawing() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card seeFuture = new Card(CardType.SEE_THE_FUTURE);
+        currentPlayer.addCard(seeFuture);
+        clearDrawPile(game.getDrawPile());
+        Card secondCard = new Card(CardType.BEARD_CAT);
+        Card topCard = new Card(CardType.SKIP);
+        game.getDrawPile().addCard(secondCard);
+        game.getDrawPile().addCard(topCard);
+
+        mockView.displaySeeTheFutureCards(List.of(topCard, secondCard));
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        boolean turnEnded = controller.playSelectedCard(0);
+
+        assertFalse(turnEnded);
+        assertEquals(List.of(seeFuture), game.getDiscardPile().snapshot());
+        assertEquals("Sophie", game.getCurrentPlayer().getName());
+        assertEquals(2, game.getDrawPile().size());
+        verify(mockView);
+    }
+
+    @Test
     void completeTurn_TwoSeeFutureCardsPlayed_DisplaysBothThenDrawsAndAdvances() {
         Game game = new Game(createDeckForPlayers(2));
         GameView mockView = EasyMock.createStrictMock(GameView.class);

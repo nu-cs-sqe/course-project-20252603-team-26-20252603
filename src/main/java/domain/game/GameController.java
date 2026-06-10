@@ -45,99 +45,101 @@ public class GameController {
     public void completeTurn(List<Integer> cardIndexes) {
         startTurn();
         for (int cardIndex : cardIndexes) {
-            Player currentPlayer = model.getCurrentPlayer();
-            if (cardIndex < 0 || cardIndex >= currentPlayer.getHandSize()) {
-                view.displayError(INVALID_CARD_INDEX);
-                continue;
-            }
-            Card selectedCard = currentPlayer.getHandSnapshot().get(cardIndex);
-            if (selectedCard.getType() == CardType.SKIP && playSkip(cardIndex)) {
+            if (playSelectedCard(cardIndex)) {
                 return;
             }
-            if (selectedCard.getType() == CardType.SEE_THE_FUTURE) {
-                SeeFutureCardController seeFutureController =
-                        new SeeFutureCardController(model.getDrawPile(), model.getDiscardPile());
-                view.displaySeeTheFutureCards(seeFutureController.play(currentPlayer, cardIndex));
-                continue;
-            }
-            if (selectedCard.getType() == CardType.SHUFFLE) {
-                ShuffleCardController shuffleCardController = new ShuffleCardController();
-                shuffleCardController.play(model, cardIndex);
-                continue;
-            }
-            if (selectedCard.getType() == CardType.BURY) {
-                BuryCardController buryCardController = new BuryCardController();
-                buryCardController.play(model, cardIndex);
-                continue;
-            }
-            if (selectedCard.getType() == CardType.ATTACK) {
-                AttackCardController attackCardController =
-                        new AttackCardController(model.getDrawPile(), model.getDiscardPile());
-                attackCardController.play(currentPlayer, cardIndex);
-                model.applyAttack();
-                return;
-            }
-            if (selectedCard.getType() == CardType.TARGETED_ATTACK) {
-                playTargetedAttack(cardIndex);
-                return;
-            }
-             if (selectedCard.getType() == CardType.DRAW_FROM_BOTTOM) {
-                DrawFromBottomCardController drawFromBottomCardController =
-                        new DrawFromBottomCardController(model.getDrawPile(), model.getDiscardPile());
-                Card drawnCard = drawFromBottomCardController.play(currentPlayer, cardIndex);
-                if (drawnCard.getType() == CardType.EXPLODING_KITTEN) {
-                    view.displayCardDrawn(drawnCard);
-                    ExplodingKittenCardController explodingKittenController =
-                            new ExplodingKittenCardController(model.getDrawPile(), model.getDiscardPile());
-                    boolean defused = explodingKittenController.play(currentPlayer, drawnCard);
-                    if (defused) {
-                        model.advanceTurn();
-                    } else {
-                        model.eliminatePlayer(currentPlayer, drawnCard);
-                        if (model.isWon()) {
-                            view.displayGameOver(model.getPlayers().get(0).getName());
-                        }
-                    }
-                    return;
-                }
-                currentPlayer.addCard(drawnCard);
-                view.displayCardDrawn(drawnCard);
-                model.advanceTurn();
-                return;
-            }
-
-            if (selectedCard.getType() == CardType.SWAP_TOP_AND_BOTTOM) {
-                new SwapTopAndBottomController().play(model, cardIndex);
-                continue;
-            }
-
-            view.displayError(UNPLAYABLE_CARD);
         }
         takeCard();
+    }
+
+    boolean playSelectedCard(int cardIndex) {
+        Player currentPlayer = model.getCurrentPlayer();
+        if (cardIndex < 0 || cardIndex >= currentPlayer.getHandSize()) {
+            view.displayError(INVALID_CARD_INDEX);
+            return false;
+        }
+
+        Card selectedCard = currentPlayer.getHandSnapshot().get(cardIndex);
+        if (selectedCard.getType() == CardType.SKIP) {
+            return playSkip(cardIndex);
+        }
+        if (selectedCard.getType() == CardType.SEE_THE_FUTURE) {
+            SeeFutureCardController seeFutureController =
+                    new SeeFutureCardController(model.getDrawPile(), model.getDiscardPile());
+            view.displaySeeTheFutureCards(seeFutureController.play(currentPlayer, cardIndex));
+            return false;
+        }
+        if (selectedCard.getType() == CardType.SHUFFLE) {
+            new ShuffleCardController().play(model, cardIndex);
+            return false;
+        }
+        if (selectedCard.getType() == CardType.BURY) {
+            new BuryCardController().play(model, cardIndex);
+            return false;
+        }
+        if (selectedCard.getType() == CardType.ATTACK) {
+            AttackCardController attackCardController =
+                    new AttackCardController(model.getDrawPile(), model.getDiscardPile());
+            attackCardController.play(currentPlayer, cardIndex);
+            model.applyAttack();
+            return true;
+        }
+        if (selectedCard.getType() == CardType.TARGETED_ATTACK) {
+            playTargetedAttack(cardIndex);
+            return true;
+        }
+        if (selectedCard.getType() == CardType.DRAW_FROM_BOTTOM) {
+            playDrawFromBottom(currentPlayer, cardIndex);
+            return true;
+        }
+        if (selectedCard.getType() == CardType.SWAP_TOP_AND_BOTTOM) {
+            new SwapTopAndBottomController().play(model, cardIndex);
+            return false;
+        }
+
+        view.displayError(UNPLAYABLE_CARD);
+        return false;
+    }
+
+    private void playDrawFromBottom(Player currentPlayer, int cardIndex) {
+        DrawFromBottomCardController drawFromBottomCardController =
+                new DrawFromBottomCardController(model.getDrawPile(), model.getDiscardPile());
+        Card drawnCard = drawFromBottomCardController.play(currentPlayer, cardIndex);
+        if (drawnCard.getType() == CardType.EXPLODING_KITTEN) {
+            handleExplodingKitten(currentPlayer, drawnCard);
+            return;
+        }
+        currentPlayer.addCard(drawnCard);
+        view.displayCardDrawn(drawnCard);
+        model.advanceTurn();
     }
 
     public Card takeCard() {
         Player currentPlayer = model.getCurrentPlayer();
         Card drawnCard = model.getDrawPile().draw();
         if (drawnCard.getType() == CardType.EXPLODING_KITTEN) {
-            view.displayCardDrawn(drawnCard);
-            ExplodingKittenCardController explodingKittenController =
-                    new ExplodingKittenCardController(model.getDrawPile(), model.getDiscardPile());
-            boolean defused = explodingKittenController.play(currentPlayer, drawnCard);
-            if (defused) {
-                model.advanceTurn();
-            } else {
-                model.eliminatePlayer(currentPlayer, drawnCard);
-                if (model.isWon()) {
-                    view.displayGameOver(model.getPlayers().get(0).getName());
-                }
-            }
+            handleExplodingKitten(currentPlayer, drawnCard);
             return drawnCard;
         }
         currentPlayer.addCard(drawnCard);
         view.displayCardDrawn(drawnCard);
         model.advanceTurn();
         return drawnCard;
+    }
+
+    private void handleExplodingKitten(Player currentPlayer, Card drawnCard) {
+        view.displayCardDrawn(drawnCard);
+        ExplodingKittenCardController explodingKittenController =
+                new ExplodingKittenCardController(model.getDrawPile(), model.getDiscardPile());
+        boolean defused = explodingKittenController.play(currentPlayer, drawnCard);
+        if (defused) {
+            model.advanceTurn();
+            return;
+        }
+        model.eliminatePlayer(currentPlayer, drawnCard);
+        if (model.isWon()) {
+            view.displayGameOver(model.getPlayers().get(0).getName());
+        }
     }
 
     public boolean playSkip(int cardIndex) {
