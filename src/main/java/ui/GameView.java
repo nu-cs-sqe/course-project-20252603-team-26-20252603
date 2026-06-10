@@ -92,6 +92,12 @@ public class GameView {
         System.out.println(message);
     }
 
+    public void displayCardStolen(Card card) {
+        String message = MessageFormat.format(
+                messages.getString("card.stolen.message"), card.getType());
+        System.out.println(message);
+    }
+
     public void displayMessage(String message) {
         System.out.println(message);
 

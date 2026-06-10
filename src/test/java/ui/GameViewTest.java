@@ -92,6 +92,15 @@ public class GameViewTest {
         assertTrue(text.contains("2. BEARD_CAT"));
     }
 
+    @Test
+    void displayCardStolen_WithCard_ShowsStolenCardType() {
+        GameView view = new GameView();
+
+        view.displayCardStolen(new Card(CardType.SKIP));
+
+        assertTrue(captured().contains("You stole: SKIP"));
+    }
+
 
     @Test
     void displayStartScreen_DisplayOnce_ShowsTitle() {
