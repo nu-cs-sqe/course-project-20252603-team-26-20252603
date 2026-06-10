@@ -233,13 +233,16 @@ public class Game {
                 visibleCards));
 
         int eliminatedIndex = players.indexOf(player);
+        boolean currentPlayerEliminated = eliminatedIndex == currentPlayerIndex;
         players.remove(player);
 
         while (player.getHandSize() > 0) {
             player.removeCard(0);
         }
 
-        if (!players.isEmpty() && eliminatedIndex <= currentPlayerIndex) {
+        if (!players.isEmpty() && currentPlayerEliminated && direction < 0) {
+            currentPlayerIndex = Math.floorMod(eliminatedIndex - 1, players.size());
+        } else if (!players.isEmpty() && eliminatedIndex <= currentPlayerIndex) {
             currentPlayerIndex = currentPlayerIndex % players.size();
         }
     }

@@ -433,6 +433,18 @@ class GameTest {
         assertEquals(2, record.getVisibleCardCount());
     }
 
+    @Test
+    void eliminatePlayer_CurrentPlayerAfterReverse_SelectsPreviousPlayer() {
+        Game game = new Game(createDeck(2, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+        game.reverseDirection();
+        Player alice = game.getCurrentPlayer();
+
+        game.eliminatePlayer(alice, new Card(CardType.EXPLODING_KITTEN));
+
+        assertEquals("Charlie", game.getCurrentPlayer().getName());
+    }
+
     private void clearHand(Player player) {
         while (player.getHandSize() > 0) {
             player.removeCard(0);
