@@ -26,7 +26,7 @@ The terminal should print public player state every turn:
 - **TC1: eliminatePlayer_WithExplodingKitten_TracksFaceUpKittenAndRemainingCards**
     - **State of system**: Current player has remaining cards and is eliminated by an Exploding Kitten.
     - **Expected output**: Player is removed from active players. Eliminated player record stores the killing kitten and the remaining card types.
-    - **Implemented?** :x:
+    - **Implemented?** :white_check_mark:
 
 ---
 
