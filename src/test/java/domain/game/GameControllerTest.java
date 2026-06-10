@@ -308,6 +308,32 @@ public class GameControllerTest {
     }
 
     @Test
+    void playSelectedCard_SuperSkip_ClearsForcedTurnsAndEndsTurn() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        game.applyAttack();
+        Player jordan = game.getCurrentPlayer();
+        clearHand(jordan);
+        Card superSkip = new Card(CardType.SUPER_SKIP);
+        jordan.addCard(superSkip);
+
+        mockView.displayMessage(
+                "Super Skip played! All forced turns cleared. Turn ended.");
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        boolean turnEnded = controller.playSelectedCard(0);
+
+        assertTrue(turnEnded);
+        assertEquals(0, game.getForcedTurns());
+        assertEquals("Sophie", game.getCurrentPlayer().getName());
+        assertEquals(List.of(superSkip), game.getDiscardPile().snapshot());
+        verify(mockView);
+    }
+
+    @Test
     void completeTurn_TwoSeeFutureCardsPlayed_DisplaysBothThenDrawsAndAdvances() {
         Game game = new Game(createDeckForPlayers(2));
         GameView mockView = EasyMock.createStrictMock(GameView.class);
