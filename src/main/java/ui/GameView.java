@@ -1,11 +1,15 @@
 package ui;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.io.InputStream;
+
+
 import java.text.MessageFormat;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.ResourceBundle;
+import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
 
 import domain.game.Card;
 import domain.game.EliminatedPlayer;
@@ -14,11 +18,25 @@ import domain.game.Player;
 public class GameView {
     private Scanner scanner;
     private ResourceBundle messages;
+    private static final String MESSAGE_REQUIRED_MESSAGE = "message must not be null";
 
+    /** Production constructor – reads from System.in. */
     public GameView() {
-        this.scanner = new Scanner(System.in, java.nio.charset.StandardCharsets.UTF_8.name());
+        this(System.in);
+    }
+
+    /**
+     * Testable constructor – reads from the supplied stream.
+     * Allows tests to inject simulated keyboard input without touching System.in globally.
+     */
+    public GameView(InputStream inputStream) {
+        this.scanner  = new Scanner(
+                Objects.requireNonNull(inputStream, "inputStream must not be null"),
+                java.nio.charset.StandardCharsets.UTF_8);
         this.messages = ResourceBundle.getBundle("message", Locale.getDefault());
     }
+
+
 
     public void displayStartScreen() {
         System.out.println(messages.getString("start.screen.title"));
@@ -45,11 +63,17 @@ public class GameView {
     }
 
     public void displayError(String message) {
+        if (message == null) {
+            throw new IllegalArgumentException(MESSAGE_REQUIRED_MESSAGE);
+        }
+
         System.out.println(messages.getString("error.prefix") + message );
     }
 
     public void displayCardDrawn (Card card) {
-
+        if (card == null) {
+            throw new IllegalArgumentException("card must not be null");
+        }
         String message = MessageFormat.format(messages.getString("card.drawn.message"), card.getType());
         System.out.println(message);
     }
