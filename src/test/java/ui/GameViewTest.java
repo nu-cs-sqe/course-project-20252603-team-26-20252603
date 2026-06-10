@@ -256,4 +256,13 @@ public class GameViewTest {
 
         assertNotNull(captured());
     }
+
+    @Test
+    void displayMessage_NormalString_ShowsMessage() {
+        GameView view = new GameView();
+
+        view.displayMessage("Skip played. Your turn ends without drawing a card.");
+
+        assertTrue(captured().contains("Skip played. Your turn ends without drawing a card."));
+    }
 }
