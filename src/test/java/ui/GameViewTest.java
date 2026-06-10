@@ -198,4 +198,11 @@ public class GameViewTest {
         assertThrows(IllegalArgumentException.class, () -> view.displayError(null));
     }
 
+    @Test
+    void displayError_EmptyMessage_ShowsPrefixOnly() {
+        GameView view = new GameView();
+        view.displayError("");
+
+        assertTrue(captured().contains("Error: "));
+    }
 }
