@@ -276,4 +276,17 @@ public class GameViewTest {
         assertTrue(text.contains("See the Future: Top cards in the draw pile:"));
         assertTrue(text.contains("No cards to view."));
     }
+
+    @Test
+    void displaySeeTheFutureCards_OneCard_ShowsTitleAndSingleCard() {
+        GameView view = new GameView();
+
+        view.displaySeeTheFutureCards(List.of(new Card(CardType.ATTACK)));
+
+        String text = captured();
+        assertTrue(text.contains("See the Future: Top cards in the draw pile:"));
+        assertTrue(text.contains("1. ATTACK"));
+        assertFalse(text.contains("2."));
+    }
+
 }
