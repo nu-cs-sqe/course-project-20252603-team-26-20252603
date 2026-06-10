@@ -25,4 +25,11 @@ class DeckFactoryTest {
 
         assertEquals(5, deck.countCardsOfType(CardType.DEFUSE));
     }
+
+    @Test
+    void standardDeck_ContainsThreeAttacks() {
+        Deck deck = DeckFactory.standardDeck();
+
+        assertEquals(3, deck.countCardsOfType(CardType.ATTACK));
+    }
 }
