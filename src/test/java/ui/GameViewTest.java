@@ -289,4 +289,15 @@ public class GameViewTest {
         assertFalse(text.contains("2."));
     }
 
+    @Test
+    void displaySeeTheFutureCards_TwoCards_ShowsTitleAndBothCardsInOrder() {
+        GameView view = new GameView();
+
+        view.displaySeeTheFutureCards(List.of(new Card(CardType.ATTACK), new Card(CardType.SHUFFLE)));
+
+        String text = captured();
+        assertTrue(text.contains("See the Future: Top cards in the draw pile:"));
+        assertTrue(text.contains("1. ATTACK"));
+        assertTrue(text.contains("2. SHUFFLE"));
+    }
 }
