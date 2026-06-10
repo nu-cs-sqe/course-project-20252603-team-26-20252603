@@ -9,6 +9,7 @@ public final class DeckFactory {
     private static final int EXPLODING_KITTEN_COUNT = 3;
     private static final int DEFUSE_COUNT = 5;
     private static final int ATTACK_COUNT = 3;
+    private static final int SKIP_COUNT = 3;
 
     private DeckFactory() {
     }
@@ -18,12 +19,15 @@ public final class DeckFactory {
         Card explodingKitten = new Card(CardType.EXPLODING_KITTEN);
         Card defuse = new Card(CardType.DEFUSE);
         Card attack = new Card(CardType.ATTACK);
+        Card skip = new Card(CardType.SKIP);
         Card placeholder = new Card(CardType.PLACEHOLDER_CARD);
         cards.addAll(Collections.nCopies(EXPLODING_KITTEN_COUNT, explodingKitten));
         cards.addAll(Collections.nCopies(DEFUSE_COUNT, defuse));
         cards.addAll(Collections.nCopies(ATTACK_COUNT, attack));
+        cards.addAll(Collections.nCopies(SKIP_COUNT, skip));
         cards.addAll(Collections.nCopies(
-                STANDARD_DECK_SIZE - EXPLODING_KITTEN_COUNT - DEFUSE_COUNT - ATTACK_COUNT,
+                STANDARD_DECK_SIZE - EXPLODING_KITTEN_COUNT - DEFUSE_COUNT
+                        - ATTACK_COUNT - SKIP_COUNT,
                 placeholder));
         return new Deck(cards);
     }

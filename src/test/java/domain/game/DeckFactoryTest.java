@@ -32,4 +32,11 @@ class DeckFactoryTest {
 
         assertEquals(3, deck.countCardsOfType(CardType.ATTACK));
     }
+
+    @Test
+    void standardDeck_ContainsThreeSkips() {
+        Deck deck = DeckFactory.standardDeck();
+
+        assertEquals(3, deck.countCardsOfType(CardType.SKIP));
+    }
 }
