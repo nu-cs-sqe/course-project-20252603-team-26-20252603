@@ -248,4 +248,14 @@ class DeckTest {
         assertThrows(IllegalStateException.class, () -> deck.drawFromBottom());
     }
 
+    @Test
+    void drawFromBottom_OneCard_ReturnsOnlyCard() {
+        Deck deck = new Deck(List.of(new Card(CardType.SKIP)));
+
+        Card drawn = deck.drawFromBottom();
+
+        assertEquals(CardType.SKIP, drawn.getType());
+        assertEquals(0, deck.size());
+    }
+
 }
