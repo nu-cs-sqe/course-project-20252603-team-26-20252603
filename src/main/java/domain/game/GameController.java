@@ -162,4 +162,17 @@ public class GameController {
         }
     }
 
+
+    public void playTargetedAttack(int cardIndex) {
+        try {
+            Player currentPlayer = model.getCurrentPlayer();
+            TargetedAttackCardController targetedAttackController =
+                    new TargetedAttackCardController(model.getDiscardPile());
+            targetedAttackController.play(currentPlayer, cardIndex);
+            Player target = view.promptTargetPlayer(model.getPlayers());
+            model.applyTargetedAttack(target);
+        } catch (IllegalArgumentException e) {
+            view.displayError(e.getMessage());
+        }
+    }
 }
