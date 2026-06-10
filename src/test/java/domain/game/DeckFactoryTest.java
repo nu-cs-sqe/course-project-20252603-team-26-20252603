@@ -11,4 +11,11 @@ class DeckFactoryTest {
 
         assertEquals(38, deck.size());
     }
+
+    @Test
+    void standardDeck_ContainsThreeExplodingKittens() {
+        Deck deck = DeckFactory.standardDeck();
+
+        assertEquals(3, deck.countCardsOfType(CardType.EXPLODING_KITTEN));
+    }
 }
