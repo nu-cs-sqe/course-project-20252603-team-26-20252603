@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import java.text.MessageFormat;
 
 import domain.game.Card;
+import domain.game.EliminatedPlayer;
 import domain.game.Player;
 
 public class GameView {
@@ -101,5 +102,29 @@ public class GameView {
         return players.get(choice - 1);
     }
 
+    public void displayPublicPlayerState(
+            List<Player> activePlayers,
+            List<EliminatedPlayer> eliminatedPlayers) {
+        System.out.println("Public player state:");
 
+        for (Player player : activePlayers) {
+            System.out.println(player.getName() + ": "
+                    + player.getHandSize() + " face-down card(s)");
+        }
+
+        for (EliminatedPlayer eliminatedPlayer : eliminatedPlayers) {
+            System.out.println(eliminatedPlayer.getPlayerName()
+                    + ": eliminated by face-up "
+                    + eliminatedPlayer.getKillingKitten().getType());
+
+            if (eliminatedPlayer.getVisibleCards().isEmpty()) {
+                System.out.println("Remaining face-up cards: none");
+            } else {
+                System.out.println("Remaining face-up cards:");
+                for (Card card : eliminatedPlayer.getVisibleCards()) {
+                    System.out.println("- " + card.getType());
+                }
+            }
+        }
+    }
 }

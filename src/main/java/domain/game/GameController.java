@@ -36,6 +36,8 @@ public class GameController {
     }
 
     public void startTurn() {
+        view.displayPublicPlayerState(model.getPlayers(), model.getEliminatedPlayers());
+
         Player currentPlayer = model.getCurrentPlayer();
         view.displayHand(currentPlayer.getName(), currentPlayer.getHandSnapshot());
     }
@@ -100,7 +102,7 @@ public class GameController {
             if (defused) {
                 model.advanceTurn();
             } else {
-                model.eliminatePlayer(currentPlayer);
+                model.eliminatePlayer(currentPlayer, drawnCard);
                 if (model.isWon()) {
                     view.displayGameOver(model.getPlayers().get(0).getName());
                 }
@@ -170,10 +172,24 @@ public class GameController {
     public void playTargetedAttack(int cardIndex) {
         try {
             Player currentPlayer = model.getCurrentPlayer();
+            if (cardIndex < 0 || cardIndex >= currentPlayer.getHandSize()) {
+                throw new IllegalArgumentException(INVALID_CARD_INDEX);
+            }
+            if (currentPlayer.getHandSnapshot().get(cardIndex).getType()
+                    != CardType.TARGETED_ATTACK) {
+                throw new IllegalArgumentException(UNPLAYABLE_CARD);
+            }
+
+            List<Player> eligibleTargets = new java.util.ArrayList<>(model.getPlayers());
+            eligibleTargets.remove(currentPlayer);
+            Player target = view.promptTargetPlayer(eligibleTargets);
+            if (!eligibleTargets.contains(target)) {
+                throw new IllegalArgumentException("target must be another active player");
+            }
+
             TargetedAttackCardController targetedAttackController =
                     new TargetedAttackCardController(model.getDiscardPile());
             targetedAttackController.play(currentPlayer, cardIndex);
-            Player target = view.promptTargetPlayer(model.getPlayers());
             model.applyTargetedAttack(target);
         } catch (IllegalArgumentException e) {
             view.displayError(e.getMessage());

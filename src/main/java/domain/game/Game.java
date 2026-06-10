@@ -30,6 +30,7 @@ public class Game {
     private int currentPlayerIndex;
     private int forcedTurns;
     private int direction = 1;
+    private final List<EliminatedPlayer> eliminatedPlayers;
 
     // Open to discussion: making Game final would avoid this warning, but controller tests currently mock it.
     @SuppressFBWarnings(
@@ -44,8 +45,9 @@ public class Game {
         this.discardPile = new DiscardPile();
         this.currentPlayerIndex = 0;
         this.forcedTurns = 0;
+        this.direction = 1;
+        this.eliminatedPlayers = new ArrayList<>();
     }
-
     public void setupGame(List<String> playerNames) {
         if (playerNames == null) {
             throw new IllegalArgumentException(PLAYER_NAMES_REQUIRED_MESSAGE);
@@ -76,6 +78,7 @@ public class Game {
         discardPile = new DiscardPile();
         currentPlayerIndex = 0;
         forcedTurns = 0;
+        eliminatedPlayers.clear();
     }
 
     public List<Player> getPlayers() {
@@ -182,8 +185,12 @@ public class Game {
         if (target == getCurrentPlayer()) {
             throw new IllegalArgumentException("cannot target yourself");
         }
+        int targetIndex = players.indexOf(target);
+        if (targetIndex < 0) {
+            throw new IllegalArgumentException("target must be an active player");
+        }
         int untakenTurns = forcedTurns;
-        currentPlayerIndex = players.indexOf(target);
+        currentPlayerIndex = targetIndex;
         forcedTurns = untakenTurns + 2;
     }
 
@@ -216,5 +223,27 @@ public class Game {
 
     int getDirection() {
         return direction;
+    }
+
+    public void eliminatePlayer(Player player, Card killingKitten) {
+        List<Card> visibleCards = player.getHandSnapshot();
+        eliminatedPlayers.add(new EliminatedPlayer(
+                player.getName(),
+                killingKitten,
+                visibleCards));
+
+        int eliminatedIndex = players.indexOf(player);
+        players.remove(player);
+
+        while (player.getHandSize() > 0) {
+            player.removeCard(0);
+        }
+
+        if (!players.isEmpty() && eliminatedIndex <= currentPlayerIndex) {
+            currentPlayerIndex = currentPlayerIndex % players.size();
+        }
+    }
+    public List<EliminatedPlayer> getEliminatedPlayers() {
+        return List.copyOf(eliminatedPlayers);
     }
 }

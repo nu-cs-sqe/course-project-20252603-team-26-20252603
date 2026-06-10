@@ -371,6 +371,39 @@ class GameTest {
         assertEquals("Alice", game.getCurrentPlayer().getName());
     }
 
+    @Test
+    void eliminatePlayer_WithExplodingKitten_TracksFaceUpKittenAndRemainingCards() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Avery", "Jordan"));
+
+        Player eliminatedPlayer = game.getCurrentPlayer();
+        clearHand(eliminatedPlayer);
+
+        Card remainingCard = new Card(CardType.BEARD_CAT);
+        Card secondRemainingCard = new Card(CardType.SKIP);
+        eliminatedPlayer.addCard(remainingCard);
+        eliminatedPlayer.addCard(secondRemainingCard);
+
+        Card killingKitten = new Card(CardType.EXPLODING_KITTEN);
+
+        game.eliminatePlayer(eliminatedPlayer, killingKitten);
+
+        assertFalse(game.getPlayers().contains(eliminatedPlayer));
+        assertEquals(1, game.getEliminatedPlayers().size());
+
+        EliminatedPlayer record = game.getEliminatedPlayers().get(0);
+        assertEquals("Avery", record.getPlayerName());
+        assertEquals(killingKitten, record.getKillingKitten());
+        assertEquals(List.of(remainingCard, secondRemainingCard), record.getVisibleCards());
+        assertEquals(2, record.getVisibleCardCount());
+    }
+
+    private void clearHand(Player player) {
+        while (player.getHandSize() > 0) {
+            player.removeCard(0);
+        }
+    }
+
     private void assertPlayersHaveOpeningHands(List<Player> players) {
         for (Player player : players) {
             assertEquals(6, player.getHandSize());
@@ -443,6 +476,16 @@ class GameTest {
         assertThrows(IllegalArgumentException.class, () -> game.applyTargetedAttack(sophie));
     }
 
+    @Test
+    void applyTargetedAttack_PlayerOutsideGame_ThrowsIllegalArgumentException() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Sophie", "Jordan"));
+
+        assertThrows(IllegalArgumentException.class,
+                () -> game.applyTargetedAttack(new Player("Casey")));
+    }
+
+    @Test
     void applyTargetedAttack_WithExistingForcedTurns_StacksForcedTurns() {
         Game game = new Game(createDeck(1, 2, 10));
         game.setupGame(List.of("Sophie", "Jordan"));
