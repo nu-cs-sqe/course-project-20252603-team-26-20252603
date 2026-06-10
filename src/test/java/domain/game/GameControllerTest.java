@@ -358,6 +358,39 @@ public class GameControllerTest {
     }
 
     @Test
+    void playSelectedCard_MatchingCatPair_PromptsSecondIndexAndTargetThenContinues() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+        Player jordan = game.getPlayers().get(1);
+        clearHand(sophie);
+        clearHand(jordan);
+        Card firstCat = new Card(CardType.BEARD_CAT);
+        Card secondCat = new Card(CardType.BEARD_CAT);
+        Card stolenCard = new Card(CardType.SKIP);
+        sophie.addCard(firstCat);
+        sophie.addCard(secondCat);
+        jordan.addCard(stolenCard);
+
+        expect(mockView.promptSecondCardChoice()).andReturn(2);
+        expect(mockView.promptTargetPlayer(List.of(jordan))).andReturn(jordan);
+        mockView.displayCardStolen(stolenCard);
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        boolean turnEnded = controller.playSelectedCard(0);
+
+        assertFalse(turnEnded);
+        assertEquals(List.of(stolenCard), sophie.getHandSnapshot());
+        assertEquals(0, jordan.getHandSize());
+        assertEquals(List.of(firstCat, secondCat), game.getDiscardPile().snapshot());
+        assertEquals("Sophie", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
     void completeTurn_TwoSeeFutureCardsPlayed_DisplaysBothThenDrawsAndAdvances() {
         Game game = new Game(createDeckForPlayers(2));
         GameView mockView = EasyMock.createStrictMock(GameView.class);

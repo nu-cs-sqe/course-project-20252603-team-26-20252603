@@ -3,7 +3,9 @@ package domain.game;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import ui.GameView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class GameController {
     private static final String SKIP_PLAYED = "Skip played. Your turn ends without drawing a card.";
@@ -69,6 +71,10 @@ public class GameController {
         if (selectedCard.getType() == CardType.REVERSE) {
             return playReverse(cardIndex);
         }
+        if (isCatCard(selectedCard.getType())) {
+            playCatPair(currentPlayer, cardIndex);
+            return false;
+        }
         if (selectedCard.getType() == CardType.SEE_THE_FUTURE) {
             SeeFutureCardController seeFutureController =
                     new SeeFutureCardController(model.getDrawPile(), model.getDiscardPile());
@@ -105,6 +111,27 @@ public class GameController {
 
         view.displayError(UNPLAYABLE_CARD);
         return false;
+    }
+
+    private void playCatPair(Player currentPlayer, int firstCardIndex) {
+        int secondCardIndex = view.promptSecondCardChoice() - 1;
+        List<Player> eligibleTargets = new ArrayList<>(model.getPlayers());
+        eligibleTargets.remove(currentPlayer);
+        eligibleTargets.removeIf(player -> player.getHandSize() == 0);
+        Player target = view.promptTargetPlayer(eligibleTargets);
+
+        CatCardController catCardController =
+                new CatCardController(model.getDiscardPile(), new Random());
+        Card stolenCard = catCardController.play(
+                currentPlayer, target, firstCardIndex, secondCardIndex);
+        view.displayCardStolen(stolenCard);
+    }
+
+    private boolean isCatCard(CardType type) {
+        return type == CardType.BEARD_CAT
+                || type == CardType.HAIRY_POTATO_CAT
+                || type == CardType.TACOCAT
+                || type == CardType.RAINBOW_RALPHING_CAT;
     }
 
     private void playDrawFromBottom(Player currentPlayer, int cardIndex) {
