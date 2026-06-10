@@ -205,4 +205,12 @@ public class GameViewTest {
 
         assertTrue(captured().contains("Error: "));
     }
+
+    @Test
+    void displayError_NormalMessage_ShowsPrefixAndMessage() {
+        GameView view = new GameView();
+        view.displayError("something went wrong");
+
+        assertTrue(captured().contains("Error: something went wrong"));
+    }
 }
