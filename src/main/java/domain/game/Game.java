@@ -174,7 +174,7 @@ public class Game {
     // attacker's untaken turns plus two more (so attacks stack).
     public void applyAttack() {
         int untakenTurns = forcedTurns;
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        currentPlayerIndex = Math.floorMod(currentPlayerIndex + direction, players.size());
         forcedTurns = untakenTurns + 2;
     }
 

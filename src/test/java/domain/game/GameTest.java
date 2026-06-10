@@ -275,6 +275,18 @@ class GameTest {
     }
 
     @Test
+    void applyAttack_AfterReverse_TargetsPreviousPlayer() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+        game.reverseDirection();
+
+        game.applyAttack();
+
+        assertEquals("Charlie", game.getCurrentPlayer().getName());
+        assertEquals(2, game.getForcedTurns());
+    }
+
+    @Test
     void endTurnClearingForced_WithNoForcedTurns_MovesToNextPlayer() {
         Game game = new Game(createDeck(1, 2, 10));
         game.setupGame(List.of("Alice", "Bob"));
