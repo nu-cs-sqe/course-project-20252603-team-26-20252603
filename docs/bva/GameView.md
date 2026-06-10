@@ -167,3 +167,22 @@
     - **TC: displayMessage_NormalString_ShowsMessage** (:white_check_mark:)
         - **State of the system**: call `displayMessage("Skip played. Your turn ends without drawing a card.")`
         - **Expected output**: Console shows `"Skip played. Your turn ends without drawing a card."`
+
+### Method under test: `public void displaySeeTheFutureCards(List<Card> cards)`
+| Step 1                 | Step 2     | Step 3                                                                                                              |
+|------------------------|------------|---------------------------------------------------------------------------------------------------------------------|
+| Input 1: cards         | Collection | Values: <ul><li>empty list</li><li>one card</li><li>two cards (peek maximum)</li></ul>                              |
+| Output: console output | String     | Values: <ul><li>title and no cards message</li><li>title and one indexed card</li><li>title and two indexed cards</li></ul> |
+
+- **Step 4:**
+    - **TC: displaySeeTheFutureCards_EmptyList_ShowsTitleAndNoCardsMessage** (:white_check_mark:)
+        - **State of the system**: call `displaySeeTheFutureCards([])`
+        - **Expected output**: Console shows `"See the Future: Top cards in the draw pile:"` and `"No cards to view."`
+
+    - **TC: displaySeeTheFutureCards_OneCard_ShowsTitleAndSingleCard** (:white_check_mark:)
+        - **State of the system**: call `displaySeeTheFutureCards([ATTACK])`
+        - **Expected output**: Console shows title, `"1. ATTACK"`, no second card line
+
+    - **TC: displaySeeTheFutureCards_TwoCards_ShowsTitleAndBothCardsInOrder** (:white_check_mark:)
+        - **State of the system**: call `displaySeeTheFutureCards([ATTACK, SHUFFLE])`
+        - **Expected output**: Console shows title, `"1. ATTACK"`, `"2. SHUFFLE"`
