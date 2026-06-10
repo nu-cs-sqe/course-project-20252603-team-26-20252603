@@ -9,6 +9,7 @@ import java.util.List;
 
 import domain.game.Card;
 import domain.game.CardType;
+import domain.game.Player;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -213,4 +214,16 @@ public class GameViewTest {
 
         assertTrue(captured().contains("Error: something went wrong"));
     }
+
+    //targeted attack
+    @Test
+    void promptTargetPlayer_OnePlayer_ReturnsOnlyPlayer() {
+        Player jordan = new Player("Jordan");
+        GameView view = viewWithInput("1");
+
+        Player result = view.promptTargetPlayer(List.of(jordan));
+
+        assertEquals(jordan, result);
+    }
+
 }

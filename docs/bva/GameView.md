@@ -100,3 +100,23 @@
     - **TC: displayError_NormalMessage_ShowsPrefixAndMessage** ( x: or :white_check_mark: )
         - **State of the system**: call `displayError("something went wrong")`
         - **Expected output**: Console shows `"Error: something went wrong"`
+
+### Method under test: `public Player promptTargetPlayer(List<Player> players)`
+| Step 1                        | Step 2     | Step 3                                                                                                                                    |
+|-------------------------------|------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| Input 1: players list         | Collection | Values: <ul><li>one player</li><li>more than one player</li></ul>                                                                        |
+| Input 2: user input           | Integer    | Values: <ul><li>1 (min valid index)</li><li>size of list (max valid index)</li></ul>                                                     |
+| Output: selected player       | Object     | Values: <ul><li>returns first player</li><li>returns last player</li></ul>                                                               |
+
+- **Step 4:**
+    - **TC1: promptTargetPlayer_OnePlayer_ReturnsOnlyPlayer** ( x: or :white_check_mark: )
+        - **State of the system**: players list has one player `Jordan`, user inputs `1`
+        - **Expected output**: returns `Jordan`
+
+    - **TC2: promptTargetPlayer_MultiplePlayersSelectFirst_ReturnsFirstPlayer** ( x: or :white_check_mark: )
+        - **State of the system**: players list has `Jordan` and `Casey`, user inputs `1`
+        - **Expected output**: returns `Jordan`
+
+    - **TC3: promptTargetPlayer_MultiplePlayersSelectLast_ReturnsLastPlayer** ( x: or :white_check_mark: )
+        - **State of the system**: players list has `Jordan` and `Casey`, user inputs `2`
+        - **Expected output**: returns `Casey`

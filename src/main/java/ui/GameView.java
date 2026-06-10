@@ -5,6 +5,7 @@ import java.util.*;
 import java.text.MessageFormat;
 
 import domain.game.Card;
+import domain.game.Player;
 
 public class GameView {
     private Scanner scanner;
@@ -103,5 +104,15 @@ public class GameView {
     public void displayGameOver(String winnerName) {
         String message = MessageFormat.format(messages.getString("game.over.winner"), winnerName);
         System.out.println(message);
+    }
+
+    public Player promptTargetPlayer(List<Player> players) {
+        System.out.println(messages.getString("target.player.prompt"));
+        for (int i = 0; i < players.size(); i++) {
+            System.out.println((i + 1) + ". " + players.get(i).getName());
+        }
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        return players.get(choice - 1);
     }
 }
