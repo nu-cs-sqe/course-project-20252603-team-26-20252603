@@ -1322,6 +1322,8 @@ public class GameControllerTest {
         game.getDrawPile().addCard(bottomCard);
         game.getDrawPile().addCard(topCard);
 
+        mockView.displayPublicPlayerState(game.getPlayers(), game.getEliminatedPlayers());
+        expectLastCall().once();
         mockView.displayHand("Sophie", startingHand);
         expectLastCall().once();
         mockView.displayCardDrawn(bottomCard);
@@ -1337,6 +1339,8 @@ public class GameControllerTest {
         assertEquals(1, game.getDrawPile().size());
         assertEquals("Jordan", game.getCurrentPlayer().getName());
         verify(mockView);
+    }
+
     @Test
     void takeCard_ExplodingKittenWithoutDefuse_TracksEliminatedPlayer() {
         Game game = new Game(createDeckForPlayers(2));
