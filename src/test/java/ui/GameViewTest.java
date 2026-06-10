@@ -304,7 +304,8 @@ public class GameViewTest {
         assertTrue(text.contains("See the Future: Top cards in the draw pile:"));
         assertTrue(text.contains("1. ATTACK"));
         assertTrue(text.contains("2. SHUFFLE"));
-      
+    }
+
     @Test
     void displayPublicPlayerState_WithActiveAndEliminatedPlayers_PrintsFaceDownAndFaceUpState() {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
