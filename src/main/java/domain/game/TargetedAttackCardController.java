@@ -17,8 +17,11 @@ public final class TargetedAttackCardController {
         }
         Card selectedCard = player.getHandSnapshot().get(cardIndex);
 
-        if (selectedCard.getType() != CardType.DRAW_FROM_BOTTOM) {
+        if (selectedCard.getType() != CardType.TARGETED_ATTACK) {
             throw new IllegalArgumentException(NOT_TARGETED_ATTACK_CARD_MESSAGE);
         }
+
+        player.removeCard(cardIndex);
+        discardPile.add(selectedCard);
     }
     }
