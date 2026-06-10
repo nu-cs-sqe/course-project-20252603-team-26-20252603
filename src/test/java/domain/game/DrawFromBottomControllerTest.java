@@ -29,4 +29,15 @@ public class DrawFromBottomControllerTest {
 
         assertThrows(IllegalArgumentException.class, () -> controller.play(player, player.getHandSize()));
     }
+
+    @Test
+    void play_NotDrawFromBottomCard_ThrowsIllegalArgumentException() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.SKIP));
+        Deck deck = new Deck(List.of(new Card(CardType.SKIP)));
+        DiscardPile discardPile = new DiscardPile();
+        DrawFromBottomCardController controller = new DrawFromBottomCardController(deck, discardPile);
+
+        assertThrows(IllegalArgumentException.class, () -> controller.play(player, 0));
+    }
 }

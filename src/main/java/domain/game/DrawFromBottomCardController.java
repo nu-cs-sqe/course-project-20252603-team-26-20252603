@@ -19,6 +19,10 @@ public class DrawFromBottomCardController {
         if (cardIndex < 0 || cardIndex >= player.getHandSize()) {
             throw new IllegalArgumentException(INVALID_INDEX_MESSAGE);
         }
+        Card selectedCard = player.getHandSnapshot().get(cardIndex);
+        if (selectedCard.getType() != CardType.DRAW_FROM_BOTTOM) {
+            throw new IllegalArgumentException(NOT_DRAW_FROM_BOTTOM_CARD_MESSAGE);
+        }
         return new Card(CardType.PLACEHOLDER_CARD);
 
     }
