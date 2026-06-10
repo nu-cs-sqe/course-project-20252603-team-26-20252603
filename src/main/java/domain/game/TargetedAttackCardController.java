@@ -1,11 +1,17 @@
 package domain.game;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public final class TargetedAttackCardController {
     private final DiscardPile discardPile;
     private static final String NOT_TARGETED_ATTACK_CARD_MESSAGE = "selected card is not a targeted attack card";
 
     private static final String INVALID_INDEX_MESSAGE = "cardIndex is out of bounds";
 
+
+    @SuppressFBWarnings(
+            value = "EI_EXPOSE_REP2",
+            justification = "Controller must add the played card to the injected discard pile.")
 
     public TargetedAttackCardController(DiscardPile discardPile) {
         this.discardPile = discardPile;
