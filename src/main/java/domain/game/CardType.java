@@ -13,5 +13,7 @@ public enum CardType {
     SKIP,
     SEE_THE_FUTURE,
     SUPER_SKIP,
-    REVERSE
+    REVERSE,
+    BURY,
+    SWAP_TOP_AND_BOTTOM
 }

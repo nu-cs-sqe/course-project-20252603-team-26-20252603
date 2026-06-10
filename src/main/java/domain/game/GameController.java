@@ -63,12 +63,22 @@ public class GameController {
                 shuffleCardController.play(model, cardIndex);
                 continue;
             }
+            if (selectedCard.getType() == CardType.BURY) {
+                BuryCardController buryCardController = new BuryCardController();
+                buryCardController.play(model, cardIndex);
+                continue;
+            }
             if (selectedCard.getType() == CardType.ATTACK) {
                 AttackCardController attackCardController =
                         new AttackCardController(model.getDrawPile(), model.getDiscardPile());
                 attackCardController.play(currentPlayer, cardIndex);
                 model.applyAttack();
                 return;
+            }
+
+            if (selectedCard.getType() == CardType.SWAP_TOP_AND_BOTTOM) {
+                new SwapTopAndBottomController().play(model, cardIndex);
+                continue;
             }
             view.displayError(UNPLAYABLE_CARD);
         }

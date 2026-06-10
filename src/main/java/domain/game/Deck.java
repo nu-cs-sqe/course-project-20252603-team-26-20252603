@@ -52,6 +52,14 @@ public final class Deck {
         cards.add(card);
     }
 
+    public void moveTopToBottom() {
+        if (cards.isEmpty()) {
+            return;
+        }
+        Card topCard = cards.remove(cards.size() - 1);
+        cards.add(0, topCard);
+    }
+
     public List<Card> removeCardsByType(CardType type) {
         if (type == null) {
             throw new IllegalArgumentException(CARD_TYPE_REQUIRED_MESSAGE);
@@ -93,5 +101,16 @@ public final class Deck {
             topCards.add(cards.get(cards.size() - 1 - i));
         }
         return List.copyOf(topCards);
+    }
+
+    void swapTopAndBottom() {
+        if (cards.size() < 2) {
+            return;
+        }
+
+        int topIndex = cards.size() - 1;
+        Card bottomCard = cards.get(0);
+        cards.set(0, cards.get(topIndex));
+        cards.set(topIndex, bottomCard);
     }
 }
