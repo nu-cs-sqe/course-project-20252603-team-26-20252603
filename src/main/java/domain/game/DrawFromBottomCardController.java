@@ -29,7 +29,6 @@ public class DrawFromBottomCardController {
         player.removeCard(cardIndex);
         discardPile.add(selectedCard);
         Card pulledCard = deck.drawFromBottom();
-        player.addCard(pulledCard);
         return pulledCard;
 
     }

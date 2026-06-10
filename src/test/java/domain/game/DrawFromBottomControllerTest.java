@@ -53,8 +53,7 @@ public class DrawFromBottomControllerTest {
         Card drawn = controller.play(player, 0);
 
         assertEquals(CardType.SKIP, drawn.getType());
-        assertEquals(1, player.getHandSize());
-        assertEquals(CardType.SKIP, player.getHandSnapshot().get(0).getType());
+        assertEquals(0, player.getHandSize());
         assertEquals(1, discardPile.size());
     }
 
@@ -69,7 +68,6 @@ public class DrawFromBottomControllerTest {
         Card drawn = controller.play(player, 0);
 
         assertEquals(CardType.EXPLODING_KITTEN, drawn.getType());
-        assertEquals(1, player.getHandSize());
-        assertEquals(CardType.EXPLODING_KITTEN, player.getHandSnapshot().get(0).getType());
+        assertEquals(0, player.getHandSize());
     }
 }

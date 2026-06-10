@@ -88,8 +88,10 @@ public class GameController {
                     }
                     return;
                 }
+                currentPlayer.addCard(drawnCard);
                 view.displayCardDrawn(drawnCard);
                 model.advanceTurn();
+
                 return;
             }
             view.displayError(UNPLAYABLE_CARD);
