@@ -226,4 +226,15 @@ public class GameViewTest {
         assertEquals(jordan, result);
     }
 
+    @Test
+    void promptTargetPlayer_MultiplePlayersSelectFirst_ReturnsFirstPlayer() {
+        Player jordan = new Player("Jordan");
+        Player casey = new Player("Casey");
+        GameView view = viewWithInput("1");
+
+        Player result = view.promptTargetPlayer(List.of(jordan, casey));
+
+        assertEquals(jordan, result);
+    }
+
 }
