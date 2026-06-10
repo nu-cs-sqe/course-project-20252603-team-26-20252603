@@ -63,3 +63,26 @@
 | `GAME-ATTACK-1`  | Attacker has no forced turns (fresh Attack)              | Move to the next player and force them to take 2 turns                       | :white_check_mark: |
 | `GAME-ATTACK-2`  | Attacker is already under Attack (stacks the Attack)     | Move to the next player and force them to take the untaken turns plus 2      | :white_check_mark: |
 
+### Method under test: `public void applyTargetedAttack(Player target)`
+| Step 1                        | Step 2     | Step 3                                                                                                                                    |
+|-------------------------------|------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| Input 1: target player        | Object     | Values: <ul><li>null</li><li>valid player in the game</li><li>current player (self-target)</li></ul> |
+| Internal state: forced turns  | Integer    | Values: <ul><li>0 forced turns</li><li>existing forced turns</li></ul>                                                                   |
+| Output: side effects          | State      | Values: <ul><li>throws `IllegalArgumentException`</li><li>current player set to target, forced turns += 2</li><li>forced turns stack with existing</li></ul> |
+
+- **Step 4:**
+    - **TC1: applyTargetedAttack_NullTarget_ThrowsIllegalArgumentException** (x:white_check_mark:)
+        - **State of the system**: game has two players `Sophie` and `Jordan`, target is `null`
+        - **Expected output**: throws `IllegalArgumentException`
+
+    - **TC2: applyTargetedAttack_ValidTarget_SetsCurrentPlayerToTargetWithTwoForcedTurns** (x:white_check_mark:)
+        - **State of the system**: game has two players `Sophie` and `Jordan`, current player is `Sophie`, target is `Jordan`, forced turns is `0`
+        - **Expected output**: current player is `Jordan`, forced turns is `2`
+
+    - **TC3: applyTargetedAttack_SelfTarget_ThrowsIllegalArgumentException** (x:white_check_mark:)
+        - **State of the system**: game has two players `Sophie` and `Jordan`, current player is `Sophie`, target is `Sophie`
+        - **Expected output**: throws `IllegalArgumentException`
+
+    - **TC4: applyTargetedAttack_WithExistingForcedTurns_StacksForcedTurns** (x:white_check_mark:)
+        - **State of the system**: game has two players `Sophie` and `Jordan`, current player is `Sophie`, forced turns is `1`, target is `Jordan`
+        - **Expected output**: current player is `Jordan`, forced turns is `3`

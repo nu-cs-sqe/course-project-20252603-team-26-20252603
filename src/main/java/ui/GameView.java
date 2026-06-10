@@ -92,6 +92,16 @@ public class GameView {
         System.out.println(message);
     }
 
+    public Player promptTargetPlayer(List<Player> players) {
+        System.out.println(messages.getString("target.player.prompt"));
+        for (int i = 0; i < players.size(); i++) {
+            System.out.println((i + 1) + ". " + players.get(i).getName());
+        }
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        return players.get(choice - 1);
+    }
+
     public void displayPublicPlayerState(
             List<Player> activePlayers,
             List<EliminatedPlayer> eliminatedPlayers) {

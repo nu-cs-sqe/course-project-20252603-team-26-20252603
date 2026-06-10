@@ -18,32 +18,32 @@
 | Output: list of players                       | Collection | Values: <ul><li>2</li><li>3</li><li>4</li><li>5</li><li>1</li><li>6</li></ul>                          |
 
 - **Step 4:**
-    - **TC2: promptPlayerNames_2Players_ListSize2** ( x: or :white_check_mark: )
+    - **TC2: promptPlayerNames_2Players_ListSize2** ( :white_check_mark: )
         - **State of the system**: Fresh GameView
         - **User input**: 2 players
         - **Expected output**: List<String> with size = 2
 
-    - **TC3: promptPlayerNames_3Players_ListSize3** ( x: or :white_check_mark: )
+    - **TC3: promptPlayerNames_3Players_ListSize3** ( :white_check_mark: )
         - **State of the system**: Fresh GameView
         - **User input**: 3 players
         - **Expected output**: List<String> with size = 3
 
-    - **TC4: promptPlayerNames_4Players_ListSize4** ( x: or :white_check_mark: )
+    - **TC4: promptPlayerNames_4Players_ListSize4** ( :white_check_mark: )
         - **State of the system**: Fresh GameView
         - **User input**: 4 players
         - **Expected output**: List<String> with size = 4
 
-    - **TC5: promptPlayerNames_5Players_ListSize5** ( x: or :white_check_mark: )
+    - **TC5: promptPlayerNames_5Players_ListSize5** ( :white_check_mark: )
         - **State of the system**: Fresh GameView
         - **User input**: 5 players
         - **Expected output**: List<String> with size = 5
 
-    - **TC6: promptPlayerNames_1Player_ListSize1** ( x: or :white_check_mark: )
+    - **TC6: promptPlayerNames_1Player_ListSize1** (:white_check_mark: )
         - **State of the system**: Fresh GameView
         - **User input**: 1 player (controller will validate size 1 list not allowed)
         - **Expected output**: List<String> with size = 1
       
-    - **TC7: promptPlayerNames_6Players_ListSize6** ( x: or :white_check_mark: )
+    - **TC7: promptPlayerNames_6Players_ListSize6** ( :white_check_mark: )
         - **State of the system**: Fresh GameView
         - **User input**: 6 players (controller will validate size 6 list not allowed)
         - **Expected output**: List<String> with size = 6
@@ -81,3 +81,42 @@
     - **TC9: displayGameOver_WithWinnerName_ShowsGameOverAndWinner** (:white_check_mark:)
         - **State of the system**: call function `displayGameOver("Jordan")`
         - **Expected output**: Console shows "Game over! Jordan wins!"
+
+### Method under test: `public void displayError(String message)`
+| Step 1                 | Step 2 | Step 3                                                                                          |
+|------------------------|--------|-------------------------------------------------------------------------------------------------|
+| Input 1: message       | String | Values: <ul><li>null</li><li>empty string</li><li>normal string</li></ul>                       |
+| Output: console output | String | Values: <ul><li>error prefix only</li><li>error prefix and message</li><li>exception</li></ul>  |
+
+- **Step 4:**
+    - **TC: displayError_NullMessage_ThrowsException** ( x: or :white_check_mark: )
+        - **State of the system**: call `displayError(null)`
+        - **Expected output**: throws `IllegalArgumentException`
+
+    - **TC: displayError_EmptyMessage_ShowsPrefixOnly** ( x: or :white_check_mark: )
+        - **State of the system**: call `displayError("")`
+        - **Expected output**: Console shows `"Error: "`
+
+    - **TC: displayError_NormalMessage_ShowsPrefixAndMessage** ( x: or :white_check_mark: )
+        - **State of the system**: call `displayError("something went wrong")`
+        - **Expected output**: Console shows `"Error: something went wrong"`
+
+### Method under test: `public Player promptTargetPlayer(List<Player> players)`
+| Step 1                        | Step 2     | Step 3                                                                                                                                    |
+|-------------------------------|------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| Input 1: players list         | Collection | Values: <ul><li>one player</li><li>more than one player</li></ul>                                                                        |
+| Input 2: user input           | Integer    | Values: <ul><li>1 (min valid index)</li><li>size of list (max valid index)</li></ul>                                                     |
+| Output: selected player       | Object     | Values: <ul><li>returns first player</li><li>returns last player</li></ul>                                                               |
+
+- **Step 4:**
+    - **TC1: promptTargetPlayer_OnePlayer_ReturnsOnlyPlayer** ( x: or :white_check_mark: )
+        - **State of the system**: players list has one player `Jordan`, user inputs `1`
+        - **Expected output**: returns `Jordan`
+
+    - **TC2: promptTargetPlayer_MultiplePlayersSelectFirst_ReturnsFirstPlayer** ( x: or :white_check_mark: )
+        - **State of the system**: players list has `Jordan` and `Casey`, user inputs `1`
+        - **Expected output**: returns `Jordan`
+
+    - **TC3: promptTargetPlayer_MultiplePlayersSelectLast_ReturnsLastPlayer** ( x: or :white_check_mark: )
+        - **State of the system**: players list has `Jordan` and `Casey`, user inputs `2`
+        - **Expected output**: returns `Casey`

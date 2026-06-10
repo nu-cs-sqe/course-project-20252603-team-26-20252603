@@ -1457,4 +1457,147 @@ public class GameControllerTest {
         }
     }
 
+    @Test
+    void playTargetedAttack_NegativeIndex_DisplaysError() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        currentPlayer.addCard(new Card(CardType.TARGETED_ATTACK));
+
+        mockView.displayError(anyString());
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.playTargetedAttack(-1);
+
+        assertEquals("Sophie", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+
+    @Test
+    void playTargetedAttack_IndexEqualsHandSize_DisplaysError() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        currentPlayer.addCard(new Card(CardType.TARGETED_ATTACK));
+
+        mockView.displayError(anyString());
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.playTargetedAttack(currentPlayer.getHandSize());
+
+        assertEquals("Sophie", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
+    void playTargetedAttack_NotTargetedAttackCard_DisplaysError() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        currentPlayer.addCard(new Card(CardType.SKIP));
+
+        mockView.displayError(anyString());
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.playTargetedAttack(0);
+
+        assertEquals("Sophie", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
+    void playTargetedAttack_ValidCard_PromptsTargetDiscardsCardAndAppliesAttack() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        Card targetedAttack = new Card(CardType.TARGETED_ATTACK);
+        clearHand(currentPlayer);
+        currentPlayer.addCard(targetedAttack);
+        Player jordan = game.getPlayers().get(1);
+
+        expect(mockView.promptTargetPlayer(List.of(jordan))).andReturn(jordan).once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.playTargetedAttack(0);
+
+        assertEquals(0, currentPlayer.getHandSize());
+        assertEquals(List.of(targetedAttack), game.getDiscardPile().snapshot());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        assertEquals(2, game.getForcedTurns());
+        verify(mockView);
+    }
+
+    @Test
+    void playTargetedAttack_SelfTargetReturned_DoesNotDiscardCard() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        Card targetedAttack = new Card(CardType.TARGETED_ATTACK);
+        clearHand(currentPlayer);
+        currentPlayer.addCard(targetedAttack);
+        Player jordan = game.getPlayers().get(1);
+
+        expect(mockView.promptTargetPlayer(List.of(jordan))).andReturn(currentPlayer).once();
+        mockView.displayError(anyString());
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.playTargetedAttack(0);
+
+        assertEquals(List.of(targetedAttack), currentPlayer.getHandSnapshot());
+        assertTrue(game.getDiscardPile().snapshot().isEmpty());
+        assertEquals("Sophie", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+
+    @Test
+    void completeTurn_TargetedAttackPlayed_PromptsTargetDiscardsCardAndEndsWithoutDrawing() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        Card targetedAttack = new Card(CardType.TARGETED_ATTACK);
+        clearHand(currentPlayer);
+        currentPlayer.addCard(targetedAttack);
+        List<Card> startingHand = currentPlayer.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        game.getDrawPile().addCard(new Card(CardType.PLACEHOLDER_CARD));
+        int drawPileSize = game.getDrawPile().size();
+        Player jordan = game.getPlayers().get(1);
+
+        mockView.displayPublicPlayerState(game.getPlayers(), game.getEliminatedPlayers());
+        expectLastCall().once();
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        expect(mockView.promptTargetPlayer(List.of(jordan))).andReturn(jordan).once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.completeTurn(List.of(0));
+
+        assertEquals(0, currentPlayer.getHandSize());
+        assertEquals(List.of(targetedAttack), game.getDiscardPile().snapshot());
+        assertEquals(drawPileSize, game.getDrawPile().size());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        assertEquals(2, game.getForcedTurns());
+        verify(mockView);
+    }
 }

@@ -178,6 +178,22 @@ public class Game {
         forcedTurns = untakenTurns + 2;
     }
 
+    public void applyTargetedAttack(Player target) {
+        if (target == null) {
+            throw new IllegalArgumentException("target must not be null");
+        }
+        if (target == getCurrentPlayer()) {
+            throw new IllegalArgumentException("cannot target yourself");
+        }
+        int targetIndex = players.indexOf(target);
+        if (targetIndex < 0) {
+            throw new IllegalArgumentException("target must be an active player");
+        }
+        int untakenTurns = forcedTurns;
+        currentPlayerIndex = targetIndex;
+        forcedTurns = untakenTurns + 2;
+    }
+
     boolean isWon() {
         return players.size() == 1;
     }
