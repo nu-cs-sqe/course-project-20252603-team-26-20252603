@@ -423,6 +423,34 @@ public class GameControllerTest {
     }
 
     @Test
+    void playSelectedCard_CatPairWithNoEligibleTarget_DisplaysErrorAndContinues() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+        Player jordan = game.getPlayers().get(1);
+        clearHand(sophie);
+        clearHand(jordan);
+        Card firstCat = new Card(CardType.BEARD_CAT);
+        Card secondCat = new Card(CardType.BEARD_CAT);
+        sophie.addCard(firstCat);
+        sophie.addCard(secondCat);
+
+        expect(mockView.promptSecondCardChoice()).andReturn(2);
+        mockView.displayError("no other player has cards to steal");
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        boolean turnEnded = controller.playSelectedCard(0);
+
+        assertFalse(turnEnded);
+        assertEquals(List.of(firstCat, secondCat), sophie.getHandSnapshot());
+        assertEquals(List.of(), game.getDiscardPile().snapshot());
+        verify(mockView);
+    }
+
+    @Test
     void playInteractiveTurn_DrawChoice_DrawsAndEndsTurn() {
         Game game = new Game(createDeckForPlayers(2));
         GameView mockView = EasyMock.createStrictMock(GameView.class);

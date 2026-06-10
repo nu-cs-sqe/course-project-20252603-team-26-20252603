@@ -14,6 +14,7 @@ public class GameController {
     private static final String INVALID_CARD_INDEX = "cardIndex is out of bounds";
     private static final String SUPER_SKIP_PLAYED = "Super Skip played! All forced turns cleared. Turn ended.";
     private static final String REVERSE_PLAYED = "Reverse played! Direction changed. Turn ended.";
+    private static final String NO_CAT_TARGET = "no other player has cards to steal";
 
     // Open to discussion here  
     @SuppressFBWarnings(
@@ -144,6 +145,10 @@ public class GameController {
         List<Player> eligibleTargets = new ArrayList<>(model.getPlayers());
         eligibleTargets.remove(currentPlayer);
         eligibleTargets.removeIf(player -> player.getHandSize() == 0);
+        if (eligibleTargets.isEmpty()) {
+            view.displayError(NO_CAT_TARGET);
+            return;
+        }
         Player target = view.promptTargetPlayer(eligibleTargets);
 
         CatCardController catCardController =
