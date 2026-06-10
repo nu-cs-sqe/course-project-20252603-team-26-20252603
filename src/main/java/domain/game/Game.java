@@ -175,6 +175,13 @@ public class Game {
         forcedTurns = untakenTurns + 2;
     }
 
+    public void applyTargetedAttack(Player target){
+        if (target == null) {
+            throw new IllegalArgumentException("target must not be null");
+        }
+
+    }
+
     boolean isWon() {
         return players.size() == 1;
     }

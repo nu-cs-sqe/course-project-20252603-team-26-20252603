@@ -414,4 +414,12 @@ class GameTest {
     }
 
 
+    @Test
+    void applyTargetedAttack_NullTarget_ThrowsIllegalArgumentException() {
+        Game game = new Game(createDeck(1, 2, 10));
+        game.setupGame(List.of("Sophie", "Jordan"));
+
+        assertThrows(IllegalArgumentException.class, () -> game.applyTargetedAttack(null));
+    }
+
 }
