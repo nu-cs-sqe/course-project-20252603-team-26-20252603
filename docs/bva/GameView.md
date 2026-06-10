@@ -43,7 +43,7 @@
         - **User input**: 1 player (controller will validate size 1 list not allowed)
         - **Expected output**: List<String> with size = 1
       
-    - **TC7: promptPlayerNames_6Players_ListSize6** ( x: or :white_check_mark: )
+    - **TC7: promptPlayerNames_6Players_ListSize6** ( :white_check_mark: )
         - **State of the system**: Fresh GameView
         - **User input**: 6 players (controller will validate size 6 list not allowed)
         - **Expected output**: List<String> with size = 6

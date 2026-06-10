@@ -132,11 +132,22 @@ public class GameViewTest {
 
         List<String> names = view.promptPlayerNames();
 
-        assertTrue(names.size() == 1);
+        assertEquals(1, names.size());
         assertTrue(names.contains("Alice"));
     }
 
+    @Test
+    void promptPlayerNames_ThreePlayer_ReturnsSingleName() {
+        GameView view = viewWithInput("3", "Alice", "Bob", "Marie");
 
+        List<String> names = view.promptPlayerNames();
+
+        assertEquals(3, names.size());
+        assertTrue(names.contains("Alice"));
+        assertTrue(names.contains("Bob"));
+        assertTrue(names.contains("Marie"));
+
+    }
 
     @Test
     void promptPlayerNames_SixPlayer_ReturnsSingleName() {
