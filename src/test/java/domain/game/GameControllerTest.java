@@ -391,6 +391,38 @@ public class GameControllerTest {
     }
 
     @Test
+    void playSelectedCard_NonmatchingCatPair_DisplaysErrorAndContinues() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+        Player jordan = game.getPlayers().get(1);
+        clearHand(sophie);
+        clearHand(jordan);
+        Card beardCat = new Card(CardType.BEARD_CAT);
+        Card tacocat = new Card(CardType.TACOCAT);
+        Card targetCard = new Card(CardType.SKIP);
+        sophie.addCard(beardCat);
+        sophie.addCard(tacocat);
+        jordan.addCard(targetCard);
+
+        expect(mockView.promptSecondCardChoice()).andReturn(2);
+        expect(mockView.promptTargetPlayer(List.of(jordan))).andReturn(jordan);
+        mockView.displayError("must select two different matching cards");
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        boolean turnEnded = controller.playSelectedCard(0);
+
+        assertFalse(turnEnded);
+        assertEquals(List.of(beardCat, tacocat), sophie.getHandSnapshot());
+        assertEquals(List.of(targetCard), jordan.getHandSnapshot());
+        assertEquals(List.of(), game.getDiscardPile().snapshot());
+        verify(mockView);
+    }
+
+    @Test
     void playInteractiveTurn_DrawChoice_DrawsAndEndsTurn() {
         Game game = new Game(createDeckForPlayers(2));
         GameView mockView = EasyMock.createStrictMock(GameView.class);

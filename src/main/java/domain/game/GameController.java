@@ -148,9 +148,13 @@ public class GameController {
 
         CatCardController catCardController =
                 new CatCardController(model.getDiscardPile(), new Random());
-        Card stolenCard = catCardController.play(
-                currentPlayer, target, firstCardIndex, secondCardIndex);
-        view.displayCardStolen(stolenCard);
+        try {
+            Card stolenCard = catCardController.play(
+                    currentPlayer, target, firstCardIndex, secondCardIndex);
+            view.displayCardStolen(stolenCard);
+        } catch (IllegalArgumentException e) {
+            view.displayError(e.getMessage());
+        }
     }
 
     private boolean isCatCard(CardType type) {
