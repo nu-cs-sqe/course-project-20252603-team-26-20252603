@@ -18,7 +18,7 @@
 | Output: list of players                       | Collection | Values: <ul><li>2</li><li>3</li><li>4</li><li>5</li><li>1</li><li>6</li></ul>                          |
 
 - **Step 4:**
-    - **TC2: promptPlayerNames_2Players_ListSize2** ( x: or :white_check_mark: )
+    - **TC2: promptPlayerNames_2Players_ListSize2** ( :white_check_mark: )
         - **State of the system**: Fresh GameView
         - **User input**: 2 players
         - **Expected output**: List<String> with size = 2
@@ -38,7 +38,7 @@
         - **User input**: 5 players
         - **Expected output**: List<String> with size = 5
 
-    - **TC6: promptPlayerNames_1Player_ListSize1** ( x: or :white_check_mark: )
+    - **TC6: promptPlayerNames_1Player_ListSize1** (:white_check_mark: )
         - **State of the system**: Fresh GameView
         - **User input**: 1 player (controller will validate size 1 list not allowed)
         - **Expected output**: List<String> with size = 1

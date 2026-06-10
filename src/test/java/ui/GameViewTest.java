@@ -1,5 +1,6 @@
 package ui;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
@@ -112,5 +113,30 @@ public class GameViewTest {
 
         assertTrue(names.isEmpty());
     }
+
+    @Test
+    void promptPlayerNames_TwoPlayers_ReturnsBothNamesInOrder() {
+        GameView view = viewWithInput("2", "Alice", "Bob");
+
+        List<String> names = view.promptPlayerNames();
+
+        assertEquals(2, names.size());
+        assertEquals("Alice", names.get(0));
+        assertEquals("Bob", names.get(1));
+    }
+
+
+    @Test
+    void promptPlayerNames_OnePlayer_ReturnsSingleName() {
+        GameView view = viewWithInput("1", "Alice");
+
+        List<String> names = view.promptPlayerNames();
+
+        assertTrue(names.size() == 1);
+        assertTrue(names.contains("Alice"));
+    }
+
+
+
 
 }
