@@ -57,4 +57,19 @@ public class DrawFromBottomControllerTest {
         assertEquals(CardType.SKIP, player.getHandSnapshot().get(0).getType());
         assertEquals(1, discardPile.size());
     }
+
+    @Test
+    void play_ValidCard_ExplodingKittenDrawn_ReturnsExplodingKitten() {
+        Player player = new Player("Sophie");
+        player.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+        Deck deck = new Deck(List.of(new Card(CardType.EXPLODING_KITTEN), new Card(CardType.ATTACK)));
+        DiscardPile discardPile = new DiscardPile();
+        DrawFromBottomCardController controller = new DrawFromBottomCardController(deck, discardPile);
+
+        Card drawn = controller.play(player, 0);
+
+        assertEquals(CardType.EXPLODING_KITTEN, drawn.getType());
+        assertEquals(1, player.getHandSize());
+        assertEquals(CardType.EXPLODING_KITTEN, player.getHandSnapshot().get(0).getType());
+    }
 }
