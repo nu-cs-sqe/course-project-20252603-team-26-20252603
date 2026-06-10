@@ -327,6 +327,18 @@ class GameTest {
     }
 
     @Test
+    void endTurnClearingForced_AfterReverse_MovesToPreviousPlayer() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+        game.reverseDirection();
+
+        game.endTurnClearingForced();
+
+        assertEquals(0, game.getForcedTurns());
+        assertEquals("Charlie", game.getCurrentPlayer().getName());
+    }
+
+    @Test
     void reverseDirection_FromForward_BecomesBackward() {
         Game game = new Game(createDeck(3, 3, 15));
         game.setupGame(List.of("Alice", "Bob", "Charlie"));

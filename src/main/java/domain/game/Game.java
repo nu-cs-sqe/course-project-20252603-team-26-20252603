@@ -204,7 +204,7 @@ public class Game {
 
     public void endTurnClearingForced() {
         forcedTurns = 0;
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        currentPlayerIndex = Math.floorMod(currentPlayerIndex + direction, players.size());
     }
 
     public void reverseDirection() {
