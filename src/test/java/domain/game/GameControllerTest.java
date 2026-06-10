@@ -1333,4 +1333,25 @@ public class GameControllerTest {
         verify(mockView);
     }
 
+
+    @Test
+    void playTargetedAttack_IndexEqualsHandSize_DisplaysError() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        currentPlayer.addCard(new Card(CardType.TARGETED_ATTACK));
+
+        mockView.displayError(anyString());
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.playTargetedAttack(currentPlayer.getHandSize());
+
+        assertEquals("Sophie", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
 }
