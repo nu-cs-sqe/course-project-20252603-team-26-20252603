@@ -240,4 +240,12 @@ class DeckTest {
         EasyMock.replay(card);
         return card;
     }
+
+    @Test
+    void drawFromBottom_EmptyDeck_ThrowsIllegalStateException() {
+        Deck deck = new Deck(List.of());
+
+        assertThrows(IllegalStateException.class, () -> deck.drawFromBottom());
+    }
+
 }
