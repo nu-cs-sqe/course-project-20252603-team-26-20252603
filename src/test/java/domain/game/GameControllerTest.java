@@ -1383,4 +1383,28 @@ public class GameControllerTest {
         verify(mockView);
     }
 
+    @Test
+    void playTargetedAttack_ValidCard_PromptsTargetDiscardsCardAndAppliesAttack() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        Card targetedAttack = new Card(CardType.TARGETED_ATTACK);
+        clearHand(currentPlayer);
+        currentPlayer.addCard(targetedAttack);
+        Player jordan = game.getPlayers().get(1);
+
+        expect(mockView.promptTargetPlayer(game.getPlayers())).andReturn(jordan).once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.playTargetedAttack(0);
+
+        assertEquals(0, currentPlayer.getHandSize());
+        assertEquals(List.of(targetedAttack), game.getDiscardPile().snapshot());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        assertEquals(2, game.getForcedTurns());
+        verify(mockView);
+    }
+
 }
