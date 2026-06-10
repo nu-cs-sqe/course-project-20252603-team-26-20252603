@@ -334,6 +334,30 @@ public class GameControllerTest {
     }
 
     @Test
+    void playSelectedCard_Reverse_ReversesDirectionAndEndsTurn() {
+        Game game = new Game(createDeckForPlayers(3));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan", "Casey"));
+        Player sophie = game.getCurrentPlayer();
+        clearHand(sophie);
+        Card reverse = new Card(CardType.REVERSE);
+        sophie.addCard(reverse);
+
+        mockView.displayMessage("Reverse played! Direction changed. Turn ended.");
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        boolean turnEnded = controller.playSelectedCard(0);
+
+        assertTrue(turnEnded);
+        assertEquals(-1, game.getDirection());
+        assertEquals("Casey", game.getCurrentPlayer().getName());
+        assertEquals(List.of(reverse), game.getDiscardPile().snapshot());
+        verify(mockView);
+    }
+
+    @Test
     void completeTurn_TwoSeeFutureCardsPlayed_DisplaysBothThenDrawsAndAdvances() {
         Game game = new Game(createDeckForPlayers(2));
         GameView mockView = EasyMock.createStrictMock(GameView.class);
