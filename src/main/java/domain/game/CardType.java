@@ -14,5 +14,6 @@ public enum CardType {
     SEE_THE_FUTURE,
     SUPER_SKIP,
     REVERSE,
-    DRAW_FROM_BOTTOM
+    DRAW_FROM_BOTTOM,
+    TARGETED_ATTACK
 }
