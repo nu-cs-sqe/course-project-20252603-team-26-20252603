@@ -37,6 +37,16 @@ public class GameController {
         }
     }
 
+    public void runGame() {
+        view.displayStartScreen();
+        while (model.getPlayers().isEmpty()) {
+            startGame(view.promptPlayerNames());
+        }
+        while (!model.isWon()) {
+            playInteractiveTurn();
+        }
+    }
+
     public void startTurn() {
         view.displayPublicPlayerState(model.getPlayers(), model.getEliminatedPlayers());
 

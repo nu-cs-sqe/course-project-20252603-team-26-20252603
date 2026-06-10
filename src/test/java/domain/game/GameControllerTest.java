@@ -458,6 +458,36 @@ public class GameControllerTest {
     }
 
     @Test
+    void runGame_TwoPlayersDrawingUntilExplosion_StopsWithWinner() {
+        List<Card> cards = new ArrayList<>();
+        cards.add(new Card(CardType.EXPLODING_KITTEN));
+        cards.add(new Card(CardType.DEFUSE));
+        cards.add(new Card(CardType.DEFUSE));
+        for (int count = 0; count < 10; count++) {
+            cards.add(new Card(CardType.BEARD_CAT));
+        }
+        Game game = new Game(new Deck(cards));
+        GameView mockView = EasyMock.createNiceMock(GameView.class);
+
+        mockView.displayStartScreen();
+        expectLastCall().once();
+        expect(mockView.promptPlayerNames()).andReturn(List.of("Sophie", "Jordan"));
+        mockView.displayGameReady();
+        expectLastCall().once();
+        expect(mockView.promptCardChoice()).andReturn(0).times(3);
+        mockView.displayGameOver("Jordan");
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.runGame();
+
+        assertTrue(game.isWon());
+        assertEquals("Jordan", game.getPlayers().get(0).getName());
+        verify(mockView);
+    }
+
+    @Test
     void completeTurn_TwoSeeFutureCardsPlayed_DisplaysBothThenDrawsAndAdvances() {
         Game game = new Game(createDeckForPlayers(2));
         GameView mockView = EasyMock.createStrictMock(GameView.class);
