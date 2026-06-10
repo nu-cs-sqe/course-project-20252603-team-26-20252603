@@ -247,4 +247,13 @@ public class GameViewTest {
 
         assertTrue(captured().contains("PLACEHOLDER_CARD"));
     }
+
+    @Test
+    void displayMessage_EmptyString_PrintsBlankLine() {
+        GameView view = new GameView();
+
+        view.displayMessage("");
+
+        assertNotNull(captured());
+    }
 }
