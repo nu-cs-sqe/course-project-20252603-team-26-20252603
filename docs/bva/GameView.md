@@ -137,18 +137,33 @@
 | Output: console output | String | Values: <ul><li>throws exception</li><li>shows card type in message</li></ul> |
 
 - **Step 4:**
-    - **TC: displayCardDrawn_NullCard_ThrowsException** ( x: or :white_check_mark:)
+    - **TC: displayCardDrawn_NullCard_ThrowsException** ( :white_check_mark:)
         - **State of the system**: call `displayCardDrawn(null)`
         - **Expected output**: throws `IllegalArgumentException`
 
-    - **TC: displayCardDrawn_ExplodingKitten_ShowsExplodingKitten** ( x: or :white_check_mark:)
+    - **TC: displayCardDrawn_ExplodingKitten_ShowsExplodingKitten** ( :white_check_mark:)
         - **State of the system**: call `displayCardDrawn(new Card(CardType.EXPLODING_KITTEN))`
         - **Expected output**: Console shows `"EXPLODING_KITTEN"`
 
-    - **TC: displayCardDrawn_Defuse_ShowsDefuse** ( x: or :white_check_mark:)
+    - **TC: displayCardDrawn_Defuse_ShowsDefuse** ( :white_check_mark:)
         - **State of the system**: call `displayCardDrawn(new Card(CardType.DEFUSE))`
         - **Expected output**: Console shows `"DEFUSE"`
 
-    - **TC: displayCardDrawn_PlaceholderCard_ShowsPlaceholderCard** ( x: or :white_check_mark:)
+    - **TC: displayCardDrawn_PlaceholderCard_ShowsPlaceholderCard** ( :white_check_mark:)
         - **State of the system**: call `displayCardDrawn(new Card(CardType.PLACEHOLDER_CARD))`
         - **Expected output**: Console shows `"PLACEHOLDER_CARD"`
+
+### Method under test: `public void displayMessage(String message)`
+| Step 1                 | Step 2 | Step 3                                                                                          |
+|------------------------|--------|-------------------------------------------------------------------------------------------------|
+| Input 1: message       | String | Values: <ul><li>empty string</li><li>normal string</li></ul>                                    |
+| Output: console output | String | Values: <ul><li>blank line</li><li>message text</li></ul>                                       |
+
+- **Step 4:**
+    - **TC: displayMessage_EmptyString_PrintsBlankLine** (:white_check_mark:)
+        - **State of the system**: call `displayMessage("")`
+        - **Expected output**: console output is not null
+
+    - **TC: displayMessage_NormalString_ShowsMessage** (:white_check_mark:)
+        - **State of the system**: call `displayMessage("Skip played. Your turn ends without drawing a card.")`
+        - **Expected output**: Console shows `"Skip played. Your turn ends without drawing a card."`
