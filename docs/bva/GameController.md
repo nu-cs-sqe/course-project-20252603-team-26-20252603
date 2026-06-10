@@ -137,3 +137,27 @@ mechanics live in the `Game` model (`applyAttack` / `advanceTurn`); see `Game.md
 - **TC17: completeTurn_DrawFromBottomDrawsExplodingKittenWithoutDefuse_PlayerEliminated** (:white_check_mark:)
     - **State of the system**: current player is `Sophie`, next player is `Jordan`, selected card index is `[0]`, card at index `0` is `DRAW_FROM_BOTTOM`, `Sophie` has no `DEFUSE`, deck has `[EXPLODING_KITTEN, ATTACK]` where `EXPLODING_KITTEN` is at the bottom
     - **Expected output**: `DRAW_FROM_BOTTOM` discarded, `Sophie` is eliminated, `Jordan` is the only remaining player
+
+### Method under test: `public void playTargetedAttack(int cardIndex)`
+| Step 1                        | Step 2     | Step 3                                                                                                                                    |
+|-------------------------------|------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| Input 1: card index           | Integer    | Values: <ul><li>negative index</li><li>index equal to hand size</li><li>valid index pointing to `TARGETED_ATTACK`</li><li>valid index pointing to a non-`TARGETED_ATTACK` card</li></ul> |
+| Internal state: players       | Collection | Values: <ul><li>two players</li></ul>                                                                                                    |
+| Output: side effects          | State / UI | Values: <ul><li>throws or displays error</li><li>prompts for target, discards card, sets target as current player with two forced turns</li></ul> |
+
+- **Step 4:**
+    - **TC1: playTargetedAttack_NegativeIndex_DisplaysError** (:x: or :white_check_mark:)
+        - **State of the system**: current player is `Sophie`, card index is `-1`
+        - **Expected output**: displays error, turn does not advance
+
+    - **TC2: playTargetedAttack_IndexEqualsHandSize_DisplaysError** (:x: or :white_check_mark:)
+        - **State of the system**: current player is `Sophie` with one `TARGETED_ATTACK` card, card index equals hand size
+        - **Expected output**: displays error, turn does not advance
+
+    - **TC3: playTargetedAttack_NotTargetedAttackCard_DisplaysError** (:x: or :white_check_mark:)
+        - **State of the system**: current player is `Sophie` with one `SKIP` card, card index is `0`
+        - **Expected output**: displays error, turn does not advance
+
+    - **TC4: playTargetedAttack_ValidCard_PromptsTargetDiscardsCardAndAppliesAttack** (:x: or :white_check_mark:)
+        - **State of the system**: current player is `Sophie`, next player is `Jordan`, `Sophie` has one `TARGETED_ATTACK` card, user selects `Jordan` as target
+        - **Expected output**: `TARGETED_ATTACK` discarded, current player is `Jordan`, forced turns is `2`
