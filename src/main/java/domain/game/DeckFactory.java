@@ -13,6 +13,7 @@ public final class DeckFactory {
     private static final int SEE_THE_FUTURE_COUNT = 4;
     private static final int SHUFFLE_COUNT = 4;
     private static final int CAT_CARD_COUNT = 4;
+    private static final int INVENTED_CARD_COUNT = 2;
 
     private DeckFactory() {
     }
@@ -40,5 +41,20 @@ public final class DeckFactory {
         cards.addAll(Collections.nCopies(
                 CAT_CARD_COUNT, new Card(CardType.RAINBOW_RALPHING_CAT)));
         return new Deck(cards);
+    }
+
+    public static Deck completeDeck() {
+        List<Card> cards = new ArrayList<>(standardDeck().snapshot());
+        addCards(cards, CardType.SUPER_SKIP, INVENTED_CARD_COUNT);
+        addCards(cards, CardType.REVERSE, INVENTED_CARD_COUNT);
+        addCards(cards, CardType.BURY, INVENTED_CARD_COUNT);
+        addCards(cards, CardType.SWAP_TOP_AND_BOTTOM, INVENTED_CARD_COUNT);
+        addCards(cards, CardType.DRAW_FROM_BOTTOM, INVENTED_CARD_COUNT);
+        addCards(cards, CardType.TARGETED_ATTACK, INVENTED_CARD_COUNT);
+        return new Deck(cards);
+    }
+
+    private static void addCards(List<Card> cards, CardType type, int count) {
+        cards.addAll(Collections.nCopies(count, new Card(type)));
     }
 }

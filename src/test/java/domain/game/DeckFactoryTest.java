@@ -63,4 +63,17 @@ class DeckFactoryTest {
         assertEquals(4, deck.countCardsOfType(CardType.TACOCAT));
         assertEquals(4, deck.countCardsOfType(CardType.RAINBOW_RALPHING_CAT));
     }
+
+    @Test
+    void completeDeck_ContainsTwoOfEachInventedCard() {
+        Deck deck = DeckFactory.completeDeck();
+
+        assertEquals(50, deck.size());
+        assertEquals(2, deck.countCardsOfType(CardType.SUPER_SKIP));
+        assertEquals(2, deck.countCardsOfType(CardType.REVERSE));
+        assertEquals(2, deck.countCardsOfType(CardType.BURY));
+        assertEquals(2, deck.countCardsOfType(CardType.SWAP_TOP_AND_BOTTOM));
+        assertEquals(2, deck.countCardsOfType(CardType.DRAW_FROM_BOTTOM));
+        assertEquals(2, deck.countCardsOfType(CardType.TARGETED_ATTACK));
+    }
 }
