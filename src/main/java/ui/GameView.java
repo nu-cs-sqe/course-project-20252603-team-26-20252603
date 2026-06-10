@@ -59,17 +59,11 @@ public class GameView {
     }
 
     public int promptCardChoice() {
-        System.out.print(messages.getString("turn.card.prompt"));
-        int choice = scanner.nextInt();
-        scanner.nextLine();
-        return choice;
+        return readInteger("turn.card.prompt");
     }
 
     public int promptSecondCardChoice() {
-        System.out.print(messages.getString("turn.second.card.prompt"));
-        int choice = scanner.nextInt();
-        scanner.nextLine();
-        return choice;
+        return readInteger("turn.second.card.prompt");
     }
 
     public void displayGameReady() {
@@ -169,6 +163,19 @@ public class GameView {
                     System.out.println("- " + card.getType());
                 }
             }
+        }
+    }
+
+    private int readInteger(String promptKey) {
+        while (true) {
+            System.out.print(messages.getString(promptKey));
+            if (scanner.hasNextInt()) {
+                int choice = scanner.nextInt();
+                scanner.nextLine();
+                return choice;
+            }
+            scanner.nextLine();
+            System.out.println(messages.getString("input.integer.error"));
         }
     }
 }

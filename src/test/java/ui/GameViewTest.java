@@ -215,6 +215,16 @@ public class GameViewTest {
     }
 
     @Test
+    void promptCardChoice_NonNumericThenDrawChoice_DisplaysErrorAndReturnsZero() {
+        GameView view = viewWithInput("cat", "0");
+
+        int choice = view.promptCardChoice();
+
+        assertEquals(0, choice);
+        assertTrue(captured().contains("Please enter a number."));
+    }
+
+    @Test
     void promptSecondCardChoice_ValidCardNumber_ReturnsChoice() {
         GameView view = viewWithInput("3");
 
