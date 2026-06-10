@@ -12,6 +12,7 @@ public final class DeckFactory {
     private static final int SKIP_COUNT = 3;
     private static final int SEE_THE_FUTURE_COUNT = 4;
     private static final int SHUFFLE_COUNT = 4;
+    private static final int CAT_CARD_COUNT = 4;
 
     private DeckFactory() {
     }
@@ -24,7 +25,6 @@ public final class DeckFactory {
         Card skip = new Card(CardType.SKIP);
         Card seeTheFuture = new Card(CardType.SEE_THE_FUTURE);
         Card shuffle = new Card(CardType.SHUFFLE);
-        Card placeholder = new Card(CardType.PLACEHOLDER_CARD);
         cards.addAll(Collections.nCopies(EXPLODING_KITTEN_COUNT, explodingKitten));
         cards.addAll(Collections.nCopies(DEFUSE_COUNT, defuse));
         cards.addAll(Collections.nCopies(ATTACK_COUNT, attack));
@@ -32,10 +32,13 @@ public final class DeckFactory {
         cards.addAll(Collections.nCopies(SEE_THE_FUTURE_COUNT, seeTheFuture));
         cards.addAll(Collections.nCopies(SHUFFLE_COUNT, shuffle));
         cards.addAll(Collections.nCopies(
-                STANDARD_DECK_SIZE - EXPLODING_KITTEN_COUNT - DEFUSE_COUNT
-                        - ATTACK_COUNT - SKIP_COUNT - SEE_THE_FUTURE_COUNT
-                        - SHUFFLE_COUNT,
-                placeholder));
+                CAT_CARD_COUNT, new Card(CardType.BEARD_CAT)));
+        cards.addAll(Collections.nCopies(
+                CAT_CARD_COUNT, new Card(CardType.HAIRY_POTATO_CAT)));
+        cards.addAll(Collections.nCopies(
+                CAT_CARD_COUNT, new Card(CardType.TACOCAT)));
+        cards.addAll(Collections.nCopies(
+                CAT_CARD_COUNT, new Card(CardType.RAINBOW_RALPHING_CAT)));
         return new Deck(cards);
     }
 }

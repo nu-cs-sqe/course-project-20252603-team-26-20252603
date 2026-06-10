@@ -53,4 +53,14 @@ class DeckFactoryTest {
 
         assertEquals(4, deck.countCardsOfType(CardType.SHUFFLE));
     }
+
+    @Test
+    void standardDeck_ContainsFourOfEachCatCard() {
+        Deck deck = DeckFactory.standardDeck();
+
+        assertEquals(4, deck.countCardsOfType(CardType.BEARD_CAT));
+        assertEquals(4, deck.countCardsOfType(CardType.HAIRY_POTATO_CAT));
+        assertEquals(4, deck.countCardsOfType(CardType.TACOCAT));
+        assertEquals(4, deck.countCardsOfType(CardType.RAINBOW_RALPHING_CAT));
+    }
 }
