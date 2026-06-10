@@ -238,4 +238,13 @@ public class GameViewTest {
 
         assertTrue(captured().contains("DEFUSE"));
     }
+
+    @Test
+    void displayCardDrawn_PlaceholderCard_ShowsPlaceholderCard() {
+        GameView view = new GameView();
+
+        view.displayCardDrawn(new Card(CardType.PLACEHOLDER_CARD));
+
+        assertTrue(captured().contains("PLACEHOLDER_CARD"));
+    }
 }
