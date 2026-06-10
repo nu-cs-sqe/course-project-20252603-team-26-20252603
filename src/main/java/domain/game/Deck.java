@@ -113,4 +113,14 @@ public final class Deck {
         cards.set(0, cards.get(topIndex));
         cards.set(topIndex, bottomCard);
     }
+
+
+
+    public Card drawFromBottom() {
+        if (cards.isEmpty()) {
+            throw new IllegalStateException(EMPTY_DECK_MESSAGE);
+        }
+        return cards.remove(0);
+    }
+
 }

@@ -169,3 +169,14 @@ mechanics live in the `Game` model (`applyAttack` / `advanceTurn`); see `Game.md
         - **State of the system**: current player is `Sophie`, next player is `Jordan`, `Sophie` has one `TARGETED_ATTACK` card, user selects `Jordan` as target
         - **Expected output**: `TARGETED_ATTACK` discarded, current player is `Jordan`, forced turns is `2`
 
+- **TC15: completeTurn_DrawFromBottomPlayed_DrawsBottomCardAndAdvances** (:x:white_check_mark:)
+  - **State of the system**: current player is `Sophie`, next player is `Jordan`, selected card index is `[0]`, card at index `0` is `DRAW_FROM_BOTTOM`, deck has `[SKIP, ATTACK]` where `SKIP` is at the bottom
+  - **Expected output**: `DRAW_FROM_BOTTOM` discarded, `SKIP` added to `Sophie`'s hand, turn advances to `Jordan`
+
+- **TC16: completeTurn_DrawFromBottomDrawsExplodingKittenWithDefuse_DefusesAndAdvances** (:x:white_check_mark:)
+    - **State of the system**: current player is `Sophie`, next player is `Jordan`, selected card index is `[0]`, card at index `0` is `DRAW_FROM_BOTTOM`, `Sophie` has a `DEFUSE`, deck has `[EXPLODING_KITTEN, ATTACK]` where `EXPLODING_KITTEN` is at the bottom
+    - **Expected output**: `DRAW_FROM_BOTTOM` discarded, `DEFUSE` discarded, `EXPLODING_KITTEN` returned to deck, turn advances to `Jordan`
+
+- **TC17: completeTurn_DrawFromBottomDrawsExplodingKittenWithoutDefuse_PlayerEliminated** (:x:white_check_mark:)
+    - **State of the system**: current player is `Sophie`, next player is `Jordan`, selected card index is `[0]`, card at index `0` is `DRAW_FROM_BOTTOM`, `Sophie` has no `DEFUSE`, deck has `[EXPLODING_KITTEN, ATTACK]` where `EXPLODING_KITTEN` is at the bottom
+    - **Expected output**: `DRAW_FROM_BOTTOM` discarded, `Sophie` is eliminated, `Jordan` is the only remaining player
