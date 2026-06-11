@@ -206,12 +206,17 @@ public class GameController {
         boolean defused = explodingKittenController.play(
                 currentPlayer, drawnCard, insertionPosition);
         if (defused) {
+            model.recordDefusedKitten(currentPlayer);
+            if (model.isWon()) {
+                view.displayGameOver(model.getWinner().getName());
+                return;
+            }
             model.advanceTurn();
             return;
         }
         model.eliminatePlayer(currentPlayer, drawnCard);
         if (model.isWon()) {
-            view.displayGameOver(model.getPlayers().get(0).getName());
+            view.displayGameOver(model.getWinner().getName());
         }
     }
 
