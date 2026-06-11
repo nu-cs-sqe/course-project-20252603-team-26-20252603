@@ -68,7 +68,15 @@ public class GameView {
         System.out.println(messages.getString("defuse.look.away"));
         String prompt = MessageFormat.format(
                 messages.getString("defuse.position.prompt"), drawPileSize);
-        return readIntegerPrompt(prompt);
+        while (true) {
+            int position = readIntegerPrompt(prompt);
+            if (position >= 0 && position <= drawPileSize) {
+                return position;
+            }
+            String error = MessageFormat.format(
+                    messages.getString("defuse.position.invalid"), drawPileSize);
+            System.out.println(error);
+        }
     }
 
     public void displayGameReady() {

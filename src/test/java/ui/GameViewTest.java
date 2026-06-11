@@ -255,6 +255,16 @@ public class GameViewTest {
     }
 
     @Test
+    void promptDefuseInsertionPosition_OutOfRangeThenValid_ReturnsValidChoice() {
+        GameView view = viewWithInput("-1", "2");
+
+        int position = view.promptDefuseInsertionPosition(3);
+
+        assertEquals(2, position);
+        assertTrue(captured().contains("Choose a position between 0 and 3."));
+    }
+
+    @Test
     void promptTargetPlayer_OutOfRangeThenValid_ReturnsSelectedPlayer() {
         GameView view = viewWithInput("0", "2");
         Player firstPlayer = new Player("Alice");
