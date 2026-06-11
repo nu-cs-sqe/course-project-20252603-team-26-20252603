@@ -15,6 +15,7 @@ public final class Player {
 
     private final String name;
     private final List<Card> hand;
+    private int defusedKittenCount;
 
     public Player(String name) {
         if (name == null || name.isBlank()) {
@@ -22,6 +23,7 @@ public final class Player {
         }
         this.name = name;
         this.hand = new ArrayList<>();
+        this.defusedKittenCount = 0;
     }
 
     public String getName() {
@@ -77,6 +79,14 @@ public final class Player {
     long countCardsOfType(CardType type) {
         Objects.requireNonNull(type, "type must not be null");
         return hand.stream().filter(card -> card.getType() == type).count();
+    }
+
+    void recordDefusedKitten() {
+        defusedKittenCount++;
+    }
+
+    int getDefusedKittenCount() {
+        return defusedKittenCount;
     }
 
     public boolean canSubmitCard(int cardIndex) {

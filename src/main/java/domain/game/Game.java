@@ -16,6 +16,7 @@ public class Game {
             "deck must contain enough exploding kittens for setup";
     private static final String NOT_ENOUGH_STARTING_CARDS_MESSAGE =
             "deck must contain enough non-special cards to deal opening hands";
+    private static final String NO_WINNER_MESSAGE = "game does not have a winner";
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 4;
     private static final int OPENING_HAND_SIZE = 5;
@@ -195,7 +196,24 @@ public class Game {
     }
 
     boolean isWon() {
-        return players.size() == 1;
+        return players.size() == 1
+                || players.stream().anyMatch(player -> player.getDefusedKittenCount() >= 3);
+    }
+
+    void recordDefusedKitten(Player player) {
+        player.recordDefusedKitten();
+    }
+
+    Player getWinner() {
+        if (!isWon()) {
+            throw new IllegalStateException(NO_WINNER_MESSAGE);
+        }
+        for (Player player : players) {
+            if (player.getDefusedKittenCount() >= 3) {
+                return player;
+            }
+        }
+        return players.get(0);
     }
 
     int getForcedTurns() {

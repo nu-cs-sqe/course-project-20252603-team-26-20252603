@@ -1216,6 +1216,35 @@ public class GameControllerTest {
     }
 
     @Test
+    void takeCard_ThirdDefusedExplodingKitten_DisplaysCurrentPlayerAsWinner() {
+        Game game = new Game(createDeckForPlayers(2));
+        game.setupGame(List.of("Avery", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        currentPlayer.addCard(new Card(CardType.DEFUSE));
+        game.recordDefusedKitten(currentPlayer);
+        game.recordDefusedKitten(currentPlayer);
+        clearDrawPile(game.getDrawPile());
+        Card explodingKitten = new Card(CardType.EXPLODING_KITTEN);
+        game.getDrawPile().addCard(explodingKitten);
+        GameView mockView = EasyMock.createMock(GameView.class);
+        mockView.displayCardDrawn(explodingKitten);
+        expectLastCall().once();
+        expect(mockView.promptDefuseInsertionPosition(0)).andReturn(0).once();
+        mockView.displayGameOver("Avery");
+        expectLastCall().once();
+        EasyMock.replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.takeCard();
+
+        assertTrue(game.isWon());
+        assertEquals(currentPlayer, game.getWinner());
+        assertEquals(currentPlayer, game.getCurrentPlayer());
+        verify(mockView);
+    }
+
+    @Test
     void playSkip_ValidSkip_ReturnsTrueAndDisplaysMessage() {
         Game mockModel = EasyMock.createMock(Game.class);
         GameView mockView = EasyMock.createMock(GameView.class);

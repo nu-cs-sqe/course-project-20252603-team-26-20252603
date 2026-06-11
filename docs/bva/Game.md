@@ -48,6 +48,16 @@
 | ID | State of the system | Expected output | Implemented? |
 | --- | --- | --- | --- |
 | `GAME-WON-1` | Game has exactly 1 active player after elimination. | Return `true`. | :white_check_mark: |
+| `GAME-WON-2` | More than 1 player remains, and one player has successfully Defused exactly 3 Exploding Kittens. | Return `true`. | :white_check_mark: |
+| `GAME-WON-3` | A player has successfully Defused more than 3 Exploding Kittens. | Continue returning `true`; the earned win does not disappear. | :white_check_mark: |
+
+## Method under test: `Player getWinner()`
+
+| ID | State of the system | Expected output | Implemented? |
+| --- | --- | --- | --- |
+| `GAME-WINNER-1` | One active player remains after elimination. | Return the remaining player. | :white_check_mark: |
+| `GAME-WINNER-2` | Multiple players remain, and one player has successfully Defused at least 3 Exploding Kittens. | Return the player who earned the alternate win. | :white_check_mark: |
+| `GAME-WINNER-3` | Neither win condition has been met. | Throw `IllegalStateException` with message `game does not have a winner`. | :white_check_mark: |
 
 ## Method under test: `public void advanceTurn()`
 

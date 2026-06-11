@@ -42,6 +42,10 @@
         - **State of system**: Current player is `Avery`, next player is `Jordan`, current player hand = [`DEFUSE`], draw pile top card = `EXPLODING_KITTEN`
         - **Expected output**: Returns `EXPLODING_KITTEN`, defuses the kitten, and advances the current player to `Jordan`
 
+    - **TC12: takeCard_ThirdDefusedExplodingKitten_DisplaysCurrentPlayerAsWinner** (:white_check_mark:)
+        - **State of system**: Current player has already successfully Defused 2 Exploding Kittens, has a `DEFUSE`, and draws another `EXPLODING_KITTEN`
+        - **Expected output**: Records the third successful Defuse, displays the current player as the winner, and does not advance to another turn
+
 
 ### Method under test: `public void displayCardDrawn(Card card)` view method
 | Step 1                 | Step 2 | Step 3                                                                                                                                      |

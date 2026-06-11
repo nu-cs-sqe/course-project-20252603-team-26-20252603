@@ -149,6 +149,56 @@ class GameTest {
     }
 
     @Test
+    void isWon_PlayerDefusesThirdExplodingKitten_ReturnsTrue() {
+        Game game = new Game(createDeck(2, 2, 10));
+        game.setupGame(List.of("Avery", "Jordan"));
+        Player player = game.getCurrentPlayer();
+
+        game.recordDefusedKitten(player);
+        game.recordDefusedKitten(player);
+        game.recordDefusedKitten(player);
+
+        assertTrue(game.isWon());
+    }
+
+    @Test
+    void isWon_PlayerDefusesMoreThanThreeExplodingKittens_RemainsTrue() {
+        Game game = new Game(createDeck(2, 2, 10));
+        game.setupGame(List.of("Avery", "Jordan"));
+        Player player = game.getCurrentPlayer();
+
+        for (int count = 0; count < 4; count++) {
+            game.recordDefusedKitten(player);
+        }
+
+        assertTrue(game.isWon());
+    }
+
+    @Test
+    void getWinner_PlayerDefusesThirdExplodingKitten_ReturnsThatPlayer() {
+        Game game = new Game(createDeck(2, 2, 10));
+        game.setupGame(List.of("Avery", "Jordan"));
+        Player alternateWinner = game.getPlayers().get(1);
+
+        game.recordDefusedKitten(alternateWinner);
+        game.recordDefusedKitten(alternateWinner);
+        game.recordDefusedKitten(alternateWinner);
+
+        assertEquals(alternateWinner, game.getWinner());
+    }
+
+    @Test
+    void getWinner_BeforeGameIsWon_ThrowsException() {
+        Game game = new Game(createDeck(2, 2, 10));
+        game.setupGame(List.of("Avery", "Jordan"));
+
+        IllegalStateException exception =
+                assertThrows(IllegalStateException.class, game::getWinner);
+
+        assertEquals("game does not have a winner", exception.getMessage());
+    }
+
+    @Test
     void eliminatePlayer_WithThreePlayers_RemovesPlayerAndGameContinues() {
         Game game = new Game(createDeck(3, 3, 15));
         game.setupGame(List.of("Avery", "Jordan", "Casey"));
