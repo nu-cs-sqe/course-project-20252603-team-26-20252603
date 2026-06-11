@@ -71,14 +71,27 @@
 7. [done] Sophie: Week 8 report (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/84).
 
 ## Week 9 (05/26/2026-06/01)
-1. [in progress] Sophie: Integration testing
-2. [in progress] Everyone: Weekly reports + any doc cleanups across BVA etc
-3. [in progress] Ben: Finish turn order - in Game.java, we don’t actually advance players yet I don’t think
-4. [in progress] Ben: Finish one complete turn: player sees hand, may play zero or more cards, then draws unless a played card ended the turn
-5. [in progress] Ben: Integrate other card controllers into GameController, not just skip and draw
-6. [done] Ben: Clear all null handling stuff from winner PR NOW
-7. [in progress] Sidney: Finish Attack rules - current AttackCardController only discards the card and returns 2, it does not force the next player to take two turns, stack attacks, or interact with Skip.
-8. [in progress] Sidney: Finish Skip rules - current Skip discards , but it needs to actually end a turn and only reduce one pending Attack turn when used defensively
-9. [in progress] Sophie: Finish Cat Cards: currently `Player.canSubmitCard()` only checks playability. We still need “play two matching Cat Cards to steal a random card.”
-10. [in progress] Alivia: Add tests that aren’t covered  (mutation test, pitest)
+1. [done] Sophie: Integration testing on game setup (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/93).
+2. [done] Sophie: Integration testing on card play (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/94).
+2. [done] Sophie: Weekly reports 
+4. [done] Ben: Finish one complete turn (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/90).
+7. [done] Alivia: Added test cases for mutation coverage (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/89).
+7. [done] Sidney: Finish Attack rules (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/88).
+8. [done] Sidney: Finish Skip rules (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/91).
+9. [done] Sophie: Finish Cat Cards, fix `Player.canSubmitCard()` (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/92).
 
+## Week 10 (06/02/2026-06/10)
+1. [done] Ben: Create extra win condition (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/116).
+2. [done] Ben: Fix Defuse reinsertion and eliminated-player secrecy (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/115).
+3. [done] Sidney: Updated Gameview to prompt language choice (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/114).
+4. [done] Ben: Build runnable terminal game loop (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/113).
+5. [done] Alivia: Implement Targeted Attack card (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/111).
+6. [done] Alivia: Implement draw from bottom card (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/110).
+7. [done] Alivia: Integrate cards to gameview to make it playable (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/109).
+8. [done] Sophie: Add in eliminated player tracking logic (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/106).
+9. [done] Ben: Implement Bury Card (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/103).
+10. [done] Sophie: Implement Swap Top and Bottom Card (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/102).
+11. [done] Sidney: Implement Reverse Card (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/100).
+12. [done] Sidney: Implement Super Skip Card (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/99).
+13. [done] Sophie: Week 10 report 
+14. [done] Alivia: Final mutation coverage test implementation (https://github.com/nu-cs-sqe/course-project-20252603-team-26-20252603/pull/117).
