@@ -199,7 +199,12 @@ public class GameController {
         view.displayCardDrawn(drawnCard);
         ExplodingKittenCardController explodingKittenController =
                 new ExplodingKittenCardController(model.getDrawPile(), model.getDiscardPile());
-        boolean defused = explodingKittenController.play(currentPlayer, drawnCard);
+        int insertionPosition = 0;
+        if (currentPlayer.countCardsOfType(CardType.DEFUSE) > 0) {
+            insertionPosition = view.promptDefuseInsertionPosition(model.getDrawPile().size());
+        }
+        boolean defused = explodingKittenController.play(
+                currentPlayer, drawnCard, insertionPosition);
         if (defused) {
             model.advanceTurn();
             return;

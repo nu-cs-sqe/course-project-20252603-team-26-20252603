@@ -1,10 +1,16 @@
 # BVA Analysis for Exploding Kitten Cards
 
-The rules say that a player who draws an `EXPLODING_KITTEN` explodes unless they can play a `DEFUSE`. If they do play a `DEFUSE`, the `DEFUSE` goes to the discard pile and the drawn `EXPLODING_KITTEN` is returned to the draw pile. Player elimination and game-over checks are game-flow responsibilities, so this controller reports whether the kitten was defused and only mutates the draw pile, discard pile, and player hand for the card effect.
+The rules say that a player who draws an `EXPLODING_KITTEN` explodes unless
+they can play a `DEFUSE`. If they do, the `DEFUSE` goes to the discard pile and
+the player secretly returns the kitten anywhere in the draw pile. Position `0`
+is the top (the next draw), and position `drawPile.size()` is the bottom.
+Player elimination and game-over checks remain game-flow responsibilities.
 
-This BVA uses each-choice coverage over the catalog values below. The current domain model can test Defuse removal, discard pile changes, and draw pile reinsertion; it does not yet model the secret placement UI or face-up/dead-player pile.
+The terminal tells all other players to look away before asking for the
+position. It validates the choice before passing it to the controller. A
+successful Defuse still ends the current turn.
 
-## Method under test: `ExplodingKittenCardController.play(Player player, Card explodingKitten)`
+## Method under test: `ExplodingKittenCardController.play(Player, Card, int)`
 
 | Step 1 | Step 2 | Step 3 |
 |---|---|---|
@@ -13,7 +19,8 @@ This BVA uses each-choice coverage over the catalog values below. The current do
 | Input 3: player's `DEFUSE` subset | Collection Subset | Values: <ul><li>Subset is empty because the hand is empty</li><li>Subset is empty while the hand is not empty</li><li>Subset contains exactly one `DEFUSE`</li><li>Subset contains all but one card in the hand</li><li>Subset is the same as the whole hand</li></ul> |
 | Input 4: draw pile before reinserting the kitten | Collection Size | Values: <ul><li>Draw pile is empty</li><li>Draw pile has exactly 1 card</li><li>Draw pile has more than 1 card</li></ul> |
 | Input 5: discard pile before discarding `DEFUSE` | Collection Size | Values: <ul><li>Discard pile is empty</li><li>Discard pile is not empty</li></ul> |
-| Output | Boolean / State Change / Exception | Values: <ul><li>Returns `false` when the player has no `DEFUSE`</li><li>Returns `true` when the player defuses</li><li>Removes exactly 1 `DEFUSE` from the player hand</li><li>Adds exactly 1 `DEFUSE` to the discard pile</li><li>Returns the drawn `EXPLODING_KITTEN` to the draw pile</li><li>Leaves non-Defuse hand cards with the player</li><li>Throws exception for invalid inputs</li></ul> |
+| Input 6: insertion position from top | Integer Boundary | Values: <ul><li>`0` (top)</li><li>`1..size - 1` (middle)</li><li>`size` (bottom)</li><li>less than `0`</li><li>greater than `size`</li></ul> |
+| Output | Boolean / State Change / Exception | Values: <ul><li>Returns `false` when the player has no `DEFUSE`</li><li>Returns `true` when the player defuses</li><li>Removes exactly 1 `DEFUSE` from the player hand</li><li>Adds exactly 1 `DEFUSE` to the discard pile</li><li>Returns the drawn `EXPLODING_KITTEN` at the selected position</li><li>Leaves non-Defuse hand cards with the player</li><li>Throws exception for invalid inputs</li></ul> |
 
 ### Test Cases
 
@@ -40,3 +47,19 @@ This BVA uses each-choice coverage over the catalog values below. The current do
 - **TC10: play_DrawnCardIsNotExplodingKitten_ThrowsException** (:white_check_mark:)
     - **State of system**: Current player is valid; drawn card = `DEFUSE`.
     - **Expected output**: `IllegalArgumentException` thrown.
+
+- **TC11: play_DefuseWithMiddlePosition_ReinsertsKittenAtSelectedPosition** (:white_check_mark:)
+    - **State of system**: Draw pile has a top and bottom card; insertion position is `1`.
+    - **Expected output**: The kitten is inserted between those cards.
+
+- **TC12: promptDefuseInsertionPosition_BottomPosition_ReturnsChoiceAndWarnsOtherPlayers** (:white_check_mark:)
+    - **State of system**: Draw pile size and entered position are both `3`.
+    - **Expected output**: The terminal tells other players to look away and accepts the bottom position.
+
+- **TC13: promptDefuseInsertionPosition_OutOfRangeThenValid_ReturnsValidChoice** (:white_check_mark:)
+    - **State of system**: Player first enters `-1`, then a valid position.
+    - **Expected output**: The terminal rejects the invalid value and returns the valid one.
+
+- **TC14: takeCard_ExplodingKittenWithDefuse_ReinsertsKittenAtSelectedPosition** (:white_check_mark:)
+    - **State of system**: The current player has a `DEFUSE` and selects a middle position.
+    - **Expected output**: The kitten is placed at that position and play advances to the next player.

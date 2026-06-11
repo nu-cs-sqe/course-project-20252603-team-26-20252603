@@ -21,7 +21,7 @@ class ExplodingKittenCardControllerTest {
         ExplodingKittenCardController controller =
                 new ExplodingKittenCardController(drawPile, discardPile);
 
-        boolean defused = controller.play(player, new Card(CardType.EXPLODING_KITTEN));
+        boolean defused = controller.play(player, new Card(CardType.EXPLODING_KITTEN), 0);
 
         assertFalse(defused);
         assertEquals(0, player.getHandSize());
@@ -42,7 +42,7 @@ class ExplodingKittenCardControllerTest {
         ExplodingKittenCardController controller =
                 new ExplodingKittenCardController(drawPile, discardPile);
 
-        boolean defused = controller.play(player, new Card(CardType.EXPLODING_KITTEN));
+        boolean defused = controller.play(player, new Card(CardType.EXPLODING_KITTEN), 0);
 
         assertFalse(defused);
         assertEquals(List.of(handCard), player.getHandSnapshot());
@@ -61,12 +61,31 @@ class ExplodingKittenCardControllerTest {
         ExplodingKittenCardController controller =
                 new ExplodingKittenCardController(drawPile, discardPile);
 
-        boolean defused = controller.play(player, explodingKitten);
+        boolean defused = controller.play(player, explodingKitten, 0);
 
         assertTrue(defused);
         assertEquals(0, player.getHandSize());
         assertEquals(List.of(defuse), discardPile.snapshot());
         assertEquals(List.of(explodingKitten), drawPile.snapshot());
+    }
+
+    @Test
+    void play_DefuseWithMiddlePosition_ReinsertsKittenAtSelectedPosition() {
+        Player player = new Player("Alice");
+        Card defuse = new Card(CardType.DEFUSE);
+        Card bottomCard = new Card(CardType.SKIP);
+        Card topCard = new Card(CardType.ATTACK);
+        Card explodingKitten = new Card(CardType.EXPLODING_KITTEN);
+        player.addCard(defuse);
+        Deck drawPile = new Deck(List.of(bottomCard, topCard));
+        DiscardPile discardPile = new DiscardPile();
+        ExplodingKittenCardController controller =
+                new ExplodingKittenCardController(drawPile, discardPile);
+
+        boolean defused = controller.play(player, explodingKitten, 1);
+
+        assertTrue(defused);
+        assertEquals(List.of(bottomCard, explodingKitten, topCard), drawPile.snapshot());
     }
 
     @Test
@@ -87,7 +106,7 @@ class ExplodingKittenCardControllerTest {
         ExplodingKittenCardController controller =
                 new ExplodingKittenCardController(drawPile, discardPile);
 
-        boolean defused = controller.play(player, explodingKitten);
+        boolean defused = controller.play(player, explodingKitten, 0);
 
         assertTrue(defused);
         assertEquals(List.of(secondDefuse, catCard), player.getHandSnapshot());
@@ -112,7 +131,7 @@ class ExplodingKittenCardControllerTest {
         ExplodingKittenCardController controller =
                 new ExplodingKittenCardController(drawPile, discardPile);
 
-        boolean defused = controller.play(player, explodingKitten);
+        boolean defused = controller.play(player, explodingKitten, 0);
 
         assertTrue(defused);
         assertEquals(List.of(secondDefuse), player.getHandSnapshot());
@@ -139,7 +158,7 @@ class ExplodingKittenCardControllerTest {
         IllegalArgumentException exception =
                 assertThrows(
                         IllegalArgumentException.class,
-                        () -> controller.play(player, new Card(CardType.DEFUSE)));
+                        () -> controller.play(player, new Card(CardType.DEFUSE), 0));
 
         assertEquals("drawn card must be an exploding kitten", exception.getMessage());
         assertEquals(List.of(defuse), player.getHandSnapshot());
@@ -159,7 +178,7 @@ class ExplodingKittenCardControllerTest {
         player.addCard(new Card(CardType.DEFUSE));           // add defuse at index 1
 
         Card explodingKitten = new Card(CardType.EXPLODING_KITTEN);
-        boolean result = controller.play(player, explodingKitten);
+        boolean result = controller.play(player, explodingKitten, 0);
 
         assertTrue(result);
         assertEquals(1, player.getHandSize()); // placeholder remains after defuse is removed

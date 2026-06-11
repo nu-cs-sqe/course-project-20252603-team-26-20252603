@@ -22,7 +22,7 @@ public final class ExplodingKittenCardController {
         this.discardPile = discardPile;
     }
 
-    public boolean play(Player player, Card explodingKitten) {
+    public boolean play(Player player, Card explodingKitten, int positionFromTop) {
         if (explodingKitten.getType() != CardType.EXPLODING_KITTEN) {
             throw new IllegalArgumentException(EXPLODING_KITTEN_TYPE_REQUIRED_MESSAGE);
         }
@@ -34,7 +34,7 @@ public final class ExplodingKittenCardController {
         Card defuse = player.getHandSnapshot().get(defuseIndex);
         player.removeCard(defuseIndex);
         discardPile.add(defuse);
-        drawPile.addCard(explodingKitten);
+        drawPile.insertCard(explodingKitten, positionFromTop);
         return true;
     }
 

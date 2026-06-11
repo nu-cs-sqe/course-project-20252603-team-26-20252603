@@ -244,6 +244,27 @@ public class GameViewTest {
     }
 
     @Test
+    void promptDefuseInsertionPosition_BottomPosition_ReturnsChoiceAndWarnsOtherPlayers() {
+        GameView view = viewWithInput("3");
+
+        int position = view.promptDefuseInsertionPosition(3);
+
+        assertEquals(3, position);
+        assertTrue(captured().contains("Everyone except the current player: look away now."));
+        assertTrue(captured().contains("0 (top) to 3 (bottom)"));
+    }
+
+    @Test
+    void promptDefuseInsertionPosition_OutOfRangeThenValid_ReturnsValidChoice() {
+        GameView view = viewWithInput("-1", "2");
+
+        int position = view.promptDefuseInsertionPosition(3);
+
+        assertEquals(2, position);
+        assertTrue(captured().contains("Choose a position between 0 and 3."));
+    }
+
+    @Test
     void promptTargetPlayer_OutOfRangeThenValid_ReturnsSelectedPlayer() {
         GameView view = viewWithInput("0", "2");
         Player firstPlayer = new Player("Alice");
@@ -367,7 +388,7 @@ public class GameViewTest {
     }
 
     @Test
-    void displayPublicPlayerState_WithActiveAndEliminatedPlayers_PrintsFaceDownAndFaceUpState() {
+    void displayPublicPlayerState_WithEliminatedPlayer_HidesRemainingCardTypes() {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(output, true, StandardCharsets.UTF_8));
@@ -380,12 +401,10 @@ public class GameViewTest {
             activePlayer.addCard(new Card(CardType.SKIP));
 
             Card killingKitten = new Card(CardType.EXPLODING_KITTEN);
-            Card visibleCard = new Card(CardType.DEFUSE);
-            Card secondVisibleCard = new Card(CardType.TACOCAT);
             EliminatedPlayer eliminatedPlayer = new EliminatedPlayer(
                     "Avery",
                     killingKitten,
-                    List.of(visibleCard, secondVisibleCard));
+                    2);
 
             view.displayPublicPlayerState(
                     List.of(activePlayer),
@@ -395,9 +414,9 @@ public class GameViewTest {
 
             assertTrue(printed.contains("Jordan: 2 face-down card(s)"));
             assertTrue(printed.contains("Avery: eliminated by face-up EXPLODING_KITTEN"));
-            assertTrue(printed.contains("Remaining face-up cards:"));
-            assertTrue(printed.contains("- DEFUSE"));
-            assertTrue(printed.contains("- TACOCAT"));
+            assertTrue(printed.contains("Remaining face-down cards: 2"));
+            assertFalse(printed.contains("DEFUSE"));
+            assertFalse(printed.contains("TACOCAT"));
         } finally {
             System.setOut(originalOut);
         }

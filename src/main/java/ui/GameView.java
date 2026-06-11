@@ -81,6 +81,21 @@ public class GameView {
         return readInteger("turn.second.card.prompt");
     }
 
+    public int promptDefuseInsertionPosition(int drawPileSize) {
+        System.out.println(messages.getString("defuse.look.away"));
+        String prompt = MessageFormat.format(
+                messages.getString("defuse.position.prompt"), drawPileSize);
+        while (true) {
+            int position = readIntegerPrompt(prompt);
+            if (position >= 0 && position <= drawPileSize) {
+                return position;
+            }
+            String error = MessageFormat.format(
+                    messages.getString("defuse.position.invalid"), drawPileSize);
+            System.out.println(error);
+        }
+    }
+
     public void displayGameReady() {
         System.out.println(messages.getString("game.ready.message"));
     }
@@ -176,20 +191,18 @@ public class GameView {
                     + ": eliminated by face-up "
                     + eliminatedPlayer.getKillingKitten().getType());
 
-            if (eliminatedPlayer.getVisibleCards().isEmpty()) {
-                System.out.println("Remaining face-up cards: none");
-            } else {
-                System.out.println("Remaining face-up cards:");
-                for (Card card : eliminatedPlayer.getVisibleCards()) {
-                    System.out.println("- " + card.getType());
-                }
-            }
+            System.out.println("Remaining face-down cards: "
+                    + eliminatedPlayer.getFaceDownCardCount());
         }
     }
 
     private int readInteger(String promptKey) {
+        return readIntegerPrompt(messages.getString(promptKey));
+    }
+
+    private int readIntegerPrompt(String prompt) {
         while (true) {
-            System.out.print(messages.getString(promptKey));
+            System.out.print(prompt);
             if (scanner.hasNextInt()) {
                 int choice = scanner.nextInt();
                 scanner.nextLine();

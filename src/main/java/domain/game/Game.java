@@ -226,11 +226,10 @@ public class Game {
     }
 
     public void eliminatePlayer(Player player, Card killingKitten) {
-        List<Card> visibleCards = player.getHandSnapshot();
         eliminatedPlayers.add(new EliminatedPlayer(
                 player.getName(),
                 killingKitten,
-                visibleCards));
+                player.getHandSize()));
 
         int eliminatedIndex = players.indexOf(player);
         boolean currentPlayerEliminated = eliminatedIndex == currentPlayerIndex;
