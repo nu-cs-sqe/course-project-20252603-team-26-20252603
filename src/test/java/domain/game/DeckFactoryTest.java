@@ -76,4 +76,11 @@ class DeckFactoryTest {
         assertEquals(2, deck.countCardsOfType(CardType.DRAW_FROM_BOTTOM));
         assertEquals(2, deck.countCardsOfType(CardType.TARGETED_ATTACK));
     }
+
+    @Test
+    void deckFactory_PrivateConstructor_CannotBeInstantiated() throws Exception {
+        var constructor = DeckFactory.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        constructor.newInstance();
+    }
 }
