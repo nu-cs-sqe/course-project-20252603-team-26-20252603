@@ -684,4 +684,68 @@ class GameTest {
 
         assertEquals("Bob", game.getCurrentPlayer().getName());
     }
+
+    @Test
+    void eliminatePlayer_CurrentPlayerForwardDirection_UsesElseIfNotIfBranch() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+        // direction == 1, current player is Alice (index 0)
+        Player alice = game.getCurrentPlayer();
+
+        game.eliminatePlayer(alice, new Card(CardType.EXPLODING_KITTEN));
+
+        // if-branch (direction < 0) must NOT fire; else-if handles index 0 == 0
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+    }
+
+    @Test
+    void eliminatePlayer_CurrentPlayerReverseAtMiddle_SelectsPlayerBeforeNotAfter() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+        game.reverseDirection();
+        game.advanceTurnWithDirection(); // Charlie (index 2)
+        game.advanceTurnWithDirection(); // Bob (index 1)
+        Player bob = game.getCurrentPlayer();
+        assertEquals("Bob", bob.getName());
+
+        game.eliminatePlayer(bob, new Card(CardType.EXPLODING_KITTEN));
+
+        // floorMod(1 - 1, 2) == 0 → Alice; if + 1 it would be floorMod(2,2)==0 too
+        // use 4 players so the math distinguishes subtraction from addition
+        assertEquals("Alice", game.getCurrentPlayer().getName());
+    }
+
+
+    @Test
+    void eliminatePlayer_EarlierNonCurrentPlayerEliminated_CurrentPlayerIndexAdjusted() {
+        Game game = new Game(createDeck(3, 4, 20));
+        game.setupGame(List.of("Alice", "Bob", "Charlie", "Dave"));
+        game.advanceTurn();
+        game.advanceTurn();
+        game.advanceTurn(); // current player is Dave (index 3)
+        Player alice = game.getPlayers().get(0);
+
+        game.eliminatePlayer(alice, new Card(CardType.EXPLODING_KITTEN));
+
+        // eliminatedIndex (0) <= currentPlayerIndex (3): 3 % 3 = 0 → Bob
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+        assertEquals(0, game.getCurrentPlayerIndex());
+    }
+
+    @Test
+    void eliminatePlayer_CurrentPlayerReverseWithFourPlayers_SelectsCorrectPreviousPlayer() {
+        Game game = new Game(createDeck(3, 4, 20));
+        game.setupGame(List.of("Alice", "Bob", "Charlie", "Dave"));
+        game.reverseDirection();
+        game.advanceTurnWithDirection(); // Dave (index 3)
+        game.advanceTurnWithDirection(); // Charlie (index 2)
+        game.advanceTurnWithDirection(); // Bob (index 1)
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+
+        game.eliminatePlayer(game.getCurrentPlayer(), new Card(CardType.EXPLODING_KITTEN));
+
+        // floorMod(1 - 1, 3) == 0 → Alice
+        // floorMod(1 + 1, 3) == 2 → Charlie (wrong)
+        assertEquals("Alice", game.getCurrentPlayer().getName());
+    }
 }
