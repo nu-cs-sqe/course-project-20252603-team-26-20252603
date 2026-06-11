@@ -2,9 +2,7 @@ package domain.game;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Game {
     private static final String DRAW_PILE_REQUIRED_MESSAGE = "draw pile must not be null";
@@ -34,7 +32,6 @@ public class Game {
     private int forcedTurns;
     private int direction = 1;
     private final List<EliminatedPlayer> eliminatedPlayers;
-    private final Map<Player, Integer> defusedKittenCounts;
 
     // Open to discussion: making Game final would avoid this warning, but controller tests currently mock it.
     @SuppressFBWarnings(
@@ -51,7 +48,6 @@ public class Game {
         this.forcedTurns = 0;
         this.direction = 1;
         this.eliminatedPlayers = new ArrayList<>();
-        this.defusedKittenCounts = new HashMap<>();
     }
     public void setupGame(List<String> playerNames) {
         if (playerNames == null) {
@@ -84,7 +80,6 @@ public class Game {
         currentPlayerIndex = 0;
         forcedTurns = 0;
         eliminatedPlayers.clear();
-        defusedKittenCounts.clear();
     }
 
     public List<Player> getPlayers() {
@@ -202,11 +197,11 @@ public class Game {
 
     boolean isWon() {
         return players.size() == 1
-                || players.stream().anyMatch(player -> defusedKittenCounts.getOrDefault(player, 0) >= 3);
+                || players.stream().anyMatch(player -> player.getDefusedKittenCount() >= 3);
     }
 
     void recordDefusedKitten(Player player) {
-        defusedKittenCounts.merge(player, 1, Integer::sum);
+        player.recordDefusedKitten();
     }
 
     Player getWinner() {
@@ -214,7 +209,7 @@ public class Game {
             throw new IllegalStateException(NO_WINNER_MESSAGE);
         }
         for (Player player : players) {
-            if (defusedKittenCounts.getOrDefault(player, 0) >= 3) {
+            if (player.getDefusedKittenCount() >= 3) {
                 return player;
             }
         }
