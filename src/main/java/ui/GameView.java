@@ -64,6 +64,13 @@ public class GameView {
         return readInteger("turn.second.card.prompt");
     }
 
+    public int promptDefuseInsertionPosition(int drawPileSize) {
+        System.out.println(messages.getString("defuse.look.away"));
+        String prompt = MessageFormat.format(
+                messages.getString("defuse.position.prompt"), drawPileSize);
+        return readIntegerPrompt(prompt);
+    }
+
     public void displayGameReady() {
         System.out.println(messages.getString("game.ready.message"));
     }
@@ -165,8 +172,12 @@ public class GameView {
     }
 
     private int readInteger(String promptKey) {
+        return readIntegerPrompt(messages.getString(promptKey));
+    }
+
+    private int readIntegerPrompt(String prompt) {
         while (true) {
-            System.out.print(messages.getString(promptKey));
+            System.out.print(prompt);
             if (scanner.hasNextInt()) {
                 int choice = scanner.nextInt();
                 scanner.nextLine();

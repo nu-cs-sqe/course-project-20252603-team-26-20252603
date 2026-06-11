@@ -244,6 +244,17 @@ public class GameViewTest {
     }
 
     @Test
+    void promptDefuseInsertionPosition_BottomPosition_ReturnsChoiceAndWarnsOtherPlayers() {
+        GameView view = viewWithInput("3");
+
+        int position = view.promptDefuseInsertionPosition(3);
+
+        assertEquals(3, position);
+        assertTrue(captured().contains("Everyone except the current player: look away now."));
+        assertTrue(captured().contains("0 (top) to 3 (bottom)"));
+    }
+
+    @Test
     void promptTargetPlayer_OutOfRangeThenValid_ReturnsSelectedPlayer() {
         GameView view = viewWithInput("0", "2");
         Player firstPlayer = new Player("Alice");
