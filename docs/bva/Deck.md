@@ -31,6 +31,16 @@
 | `DECK-ADD-1` | Empty deck, add a non-null card. | Deck size increases from `0` to `1`. | :white_check_mark: |
 | `DECK-ADD-2` | Any deck state, add `null`. | Throw `IllegalArgumentException` with message `card must not be null`. | :white_check_mark: |
 
+## Method under test: `public void insertCard(Card card, int positionFromTop)`
+
+Position `0` is the top of the draw pile. Position `size` is the bottom.
+
+| ID | State of the system | Expected output | Implemented? |
+| --- | --- | --- | --- |
+| `DECK-INSERT-1` | Multi-card deck; insert at a middle position. | Insert relative to the top without changing the order of the existing cards. | :white_check_mark: |
+| `DECK-INSERT-2` | Insert at position less than `0`. | Throw `IllegalArgumentException` with the valid-range message. | :white_check_mark: |
+| `DECK-INSERT-3` | Insert at position greater than `size`. | Throw `IllegalArgumentException` with the valid-range message. | :white_check_mark: |
+
 ## Method under test: `public List<Card> removeCardsByType(CardType type)`
 
 | ID | State of the system | Expected output | Implemented? |
