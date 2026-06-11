@@ -11,6 +11,7 @@ public final class Main {
     public static void main(String[] args) {
         Game game = new Game(DeckFactory.completeDeck());
         GameView view = new GameView();
+        view.chooseLanguage();
         GameController controller = new GameController(game, view);
         controller.runGame();
     }

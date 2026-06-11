@@ -36,7 +36,24 @@ public class GameView {
         this.messages = ResourceBundle.getBundle("message", Locale.getDefault());
     }
 
+    public void chooseLanguage() {
+        System.out.println("1. English\n2. Deutsch\n");
+        System.out.print("Enter the number to choose the language: ");
 
+        String choice = scanner.nextLine();
+        switch (choice) {
+            case "1":
+                messages = ResourceBundle.getBundle("message", Locale.ENGLISH);
+                break;
+            case "2":
+                messages = ResourceBundle.getBundle("message", Locale.GERMAN);
+                break;
+            default:
+                messages = ResourceBundle.getBundle("message", Locale.ENGLISH);
+                break;
+        }
+        System.out.println(messages.getString("set.language"));
+    }
 
     public void displayStartScreen() {
         System.out.println(messages.getString("start.screen.title"));
