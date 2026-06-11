@@ -1157,7 +1157,7 @@ public class GameControllerTest {
     }
 
     @Test
-    void takeCard_ExplodingKittenWithDefuse_DefusesAndReinsertsKitten() {
+    void takeCard_ExplodingKittenWithDefuse_ReinsertsKittenAtSelectedPosition() {
         Game game = new Game(createDeckForPlayers(2));
         game.setupGame(List.of("Avery", "Jordan"));
         Player currentPlayer = game.getCurrentPlayer();
@@ -1165,11 +1165,16 @@ public class GameControllerTest {
         Card defuse = new Card(CardType.DEFUSE);
         currentPlayer.addCard(defuse);
         clearDrawPile(game.getDrawPile());
+        Card bottomCard = new Card(CardType.SKIP);
+        Card topCard = new Card(CardType.ATTACK);
         Card explodingKitten = new Card(CardType.EXPLODING_KITTEN);
+        game.getDrawPile().addCard(bottomCard);
+        game.getDrawPile().addCard(topCard);
         game.getDrawPile().addCard(explodingKitten);
         GameView mockView = EasyMock.createMock(GameView.class);
         mockView.displayCardDrawn(explodingKitten);
         expectLastCall().once();
+        expect(mockView.promptDefuseInsertionPosition(2)).andReturn(1).once();
         EasyMock.replay(mockView);
         GameController controller = new GameController(game, mockView);
 
@@ -1178,7 +1183,9 @@ public class GameControllerTest {
         assertEquals(explodingKitten, drawnCard);
         assertEquals(0, currentPlayer.getHandSize());
         assertEquals(List.of(defuse), game.getDiscardPile().snapshot());
-        assertEquals(List.of(explodingKitten), game.getDrawPile().snapshot());
+        assertEquals(
+                List.of(bottomCard, explodingKitten, topCard),
+                game.getDrawPile().snapshot());
         assertTrue(game.getPlayers().contains(currentPlayer));
         assertEquals(2, game.getPlayers().size());
         verify(mockView);
@@ -1197,6 +1204,7 @@ public class GameControllerTest {
         GameView mockView = EasyMock.createMock(GameView.class);
         mockView.displayCardDrawn(explodingKitten);
         expectLastCall().once();
+        expect(mockView.promptDefuseInsertionPosition(0)).andReturn(0).once();
         EasyMock.replay(mockView);
         GameController controller = new GameController(game, mockView);
 

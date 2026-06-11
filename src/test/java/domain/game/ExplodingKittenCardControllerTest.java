@@ -21,7 +21,7 @@ class ExplodingKittenCardControllerTest {
         ExplodingKittenCardController controller =
                 new ExplodingKittenCardController(drawPile, discardPile);
 
-        boolean defused = controller.play(player, new Card(CardType.EXPLODING_KITTEN));
+        boolean defused = controller.play(player, new Card(CardType.EXPLODING_KITTEN), 0);
 
         assertFalse(defused);
         assertEquals(0, player.getHandSize());
@@ -42,7 +42,7 @@ class ExplodingKittenCardControllerTest {
         ExplodingKittenCardController controller =
                 new ExplodingKittenCardController(drawPile, discardPile);
 
-        boolean defused = controller.play(player, new Card(CardType.EXPLODING_KITTEN));
+        boolean defused = controller.play(player, new Card(CardType.EXPLODING_KITTEN), 0);
 
         assertFalse(defused);
         assertEquals(List.of(handCard), player.getHandSnapshot());
@@ -61,7 +61,7 @@ class ExplodingKittenCardControllerTest {
         ExplodingKittenCardController controller =
                 new ExplodingKittenCardController(drawPile, discardPile);
 
-        boolean defused = controller.play(player, explodingKitten);
+        boolean defused = controller.play(player, explodingKitten, 0);
 
         assertTrue(defused);
         assertEquals(0, player.getHandSize());
@@ -106,7 +106,7 @@ class ExplodingKittenCardControllerTest {
         ExplodingKittenCardController controller =
                 new ExplodingKittenCardController(drawPile, discardPile);
 
-        boolean defused = controller.play(player, explodingKitten);
+        boolean defused = controller.play(player, explodingKitten, 0);
 
         assertTrue(defused);
         assertEquals(List.of(secondDefuse, catCard), player.getHandSnapshot());
@@ -131,7 +131,7 @@ class ExplodingKittenCardControllerTest {
         ExplodingKittenCardController controller =
                 new ExplodingKittenCardController(drawPile, discardPile);
 
-        boolean defused = controller.play(player, explodingKitten);
+        boolean defused = controller.play(player, explodingKitten, 0);
 
         assertTrue(defused);
         assertEquals(List.of(secondDefuse), player.getHandSnapshot());
@@ -158,7 +158,7 @@ class ExplodingKittenCardControllerTest {
         IllegalArgumentException exception =
                 assertThrows(
                         IllegalArgumentException.class,
-                        () -> controller.play(player, new Card(CardType.DEFUSE)));
+                        () -> controller.play(player, new Card(CardType.DEFUSE), 0));
 
         assertEquals("drawn card must be an exploding kitten", exception.getMessage());
         assertEquals(List.of(defuse), player.getHandSnapshot());
@@ -178,7 +178,7 @@ class ExplodingKittenCardControllerTest {
         player.addCard(new Card(CardType.DEFUSE));           // add defuse at index 1
 
         Card explodingKitten = new Card(CardType.EXPLODING_KITTEN);
-        boolean result = controller.play(player, explodingKitten);
+        boolean result = controller.play(player, explodingKitten, 0);
 
         assertTrue(result);
         assertEquals(1, player.getHandSize()); // placeholder remains after defuse is removed

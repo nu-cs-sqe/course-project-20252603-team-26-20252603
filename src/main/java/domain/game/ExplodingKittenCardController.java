@@ -22,10 +22,6 @@ public final class ExplodingKittenCardController {
         this.discardPile = discardPile;
     }
 
-    public boolean play(Player player, Card explodingKitten) {
-        return play(player, explodingKitten, 0);
-    }
-
     public boolean play(Player player, Card explodingKitten, int positionFromTop) {
         if (explodingKitten.getType() != CardType.EXPLODING_KITTEN) {
             throw new IllegalArgumentException(EXPLODING_KITTEN_TYPE_REQUIRED_MESSAGE);
