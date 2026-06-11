@@ -188,6 +188,17 @@ class GameTest {
     }
 
     @Test
+    void getWinner_BeforeGameIsWon_ThrowsException() {
+        Game game = new Game(createDeck(2, 2, 10));
+        game.setupGame(List.of("Avery", "Jordan"));
+
+        IllegalStateException exception =
+                assertThrows(IllegalStateException.class, game::getWinner);
+
+        assertEquals("game does not have a winner", exception.getMessage());
+    }
+
+    @Test
     void eliminatePlayer_WithThreePlayers_RemovesPlayerAndGameContinues() {
         Game game = new Game(createDeck(3, 3, 15));
         game.setupGame(List.of("Avery", "Jordan", "Casey"));
