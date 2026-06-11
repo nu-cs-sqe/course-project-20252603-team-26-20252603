@@ -159,14 +159,8 @@ public class GameView {
                     + ": eliminated by face-up "
                     + eliminatedPlayer.getKillingKitten().getType());
 
-            if (eliminatedPlayer.getVisibleCards().isEmpty()) {
-                System.out.println("Remaining face-up cards: none");
-            } else {
-                System.out.println("Remaining face-up cards:");
-                for (Card card : eliminatedPlayer.getVisibleCards()) {
-                    System.out.println("- " + card.getType());
-                }
-            }
+            System.out.println("Remaining face-down cards: "
+                    + eliminatedPlayer.getVisibleCardCount());
         }
     }
 

@@ -367,7 +367,7 @@ public class GameViewTest {
     }
 
     @Test
-    void displayPublicPlayerState_WithActiveAndEliminatedPlayers_PrintsFaceDownAndFaceUpState() {
+    void displayPublicPlayerState_WithEliminatedPlayer_HidesRemainingCardTypes() {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(output, true, StandardCharsets.UTF_8));
@@ -395,9 +395,9 @@ public class GameViewTest {
 
             assertTrue(printed.contains("Jordan: 2 face-down card(s)"));
             assertTrue(printed.contains("Avery: eliminated by face-up EXPLODING_KITTEN"));
-            assertTrue(printed.contains("Remaining face-up cards:"));
-            assertTrue(printed.contains("- DEFUSE"));
-            assertTrue(printed.contains("- TACOCAT"));
+            assertTrue(printed.contains("Remaining face-down cards: 2"));
+            assertFalse(printed.contains("DEFUSE"));
+            assertFalse(printed.contains("TACOCAT"));
         } finally {
             System.setOut(originalOut);
         }
