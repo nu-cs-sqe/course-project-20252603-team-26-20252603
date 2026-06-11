@@ -20,14 +20,12 @@ import ui.GameView;
 public class GameControllerTest {
     @Test
     void startGame_EmptyPlayerList_DisplaysError() {
-        Game mockModel = EasyMock.createMock(Game.class); //Game(deck);
+        Game mockModel = EasyMock.createMock(Game.class);
         GameView mockView = EasyMock.createMock(GameView.class);
 
-        //we fake passing in the empty list to the fake model resulting in this error
         mockModel.setupGame(List.of());
         expectLastCall().andThrow(new IllegalArgumentException("player count must be between 2 and 4"));
         replay(mockModel);
-        // tell the mock view to expect displayError called once with anyt string
         mockView.displayError(anyString());
         expectLastCall().once();
         replay(mockView);
@@ -44,7 +42,6 @@ public class GameControllerTest {
 
     @Test
     void startGame_WithOnePlayer_DisplaysError() {
-        //Deck deck = EasyMock.createMock(Deck.class);
         Game mockModel = EasyMock.createMock(Game.class);
         GameView mockView = EasyMock.createMock(GameView.class);
 
@@ -2040,7 +2037,6 @@ public class GameControllerTest {
         replay(mockView);
         GameController controller = new GameController(game, mockView);
 
-        // cardIndex 1 is out of bounds — playSkip returns false, so playSelectedCard must too
         assertFalse(controller.playSelectedCard(1));
 
         verify(mockView);
@@ -2061,7 +2057,6 @@ public class GameControllerTest {
         replay(mockView);
         GameController controller = new GameController(game, mockView);
 
-        // index 1 is DEFUSE — playSuperSkip throws and returns false
         assertFalse(controller.playSelectedCard(1));
 
         verify(mockView);
@@ -2082,7 +2077,6 @@ public class GameControllerTest {
         replay(mockView);
         GameController controller = new GameController(game, mockView);
 
-        // index 1 is DEFUSE — playReverse returns false
         assertFalse(controller.playSelectedCard(1));
 
         verify(mockView);

@@ -242,7 +242,6 @@ class GameTest {
 
     @Test
     void setupGame_CalledTwice_DoesNotDuplicatePlayers() {
-        //initialize deck big enough for back to back game setups
         Game game = new Game(createDeck(6, 6, 24));
 
         game.setupGame(List.of("Avery", "Jordan"));
@@ -253,7 +252,6 @@ class GameTest {
 
     @Test
     void setupGame_CalledTwice_ClearsPlayers() {
-        //initialize deck big enough for back to back game setups
         Game game = new Game(createDeck(6, 6, 24));
 
         game.setupGame(List.of("Avery", "Jordan"));
@@ -286,8 +284,8 @@ class GameTest {
         Game game = new Game(createDeck(3, 3, 12));
         game.setupGame(List.of("Avery", "Jordan"));
 
-        game.advanceTurn(); // index = 1
-        game.advanceTurn(); // index should wrap to 0
+        game.advanceTurn();
+        game.advanceTurn();
 
         assertEquals("Avery", game.getCurrentPlayer().getName());
     }
@@ -586,9 +584,9 @@ class GameTest {
         Game game = new Game(createDeck(1, 2, 10));
         game.setupGame(List.of("Sophie", "Jordan"));
         Player sophie = game.getPlayers().get(0);
-        game.applyAttack(); // current player is now Jordan
+        game.applyAttack();
 
-        game.applyTargetedAttack(sophie); // Jordan targets Sophie
+        game.applyTargetedAttack(sophie);
 
         assertEquals("Sophie", game.getCurrentPlayer().getName());
         assertEquals(4, game.getForcedTurns());
@@ -613,7 +611,6 @@ class GameTest {
         Game game = new Game(createDeck(3, 3, 15));
         game.setupGame(List.of("Alice", "Bob", "Charlie"));
 
-        // forcedTurns starts at 0; advance should move forward normally
         game.advanceTurn();
 
         assertEquals("Bob", game.getCurrentPlayer().getName());
@@ -624,9 +621,8 @@ class GameTest {
     void advanceTurnWithDirection_WithMultipleForcedTurns_StaysOnSamePlayer() {
         Game game = new Game(createDeck(3, 3, 15));
         game.setupGame(List.of("Alice", "Bob", "Charlie"));
-        game.applyAttack(); // Bob now has 2 forced turns
+        game.applyAttack();
 
-        // First advanceTurnWithDirection: decrements to 1, returns early
         game.advanceTurnWithDirection();
 
         assertEquals("Bob", game.getCurrentPlayer().getName());
@@ -637,10 +633,10 @@ class GameTest {
     void advanceTurnWithDirection_WithOneForcedTurn_MovesToNextPlayer() {
         Game game = new Game(createDeck(3, 3, 15));
         game.setupGame(List.of("Alice", "Bob", "Charlie"));
-        game.applyAttack(); // Bob has 2 forced turns
+        game.applyAttack();
 
-        game.advanceTurnWithDirection(); // Bob: 2 → 1, stays
-        game.advanceTurnWithDirection(); // Bob: 1 → 0, advances to Charlie
+        game.advanceTurnWithDirection();
+        game.advanceTurnWithDirection();
 
         assertEquals("Charlie", game.getCurrentPlayer().getName());
         assertEquals(0, game.getForcedTurns());
@@ -651,12 +647,11 @@ class GameTest {
         Game game = new Game(createDeck(3, 3, 15));
         game.setupGame(List.of("Alice", "Bob", "Charlie"));
         game.advanceTurn();
-        game.advanceTurn(); // current player is Charlie (index 2)
+        game.advanceTurn();
         Player alice = game.getPlayers().get(0);
 
         game.eliminatePlayer(alice, new Card(CardType.EXPLODING_KITTEN));
 
-        // eliminatedIndex (0) < currentPlayerIndex (2): 2 % 2 = 0 → Bob
         assertEquals("Bob", game.getCurrentPlayer().getName());
         assertEquals(0, game.getCurrentPlayerIndex());
     }
@@ -665,12 +660,10 @@ class GameTest {
     void eliminatePlayer_LaterPlayerEliminated_CurrentPlayerIndexUnchanged() {
         Game game = new Game(createDeck(2, 3, 15));
         game.setupGame(List.of("Alice", "Bob", "Charlie"));
-        // current player is Alice (index 0); eliminate Charlie (index 2)
         Player charlie = game.getPlayers().get(2);
 
         game.eliminatePlayer(charlie, new Card(CardType.EXPLODING_KITTEN));
 
-        // eliminatedIndex (2) > currentPlayerIndex (0): no adjustment
         assertEquals("Alice", game.getCurrentPlayer().getName());
         assertEquals(0, game.getCurrentPlayerIndex());
     }
@@ -689,12 +682,10 @@ class GameTest {
     void eliminatePlayer_CurrentPlayerForwardDirection_UsesElseIfNotIfBranch() {
         Game game = new Game(createDeck(3, 3, 15));
         game.setupGame(List.of("Alice", "Bob", "Charlie"));
-        // direction == 1, current player is Alice (index 0)
         Player alice = game.getCurrentPlayer();
 
         game.eliminatePlayer(alice, new Card(CardType.EXPLODING_KITTEN));
 
-        // if-branch (direction < 0) must NOT fire; else-if handles index 0 == 0
         assertEquals("Bob", game.getCurrentPlayer().getName());
     }
 
@@ -703,15 +694,13 @@ class GameTest {
         Game game = new Game(createDeck(3, 3, 15));
         game.setupGame(List.of("Alice", "Bob", "Charlie"));
         game.reverseDirection();
-        game.advanceTurnWithDirection(); // Charlie (index 2)
-        game.advanceTurnWithDirection(); // Bob (index 1)
+        game.advanceTurnWithDirection();
+        game.advanceTurnWithDirection();
         Player bob = game.getCurrentPlayer();
         assertEquals("Bob", bob.getName());
 
         game.eliminatePlayer(bob, new Card(CardType.EXPLODING_KITTEN));
 
-        // floorMod(1 - 1, 2) == 0 → Alice; if + 1 it would be floorMod(2,2)==0 too
-        // use 4 players so the math distinguishes subtraction from addition
         assertEquals("Alice", game.getCurrentPlayer().getName());
     }
 
@@ -722,12 +711,12 @@ class GameTest {
         game.setupGame(List.of("Alice", "Bob", "Charlie", "Dave"));
         game.advanceTurn();
         game.advanceTurn();
-        game.advanceTurn(); // current player is Dave (index 3)
+        game.advanceTurn();
         Player alice = game.getPlayers().get(0);
 
         game.eliminatePlayer(alice, new Card(CardType.EXPLODING_KITTEN));
 
-        // eliminatedIndex (0) <= currentPlayerIndex (3): 3 % 3 = 0 → Bob
+
         assertEquals("Bob", game.getCurrentPlayer().getName());
         assertEquals(0, game.getCurrentPlayerIndex());
     }
@@ -737,15 +726,14 @@ class GameTest {
         Game game = new Game(createDeck(3, 4, 20));
         game.setupGame(List.of("Alice", "Bob", "Charlie", "Dave"));
         game.reverseDirection();
-        game.advanceTurnWithDirection(); // Dave (index 3)
-        game.advanceTurnWithDirection(); // Charlie (index 2)
-        game.advanceTurnWithDirection(); // Bob (index 1)
+        game.advanceTurnWithDirection();
+        game.advanceTurnWithDirection();
+        game.advanceTurnWithDirection();
         assertEquals("Bob", game.getCurrentPlayer().getName());
 
         game.eliminatePlayer(game.getCurrentPlayer(), new Card(CardType.EXPLODING_KITTEN));
 
-        // floorMod(1 - 1, 3) == 0 → Alice
-        // floorMod(1 + 1, 3) == 2 → Charlie (wrong)
+
         assertEquals("Alice", game.getCurrentPlayer().getName());
     }
 }
