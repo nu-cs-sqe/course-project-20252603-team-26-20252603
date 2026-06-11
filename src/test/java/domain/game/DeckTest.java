@@ -119,6 +119,18 @@ class DeckTest {
     }
 
     @Test
+    void insertCard_MiddlePosition_InsertsRelativeToTop() {
+        Card bottomCard = new Card(CardType.SKIP);
+        Card topCard = new Card(CardType.ATTACK);
+        Card insertedCard = new Card(CardType.EXPLODING_KITTEN);
+        Deck deck = new Deck(List.of(bottomCard, topCard));
+
+        deck.insertCard(insertedCard, 1);
+
+        assertEquals(List.of(bottomCard, insertedCard, topCard), deck.snapshot());
+    }
+
+    @Test
     void removeCardsByTypeReturnsEmptyListWhenTypeIsAbsent() {
         Card firstCard = createCardWithType(CardType.PLACEHOLDER_CARD);
         Card secondCard = createCardWithType(CardType.DEFUSE);

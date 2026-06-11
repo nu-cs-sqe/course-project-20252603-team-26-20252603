@@ -52,6 +52,10 @@ public final class Deck {
         cards.add(card);
     }
 
+    public void insertCard(Card card, int positionFromTop) {
+        cards.add(cards.size() - positionFromTop, card);
+    }
+
     public void moveTopToBottom() {
         if (cards.isEmpty()) {
             return;
