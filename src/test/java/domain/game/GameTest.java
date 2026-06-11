@@ -620,6 +620,19 @@ class GameTest {
         assertEquals(0, game.getForcedTurns());
     }
 
+    @Test
+    void advanceTurnWithDirection_WithMultipleForcedTurns_StaysOnSamePlayer() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+        game.applyAttack(); // Bob now has 2 forced turns
+
+        // First advanceTurnWithDirection: decrements to 1, returns early
+        game.advanceTurnWithDirection();
+
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+        assertEquals(1, game.getForcedTurns());
+    }
+
 
 
 }
