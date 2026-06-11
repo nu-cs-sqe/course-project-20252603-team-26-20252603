@@ -593,4 +593,19 @@ class GameTest {
         assertEquals("Sophie", game.getCurrentPlayer().getName());
         assertEquals(4, game.getForcedTurns());
     }
+
+    @Test
+    void setupGame_CalledTwice_ClearsEliminatedPlayers() {
+        Game game = new Game(createDeck(6, 6, 24));
+        game.setupGame(List.of("Avery", "Jordan"));
+
+        Player avery = game.getPlayers().get(0);
+        game.eliminatePlayer(avery, new Card(CardType.EXPLODING_KITTEN));
+        assertEquals(1, game.getEliminatedPlayers().size());
+
+        game.setupGame(List.of("Morgan", "Kate"));
+
+        assertEquals(0, game.getEliminatedPlayers().size());
+    }
+
 }
