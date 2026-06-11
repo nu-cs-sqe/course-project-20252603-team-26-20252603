@@ -633,6 +633,19 @@ class GameTest {
         assertEquals(1, game.getForcedTurns());
     }
 
+    @Test
+    void advanceTurnWithDirection_WithOneForcedTurn_MovesToNextPlayer() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+        game.applyAttack(); // Bob has 2 forced turns
+
+        game.advanceTurnWithDirection(); // Bob: 2 → 1, stays
+        game.advanceTurnWithDirection(); // Bob: 1 → 0, advances to Charlie
+
+        assertEquals("Charlie", game.getCurrentPlayer().getName());
+        assertEquals(0, game.getForcedTurns());
+    }
+
 
 
 }
