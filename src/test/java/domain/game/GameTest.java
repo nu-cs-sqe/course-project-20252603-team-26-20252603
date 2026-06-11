@@ -646,6 +646,19 @@ class GameTest {
         assertEquals(0, game.getForcedTurns());
     }
 
+    @Test
+    void eliminatePlayer_EarlierPlayerEliminated_CurrentPlayerIndexAdjusted() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+        game.advanceTurn();
+        game.advanceTurn(); // current player is Charlie (index 2)
+        Player alice = game.getPlayers().get(0);
 
+        game.eliminatePlayer(alice, new Card(CardType.EXPLODING_KITTEN));
+
+        // eliminatedIndex (0) < currentPlayerIndex (2): 2 % 2 = 0 → Bob
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+        assertEquals(0, game.getCurrentPlayerIndex());
+    }
 
 }
