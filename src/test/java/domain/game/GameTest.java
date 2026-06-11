@@ -242,7 +242,6 @@ class GameTest {
 
     @Test
     void setupGame_CalledTwice_DoesNotDuplicatePlayers() {
-        //initialize deck big enough for back to back game setups
         Game game = new Game(createDeck(6, 6, 24));
 
         game.setupGame(List.of("Avery", "Jordan"));
@@ -253,7 +252,6 @@ class GameTest {
 
     @Test
     void setupGame_CalledTwice_ClearsPlayers() {
-        //initialize deck big enough for back to back game setups
         Game game = new Game(createDeck(6, 6, 24));
 
         game.setupGame(List.of("Avery", "Jordan"));
@@ -286,8 +284,8 @@ class GameTest {
         Game game = new Game(createDeck(3, 3, 12));
         game.setupGame(List.of("Avery", "Jordan"));
 
-        game.advanceTurn(); // index = 1
-        game.advanceTurn(); // index should wrap to 0
+        game.advanceTurn();
+        game.advanceTurn();
 
         assertEquals("Avery", game.getCurrentPlayer().getName());
     }
@@ -586,11 +584,156 @@ class GameTest {
         Game game = new Game(createDeck(1, 2, 10));
         game.setupGame(List.of("Sophie", "Jordan"));
         Player sophie = game.getPlayers().get(0);
-        game.applyAttack(); // current player is now Jordan
+        game.applyAttack();
 
-        game.applyTargetedAttack(sophie); // Jordan targets Sophie
+        game.applyTargetedAttack(sophie);
 
         assertEquals("Sophie", game.getCurrentPlayer().getName());
         assertEquals(4, game.getForcedTurns());
+    }
+
+    @Test
+    void setupGame_CalledTwice_ClearsEliminatedPlayers() {
+        Game game = new Game(createDeck(6, 6, 24));
+        game.setupGame(List.of("Avery", "Jordan"));
+
+        Player avery = game.getPlayers().get(0);
+        game.eliminatePlayer(avery, new Card(CardType.EXPLODING_KITTEN));
+        assertEquals(1, game.getEliminatedPlayers().size());
+
+        game.setupGame(List.of("Morgan", "Kate"));
+
+        assertEquals(0, game.getEliminatedPlayers().size());
+    }
+
+    @Test
+    void advanceTurn_WithZeroForcedTurns_MovesToNextPlayer() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+
+        game.advanceTurn();
+
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+        assertEquals(0, game.getForcedTurns());
+    }
+
+    @Test
+    void advanceTurnWithDirection_WithMultipleForcedTurns_StaysOnSamePlayer() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+        game.applyAttack();
+
+        game.advanceTurnWithDirection();
+
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+        assertEquals(1, game.getForcedTurns());
+    }
+
+    @Test
+    void advanceTurnWithDirection_WithOneForcedTurn_MovesToNextPlayer() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+        game.applyAttack();
+
+        game.advanceTurnWithDirection();
+        game.advanceTurnWithDirection();
+
+        assertEquals("Charlie", game.getCurrentPlayer().getName());
+        assertEquals(0, game.getForcedTurns());
+    }
+
+    @Test
+    void eliminatePlayer_EarlierPlayerEliminated_CurrentPlayerIndexAdjusted() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+        game.advanceTurn();
+        game.advanceTurn();
+        Player alice = game.getPlayers().get(0);
+
+        game.eliminatePlayer(alice, new Card(CardType.EXPLODING_KITTEN));
+
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+        assertEquals(0, game.getCurrentPlayerIndex());
+    }
+
+    @Test
+    void eliminatePlayer_LaterPlayerEliminated_CurrentPlayerIndexUnchanged() {
+        Game game = new Game(createDeck(2, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+        Player charlie = game.getPlayers().get(2);
+
+        game.eliminatePlayer(charlie, new Card(CardType.EXPLODING_KITTEN));
+
+        assertEquals("Alice", game.getCurrentPlayer().getName());
+        assertEquals(0, game.getCurrentPlayerIndex());
+    }
+
+    @Test
+    void advanceTurnWithDirection_WithZeroForcedTurns_MovesToNextPlayer() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+
+        game.advanceTurnWithDirection();
+
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+    }
+
+    @Test
+    void eliminatePlayer_CurrentPlayerForwardDirection_UsesElseIfNotIfBranch() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+        Player alice = game.getCurrentPlayer();
+
+        game.eliminatePlayer(alice, new Card(CardType.EXPLODING_KITTEN));
+
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+    }
+
+    @Test
+    void eliminatePlayer_CurrentPlayerReverseAtMiddle_SelectsPlayerBeforeNotAfter() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+        game.reverseDirection();
+        game.advanceTurnWithDirection();
+        game.advanceTurnWithDirection();
+        Player bob = game.getCurrentPlayer();
+        assertEquals("Bob", bob.getName());
+
+        game.eliminatePlayer(bob, new Card(CardType.EXPLODING_KITTEN));
+
+        assertEquals("Alice", game.getCurrentPlayer().getName());
+    }
+
+
+    @Test
+    void eliminatePlayer_EarlierNonCurrentPlayerEliminated_CurrentPlayerIndexAdjusted() {
+        Game game = new Game(createDeck(3, 4, 20));
+        game.setupGame(List.of("Alice", "Bob", "Charlie", "Dave"));
+        game.advanceTurn();
+        game.advanceTurn();
+        game.advanceTurn();
+        Player alice = game.getPlayers().get(0);
+
+        game.eliminatePlayer(alice, new Card(CardType.EXPLODING_KITTEN));
+
+
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+        assertEquals(0, game.getCurrentPlayerIndex());
+    }
+
+    @Test
+    void eliminatePlayer_CurrentPlayerReverseWithFourPlayers_SelectsCorrectPreviousPlayer() {
+        Game game = new Game(createDeck(3, 4, 20));
+        game.setupGame(List.of("Alice", "Bob", "Charlie", "Dave"));
+        game.reverseDirection();
+        game.advanceTurnWithDirection();
+        game.advanceTurnWithDirection();
+        game.advanceTurnWithDirection();
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+
+        game.eliminatePlayer(game.getCurrentPlayer(), new Card(CardType.EXPLODING_KITTEN));
+
+
+        assertEquals("Alice", game.getCurrentPlayer().getName());
     }
 }

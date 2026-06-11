@@ -20,14 +20,12 @@ import ui.GameView;
 public class GameControllerTest {
     @Test
     void startGame_EmptyPlayerList_DisplaysError() {
-        Game mockModel = EasyMock.createMock(Game.class); //Game(deck);
+        Game mockModel = EasyMock.createMock(Game.class);
         GameView mockView = EasyMock.createMock(GameView.class);
 
-        //we fake passing in the empty list to the fake model resulting in this error
         mockModel.setupGame(List.of());
         expectLastCall().andThrow(new IllegalArgumentException("player count must be between 2 and 4"));
         replay(mockModel);
-        // tell the mock view to expect displayError called once with anyt string
         mockView.displayError(anyString());
         expectLastCall().once();
         replay(mockView);
@@ -44,7 +42,6 @@ public class GameControllerTest {
 
     @Test
     void startGame_WithOnePlayer_DisplaysError() {
-        //Deck deck = EasyMock.createMock(Deck.class);
         Game mockModel = EasyMock.createMock(Game.class);
         GameView mockView = EasyMock.createMock(GameView.class);
 
@@ -1906,4 +1903,184 @@ public class GameControllerTest {
         assertEquals(2, game.getForcedTurns());
         verify(mockView);
     }
+    @Test
+    void playSelectedCard_Skip_ReturnsTrueToEndTurn() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+        clearHand(sophie);
+        sophie.addCard(new Card(CardType.SKIP));
+
+        mockView.displayMessage(anyString());
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        assertTrue(controller.playSelectedCard(0));
+
+        verify(mockView);
+    }
+
+    @Test
+    void playSelectedCard_SuperSkip_ReturnsTrueToEndTurn() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+        clearHand(sophie);
+        sophie.addCard(new Card(CardType.SUPER_SKIP));
+
+        mockView.displayMessage(anyString());
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        assertTrue(controller.playSelectedCard(0));
+
+        verify(mockView);
+    }
+
+    @Test
+    void playSelectedCard_Reverse_ReturnsTrueToEndTurn() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+        clearHand(sophie);
+        sophie.addCard(new Card(CardType.REVERSE));
+
+        mockView.displayMessage(anyString());
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        assertTrue(controller.playSelectedCard(0));
+
+        verify(mockView);
+    }
+
+    @Test
+    void playReverse_NonReverseCard_ReturnsFalse() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+        clearHand(sophie);
+        sophie.addCard(new Card(CardType.DEFUSE));
+
+        mockView.displayError(anyString());
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        assertFalse(controller.playReverse(0));
+
+        verify(mockView);
+    }
+
+    @Test
+    void playSuperSkip_NonSuperSkipCard_ReturnsFalse() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+        clearHand(sophie);
+        sophie.addCard(new Card(CardType.DEFUSE));
+
+        mockView.displayError(anyString());
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        assertFalse(controller.playSuperSkip(0));
+
+        verify(mockView);
+    }
+
+    @Test
+    void playDrawFromBottom_ExplodingKitten_CallsHandleExplodingKitten() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+        clearHand(sophie);
+        sophie.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+        clearDrawPile(game.getDrawPile());
+        Card kitten = new Card(CardType.EXPLODING_KITTEN);
+        game.getDrawPile().addCard(kitten);
+
+        mockView.displayCardDrawn(kitten);
+        expectLastCall().once();
+        mockView.displayGameOver(anyString());
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.playSelectedCard(0);
+
+        assertTrue(game.isWon());
+        verify(mockView);
+    }
+
+    @Test
+    void playSelectedCard_Skip_WithInvalidIndex_ReturnsFalse() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+        clearHand(sophie);
+        sophie.addCard(new Card(CardType.SKIP));
+
+        mockView.displayError(anyString());
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        assertFalse(controller.playSelectedCard(1));
+
+        verify(mockView);
+    }
+
+    @Test
+    void playSelectedCard_SuperSkip_WithNonSuperSkipCard_ReturnsFalse() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+        clearHand(sophie);
+        sophie.addCard(new Card(CardType.SUPER_SKIP));
+        sophie.addCard(new Card(CardType.DEFUSE));
+
+        mockView.displayError(anyString());
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        assertFalse(controller.playSelectedCard(1));
+
+        verify(mockView);
+    }
+
+    @Test
+    void playSelectedCard_Reverse_WithNonReverseCard_ReturnsFalse() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+        clearHand(sophie);
+        sophie.addCard(new Card(CardType.REVERSE));
+        sophie.addCard(new Card(CardType.DEFUSE));
+
+        mockView.displayError(anyString());
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        assertFalse(controller.playSelectedCard(1));
+
+        verify(mockView);
+    }
+
+
 }
