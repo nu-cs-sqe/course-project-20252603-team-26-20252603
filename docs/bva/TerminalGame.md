@@ -3,7 +3,8 @@
 ## Feature under test
 
 The terminal entry point constructs the complete deck, prompts for two to four
-players, and repeats playable turns until one active player remains.
+players, and repeats playable turns until one active player remains or a player
+successfully Defuses a third Exploding Kitten.
 
 Per the rulebook, a normal turn permits zero or more card plays and ends with a
 draw. Skip, Super Skip, Reverse, Attack, Targeted Attack, and Draw from Bottom
@@ -18,7 +19,7 @@ can end a turn without the normal top draw.
 | Continuing card | Card type | See the Future; Shuffle; Bury; Swap Top and Bottom; Cat pair |
 | Ending card | Card type | Skip; Super Skip; Reverse; Attack; Targeted Attack; Draw from Bottom |
 | Cat pair input | Two indices and target | matching pair; nonmatching pair; no eligible target |
-| Game state | Active-player count | more than one; exactly one winner |
+| Game state | Win condition | more than one active player with no alternate winner; exactly one active player; player has successfully Defused at least 3 Exploding Kittens |
 
 ## Implemented test cases
 
@@ -35,6 +36,7 @@ can end a turn without the normal top draw.
 | `TERMINAL-9` | `playSelectedCard_Reverse_ReversesDirectionAndEndsTurn` | Reverse changes direction and ends the turn. | :white_check_mark: |
 | `TERMINAL-10` | `runGame_TwoPlayersDrawingUntilExplosion_StopsWithWinner` | The game loops until one winner remains. | :white_check_mark: |
 | `TERMINAL-11` | `main_PassOnlyGame_DisplaysWinner` | The real entry point runs a complete scripted terminal game. | :white_check_mark: |
+| `TERMINAL-12` | `takeCard_ThirdDefusedExplodingKitten_DisplaysCurrentPlayerAsWinner` | The game ends immediately and displays the player who survives a third Exploding Kitten with a Defuse. | :white_check_mark: |
 
 ## Launch
 
