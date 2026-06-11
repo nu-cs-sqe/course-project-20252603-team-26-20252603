@@ -13,6 +13,8 @@ public final class Deck {
     private static final String CARD_TYPE_REQUIRED_MESSAGE = "card type must not be null";
     private static final String EMPTY_DECK_MESSAGE = "cannot draw from an empty deck";
     private static final String NEGATIVE_COUNT_MESSAGE = "count must not be negative";
+    private static final String INVALID_POSITION_MESSAGE =
+            "position must be between 0 and deck size";
 
     private final List<Card> cards;
     private final Random random;
@@ -53,6 +55,9 @@ public final class Deck {
     }
 
     public void insertCard(Card card, int positionFromTop) {
+        if (positionFromTop < 0) {
+            throw new IllegalArgumentException(INVALID_POSITION_MESSAGE);
+        }
         cards.add(cards.size() - positionFromTop, card);
     }
 

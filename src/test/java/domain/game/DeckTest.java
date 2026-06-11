@@ -131,6 +131,17 @@ class DeckTest {
     }
 
     @Test
+    void insertCard_NegativePosition_ThrowsException() {
+        Deck deck = new Deck(List.of(new Card(CardType.SKIP)));
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> deck.insertCard(new Card(CardType.EXPLODING_KITTEN), -1));
+
+        assertEquals("position must be between 0 and deck size", exception.getMessage());
+    }
+
+    @Test
     void removeCardsByTypeReturnsEmptyListWhenTypeIsAbsent() {
         Card firstCard = createCardWithType(CardType.PLACEHOLDER_CARD);
         Card secondCard = createCardWithType(CardType.DEFUSE);
