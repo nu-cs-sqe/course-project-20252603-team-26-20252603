@@ -608,4 +608,18 @@ class GameTest {
         assertEquals(0, game.getEliminatedPlayers().size());
     }
 
+    @Test
+    void advanceTurn_WithZeroForcedTurns_MovesToNextPlayer() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+
+        // forcedTurns starts at 0; advance should move forward normally
+        game.advanceTurn();
+
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+        assertEquals(0, game.getForcedTurns());
+    }
+
+
+
 }
