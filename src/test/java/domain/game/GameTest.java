@@ -661,4 +661,27 @@ class GameTest {
         assertEquals(0, game.getCurrentPlayerIndex());
     }
 
+    @Test
+    void eliminatePlayer_LaterPlayerEliminated_CurrentPlayerIndexUnchanged() {
+        Game game = new Game(createDeck(2, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+        // current player is Alice (index 0); eliminate Charlie (index 2)
+        Player charlie = game.getPlayers().get(2);
+
+        game.eliminatePlayer(charlie, new Card(CardType.EXPLODING_KITTEN));
+
+        // eliminatedIndex (2) > currentPlayerIndex (0): no adjustment
+        assertEquals("Alice", game.getCurrentPlayer().getName());
+        assertEquals(0, game.getCurrentPlayerIndex());
+    }
+
+    @Test
+    void advanceTurnWithDirection_WithZeroForcedTurns_MovesToNextPlayer() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+
+        game.advanceTurnWithDirection();
+
+        assertEquals("Bob", game.getCurrentPlayer().getName());
+    }
 }
