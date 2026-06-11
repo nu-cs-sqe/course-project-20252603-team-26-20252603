@@ -211,4 +211,12 @@ class PlayerTest {
         assertEquals("cardIndex is out of bounds", exception.getMessage());
         assertEquals(0, player.getHandSize());
     }
+
+    @Test
+    void chooseCard_UnchosableCardType_ThrowsException() {
+        Player player = new Player("Avery");
+        player.addCard(new Card(CardType.SKIP));
+
+        assertThrows(IllegalStateException.class, () -> player.chooseCard(0));
+    }
 }

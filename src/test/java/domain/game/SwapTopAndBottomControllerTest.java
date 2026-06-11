@@ -82,6 +82,20 @@ class SwapTopAndBottomControllerTest {
         assertEquals(drawPileBeforePlay, game.getDrawPile().snapshot());
     }
 
+    @Test
+    void playSwapTopAndBottom_IndexEqualsHandSize_ThrowsException() {
+        Game game = new Game(createDeckForTwoPlayers());
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        currentPlayer.addCard(new Card(CardType.SWAP_TOP_AND_BOTTOM));
+
+        SwapTopAndBottomController controller = new SwapTopAndBottomController();
+
+        assertThrows(IllegalArgumentException.class,
+                () -> controller.play(game, currentPlayer.getHandSize()));
+    }
+
     private void clearHand(Player player) {
         while (player.getHandSize() > 0) {
             player.removeCard(0);

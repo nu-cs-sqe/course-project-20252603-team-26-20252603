@@ -2088,11 +2088,5 @@ public class GameControllerTest {
         verify(mockView);
     }
 
-    @Test
-    void chooseCard_UnchosableCardType_ThrowsException() {
-        Player player = new Player("Avery");
-        player.addCard(new Card(CardType.SKIP));
 
-        assertThrows(IllegalStateException.class, () -> player.chooseCard(0));
-    }
 }
