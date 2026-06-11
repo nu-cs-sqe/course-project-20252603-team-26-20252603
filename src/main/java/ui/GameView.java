@@ -160,7 +160,7 @@ public class GameView {
                     + eliminatedPlayer.getKillingKitten().getType());
 
             System.out.println("Remaining face-down cards: "
-                    + eliminatedPlayer.getVisibleCardCount());
+                    + eliminatedPlayer.getFaceDownCardCount());
         }
     }
 

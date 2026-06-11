@@ -407,7 +407,7 @@ class GameTest {
     }
 
     @Test
-    void eliminatePlayer_WithExplodingKitten_TracksFaceUpKittenAndRemainingCards() {
+    void eliminatePlayer_WithExplodingKitten_TracksFaceUpKittenAndFaceDownCardCount() {
         Game game = new Game(createDeck(1, 2, 10));
         game.setupGame(List.of("Avery", "Jordan"));
 
@@ -429,8 +429,7 @@ class GameTest {
         EliminatedPlayer record = game.getEliminatedPlayers().get(0);
         assertEquals("Avery", record.getPlayerName());
         assertEquals(killingKitten, record.getKillingKitten());
-        assertEquals(List.of(remainingCard, secondRemainingCard), record.getVisibleCards());
-        assertEquals(2, record.getVisibleCardCount());
+        assertEquals(2, record.getFaceDownCardCount());
     }
 
     @Test

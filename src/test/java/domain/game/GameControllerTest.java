@@ -1643,7 +1643,7 @@ public class GameControllerTest {
         EliminatedPlayer record = game.getEliminatedPlayers().get(0);
         assertEquals("Avery", record.getPlayerName());
         assertEquals(explodingKitten, record.getKillingKitten());
-        assertEquals(List.of(remainingCard, secondRemainingCard), record.getVisibleCards());
+        assertEquals(2, record.getFaceDownCardCount());
 
         EasyMock.verify(mockView);
     }

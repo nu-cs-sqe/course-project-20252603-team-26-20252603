@@ -380,12 +380,10 @@ public class GameViewTest {
             activePlayer.addCard(new Card(CardType.SKIP));
 
             Card killingKitten = new Card(CardType.EXPLODING_KITTEN);
-            Card visibleCard = new Card(CardType.DEFUSE);
-            Card secondVisibleCard = new Card(CardType.TACOCAT);
             EliminatedPlayer eliminatedPlayer = new EliminatedPlayer(
                     "Avery",
                     killingKitten,
-                    List.of(visibleCard, secondVisibleCard));
+                    2);
 
             view.displayPublicPlayerState(
                     List.of(activePlayer),
