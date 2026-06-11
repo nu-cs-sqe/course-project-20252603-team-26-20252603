@@ -208,6 +208,15 @@ public class Game {
         defusedKittenCounts.merge(player, 1, Integer::sum);
     }
 
+    Player getWinner() {
+        for (Player player : players) {
+            if (defusedKittenCounts.getOrDefault(player, 0) >= 3) {
+                return player;
+            }
+        }
+        return players.get(0);
+    }
+
     int getForcedTurns() {
         return forcedTurns;
     }

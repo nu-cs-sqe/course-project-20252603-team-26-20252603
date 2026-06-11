@@ -175,6 +175,19 @@ class GameTest {
     }
 
     @Test
+    void getWinner_PlayerDefusesThirdExplodingKitten_ReturnsThatPlayer() {
+        Game game = new Game(createDeck(2, 2, 10));
+        game.setupGame(List.of("Avery", "Jordan"));
+        Player alternateWinner = game.getPlayers().get(1);
+
+        game.recordDefusedKitten(alternateWinner);
+        game.recordDefusedKitten(alternateWinner);
+        game.recordDefusedKitten(alternateWinner);
+
+        assertEquals(alternateWinner, game.getWinner());
+    }
+
+    @Test
     void eliminatePlayer_WithThreePlayers_RemovesPlayerAndGameContinues() {
         Game game = new Game(createDeck(3, 3, 15));
         game.setupGame(List.of("Avery", "Jordan", "Casey"));
