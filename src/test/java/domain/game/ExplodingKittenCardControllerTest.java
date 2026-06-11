@@ -70,6 +70,25 @@ class ExplodingKittenCardControllerTest {
     }
 
     @Test
+    void play_DefuseWithMiddlePosition_ReinsertsKittenAtSelectedPosition() {
+        Player player = new Player("Alice");
+        Card defuse = new Card(CardType.DEFUSE);
+        Card bottomCard = new Card(CardType.SKIP);
+        Card topCard = new Card(CardType.ATTACK);
+        Card explodingKitten = new Card(CardType.EXPLODING_KITTEN);
+        player.addCard(defuse);
+        Deck drawPile = new Deck(List.of(bottomCard, topCard));
+        DiscardPile discardPile = new DiscardPile();
+        ExplodingKittenCardController controller =
+                new ExplodingKittenCardController(drawPile, discardPile);
+
+        boolean defused = controller.play(player, explodingKitten, 1);
+
+        assertTrue(defused);
+        assertEquals(List.of(bottomCard, explodingKitten, topCard), drawPile.snapshot());
+    }
+
+    @Test
     void play_AllButOneCardIsDefuse_RemovesOneDefuseAndKeepsOtherCards() {
         Player player = new Player("Alice");
         Card firstDefuse = new Card(CardType.DEFUSE);
