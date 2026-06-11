@@ -55,7 +55,7 @@ public final class Deck {
     }
 
     public void insertCard(Card card, int positionFromTop) {
-        if (positionFromTop < 0) {
+        if (positionFromTop < 0 || positionFromTop > cards.size()) {
             throw new IllegalArgumentException(INVALID_POSITION_MESSAGE);
         }
         cards.add(cards.size() - positionFromTop, card);
