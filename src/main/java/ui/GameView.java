@@ -46,9 +46,7 @@ public class GameView {
         List<String> names = new ArrayList<>();
 
         // we don't validate size of players since that is handled by controller class
-        System.out.print(messages.getString("player.prompt.count"));
-        final int playerCount = scanner.nextInt();
-        scanner.nextLine(); // clears extra \n from buffer
+        final int playerCount = readInteger("player.prompt.count");
 
         for (int i = 0; i < playerCount; i++) {
             String prompt = MessageFormat.format(messages.getString("player.prompt.name"), i + 1);
@@ -56,6 +54,14 @@ public class GameView {
             names.add(scanner.nextLine()); // add player's to name list
         }
         return names;
+    }
+
+    public int promptCardChoice() {
+        return readInteger("turn.card.prompt");
+    }
+
+    public int promptSecondCardChoice() {
+        return readInteger("turn.second.card.prompt");
     }
 
     public void displayGameReady() {
@@ -75,6 +81,12 @@ public class GameView {
             throw new IllegalArgumentException("card must not be null");
         }
         String message = MessageFormat.format(messages.getString("card.drawn.message"), card.getType());
+        System.out.println(message);
+    }
+
+    public void displayCardStolen(Card card) {
+        String message = MessageFormat.format(
+                messages.getString("card.stolen.message"), card.getType());
         System.out.println(message);
     }
 
@@ -117,13 +129,19 @@ public class GameView {
     }
 
     public Player promptTargetPlayer(List<Player> players) {
-        System.out.println(messages.getString("target.player.prompt"));
-        for (int i = 0; i < players.size(); i++) {
-            System.out.println((i + 1) + ". " + players.get(i).getName());
+        while (true) {
+            System.out.println(messages.getString("target.player.prompt"));
+            for (int i = 0; i < players.size(); i++) {
+                System.out.println((i + 1) + ". " + players.get(i).getName());
+            }
+            int choice = readInteger("target.player.choice");
+            if (choice >= 1 && choice <= players.size()) {
+                return players.get(choice - 1);
+            }
+            String message = MessageFormat.format(
+                    messages.getString("target.player.invalid"), players.size());
+            System.out.println(message);
         }
-        int choice = scanner.nextInt();
-        scanner.nextLine();
-        return players.get(choice - 1);
     }
 
     public void displayPublicPlayerState(
@@ -149,6 +167,19 @@ public class GameView {
                     System.out.println("- " + card.getType());
                 }
             }
+        }
+    }
+
+    private int readInteger(String promptKey) {
+        while (true) {
+            System.out.print(messages.getString(promptKey));
+            if (scanner.hasNextInt()) {
+                int choice = scanner.nextInt();
+                scanner.nextLine();
+                return choice;
+            }
+            scanner.nextLine();
+            System.out.println(messages.getString("input.integer.error"));
         }
     }
 }

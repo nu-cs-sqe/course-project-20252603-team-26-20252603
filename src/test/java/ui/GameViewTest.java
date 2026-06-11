@@ -92,6 +92,15 @@ public class GameViewTest {
         assertTrue(text.contains("2. BEARD_CAT"));
     }
 
+    @Test
+    void displayCardStolen_WithCard_ShowsStolenCardType() {
+        GameView view = new GameView();
+
+        view.displayCardStolen(new Card(CardType.SKIP));
+
+        assertTrue(captured().contains("You stole: SKIP"));
+    }
+
 
     @Test
     void displayStartScreen_DisplayOnce_ShowsTitle() {
@@ -127,6 +136,16 @@ public class GameViewTest {
         assertEquals(2, names.size());
         assertEquals("Alice", names.get(0));
         assertEquals("Bob", names.get(1));
+    }
+
+    @Test
+    void promptPlayerNames_NonNumericThenTwoPlayers_ReturnsBothNames() {
+        GameView view = viewWithInput("many", "2", "Alice", "Bob");
+
+        List<String> names = view.promptPlayerNames();
+
+        assertEquals(List.of("Alice", "Bob"), names);
+        assertTrue(captured().contains("Please enter a number."));
     }
 
 
@@ -194,6 +213,47 @@ public class GameViewTest {
         assertTrue(names.contains("Camden"));
         assertTrue(names.contains("North"));
         assertTrue(names.contains("Ben"));
+    }
+
+    @Test
+    void promptCardChoice_DrawChoice_ReturnsZero() {
+        GameView view = viewWithInput("0");
+
+        int choice = view.promptCardChoice();
+
+        assertEquals(0, choice);
+    }
+
+    @Test
+    void promptCardChoice_NonNumericThenDrawChoice_DisplaysErrorAndReturnsZero() {
+        GameView view = viewWithInput("cat", "0");
+
+        int choice = view.promptCardChoice();
+
+        assertEquals(0, choice);
+        assertTrue(captured().contains("Please enter a number."));
+    }
+
+    @Test
+    void promptSecondCardChoice_ValidCardNumber_ReturnsChoice() {
+        GameView view = viewWithInput("3");
+
+        int choice = view.promptSecondCardChoice();
+
+        assertEquals(3, choice);
+    }
+
+    @Test
+    void promptTargetPlayer_OutOfRangeThenValid_ReturnsSelectedPlayer() {
+        GameView view = viewWithInput("0", "2");
+        Player firstPlayer = new Player("Alice");
+        Player secondPlayer = new Player("Bob");
+
+        Player selectedPlayer = view.promptTargetPlayer(
+                List.of(firstPlayer, secondPlayer));
+
+        assertEquals(secondPlayer, selectedPlayer);
+        assertTrue(captured().contains("Choose a number between 1 and 2."));
     }
 
     @Test

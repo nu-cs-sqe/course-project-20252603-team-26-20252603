@@ -1,9 +1,18 @@
 plugins {
     id("java")
+    application
     id("info.solidsoft.pitest") version "1.19.0"
     checkstyle
     jacoco
     id("com.github.spotbugs") version "6.5.4"
+}
+
+application {
+    mainClass = "ui.Main"
+}
+
+tasks.named<JavaExec>("run") {
+    standardInput = System.`in`
 }
 
 group = "nu.csse.sqe"

@@ -167,14 +167,14 @@ public class Game {
                 return;
             }
         }
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        currentPlayerIndex = Math.floorMod(currentPlayerIndex + direction, players.size());
     }
 
     // Attack ends the attacker's turn and forces the next player to take the
     // attacker's untaken turns plus two more (so attacks stack).
     public void applyAttack() {
         int untakenTurns = forcedTurns;
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        currentPlayerIndex = Math.floorMod(currentPlayerIndex + direction, players.size());
         forcedTurns = untakenTurns + 2;
     }
 
@@ -204,7 +204,7 @@ public class Game {
 
     public void endTurnClearingForced() {
         forcedTurns = 0;
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        currentPlayerIndex = Math.floorMod(currentPlayerIndex + direction, players.size());
     }
 
     public void reverseDirection() {
@@ -233,13 +233,16 @@ public class Game {
                 visibleCards));
 
         int eliminatedIndex = players.indexOf(player);
+        boolean currentPlayerEliminated = eliminatedIndex == currentPlayerIndex;
         players.remove(player);
 
         while (player.getHandSize() > 0) {
             player.removeCard(0);
         }
 
-        if (!players.isEmpty() && eliminatedIndex <= currentPlayerIndex) {
+        if (!players.isEmpty() && currentPlayerEliminated && direction < 0) {
+            currentPlayerIndex = Math.floorMod(eliminatedIndex - 1, players.size());
+        } else if (!players.isEmpty() && eliminatedIndex <= currentPlayerIndex) {
             currentPlayerIndex = currentPlayerIndex % players.size();
         }
     }

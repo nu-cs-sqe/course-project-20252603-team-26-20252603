@@ -279,6 +279,275 @@ public class GameControllerTest {
     }
 
     @Test
+    void playSelectedCard_SeeFuture_ReturnsContinueWithoutDrawing() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player currentPlayer = game.getCurrentPlayer();
+        clearHand(currentPlayer);
+        Card seeFuture = new Card(CardType.SEE_THE_FUTURE);
+        currentPlayer.addCard(seeFuture);
+        clearDrawPile(game.getDrawPile());
+        Card secondCard = new Card(CardType.BEARD_CAT);
+        Card topCard = new Card(CardType.SKIP);
+        game.getDrawPile().addCard(secondCard);
+        game.getDrawPile().addCard(topCard);
+
+        mockView.displaySeeTheFutureCards(List.of(topCard, secondCard));
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        boolean turnEnded = controller.playSelectedCard(0);
+
+        assertFalse(turnEnded);
+        assertEquals(List.of(seeFuture), game.getDiscardPile().snapshot());
+        assertEquals("Sophie", game.getCurrentPlayer().getName());
+        assertEquals(2, game.getDrawPile().size());
+        verify(mockView);
+    }
+
+    @Test
+    void playSelectedCard_SuperSkip_ClearsForcedTurnsAndEndsTurn() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        game.applyAttack();
+        Player jordan = game.getCurrentPlayer();
+        clearHand(jordan);
+        Card superSkip = new Card(CardType.SUPER_SKIP);
+        jordan.addCard(superSkip);
+
+        mockView.displayMessage(
+                "Super Skip played! All forced turns cleared. Turn ended.");
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        boolean turnEnded = controller.playSelectedCard(0);
+
+        assertTrue(turnEnded);
+        assertEquals(0, game.getForcedTurns());
+        assertEquals("Sophie", game.getCurrentPlayer().getName());
+        assertEquals(List.of(superSkip), game.getDiscardPile().snapshot());
+        verify(mockView);
+    }
+
+    @Test
+    void playSelectedCard_Reverse_ReversesDirectionAndEndsTurn() {
+        Game game = new Game(createDeckForPlayers(3));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan", "Casey"));
+        Player sophie = game.getCurrentPlayer();
+        clearHand(sophie);
+        Card reverse = new Card(CardType.REVERSE);
+        sophie.addCard(reverse);
+
+        mockView.displayMessage("Reverse played! Direction changed. Turn ended.");
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        boolean turnEnded = controller.playSelectedCard(0);
+
+        assertTrue(turnEnded);
+        assertEquals(-1, game.getDirection());
+        assertEquals("Casey", game.getCurrentPlayer().getName());
+        assertEquals(List.of(reverse), game.getDiscardPile().snapshot());
+        verify(mockView);
+    }
+
+    @Test
+    void playSelectedCard_MatchingCatPair_PromptsSecondIndexAndTargetThenContinues() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+        Player jordan = game.getPlayers().get(1);
+        clearHand(sophie);
+        clearHand(jordan);
+        Card firstCat = new Card(CardType.BEARD_CAT);
+        Card secondCat = new Card(CardType.BEARD_CAT);
+        Card stolenCard = new Card(CardType.SKIP);
+        sophie.addCard(firstCat);
+        sophie.addCard(secondCat);
+        jordan.addCard(stolenCard);
+
+        expect(mockView.promptSecondCardChoice()).andReturn(2);
+        expect(mockView.promptTargetPlayer(List.of(jordan))).andReturn(jordan);
+        mockView.displayCardStolen(stolenCard);
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        boolean turnEnded = controller.playSelectedCard(0);
+
+        assertFalse(turnEnded);
+        assertEquals(List.of(stolenCard), sophie.getHandSnapshot());
+        assertEquals(0, jordan.getHandSize());
+        assertEquals(List.of(firstCat, secondCat), game.getDiscardPile().snapshot());
+        assertEquals("Sophie", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
+    void playSelectedCard_NonmatchingCatPair_DisplaysErrorAndContinues() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+        Player jordan = game.getPlayers().get(1);
+        clearHand(sophie);
+        clearHand(jordan);
+        Card beardCat = new Card(CardType.BEARD_CAT);
+        Card tacocat = new Card(CardType.TACOCAT);
+        Card targetCard = new Card(CardType.SKIP);
+        sophie.addCard(beardCat);
+        sophie.addCard(tacocat);
+        jordan.addCard(targetCard);
+
+        expect(mockView.promptSecondCardChoice()).andReturn(2);
+        expect(mockView.promptTargetPlayer(List.of(jordan))).andReturn(jordan);
+        mockView.displayError("must select two different matching cards");
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        boolean turnEnded = controller.playSelectedCard(0);
+
+        assertFalse(turnEnded);
+        assertEquals(List.of(beardCat, tacocat), sophie.getHandSnapshot());
+        assertEquals(List.of(targetCard), jordan.getHandSnapshot());
+        assertEquals(List.of(), game.getDiscardPile().snapshot());
+        verify(mockView);
+    }
+
+    @Test
+    void playSelectedCard_CatPairWithNoEligibleTarget_DisplaysErrorAndContinues() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+        Player jordan = game.getPlayers().get(1);
+        clearHand(sophie);
+        clearHand(jordan);
+        Card firstCat = new Card(CardType.BEARD_CAT);
+        Card secondCat = new Card(CardType.BEARD_CAT);
+        sophie.addCard(firstCat);
+        sophie.addCard(secondCat);
+
+        expect(mockView.promptSecondCardChoice()).andReturn(2);
+        mockView.displayError("no other player has cards to steal");
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        boolean turnEnded = controller.playSelectedCard(0);
+
+        assertFalse(turnEnded);
+        assertEquals(List.of(firstCat, secondCat), sophie.getHandSnapshot());
+        assertEquals(List.of(), game.getDiscardPile().snapshot());
+        verify(mockView);
+    }
+
+    @Test
+    void playInteractiveTurn_DrawChoice_DrawsAndEndsTurn() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+        List<Card> startingHand = sophie.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        Card drawnCard = new Card(CardType.BEARD_CAT);
+        game.getDrawPile().addCard(drawnCard);
+
+        mockView.displayPublicPlayerState(game.getPlayers(), game.getEliminatedPlayers());
+        expectLastCall().once();
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        expect(mockView.promptCardChoice()).andReturn(0);
+        mockView.displayCardDrawn(drawnCard);
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.playInteractiveTurn();
+
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        assertEquals(7, sophie.getHandSize());
+        verify(mockView);
+    }
+
+    @Test
+    void playInteractiveTurn_ContinuingCard_PromptsAgainBeforeDrawing() {
+        Game game = new Game(createDeckForPlayers(2));
+        GameView mockView = EasyMock.createStrictMock(GameView.class);
+        game.setupGame(List.of("Sophie", "Jordan"));
+        Player sophie = game.getCurrentPlayer();
+        clearHand(sophie);
+        Card seeFuture = new Card(CardType.SEE_THE_FUTURE);
+        sophie.addCard(seeFuture);
+        List<Card> startingHand = sophie.getHandSnapshot();
+        clearDrawPile(game.getDrawPile());
+        Card secondCard = new Card(CardType.BEARD_CAT);
+        Card drawnCard = new Card(CardType.SKIP);
+        game.getDrawPile().addCard(secondCard);
+        game.getDrawPile().addCard(drawnCard);
+
+        mockView.displayPublicPlayerState(game.getPlayers(), game.getEliminatedPlayers());
+        expectLastCall().once();
+        mockView.displayHand("Sophie", startingHand);
+        expectLastCall().once();
+        expect(mockView.promptCardChoice()).andReturn(1);
+        mockView.displaySeeTheFutureCards(List.of(drawnCard, secondCard));
+        expectLastCall().once();
+        mockView.displayHand("Sophie", List.of());
+        expectLastCall().once();
+        expect(mockView.promptCardChoice()).andReturn(0);
+        mockView.displayCardDrawn(drawnCard);
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.playInteractiveTurn();
+
+        assertEquals(List.of(drawnCard), sophie.getHandSnapshot());
+        assertEquals(List.of(seeFuture), game.getDiscardPile().snapshot());
+        assertEquals("Jordan", game.getCurrentPlayer().getName());
+        verify(mockView);
+    }
+
+    @Test
+    void runGame_TwoPlayersDrawingUntilExplosion_StopsWithWinner() {
+        List<Card> cards = new ArrayList<>();
+        cards.add(new Card(CardType.EXPLODING_KITTEN));
+        cards.add(new Card(CardType.DEFUSE));
+        cards.add(new Card(CardType.DEFUSE));
+        for (int count = 0; count < 10; count++) {
+            cards.add(new Card(CardType.BEARD_CAT));
+        }
+        Game game = new Game(new Deck(cards));
+        GameView mockView = EasyMock.createNiceMock(GameView.class);
+
+        mockView.displayStartScreen();
+        expectLastCall().once();
+        expect(mockView.promptPlayerNames()).andReturn(List.of("Sophie", "Jordan"));
+        mockView.displayGameReady();
+        expectLastCall().once();
+        expect(mockView.promptCardChoice()).andReturn(0).times(3);
+        mockView.displayGameOver("Jordan");
+        expectLastCall().once();
+        replay(mockView);
+        GameController controller = new GameController(game, mockView);
+
+        controller.runGame();
+
+        assertTrue(game.isWon());
+        assertEquals("Jordan", game.getPlayers().get(0).getName());
+        verify(mockView);
+    }
+
+    @Test
     void completeTurn_TwoSeeFutureCardsPlayed_DisplaysBothThenDrawsAndAdvances() {
         Game game = new Game(createDeckForPlayers(2));
         GameView mockView = EasyMock.createStrictMock(GameView.class);

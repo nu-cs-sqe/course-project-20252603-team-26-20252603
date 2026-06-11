@@ -275,6 +275,18 @@ class GameTest {
     }
 
     @Test
+    void applyAttack_AfterReverse_TargetsPreviousPlayer() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+        game.reverseDirection();
+
+        game.applyAttack();
+
+        assertEquals("Charlie", game.getCurrentPlayer().getName());
+        assertEquals(2, game.getForcedTurns());
+    }
+
+    @Test
     void endTurnClearingForced_WithNoForcedTurns_MovesToNextPlayer() {
         Game game = new Game(createDeck(1, 2, 10));
         game.setupGame(List.of("Alice", "Bob"));
@@ -312,6 +324,18 @@ class GameTest {
 
         assertEquals(0, game.getForcedTurns());
         assertEquals("Alice", game.getCurrentPlayer().getName());
+    }
+
+    @Test
+    void endTurnClearingForced_AfterReverse_MovesToPreviousPlayer() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+        game.reverseDirection();
+
+        game.endTurnClearingForced();
+
+        assertEquals(0, game.getForcedTurns());
+        assertEquals("Charlie", game.getCurrentPlayer().getName());
     }
 
     @Test
@@ -372,6 +396,17 @@ class GameTest {
     }
 
     @Test
+    void advanceTurn_AfterReverse_MovesToPreviousPlayer() {
+        Game game = new Game(createDeck(3, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+        game.reverseDirection();
+
+        game.advanceTurn();
+
+        assertEquals("Charlie", game.getCurrentPlayer().getName());
+    }
+
+    @Test
     void eliminatePlayer_WithExplodingKitten_TracksFaceUpKittenAndRemainingCards() {
         Game game = new Game(createDeck(1, 2, 10));
         game.setupGame(List.of("Avery", "Jordan"));
@@ -396,6 +431,18 @@ class GameTest {
         assertEquals(killingKitten, record.getKillingKitten());
         assertEquals(List.of(remainingCard, secondRemainingCard), record.getVisibleCards());
         assertEquals(2, record.getVisibleCardCount());
+    }
+
+    @Test
+    void eliminatePlayer_CurrentPlayerAfterReverse_SelectsPreviousPlayer() {
+        Game game = new Game(createDeck(2, 3, 15));
+        game.setupGame(List.of("Alice", "Bob", "Charlie"));
+        game.reverseDirection();
+        Player alice = game.getCurrentPlayer();
+
+        game.eliminatePlayer(alice, new Card(CardType.EXPLODING_KITTEN));
+
+        assertEquals("Charlie", game.getCurrentPlayer().getName());
     }
 
     private void clearHand(Player player) {
