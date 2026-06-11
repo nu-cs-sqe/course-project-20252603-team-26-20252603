@@ -201,7 +201,7 @@ public class Game {
 
     boolean isWon() {
         return players.size() == 1
-                || players.stream().anyMatch(player -> defusedKittenCounts.getOrDefault(player, 0) == 3);
+                || players.stream().anyMatch(player -> defusedKittenCounts.getOrDefault(player, 0) >= 3);
     }
 
     void recordDefusedKitten(Player player) {

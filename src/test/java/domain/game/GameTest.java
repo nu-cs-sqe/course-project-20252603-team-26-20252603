@@ -162,6 +162,19 @@ class GameTest {
     }
 
     @Test
+    void isWon_PlayerDefusesMoreThanThreeExplodingKittens_RemainsTrue() {
+        Game game = new Game(createDeck(2, 2, 10));
+        game.setupGame(List.of("Avery", "Jordan"));
+        Player player = game.getCurrentPlayer();
+
+        for (int count = 0; count < 4; count++) {
+            game.recordDefusedKitten(player);
+        }
+
+        assertTrue(game.isWon());
+    }
+
+    @Test
     void eliminatePlayer_WithThreePlayers_RemovesPlayerAndGameContinues() {
         Game game = new Game(createDeck(3, 3, 15));
         game.setupGame(List.of("Avery", "Jordan", "Casey"));
